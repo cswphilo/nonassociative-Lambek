@@ -171,4 +171,3 @@ subeq _ U₂ (_ ▸ p₁) (_ ▸ p₂) eq with ⊛eq eq
 ... | 1>R2 (gt q refl refl refl) = 1>R2 (gt q refl refl refl)
 ... | 1/\2 (disj q q₁ q₂ refl refl refl refl) = 1/\2 (disj (_ ▸ q) q₁ q₂ refl refl refl refl)
 ... | 2/\1 (disj q q₁ q₂ refl refl refl refl) = 2/\1 (disj (_ ▸ q) q₁ q₂ refl refl refl refl)
- 
