@@ -153,58 +153,58 @@ data _≗_ : {T : Tree} {A : Fma} → T ⊢ A → T ⊢ A → Set where
     → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
     → {f : U ⊢ A} {g : sub p (sub p₁ (η B) ⊛ sub p₂ (η A' ⊛ η B')) ⊢ C}
     → ⊗L (p ++ (_ ▸ p₂)) (⇐L (p ++ (p₁ ◂ _)) f g) ≗ ⇐L (p ++ (p₁ ◂ _)) f (⊗L (p ++ (_ ▸ p₂)) g)   
-  ⇒L⇒L : ∀{T U V W A B A' B' C} → {p : Path T} {q : Path V} {r : Path W}
-    → {f : sub p U ⊢ A'}
+  ⇒L⇒L : ∀{T U V A B A' B' C} → {q : Path U} {r : Path V}
+    → {f : T ⊢ A'}
     → {g : sub q (η B') ⊢ A} {h : sub r (η B) ⊢ C}
     → ⇒L (r ++ (q ◂ _)) f (⇒L r g h) ≗ ⇒L r (⇒L q f g) h
-  ⇒L⇒L₂1/\2 : ∀{T U V W₁ W₂ A B A' B' C} 
-    → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
-    → {f : U ⊢ A} {f' : V ⊢ A'}
-    → {g : sub p (sub p₁ (η B') ⊛ sub p₂ (η B)) ⊢ C}
-    → ⇒L (p ++ (_ ▸ p₂)) f (⇒L (p ++ (p₁ ◂ _)) f' g) ≗ ⇒L (p ++ (_ ▸ p₂)) f (⇒L (p ++ (p₁ ◂ _)) f' g) 
-  ⇒L⇒L₂2/\1 : ∀{T U V W₁ W₂ A B A' B' C} 
+  -- ⇒L⇒L₂1/\2 : ∀{T U V W₁ W₂ A B A' B' C} 
+  --   → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
+  --   → {f : U ⊢ A} {f' : V ⊢ A'}
+  --   → {g : sub p (sub p₁ (η B') ⊛ sub p₂ (η B)) ⊢ C}
+  --   → ⇒L (p ++ (_ ▸ p₂)) f (⇒L (p ++ (p₁ ◂ _)) f' g) ≗ ⇒L (p ++ (_ ▸ p₂)) f (⇒L (p ++ (p₁ ◂ _)) f' g) 
+  ⇒L⇒L₂ : ∀{T U V W₁ W₂ A B A' B' C} 
     → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
     → {f : U ⊢ A} {f' : V ⊢ A'}
     → {g : sub p (sub p₁ (η B) ⊛ sub p₂ (η B')) ⊢ C}
     → ⇒L (p ++ (p₁ ◂ _)) f (⇒L (p ++ (_ ▸ p₂)) f' g) ≗ ⇒L (p ++ (p₁ ◂ _)) f (⇒L (p ++ (_ ▸ p₂)) f' g)
-  ⇒L⇐L : ∀{T U V W A B A' B' C} → {p : Path T} {q : Path V} {r : Path W}
-    → {f : sub p U ⊢ A'}
+  ⇒L⇐L : ∀{T U V A B A' B' C} → {q : Path U} {r : Path V}
+    → {f : T ⊢ A'}
     → {g : sub q (η B') ⊢ A} {h : sub r (η B) ⊢ C}
     → ⇒L (r ++ (_ ▸ q)) f (⇐L r g h) ≗ ⇐L r (⇒L q f g) h
-  ⇒L⇐L₂1/\2 : ∀{T U V W₁ W₂ A B A' B' C} 
-    → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
-    → {f : U ⊢ A} {f' : V ⊢ A'}
-    → {g : sub p (sub p₁ (η B') ⊛ sub p₂ (η B)) ⊢ C}
-    → ⇒L (p ++ (_ ▸ p₂)) f (⇐L (p ++ (p₁ ◂ _)) f' g) ≗ ⇒L (p ++ (_ ▸ p₂)) f (⇐L (p ++ (p₁ ◂ _)) f' g) 
-  ⇒L⇐L₂2/\1 : ∀{T U V W₁ W₂ A B A' B' C} 
+  -- ⇒L⇐L₂1/\2 : ∀{T U V W₁ W₂ A B A' B' C} 
+  --   → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
+  --   → {f : U ⊢ A} {f' : V ⊢ A'}
+  --   → {g : sub p (sub p₁ (η B') ⊛ sub p₂ (η B)) ⊢ C}
+  --   → ⇒L (p ++ (_ ▸ p₂)) f (⇐L (p ++ (p₁ ◂ _)) f' g) ≗ ⇒L (p ++ (_ ▸ p₂)) f (⇐L (p ++ (p₁ ◂ _)) f' g) 
+  ⇒L⇐L₂ : ∀{T U V W₁ W₂ A B A' B' C} 
     → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
     → {f : U ⊢ A} {f' : V ⊢ A'}
     → {g : sub p (sub p₁ (η B) ⊛ sub p₂ (η B')) ⊢ C}
     → ⇒L (p ++ (p₁ ◂ _)) f (⇐L (p ++ (_ ▸ p₂)) f' g) ≗ ⇒L (p ++ (p₁ ◂ _)) f (⇐L (p ++ (_ ▸ p₂)) f' g)
-  ⇐L⇒L : ∀{T U V W A B A' B' C} → {p : Path T} {q : Path V} {r : Path W}
-    → {f : sub p U ⊢ A'}
+  ⇐L⇒L : ∀{T U V A B A' B' C} → {q : Path U} {r : Path V}
+    → {f : T ⊢ A'}
     → {g : sub q (η B') ⊢ A} {h : sub r (η B) ⊢ C}
     → ⇐L (r ++ (q ◂ _)) f (⇒L r g h) ≗ ⇒L r (⇐L q f g) h
-  ⇐L⇒L₂1/\2 : ∀{T U V W₁ W₂ A B A' B' C} 
-    → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
-    → {f : U ⊢ A} {f' : V ⊢ A'}
-    → {g : sub p (sub p₁ (η B') ⊛ sub p₂ (η B)) ⊢ C}
-    → ⇐L (p ++ (_ ▸ p₂)) f (⇒L (p ++ (p₁ ◂ _)) f' g) ≗ ⇐L (p ++ (_ ▸ p₂)) f (⇒L (p ++ (p₁ ◂ _)) f' g) 
-  ⇐L⇒L₂2/\1 : ∀{T U V W₁ W₂ A B A' B' C} 
+  -- ⇐L⇒L₂1/\2 : ∀{T U V W₁ W₂ A B A' B' C} 
+  --   → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
+  --   → {f : U ⊢ A} {f' : V ⊢ A'}
+  --   → {g : sub p (sub p₁ (η B') ⊛ sub p₂ (η B)) ⊢ C}
+  --   → ⇐L (p ++ (_ ▸ p₂)) f (⇒L (p ++ (p₁ ◂ _)) f' g) ≗ ⇐L (p ++ (_ ▸ p₂)) f (⇒L (p ++ (p₁ ◂ _)) f' g) 
+  ⇐L⇒L₂ : ∀{T U V W₁ W₂ A B A' B' C} 
     → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
     → {f : U ⊢ A} {f' : V ⊢ A'}
     → {g : sub p (sub p₁ (η B) ⊛ sub p₂ (η B')) ⊢ C}
     → ⇐L (p ++ (p₁ ◂ _)) f (⇒L (p ++ (_ ▸ p₂)) f' g) ≗ ⇐L (p ++ (p₁ ◂ _)) f (⇒L (p ++ (_ ▸ p₂)) f' g)
-  ⇐L⇐L : ∀{T U V W A B A' B' C} → {p : Path T} {q : Path V} {r : Path W}
-    → {f : sub p U ⊢ A'}
+  ⇐L⇐L : ∀{T U V A B A' B' C} → {q : Path U} {r : Path V}
+    → {f : T ⊢ A'}
     → {g : sub q (η B') ⊢ A} {h : sub r (η B) ⊢ C}
     → ⇐L (r ++ (_ ▸ q)) f (⇐L r g h) ≗ ⇐L r (⇐L q f g) h
-  ⇐L⇐L₂1/\2 : ∀{T U V W₁ W₂ A B A' B' C} 
-    → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
-    → {f : U ⊢ A} {f' : V ⊢ A'}
-    → {g : sub p (sub p₁ (η B') ⊛ sub p₂ (η B)) ⊢ C}
-    → ⇐L (p ++ (_ ▸ p₂)) f (⇐L (p ++ (p₁ ◂ _)) f' g) ≗ ⇐L (p ++ (_ ▸ p₂)) f (⇐L (p ++ (p₁ ◂ _)) f' g) 
-  ⇐L⇐L₂2/\1 : ∀{T U V W₁ W₂ A B A' B' C} 
+  -- ⇐L⇐L₂1/\2 : ∀{T U V W₁ W₂ A B A' B' C} 
+  --   → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
+  --   → {f : U ⊢ A} {f' : V ⊢ A'}
+  --   → {g : sub p (sub p₁ (η B') ⊛ sub p₂ (η B)) ⊢ C}
+  --   → ⇐L (p ++ (_ ▸ p₂)) f (⇐L (p ++ (p₁ ◂ _)) f' g) ≗ ⇐L (p ++ (_ ▸ p₂)) f (⇐L (p ++ (p₁ ◂ _)) f' g) 
+  ⇐L⇐L₂ : ∀{T U V W₁ W₂ A B A' B' C} 
     → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
     → {f : U ⊢ A} {f' : V ⊢ A'}
     → {g : sub p (sub p₁ (η B) ⊛ sub p₂ (η B')) ⊢ C}
