@@ -77,7 +77,6 @@ sub++ (U ▸ p) = cong (U ⊛_) (sub++ p)
 
 {-# REWRITE ++assoc #-}
 
-
 -- When given a proof of an equality sub p₁ U₁ ≡ sub p₂ U₂, we need to
 -- check the relative positions of U₁ and U₂: either U₁ is contained
 -- in U₂, or U₂ is contained in U₁, or U₁ and U₂ belong to different
