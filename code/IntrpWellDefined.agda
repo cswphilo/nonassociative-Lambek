@@ -1053,81 +1053,118 @@ mip≗ ._ U refl (⇒L⇒L {T} {A = A} {B} {A'} {B'} {q = q}) | 2/\1 (disj q₁ 
 
 mip≗ p U eq₁ (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) with subeq _ _ p p₁ (sym eq₁)
 mip≗ p ._ refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 1≡2 (same refl refl refl) 
-  rewrite subeq-2>L1 p (sub p₃ (V ⊛ η (A' ⇒ B'))) (U₁ ⊛ η (A ⇒ B)) p₂ |
+  rewrite subeq-2>R1 p (sub p₂ (U₁ ⊛ η (A ⇒ B))) (V ⊛ η (A' ⇒ B')) p₃ |
+          subeq-2>L1 p (sub p₃ (η B')) (U₁ ⊛ η (A ⇒ B)) p₂ |
+          subeq-2>L1 p (sub p₃ (V ⊛ η (A' ⇒ B'))) (U₁ ⊛ η (A ⇒ B)) p₂ |
           subeq-2>R1 p (sub p₂ (η B)) (V ⊛ η (A' ⇒ B')) p₃ = intrp≗ refl refl (⇒L⇒L₂ {p = ∙} {p₂} {p₃})
 
 mip≗ p ._ refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2>L1 (gt {W₂ = W₂} q refl refl refl) 
-  rewrite subeq-2>L1 p W₂ (U₁ ⊛ η (A ⇒ B)) (q ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) |
-          subeq-2>L1 p W₂ (V ⊛ η (A' ⇒ B')) (q ++ (sub p₂ (η B) ▸ p₃)) =  intrp≗ refl refl (⇒L⇒L₂ {p = q ◂ _} {p₂} {p₃})
+  rewrite subeq-2>L1 p W₂ (V ⊛ η (A' ⇒ B')) (q ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ p₃)) |
+          subeq-2>L1 p W₂ (U₁ ⊛ η (A ⇒ B)) (q ++ (p₂ ◂ sub p₃ (η B'))) |
+          subeq-2>L1 p W₂ (U₁ ⊛ η (A ⇒ B)) (q ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) |
+          subeq-2>L1 p W₂ (V ⊛ η (A' ⇒ B')) (q ++ (sub p₂ (η B) ▸ p₃)) = intrp≗ refl refl (⇒L⇒L₂ {p = q ◂ _} {p₂} {p₃})
 
 mip≗ p ._ refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2>R1 (gt {W₁} q refl refl refl) 
-  rewrite subeq-2>R1 p W₁ (U₁ ⊛ η (A ⇒ B)) (q ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) |
+  rewrite subeq-2>R1 p W₁ (V ⊛ η (A' ⇒ B')) (q ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ p₃)) |
+          subeq-2>R1 p W₁ (U₁ ⊛ η (A ⇒ B)) (q ++ (p₂ ◂ sub p₃ (η B'))) |
+          subeq-2>R1 p W₁ (U₁ ⊛ η (A ⇒ B)) (q ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) |
           subeq-2>R1 p W₁ (V ⊛ η (A' ⇒ B')) (q ++ (sub p₂ (η B) ▸ p₃)) = intrp≗ refl refl (⇒L⇒L₂ {p = _ ▸ q} {p₂} {p₃})
 
 mip≗ p U eq₁ (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt q refl eqU refl) with subeq _ _ q p₂ (sym (⊛eq eqU .proj₁))
 mip≗ ._ ._ refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 1≡2 (same refl refl refl) 
   rewrite subeq-1≡2 (p₁ ++ (q ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) (U₁ ⊛ η (A ⇒ B)) |
-          subeq-1/\2 p₁ (η B') (U₁ ⊛ η (A ⇒ B)) q p₃ = intrp≗ refl refl refl
+          subeq-1/\2 p₁ (η B) (V ⊛ η (A' ⇒ B')) q p₃ |
+          subeq-1/\2 p₁ (U₁ ⊛ η (A ⇒ B)) (V ⊛ η (A' ⇒ B')) q p₃ |
+          subeq-1≡2 (p₁ ++ (q ◂ sub p₃ (η B'))) (U₁ ⊛ η (A ⇒ B)) = intrp≗ refl refl refl
 
 mip≗ ._ ._ refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 2>L1 (gt {W₂ = W₂} q₁ refl refl refl) 
-  rewrite subeq-2>L1 (p₁ ++ (q ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) W₂ (U₁ ⊛ η (A ⇒ B)) q₁ |
+  rewrite subeq-1/\2 p₁ (sub q₁ (U₁ ⊛ η (A ⇒ B)) ⊛ W₂) (V ⊛ η (A' ⇒ B')) q p₃ |
+          subeq-2>L1 (p₁ ++ (q ◂ sub p₃ (η B'))) W₂ (U₁ ⊛ η (A ⇒ B)) q₁ |
+          subeq-2>L1 (p₁ ++ (q ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) W₂ (U₁ ⊛ η (A ⇒ B)) q₁ |
           subeq-1/\2 p₁ (sub q₁ (η B) ⊛ W₂) (V ⊛ η (A' ⇒ B')) q p₃ = intrp≗ refl refl refl
 
 mip≗ ._ ._ refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 2>R1 (gt {W₁} q₁ refl refl refl) 
-  rewrite subeq-2>R1 (p₁ ++ (q ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) W₁ (U₁ ⊛ η (A ⇒ B)) q₁ |
-          subeq-1/\2 p₁ (W₁ ⊛ sub q₁ (η B)) (V ⊛ η (A' ⇒ B')) q p₃ = intrp≗ refl refl refl
+  rewrite subeq-1/\2 p₁ (W₁ ⊛ sub q₁ (U₁ ⊛ η (A ⇒ B))) (V ⊛ η (A' ⇒ B')) q p₃ |
+          subeq-2>R1 (p₁ ++ (q ◂ sub p₃ (η B'))) W₁ (U₁ ⊛ η (A ⇒ B)) q₁ |
+          subeq-2>R1 (p₁ ++ (q ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) W₁ (U₁ ⊛ η (A ⇒ B)) q₁ |
+          subeq-1/\2 p₁ (W₁ ⊛ sub q₁ (η B)) (V ⊛ η (A' ⇒ B')) q p₃ =  intrp≗ refl refl refl
 
 mip≗ ._ U refl (⇒L⇒L₂ {U = ._} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>L2 (gt q refl refl refl) 
-  rewrite subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) (η (A ⇒ B)) U q  = intrp≗ refl (⇒L⇒L₂ {p = p₁}) refl
+  rewrite subeq-1/\2 p₁ U (V ⊛ η (A' ⇒ B')) (p₂ ++ (q ◂ η (A ⇒ B))) p₃ | 
+          subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (η B'))) (η (A ⇒ B)) U q |
+          subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) (η (A ⇒ B)) U q =  intrp≗ refl (⇒L⇒L₂ {p = p₁}) refl
 
 mip≗ ._ ._ refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>R2 (gt ∙ refl refl refl) 
-  rewrite subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) U₁ (η (A ⇒ B)) ∙ |
-          subeq-1/\2 p₁ (η B) (V ⊛ η (A' ⇒ B')) p₂ p₃ = intrp≗ refl (⇒L⇒L₂ {p = p₁}) refl
+  rewrite subeq-1/\2 p₁ (η (A ⇒ B)) (V ⊛ η (A' ⇒ B')) (p₂ ++ (U₁ ▸ ∙)) p₃ |
+          subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (η B'))) U₁ (η (A ⇒ B)) ∙ |
+          subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) U₁ (η (A ⇒ B)) ∙ |
+          subeq-1/\2 p₁ (η B) (V ⊛ η (A' ⇒ B')) p₂ p₃ =  intrp≗ refl (⇒L⇒L₂ {p = p₁}) refl
 
 mip≗ ._ U refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
-  rewrite subeq-1/\2 (p₁ ++ (q₁ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) U (U₁ ⊛ η (A ⇒ B)) q₂ q₃ |
+  rewrite subeq-1/\2 p₁ U (V ⊛ η (A' ⇒ B')) (q₁ ++ (q₂ ◂ sub q₃ (U₁ ⊛ η (A ⇒ B)))) p₃ |
+          subeq-1/\2 (p₁ ++ (q₁ ◂ sub p₃ (η B'))) U (U₁ ⊛ η (A ⇒ B)) q₂ q₃ |
+          subeq-1/\2 (p₁ ++ (q₁ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) U (U₁ ⊛ η (A ⇒ B)) q₂ q₃ |
           subeq-1/\2 p₁ U (V ⊛ η (A' ⇒ B')) (q₁ ++ (q₂ ◂ sub q₃ (η B))) p₃ = intrp≗ refl (⇒L⇒L₂ {p = p₁} {q₁ ++ (_ ▸ q₃)} {p₃}) refl
 
 mip≗ ._ U refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt ._ refl refl refl) | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl) 
-  rewrite subeq-2/\1 (p₁ ++ (q₁ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) U (U₁ ⊛ η (A ⇒ B)) q₂ q₃ | 
-          subeq-1/\2 p₁ U (V ⊛ η (A' ⇒ B')) (q₁ ++ (sub q₂ (η B) ▸ q₃)) p₃ = intrp≗ refl (⇒L⇒L₂ {p = p₁} {q₁ ++ (q₂ ◂ _)} {p₃}) refl
+  rewrite subeq-1/\2 p₁ U (V ⊛ η (A' ⇒ B')) (q₁ ++ (sub q₂ (U₁ ⊛ η (A ⇒ B)) ▸ q₃)) p₃ |
+          subeq-2/\1 (p₁ ++ (q₁ ◂ sub p₃ (η B'))) U (U₁ ⊛ η (A ⇒ B)) q₂ q₃ |
+          subeq-2/\1 (p₁ ++ (q₁ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) U (U₁ ⊛ η (A ⇒ B)) q₂ q₃ |
+          subeq-1/\2 p₁ U (V ⊛ η (A' ⇒ B')) (q₁ ++ (sub q₂ (η B) ▸ q₃)) p₃ =  intrp≗ refl (⇒L⇒L₂ {p = p₁} {q₁ ++ (q₂ ◂ _)} {p₃}) refl
 
 mip≗ p U eq₁ (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt q refl eqU refl) with subeq _ _ q p₃ (sym (⊛eq eqU .proj₂))
 mip≗ ._ ._ refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 1≡2 (same refl refl refl) 
-  rewrite subeq-2/\1 p₁ (V ⊛ η (A' ⇒ B')) (U₁ ⊛ η (A ⇒ B)) p₂ q |
-         subeq-1≡2 (p₁ ++ (sub p₂ (η B) ▸ q)) (V ⊛ η (A' ⇒ B')) = intrp≗ refl refl refl
+  rewrite subeq-1≡2 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ q)) (V ⊛ η (A' ⇒ B')) |
+          subeq-2/\1 p₁ (η B') (U₁ ⊛ η (A ⇒ B)) p₂ q |
+          subeq-2/\1 p₁ (V ⊛ η (A' ⇒ B')) (U₁ ⊛ η (A ⇒ B)) p₂ q |
+          subeq-1≡2 (p₁ ++ (sub p₂ (η B) ▸ q)) (V ⊛ η (A' ⇒ B')) = intrp≗ refl refl refl
 
 mip≗ ._ ._ refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 2>L1 (gt {W₂ = W₂} q₁ refl refl refl)
-  rewrite subeq-2/\1 p₁ (sub q₁ (V ⊛ η (A' ⇒ B')) ⊛ W₂) (U₁ ⊛ η (A ⇒ B)) p₂ q |
+  rewrite subeq-2>L1 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ q)) W₂ (V ⊛ η (A' ⇒ B')) q₁ |
+          subeq-2/\1 p₁ (sub q₁ (η B') ⊛ W₂) (U₁ ⊛ η (A ⇒ B)) p₂ q |
+          subeq-2/\1 p₁ (sub q₁ (V ⊛ η (A' ⇒ B')) ⊛ W₂) (U₁ ⊛ η (A ⇒ B)) p₂ q |
           subeq-2>L1 (p₁ ++ (sub p₂ (η B) ▸ q)) W₂ (V ⊛ η (A' ⇒ B')) q₁ = intrp≗ refl refl refl
 
 mip≗ ._ ._ refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 2>R1 (gt {W₁} q₁ refl refl refl) 
-  rewrite subeq-2/\1 p₁ (W₁ ⊛ sub q₁ (V ⊛ η (A' ⇒ B'))) (U₁ ⊛ η (A ⇒ B)) p₂ q |
-          subeq-2>R1 (p₁ ++ (q ◂ sub p₂ (η B))) W₁ (V ⊛ η (A' ⇒ B')) q₁ = intrp≗ refl refl refl
+  rewrite subeq-2>R1 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ q)) W₁ (V ⊛ η (A' ⇒ B')) q₁ |
+          subeq-2/\1 p₁ (W₁ ⊛ sub q₁ (η B')) (U₁ ⊛ η (A ⇒ B)) p₂ q |
+          subeq-2/\1 p₁ (W₁ ⊛ sub q₁ (V ⊛ η (A' ⇒ B'))) (U₁ ⊛ η (A ⇒ B)) p₂ q |
+          subeq-2>R1 (p₁ ++ (sub p₂ (η B) ▸ q)) W₁ (V ⊛ η (A' ⇒ B')) q₁ = intrp≗ refl refl refl
   
 mip≗ ._ U refl (⇒L⇒L₂ {U = U₁} {._} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>L2 (gt q refl refl refl)
-  rewrite subeq-2/\1 p₁ U (U₁ ⊛ η (A ⇒ B)) p₂ (p₃ ++ (q ◂ η (A' ⇒ B'))) |
+  rewrite subeq-1>L2 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ p₃)) (η (A' ⇒ B')) U q |
+          subeq-2/\1 p₁ U (U₁ ⊛ η (A ⇒ B)) p₂ (p₃ ++ (q ◂ η (A' ⇒ B'))) |
           subeq-1>L2 (p₁ ++ (sub p₂ (η B) ▸ p₃)) (η (A' ⇒ B')) U q = intrp≗ refl (⇒L⇒L₂ {p = p₁}) refl
 
 mip≗ ._ ._ refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>R2 (gt ∙ refl refl refl)
-  rewrite subeq-2/\1 p₁ (η (A' ⇒ B')) (U₁ ⊛ η (A ⇒ B)) p₂ (p₃ ++ (V ▸ ∙)) |
-          subeq-1>R2 (p₁ ++ (sub p₂ (η B) ▸ p₃)) V (η (A' ⇒ B')) ∙ = intrp≗ refl (⇒L⇒L₂ {p = p₁}) refl
+  rewrite subeq-1>R2 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ p₃)) V (η (A' ⇒ B')) ∙ |
+          subeq-2/\1 p₁ (η B') (U₁ ⊛ η (A ⇒ B)) p₂ p₃ |
+          subeq-2/\1 p₁ (η (A' ⇒ B')) (U₁ ⊛ η (A ⇒ B)) p₂ (p₃ ++ (V ▸ ∙)) |
+          subeq-1>R2 (p₁ ++ (sub p₂ (η B) ▸ p₃)) V (η (A' ⇒ B')) ∙ = intrp≗ refl (⇒L⇒L₂ {p = p₁}) refl 
 
 mip≗ ._ U refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
   rewrite subeq-2/\1 p₁ U (U₁ ⊛ η (A ⇒ B)) p₂ (q₁ ++ (q₂ ◂ sub q₃ (V ⊛ η (A' ⇒ B')))) |
-          subeq-1/\2 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (V ⊛ η (A' ⇒ B')) q₂ q₃ = intrp≗ refl (⇒L⇒L₂ {p = p₁} {p₂} {q₁ ++ (_ ▸ q₃)}) refl
+          subeq-1/\2 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ q₁)) U (V ⊛ η (A' ⇒ B')) q₂ q₃ |
+          subeq-1/\2 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (V ⊛ η (A' ⇒ B')) q₂ q₃ |
+          subeq-2/\1 p₁ U (U₁ ⊛ η (A ⇒ B)) p₂ (q₁ ++ (q₂ ◂ sub q₃ (η B'))) = intrp≗ refl (⇒L⇒L₂ {p = p₁} {p₂} {q₁ ++ (_ ▸ q₃)}) refl
 
 mip≗ ._ U refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt ._ refl refl refl) | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl)
   rewrite subeq-2/\1 p₁ U (U₁ ⊛ η (A ⇒ B)) p₂ (q₁ ++ (sub q₂ (V ⊛ η (A' ⇒ B')) ▸ q₃)) |
-          subeq-2/\1 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (V ⊛ η (A' ⇒ B')) q₂ q₃ = intrp≗ refl (⇒L⇒L₂ {p = p₁} {p₂} {q₁ ++ (q₂ ◂ _)}) refl 
+          subeq-2/\1 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ q₁)) U (V ⊛ η (A' ⇒ B')) q₂ q₃ |
+          subeq-2/\1 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (V ⊛ η (A' ⇒ B')) q₂ q₃ |
+          subeq-2/\1 p₁ U (U₁ ⊛ η (A ⇒ B)) p₂ (q₁ ++ (sub q₂ (η B') ▸ q₃)) = intrp≗ refl (⇒L⇒L₂ {p = p₁} {p₂} {q₁ ++ (q₂ ◂ _)}) refl
 
 mip≗ ._ U refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 1/\2 (disj q q₁ q₂ refl refl refl refl)
   rewrite subeq-1/\2 q U (U₁ ⊛ η (A ⇒ B)) q₁ (q₂ ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) |
-          subeq-1/\2 q U (V ⊛ η (A' ⇒ B')) q₁ (q₂ ++ (sub p₂ (η B) ▸ p₃)) = intrp≗ refl (⇒L⇒L₂ {p = q ++ (_ ▸ q₂)}) refl
+          subeq-1/\2 q U (V ⊛ η (A' ⇒ B')) q₁ (q₂ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ p₃)) |
+          subeq-1/\2 q U (V ⊛ η (A' ⇒ B')) q₁ (q₂ ++ (sub p₂ (η B) ▸ p₃))|
+          subeq-1/\2 q U (U₁ ⊛ η (A ⇒ B)) q₁ (q₂ ++ (p₂ ◂ sub p₃ (η B'))) = intrp≗ refl (⇒L⇒L₂ {p = q ++ (_ ▸ q₂)}) refl
           
 mip≗ ._ U refl (⇒L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2/\1 (disj q q₁ q₂ refl refl refl refl) 
   rewrite subeq-2/\1 q U (U₁ ⊛ η (A ⇒ B)) (q₁ ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) q₂ |
-          subeq-2/\1 q U (V ⊛ η (A' ⇒ B')) (q₁ ++ (sub p₂ (η B) ▸ p₃)) q₂ = intrp≗ refl (⇒L⇒L₂ {p = q ++ (q₁ ◂ _)}) refl
+          subeq-2/\1 q U (V ⊛ η (A' ⇒ B')) (q₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ p₃)) q₂ |
+          subeq-2/\1 q U (V ⊛ η (A' ⇒ B')) (q₁ ++ (sub p₂ (η B) ▸ p₃)) q₂ |
+          subeq-2/\1 q U (U₁ ⊛ η (A ⇒ B)) (q₁ ++ (p₂ ◂ sub p₃ (η B'))) q₂ = intrp≗ refl (⇒L⇒L₂ {p = q ++ (q₁ ◂ _)}) refl 
 
 mip≗ p U eq₁ (⇒L⇐L {T} {A = A} {B} {A'} {B'} {q = q} {r}) with subeq _ _ p r (sym eq₁)
 mip≗ p ._ refl (⇒L⇐L {T} {A = A} {B} {A'} {B'} {q = q} {r}) | 1≡2 (same refl refl refl) 
@@ -1199,81 +1236,118 @@ mip≗ ._ U refl (⇒L⇐L {T} {A = A} {B} {A'} {B'} {q = q} {r}) | 2/\1 (disj q
 
 mip≗ p U eq₁ (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) with subeq _ _ p p₁ (sym eq₁)
 mip≗ p ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 1≡2 (same refl refl refl) 
-  rewrite subeq-2>L1 p (sub p₃ (η (B' ⇐ A') ⊛ V)) (U₁ ⊛ η (A ⇒ B)) p₂ |
+  rewrite subeq-2>R1 p (sub p₂ (U₁ ⊛ η (A ⇒ B))) (η (B' ⇐ A') ⊛ V) p₃ |
+          subeq-2>L1 p (sub p₃ (η B')) (U₁ ⊛ η (A ⇒ B)) p₂ |
+          subeq-2>L1 p (sub p₃ (η (B' ⇐ A') ⊛ V)) (U₁ ⊛ η (A ⇒ B)) p₂ |
           subeq-2>R1 p (sub p₂ (η B)) (η (B' ⇐ A') ⊛ V) p₃ = intrp≗ refl refl (⇒L⇐L₂ {p = ∙} {p₂} {p₃})
 
-mip≗ p ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2>L1 (gt {W₂ = W₂} q refl refl refl)
-  rewrite subeq-2>L1 p W₂ (U₁ ⊛ η (A ⇒ B)) (q ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) |
-          subeq-2>L1 p W₂ (η (B' ⇐ A') ⊛ V) (q ++ (sub p₂ (η B) ▸ p₃)) =  intrp≗ refl refl (⇒L⇐L₂ {p = q ◂ _} {p₂} {p₃})
+mip≗ p ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2>L1 (gt {W₂ = W₂} q refl refl refl) 
+  rewrite subeq-2>L1 p W₂ (η (B' ⇐ A') ⊛ V) (q ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ p₃)) |
+          subeq-2>L1 p W₂ (U₁ ⊛ η (A ⇒ B)) (q ++ (p₂ ◂ sub p₃ (η B'))) |
+          subeq-2>L1 p W₂ (U₁ ⊛ η (A ⇒ B)) (q ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) |
+          subeq-2>L1 p W₂ (η (B' ⇐ A') ⊛ V) (q ++ (sub p₂ (η B) ▸ p₃)) = intrp≗ refl refl (⇒L⇐L₂ {p = q ◂ _} {p₂} {p₃})
 
-mip≗ p ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2>R1 (gt {W₁} q refl refl refl)
-  rewrite subeq-2>R1 p W₁ (U₁ ⊛ η (A ⇒ B)) (q ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) |
+mip≗ p ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2>R1 (gt {W₁} q refl refl refl) 
+  rewrite subeq-2>R1 p W₁ (η (B' ⇐ A') ⊛ V) (q ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ p₃)) |
+          subeq-2>R1 p W₁ (U₁ ⊛ η (A ⇒ B)) (q ++ (p₂ ◂ sub p₃ (η B'))) |
+          subeq-2>R1 p W₁ (U₁ ⊛ η (A ⇒ B)) (q ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) |
           subeq-2>R1 p W₁ (η (B' ⇐ A') ⊛ V) (q ++ (sub p₂ (η B) ▸ p₃)) = intrp≗ refl refl (⇒L⇐L₂ {p = _ ▸ q} {p₂} {p₃})
 
 mip≗ p U eq₁ (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt q refl eqU refl) with subeq _ _ q p₂ (sym (⊛eq eqU .proj₁))
-mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 1≡2 (same refl refl refl)
+mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 1≡2 (same refl refl refl) 
   rewrite subeq-1≡2 (p₁ ++ (q ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) (U₁ ⊛ η (A ⇒ B)) |
-          subeq-1/\2 p₁ (η B') (U₁ ⊛ η (A ⇒ B)) q p₃ = intrp≗ refl refl refl
+          subeq-1/\2 p₁ (η B) (η (B' ⇐ A') ⊛ V) q p₃ |
+          subeq-1/\2 p₁ (U₁ ⊛ η (A ⇒ B)) (η (B' ⇐ A') ⊛ V) q p₃ |
+          subeq-1≡2 (p₁ ++ (q ◂ sub p₃ (η B'))) (U₁ ⊛ η (A ⇒ B)) = intrp≗ refl refl refl
 
-mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 2>L1 (gt {W₂ = W₂} q₁ refl refl refl)
-  rewrite subeq-2>L1 (p₁ ++ (q ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) W₂ (U₁ ⊛ η (A ⇒ B)) q₁ |
+mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 2>L1 (gt {W₂ = W₂} q₁ refl refl refl) 
+  rewrite subeq-1/\2 p₁ (sub q₁ (U₁ ⊛ η (A ⇒ B)) ⊛ W₂) (η (B' ⇐ A') ⊛ V) q p₃ |
+          subeq-2>L1 (p₁ ++ (q ◂ sub p₃ (η B'))) W₂ (U₁ ⊛ η (A ⇒ B)) q₁ |
+          subeq-2>L1 (p₁ ++ (q ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) W₂ (U₁ ⊛ η (A ⇒ B)) q₁ |
           subeq-1/\2 p₁ (sub q₁ (η B) ⊛ W₂) (η (B' ⇐ A') ⊛ V) q p₃ = intrp≗ refl refl refl
 
-mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 2>R1 (gt {W₁} q₁ refl refl refl)
-  rewrite subeq-2>R1 (p₁ ++ (q ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) W₁ (U₁ ⊛ η (A ⇒ B)) q₁ |
-          subeq-1/\2 p₁ (W₁ ⊛ sub q₁ (η B)) (η (B' ⇐ A') ⊛ V) q p₃ = intrp≗ refl refl refl
+mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 2>R1 (gt {W₁} q₁ refl refl refl) 
+  rewrite subeq-1/\2 p₁ (W₁ ⊛ sub q₁ (U₁ ⊛ η (A ⇒ B))) (η (B' ⇐ A') ⊛ V) q p₃ |
+          subeq-2>R1 (p₁ ++ (q ◂ sub p₃ (η B'))) W₁ (U₁ ⊛ η (A ⇒ B)) q₁ |
+          subeq-2>R1 (p₁ ++ (q ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) W₁ (U₁ ⊛ η (A ⇒ B)) q₁ |
+          subeq-1/\2 p₁ (W₁ ⊛ sub q₁ (η B)) (η (B' ⇐ A') ⊛ V) q p₃ =  intrp≗ refl refl refl
 
-mip≗ ._ U refl (⇒L⇐L₂ {U = ._} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>L2 (gt q refl refl refl)
-  rewrite subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) (η (A ⇒ B)) U q  = intrp≗ refl (⇒L⇐L₂ {p = p₁}) refl
--- 
-mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>R2 (gt ∙ refl refl refl)
-  rewrite subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) U₁ (η (A ⇒ B)) ∙ |
-          subeq-1/\2 p₁ (η B) (η (B' ⇐ A') ⊛ V) p₂ p₃ = intrp≗ refl (⇒L⇐L₂ {p = p₁}) refl
+mip≗ ._ U refl (⇒L⇐L₂ {U = ._} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>L2 (gt q refl refl refl) 
+  rewrite subeq-1/\2 p₁ U (η (B' ⇐ A') ⊛ V) (p₂ ++ (q ◂ η (A ⇒ B))) p₃ | 
+          subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (η B'))) (η (A ⇒ B)) U q |
+          subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) (η (A ⇒ B)) U q =  intrp≗ refl (⇒L⇐L₂ {p = p₁}) refl
 
-mip≗ ._ U refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl)
-  rewrite subeq-1/\2 (p₁ ++ (q₁ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) U (U₁ ⊛ η (A ⇒ B)) q₂ q₃ |
+mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>R2 (gt ∙ refl refl refl) 
+  rewrite subeq-1/\2 p₁ (η (A ⇒ B)) (η (B' ⇐ A') ⊛ V) (p₂ ++ (U₁ ▸ ∙)) p₃ |
+          subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (η B'))) U₁ (η (A ⇒ B)) ∙ |
+          subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) U₁ (η (A ⇒ B)) ∙ |
+          subeq-1/\2 p₁ (η B) (η (B' ⇐ A') ⊛ V) p₂ p₃ =  intrp≗ refl (⇒L⇐L₂ {p = p₁}) refl
+
+mip≗ ._ U refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
+  rewrite subeq-1/\2 p₁ U (η (B' ⇐ A') ⊛ V) (q₁ ++ (q₂ ◂ sub q₃ (U₁ ⊛ η (A ⇒ B)))) p₃ |
+          subeq-1/\2 (p₁ ++ (q₁ ◂ sub p₃ (η B'))) U (U₁ ⊛ η (A ⇒ B)) q₂ q₃ |
+          subeq-1/\2 (p₁ ++ (q₁ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) U (U₁ ⊛ η (A ⇒ B)) q₂ q₃ |
           subeq-1/\2 p₁ U (η (B' ⇐ A') ⊛ V) (q₁ ++ (q₂ ◂ sub q₃ (η B))) p₃ = intrp≗ refl (⇒L⇐L₂ {p = p₁} {q₁ ++ (_ ▸ q₃)} {p₃}) refl
 
 mip≗ ._ U refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt ._ refl refl refl) | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl) 
-  rewrite subeq-2/\1 (p₁ ++ (q₁ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) U (U₁ ⊛ η (A ⇒ B)) q₂ q₃ | 
-          subeq-1/\2 p₁ U (η (B' ⇐ A') ⊛ V) (q₁ ++ (sub q₂ (η B) ▸ q₃)) p₃ = intrp≗ refl (⇒L⇐L₂ {p = p₁} {q₁ ++ (q₂ ◂ _)} {p₃}) refl
+  rewrite subeq-1/\2 p₁ U (η (B' ⇐ A') ⊛ V) (q₁ ++ (sub q₂ (U₁ ⊛ η (A ⇒ B)) ▸ q₃)) p₃ |
+          subeq-2/\1 (p₁ ++ (q₁ ◂ sub p₃ (η B'))) U (U₁ ⊛ η (A ⇒ B)) q₂ q₃ |
+          subeq-2/\1 (p₁ ++ (q₁ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) U (U₁ ⊛ η (A ⇒ B)) q₂ q₃ |
+          subeq-1/\2 p₁ U (η (B' ⇐ A') ⊛ V) (q₁ ++ (sub q₂ (η B) ▸ q₃)) p₃ =  intrp≗ refl (⇒L⇐L₂ {p = p₁} {q₁ ++ (q₂ ◂ _)} {p₃}) refl
 
 mip≗ p U eq₁ (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt q refl eqU refl) with subeq _ _ q p₃ (sym (⊛eq eqU .proj₂))
-mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 1≡2 (same refl refl refl)
-  rewrite subeq-2/\1 p₁ (η (B' ⇐ A') ⊛ V) (U₁ ⊛ η (A ⇒ B)) p₂ q |
-         subeq-1≡2 (p₁ ++ (sub p₂ (η B) ▸ q)) (η (B' ⇐ A') ⊛ V) = intrp≗ refl refl refl
+mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 1≡2 (same refl refl refl) 
+  rewrite subeq-1≡2 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ q)) (η (B' ⇐ A') ⊛ V) |
+          subeq-2/\1 p₁ (η B') (U₁ ⊛ η (A ⇒ B)) p₂ q |
+          subeq-2/\1 p₁ (η (B' ⇐ A') ⊛ V) (U₁ ⊛ η (A ⇒ B)) p₂ q |
+          subeq-1≡2 (p₁ ++ (sub p₂ (η B) ▸ q)) (η (B' ⇐ A') ⊛ V) = intrp≗ refl refl refl
 
 mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 2>L1 (gt {W₂ = W₂} q₁ refl refl refl)
-  rewrite subeq-2/\1 p₁ (sub q₁ (η (B' ⇐ A') ⊛ V) ⊛ W₂) (U₁ ⊛ η (A ⇒ B)) p₂ q |
+  rewrite subeq-2>L1 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ q)) W₂ (η (B' ⇐ A') ⊛ V) q₁ |
+          subeq-2/\1 p₁ (sub q₁ (η B') ⊛ W₂) (U₁ ⊛ η (A ⇒ B)) p₂ q |
+          subeq-2/\1 p₁ (sub q₁ (η (B' ⇐ A') ⊛ V) ⊛ W₂) (U₁ ⊛ η (A ⇒ B)) p₂ q |
           subeq-2>L1 (p₁ ++ (sub p₂ (η B) ▸ q)) W₂ (η (B' ⇐ A') ⊛ V) q₁ = intrp≗ refl refl refl
 
-mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 2>R1 (gt {W₁} q₁ refl refl refl)
-  rewrite subeq-2/\1 p₁ (W₁ ⊛ sub q₁ (η (B' ⇐ A') ⊛ V)) (U₁ ⊛ η (A ⇒ B)) p₂ q |
-          subeq-2>R1 (p₁ ++ (q ◂ sub p₂ (η B))) W₁ (η (B' ⇐ A') ⊛ V) q₁ = intrp≗ refl refl refl
-  
-mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>L2 (gt ∙ refl refl refl) 
-  rewrite subeq-2/\1 p₁ (η (B' ⇐ A')) (U₁ ⊛ η (A ⇒ B)) p₂ (p₃ ++ (∙ ◂ V)) |
-          subeq-1>L2 (p₁ ++ (sub p₂ (η B) ▸ p₃)) V (η (B' ⇐ A')) ∙ = intrp≗ refl (⇒L⇐L₂ {p = p₁}) refl
+mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 2>R1 (gt {W₁} q₁ refl refl refl) 
+  rewrite subeq-2>R1 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ q)) W₁ (η (B' ⇐ A') ⊛ V) q₁ |
+          subeq-2/\1 p₁ (W₁ ⊛ sub q₁ (η B')) (U₁ ⊛ η (A ⇒ B)) p₂ q |
+          subeq-2/\1 p₁ (W₁ ⊛ sub q₁ (η (B' ⇐ A') ⊛ V)) (U₁ ⊛ η (A ⇒ B)) p₂ q |
+          subeq-2>R1 (p₁ ++ (sub p₂ (η B) ▸ q)) W₁ (η (B' ⇐ A') ⊛ V) q₁ = intrp≗ refl refl refl
 
-mip≗ ._ U refl (⇒L⇐L₂ {U = U₁} {._} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>R2 (gt q refl refl refl) 
-  rewrite subeq-2/\1 p₁ U (U₁ ⊛ η (A ⇒ B)) p₂ (p₃ ++ (η (B' ⇐ A') ▸ q)) |
+mip≗ ._ ._ refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>L2 (gt ∙ refl refl refl) 
+  rewrite subeq-1>L2 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ p₃)) V (η (B' ⇐ A')) ∙ |
+          subeq-2/\1 p₁ (η B') (U₁ ⊛ η (A ⇒ B)) p₂ p₃ |
+          subeq-2/\1 p₁ (η (B' ⇐ A')) (U₁ ⊛ η (A ⇒ B)) p₂ (p₃ ++ (∙ ◂ V)) |
+          subeq-1>L2 (p₁ ++ (sub p₂ (η B) ▸ p₃)) V (η (B' ⇐ A')) ∙ = intrp≗ refl (⇒L⇐L₂ {p = p₁}) refl 
+
+mip≗ ._ U refl (⇒L⇐L₂ {U = U₁} {._} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>R2 (gt q refl refl refl)
+  rewrite subeq-1>R2 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ p₃)) (η (B' ⇐ A')) U q |
+          subeq-2/\1 p₁ U (U₁ ⊛ η (A ⇒ B)) p₂ (p₃ ++ (η (B' ⇐ A') ▸ q)) |
           subeq-1>R2 (p₁ ++ (sub p₂ (η B) ▸ p₃)) (η (B' ⇐ A')) U q = intrp≗ refl (⇒L⇐L₂ {p = p₁}) refl
 
-mip≗ ._ U refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl)
+mip≗ ._ U refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
   rewrite subeq-2/\1 p₁ U (U₁ ⊛ η (A ⇒ B)) p₂ (q₁ ++ (q₂ ◂ sub q₃ (η (B' ⇐ A') ⊛ V))) |
-          subeq-1/\2 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (η (B' ⇐ A') ⊛ V) q₂ q₃ = intrp≗ refl (⇒L⇐L₂ {p = p₁} {p₂} {q₁ ++ (_ ▸ q₃)}) refl
+          subeq-1/\2 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ q₁)) U (η (B' ⇐ A') ⊛ V) q₂ q₃ |
+          subeq-1/\2 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (η (B' ⇐ A') ⊛ V) q₂ q₃ |
+          subeq-2/\1 p₁ U (U₁ ⊛ η (A ⇒ B)) p₂ (q₁ ++ (q₂ ◂ sub q₃ (η B'))) = intrp≗ refl (⇒L⇐L₂ {p = p₁} {p₂} {q₁ ++ (_ ▸ q₃)}) refl
 
 mip≗ ._ U refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt ._ refl refl refl) | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl)
   rewrite subeq-2/\1 p₁ U (U₁ ⊛ η (A ⇒ B)) p₂ (q₁ ++ (sub q₂ (η (B' ⇐ A') ⊛ V) ▸ q₃)) |
-          subeq-2/\1 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (η (B' ⇐ A') ⊛ V) q₂ q₃ = intrp≗ refl (⇒L⇐L₂ {p = p₁} {p₂} {q₁ ++ (q₂ ◂ _)}) refl 
+          subeq-2/\1 (p₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ q₁)) U (η (B' ⇐ A') ⊛ V) q₂ q₃ |
+          subeq-2/\1 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (η (B' ⇐ A') ⊛ V) q₂ q₃ |
+          subeq-2/\1 p₁ U (U₁ ⊛ η (A ⇒ B)) p₂ (q₁ ++ (sub q₂ (η B') ▸ q₃)) = intrp≗ refl (⇒L⇐L₂ {p = p₁} {p₂} {q₁ ++ (q₂ ◂ _)}) refl
 
 mip≗ ._ U refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 1/\2 (disj q q₁ q₂ refl refl refl refl)
   rewrite subeq-1/\2 q U (U₁ ⊛ η (A ⇒ B)) q₁ (q₂ ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) |
-          subeq-1/\2 q U (η (B' ⇐ A') ⊛ V) q₁ (q₂ ++ (sub p₂ (η B) ▸ p₃)) = intrp≗ refl (⇒L⇐L₂ {p = q ++ (_ ▸ q₂)}) refl
+          subeq-1/\2 q U (η (B' ⇐ A') ⊛ V) q₁ (q₂ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ p₃)) |
+          subeq-1/\2 q U (η (B' ⇐ A') ⊛ V) q₁ (q₂ ++ (sub p₂ (η B) ▸ p₃))|
+          subeq-1/\2 q U (U₁ ⊛ η (A ⇒ B)) q₁ (q₂ ++ (p₂ ◂ sub p₃ (η B'))) = intrp≗ refl (⇒L⇐L₂ {p = q ++ (_ ▸ q₂)}) refl
           
-mip≗ ._ U refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2/\1 (disj q q₁ q₂ refl refl refl refl)
+mip≗ ._ U refl (⇒L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2/\1 (disj q q₁ q₂ refl refl refl refl) 
   rewrite subeq-2/\1 q U (U₁ ⊛ η (A ⇒ B)) (q₁ ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) q₂ |
-          subeq-2/\1 q U (η (B' ⇐ A') ⊛ V) (q₁ ++ (sub p₂ (η B) ▸ p₃)) q₂ = intrp≗ refl (⇒L⇐L₂ {p = q ++ (q₁ ◂ _)}) refl
+          subeq-2/\1 q U (η (B' ⇐ A') ⊛ V) (q₁ ++ (sub p₂ (U₁ ⊛ η (A ⇒ B)) ▸ p₃)) q₂ |
+          subeq-2/\1 q U (η (B' ⇐ A') ⊛ V) (q₁ ++ (sub p₂ (η B) ▸ p₃)) q₂ |
+          subeq-2/\1 q U (U₁ ⊛ η (A ⇒ B)) (q₁ ++ (p₂ ◂ sub p₃ (η B'))) q₂ = intrp≗ refl (⇒L⇐L₂ {p = q ++ (q₁ ◂ _)}) refl 
 
 mip≗ p U eq₁ (⇐L⇒L {T} {A = A} {B} {A'} {B'} {q = q} {r}) with subeq _ _ p r (sym eq₁)
 mip≗ p ._ refl (⇐L⇒L {T} {A = A} {B} {A'} {B'} {q = q} {r}) | 1≡2 (same refl refl refl)
@@ -1345,81 +1419,118 @@ mip≗ ._ U refl (⇐L⇒L {T} {A = A} {B} {A'} {B'} {q = q}) | 2/\1 (disj q₁ 
 
 mip≗ p U eq₁ (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) with subeq _ _ p p₁ (sym eq₁)
 mip≗ p ._ refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 1≡2 (same refl refl refl) 
-  rewrite subeq-2>L1 p (sub p₃ (V ⊛ η (A' ⇒ B'))) (η (B ⇐ A) ⊛ U₁) p₂ |
+  rewrite subeq-2>R1 p (sub p₂ (η (B ⇐ A) ⊛ U₁)) (V ⊛ η (A' ⇒ B')) p₃ |
+          subeq-2>L1 p (sub p₃ (η B')) (η (B ⇐ A) ⊛ U₁) p₂ |
+          subeq-2>L1 p (sub p₃ (V ⊛ η (A' ⇒ B'))) (η (B ⇐ A) ⊛ U₁) p₂ |
           subeq-2>R1 p (sub p₂ (η B)) (V ⊛ η (A' ⇒ B')) p₃ = intrp≗ refl refl (⇐L⇒L₂ {p = ∙} {p₂} {p₃})
 
 mip≗ p ._ refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2>L1 (gt {W₂ = W₂} q refl refl refl) 
-  rewrite subeq-2>L1 p W₂ (η (B ⇐ A) ⊛ U₁) (q ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) |
-          subeq-2>L1 p W₂ (V ⊛ η (A' ⇒ B')) (q ++ (sub p₂ (η B) ▸ p₃)) =  intrp≗ refl refl (⇐L⇒L₂ {p = q ◂ _} {p₂} {p₃})
+  rewrite subeq-2>L1 p W₂ (V ⊛ η (A' ⇒ B')) (q ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ p₃)) |
+          subeq-2>L1 p W₂ (η (B ⇐ A) ⊛ U₁) (q ++ (p₂ ◂ sub p₃ (η B'))) |
+          subeq-2>L1 p W₂ (η (B ⇐ A) ⊛ U₁) (q ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) |
+          subeq-2>L1 p W₂ (V ⊛ η (A' ⇒ B')) (q ++ (sub p₂ (η B) ▸ p₃)) = intrp≗ refl refl (⇐L⇒L₂ {p = q ◂ _} {p₂} {p₃})
 
 mip≗ p ._ refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2>R1 (gt {W₁} q refl refl refl) 
-  rewrite subeq-2>R1 p W₁ (η (B ⇐ A) ⊛ U₁) (q ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) |
+  rewrite subeq-2>R1 p W₁ (V ⊛ η (A' ⇒ B')) (q ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ p₃)) |
+          subeq-2>R1 p W₁ (η (B ⇐ A) ⊛ U₁) (q ++ (p₂ ◂ sub p₃ (η B'))) |
+          subeq-2>R1 p W₁ (η (B ⇐ A) ⊛ U₁) (q ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) |
           subeq-2>R1 p W₁ (V ⊛ η (A' ⇒ B')) (q ++ (sub p₂ (η B) ▸ p₃)) = intrp≗ refl refl (⇐L⇒L₂ {p = _ ▸ q} {p₂} {p₃})
 
 mip≗ p U eq₁ (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt q refl eqU refl) with subeq _ _ q p₂ (sym (⊛eq eqU .proj₁))
 mip≗ ._ ._ refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 1≡2 (same refl refl refl) 
   rewrite subeq-1≡2 (p₁ ++ (q ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) (η (B ⇐ A) ⊛ U₁) |
-          subeq-1/\2 p₁ (η B') (η (B ⇐ A) ⊛ U₁) q p₃ = intrp≗ refl refl refl
+          subeq-1/\2 p₁ (η B) (V ⊛ η (A' ⇒ B')) q p₃ |
+          subeq-1/\2 p₁ (η (B ⇐ A) ⊛ U₁) (V ⊛ η (A' ⇒ B')) q p₃ |
+          subeq-1≡2 (p₁ ++ (q ◂ sub p₃ (η B'))) (η (B ⇐ A) ⊛ U₁) = intrp≗ refl refl refl
 
 mip≗ ._ ._ refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 2>L1 (gt {W₂ = W₂} q₁ refl refl refl) 
-  rewrite subeq-2>L1 (p₁ ++ (q ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) W₂ (η (B ⇐ A) ⊛ U₁) q₁ |
+  rewrite subeq-1/\2 p₁ (sub q₁ (η (B ⇐ A) ⊛ U₁) ⊛ W₂) (V ⊛ η (A' ⇒ B')) q p₃ |
+          subeq-2>L1 (p₁ ++ (q ◂ sub p₃ (η B'))) W₂ (η (B ⇐ A) ⊛ U₁) q₁ |
+          subeq-2>L1 (p₁ ++ (q ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) W₂ (η (B ⇐ A) ⊛ U₁) q₁ |
           subeq-1/\2 p₁ (sub q₁ (η B) ⊛ W₂) (V ⊛ η (A' ⇒ B')) q p₃ = intrp≗ refl refl refl
 
 mip≗ ._ ._ refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 2>R1 (gt {W₁} q₁ refl refl refl) 
-  rewrite subeq-2>R1 (p₁ ++ (q ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) W₁ (η (B ⇐ A) ⊛ U₁) q₁ |
-          subeq-1/\2 p₁ (W₁ ⊛ sub q₁ (η B)) (V ⊛ η (A' ⇒ B')) q p₃ = intrp≗ refl refl refl
+  rewrite subeq-1/\2 p₁ (W₁ ⊛ sub q₁ (η (B ⇐ A) ⊛ U₁)) (V ⊛ η (A' ⇒ B')) q p₃ |
+          subeq-2>R1 (p₁ ++ (q ◂ sub p₃ (η B'))) W₁ (η (B ⇐ A) ⊛ U₁) q₁ |
+          subeq-2>R1 (p₁ ++ (q ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) W₁ (η (B ⇐ A) ⊛ U₁) q₁ |
+          subeq-1/\2 p₁ (W₁ ⊛ sub q₁ (η B)) (V ⊛ η (A' ⇒ B')) q p₃ =  intrp≗ refl refl refl
 
-mip≗ ._ ._ refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>L2 (gt ∙ refl refl refl)
-  rewrite subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) U₁ (η (B ⇐ A)) ∙ |
-          subeq-1/\2 p₁ (η B) (V ⊛ η (A' ⇒ B')) p₂ p₃ = intrp≗ refl (⇐L⇒L₂ {p = p₁}) refl
+mip≗ ._ ._ refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>L2 (gt ∙ refl refl refl) 
+  rewrite subeq-1/\2 p₁ (η (B ⇐ A)) (V ⊛ η (A' ⇒ B')) (p₂ ++ (∙ ◂ U₁)) p₃ |
+          subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (η B'))) U₁ (η (B ⇐ A)) ∙ |
+          subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) U₁ (η (B ⇐ A)) ∙ |
+          subeq-1/\2 p₁ (η B) (V ⊛ η (A' ⇒ B')) p₂ p₃ =  intrp≗ refl (⇐L⇒L₂ {p = p₁}) refl
 
-mip≗ ._ U refl (⇐L⇒L₂ {U = ._} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>R2 (gt q refl refl refl)
-  rewrite subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) (η (B ⇐ A)) U q  = intrp≗ refl (⇐L⇒L₂ {p = p₁}) refl
+mip≗ ._ U refl (⇐L⇒L₂ {U = ._} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>R2 (gt q refl refl refl) 
+  rewrite subeq-1/\2 p₁ U (V ⊛ η (A' ⇒ B')) (p₂ ++ (η (B ⇐ A) ▸ q)) p₃ | 
+          subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (η B'))) (η (B ⇐ A)) U q |
+          subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) (η (B ⇐ A)) U q =  intrp≗ refl (⇐L⇒L₂ {p = p₁}) refl
 
 mip≗ ._ U refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
-  rewrite subeq-1/\2 (p₁ ++ (q₁ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) U (η (B ⇐ A) ⊛ U₁) q₂ q₃ |
+  rewrite subeq-1/\2 p₁ U (V ⊛ η (A' ⇒ B')) (q₁ ++ (q₂ ◂ sub q₃ (η (B ⇐ A) ⊛ U₁))) p₃ |
+          subeq-1/\2 (p₁ ++ (q₁ ◂ sub p₃ (η B'))) U (η (B ⇐ A) ⊛ U₁) q₂ q₃ |
+          subeq-1/\2 (p₁ ++ (q₁ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) U (η (B ⇐ A) ⊛ U₁) q₂ q₃ |
           subeq-1/\2 p₁ U (V ⊛ η (A' ⇒ B')) (q₁ ++ (q₂ ◂ sub q₃ (η B))) p₃ = intrp≗ refl (⇐L⇒L₂ {p = p₁} {q₁ ++ (_ ▸ q₃)} {p₃}) refl
 
 mip≗ ._ U refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt ._ refl refl refl) | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl) 
-  rewrite subeq-2/\1 (p₁ ++ (q₁ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) U (η (B ⇐ A) ⊛ U₁) q₂ q₃ | 
-          subeq-1/\2 p₁ U (V ⊛ η (A' ⇒ B')) (q₁ ++ (sub q₂ (η B) ▸ q₃)) p₃ = intrp≗ refl (⇐L⇒L₂ {p = p₁} {q₁ ++ (q₂ ◂ _)} {p₃}) refl
+  rewrite subeq-1/\2 p₁ U (V ⊛ η (A' ⇒ B')) (q₁ ++ (sub q₂ (η (B ⇐ A) ⊛ U₁) ▸ q₃)) p₃ |
+          subeq-2/\1 (p₁ ++ (q₁ ◂ sub p₃ (η B'))) U (η (B ⇐ A) ⊛ U₁) q₂ q₃ |
+          subeq-2/\1 (p₁ ++ (q₁ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) U (η (B ⇐ A) ⊛ U₁) q₂ q₃ |
+          subeq-1/\2 p₁ U (V ⊛ η (A' ⇒ B')) (q₁ ++ (sub q₂ (η B) ▸ q₃)) p₃ =  intrp≗ refl (⇐L⇒L₂ {p = p₁} {q₁ ++ (q₂ ◂ _)} {p₃}) refl
 
 mip≗ p U eq₁ (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt q refl eqU refl) with subeq _ _ q p₃ (sym (⊛eq eqU .proj₂))
 mip≗ ._ ._ refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 1≡2 (same refl refl refl) 
-  rewrite subeq-2/\1 p₁ (V ⊛ η (A' ⇒ B')) (η (B ⇐ A) ⊛ U₁) p₂ q |
-         subeq-1≡2 (p₁ ++ (sub p₂ (η B) ▸ q)) (V ⊛ η (A' ⇒ B')) = intrp≗ refl refl refl
+  rewrite subeq-1≡2 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ q)) (V ⊛ η (A' ⇒ B')) |
+          subeq-2/\1 p₁ (η B') (η (B ⇐ A) ⊛ U₁) p₂ q |
+          subeq-2/\1 p₁ (V ⊛ η (A' ⇒ B')) (η (B ⇐ A) ⊛ U₁) p₂ q |
+          subeq-1≡2 (p₁ ++ (sub p₂ (η B) ▸ q)) (V ⊛ η (A' ⇒ B')) = intrp≗ refl refl refl
 
 mip≗ ._ ._ refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 2>L1 (gt {W₂ = W₂} q₁ refl refl refl)
-  rewrite subeq-2/\1 p₁ (sub q₁ (V ⊛ η (A' ⇒ B')) ⊛ W₂) (η (B ⇐ A) ⊛ U₁) p₂ q |
+  rewrite subeq-2>L1 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ q)) W₂ (V ⊛ η (A' ⇒ B')) q₁ |
+          subeq-2/\1 p₁ (sub q₁ (η B') ⊛ W₂) (η (B ⇐ A) ⊛ U₁) p₂ q |
+          subeq-2/\1 p₁ (sub q₁ (V ⊛ η (A' ⇒ B')) ⊛ W₂) (η (B ⇐ A) ⊛ U₁) p₂ q |
           subeq-2>L1 (p₁ ++ (sub p₂ (η B) ▸ q)) W₂ (V ⊛ η (A' ⇒ B')) q₁ = intrp≗ refl refl refl
 
 mip≗ ._ ._ refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 2>R1 (gt {W₁} q₁ refl refl refl) 
-  rewrite subeq-2/\1 p₁ (W₁ ⊛ sub q₁ (V ⊛ η (A' ⇒ B'))) (η (B ⇐ A) ⊛ U₁) p₂ q |
-          subeq-2>R1 (p₁ ++ (q ◂ sub p₂ (η B))) W₁ (V ⊛ η (A' ⇒ B')) q₁ = intrp≗ refl refl refl
+  rewrite subeq-2>R1 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ q)) W₁ (V ⊛ η (A' ⇒ B')) q₁ |
+          subeq-2/\1 p₁ (W₁ ⊛ sub q₁ (η B')) (η (B ⇐ A) ⊛ U₁) p₂ q |
+          subeq-2/\1 p₁ (W₁ ⊛ sub q₁ (V ⊛ η (A' ⇒ B'))) (η (B ⇐ A) ⊛ U₁) p₂ q |
+          subeq-2>R1 (p₁ ++ (sub p₂ (η B) ▸ q)) W₁ (V ⊛ η (A' ⇒ B')) q₁ = intrp≗ refl refl refl
   
 mip≗ ._ U refl (⇐L⇒L₂ {U = U₁} {._} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>L2 (gt q refl refl refl)
-  rewrite subeq-2/\1 p₁ U (η (B ⇐ A) ⊛ U₁) p₂ (p₃ ++ (q ◂ η (A' ⇒ B'))) |
+  rewrite subeq-1>L2 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ p₃)) (η (A' ⇒ B')) U q |
+          subeq-2/\1 p₁ U (η (B ⇐ A) ⊛ U₁) p₂ (p₃ ++ (q ◂ η (A' ⇒ B'))) |
           subeq-1>L2 (p₁ ++ (sub p₂ (η B) ▸ p₃)) (η (A' ⇒ B')) U q = intrp≗ refl (⇐L⇒L₂ {p = p₁}) refl
 
 mip≗ ._ ._ refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>R2 (gt ∙ refl refl refl)
-  rewrite subeq-2/\1 p₁ (η (A' ⇒ B')) (η (B ⇐ A) ⊛ U₁) p₂ (p₃ ++ (V ▸ ∙)) |
-          subeq-1>R2 (p₁ ++ (sub p₂ (η B) ▸ p₃)) V (η (A' ⇒ B')) ∙ = intrp≗ refl (⇐L⇒L₂ {p = p₁}) refl
+  rewrite subeq-1>R2 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ p₃)) V (η (A' ⇒ B')) ∙ |
+          subeq-2/\1 p₁ (η B') (η (B ⇐ A) ⊛ U₁) p₂ p₃ |
+          subeq-2/\1 p₁ (η (A' ⇒ B')) (η (B ⇐ A) ⊛ U₁) p₂ (p₃ ++ (V ▸ ∙)) |
+          subeq-1>R2 (p₁ ++ (sub p₂ (η B) ▸ p₃)) V (η (A' ⇒ B')) ∙ = intrp≗ refl (⇐L⇒L₂ {p = p₁}) refl 
 
 mip≗ ._ U refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
   rewrite subeq-2/\1 p₁ U (η (B ⇐ A) ⊛ U₁) p₂ (q₁ ++ (q₂ ◂ sub q₃ (V ⊛ η (A' ⇒ B')))) |
-          subeq-1/\2 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (V ⊛ η (A' ⇒ B')) q₂ q₃ = intrp≗ refl (⇐L⇒L₂ {p = p₁} {p₂} {q₁ ++ (_ ▸ q₃)}) refl
+          subeq-1/\2 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ q₁)) U (V ⊛ η (A' ⇒ B')) q₂ q₃ |
+          subeq-1/\2 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (V ⊛ η (A' ⇒ B')) q₂ q₃ |
+          subeq-2/\1 p₁ U (η (B ⇐ A) ⊛ U₁) p₂ (q₁ ++ (q₂ ◂ sub q₃ (η B'))) = intrp≗ refl (⇐L⇒L₂ {p = p₁} {p₂} {q₁ ++ (_ ▸ q₃)}) refl
 
 mip≗ ._ U refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt ._ refl refl refl) | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl)
   rewrite subeq-2/\1 p₁ U (η (B ⇐ A) ⊛ U₁) p₂ (q₁ ++ (sub q₂ (V ⊛ η (A' ⇒ B')) ▸ q₃)) |
-          subeq-2/\1 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (V ⊛ η (A' ⇒ B')) q₂ q₃ = intrp≗ refl (⇐L⇒L₂ {p = p₁} {p₂} {q₁ ++ (q₂ ◂ _)}) refl 
+          subeq-2/\1 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ q₁)) U (V ⊛ η (A' ⇒ B')) q₂ q₃ |
+          subeq-2/\1 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (V ⊛ η (A' ⇒ B')) q₂ q₃ |
+          subeq-2/\1 p₁ U (η (B ⇐ A) ⊛ U₁) p₂ (q₁ ++ (sub q₂ (η B') ▸ q₃)) = intrp≗ refl (⇐L⇒L₂ {p = p₁} {p₂} {q₁ ++ (q₂ ◂ _)}) refl
 
 mip≗ ._ U refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 1/\2 (disj q q₁ q₂ refl refl refl refl)
   rewrite subeq-1/\2 q U (η (B ⇐ A) ⊛ U₁) q₁ (q₂ ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) |
-          subeq-1/\2 q U (V ⊛ η (A' ⇒ B')) q₁ (q₂ ++ (sub p₂ (η B) ▸ p₃)) = intrp≗ refl (⇐L⇒L₂ {p = q ++ (_ ▸ q₂)}) refl
+          subeq-1/\2 q U (V ⊛ η (A' ⇒ B')) q₁ (q₂ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ p₃)) |
+          subeq-1/\2 q U (V ⊛ η (A' ⇒ B')) q₁ (q₂ ++ (sub p₂ (η B) ▸ p₃))|
+          subeq-1/\2 q U (η (B ⇐ A) ⊛ U₁) q₁ (q₂ ++ (p₂ ◂ sub p₃ (η B'))) = intrp≗ refl (⇐L⇒L₂ {p = q ++ (_ ▸ q₂)}) refl
           
 mip≗ ._ U refl (⇐L⇒L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2/\1 (disj q q₁ q₂ refl refl refl refl) 
   rewrite subeq-2/\1 q U (η (B ⇐ A) ⊛ U₁) (q₁ ++ (p₂ ◂ sub p₃ (V ⊛ η (A' ⇒ B')))) q₂ |
-          subeq-2/\1 q U (V ⊛ η (A' ⇒ B')) (q₁ ++ (sub p₂ (η B) ▸ p₃)) q₂ = intrp≗ refl (⇐L⇒L₂ {p = q ++ (q₁ ◂ _)}) refl
+          subeq-2/\1 q U (V ⊛ η (A' ⇒ B')) (q₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ p₃)) q₂ |
+          subeq-2/\1 q U (V ⊛ η (A' ⇒ B')) (q₁ ++ (sub p₂ (η B) ▸ p₃)) q₂ |
+          subeq-2/\1 q U (η (B ⇐ A) ⊛ U₁) (q₁ ++ (p₂ ◂ sub p₃ (η B'))) q₂ = intrp≗ refl (⇐L⇒L₂ {p = q ++ (q₁ ◂ _)}) refl 
 
 mip≗ p U eq₁ (⇐L⇐L {T} {A = A} {B} {A'} {B'} {q = q} {r}) with subeq _ _ p r (sym eq₁)
 mip≗ p ._ refl (⇐L⇐L {T} {A = A} {B} {A'} {B'} {q = q} {r}) | 1≡2 (same refl refl refl)
@@ -1491,85 +1602,122 @@ mip≗ ._ U refl (⇐L⇐L {T} {A = A} {B} {A'} {B'} {q = q}) | 2/\1 (disj q₁ 
 
 mip≗ p U eq₁ (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) with subeq _ _ p p₁ (sym eq₁)
 mip≗ p ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 1≡2 (same refl refl refl) 
-  rewrite subeq-2>L1 p (sub p₃ (η (B' ⇐ A') ⊛ V)) (η (B ⇐ A) ⊛ U₁) p₂ |
+  rewrite subeq-2>R1 p (sub p₂ (η (B ⇐ A) ⊛ U₁)) (η (B' ⇐ A') ⊛ V) p₃ |
+          subeq-2>L1 p (sub p₃ (η B')) (η (B ⇐ A) ⊛ U₁) p₂ |
+          subeq-2>L1 p (sub p₃ (η (B' ⇐ A') ⊛ V)) (η (B ⇐ A) ⊛ U₁) p₂ |
           subeq-2>R1 p (sub p₂ (η B)) (η (B' ⇐ A') ⊛ V) p₃ = intrp≗ refl refl (⇐L⇐L₂ {p = ∙} {p₂} {p₃})
 
-mip≗ p ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2>L1 (gt {W₂ = W₂} q refl refl refl)
-  rewrite subeq-2>L1 p W₂ (η (B ⇐ A) ⊛ U₁) (q ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) |
-          subeq-2>L1 p W₂ (η (B' ⇐ A') ⊛ V) (q ++ (sub p₂ (η B) ▸ p₃)) =  intrp≗ refl refl (⇐L⇐L₂ {p = q ◂ _} {p₂} {p₃})
+mip≗ p ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2>L1 (gt {W₂ = W₂} q refl refl refl) 
+  rewrite subeq-2>L1 p W₂ (η (B' ⇐ A') ⊛ V) (q ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ p₃)) |
+          subeq-2>L1 p W₂ (η (B ⇐ A) ⊛ U₁) (q ++ (p₂ ◂ sub p₃ (η B'))) |
+          subeq-2>L1 p W₂ (η (B ⇐ A) ⊛ U₁) (q ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) |
+          subeq-2>L1 p W₂ (η (B' ⇐ A') ⊛ V) (q ++ (sub p₂ (η B) ▸ p₃)) = intrp≗ refl refl (⇐L⇐L₂ {p = q ◂ _} {p₂} {p₃})
 
-mip≗ p ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2>R1 (gt {W₁} q refl refl refl)
-  rewrite subeq-2>R1 p W₁ (η (B ⇐ A) ⊛ U₁) (q ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) |
+mip≗ p ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2>R1 (gt {W₁} q refl refl refl) 
+  rewrite subeq-2>R1 p W₁ (η (B' ⇐ A') ⊛ V) (q ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ p₃)) |
+          subeq-2>R1 p W₁ (η (B ⇐ A) ⊛ U₁) (q ++ (p₂ ◂ sub p₃ (η B'))) |
+          subeq-2>R1 p W₁ (η (B ⇐ A) ⊛ U₁) (q ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) |
           subeq-2>R1 p W₁ (η (B' ⇐ A') ⊛ V) (q ++ (sub p₂ (η B) ▸ p₃)) = intrp≗ refl refl (⇐L⇐L₂ {p = _ ▸ q} {p₂} {p₃})
 
 mip≗ p U eq₁ (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt q refl eqU refl) with subeq _ _ q p₂ (sym (⊛eq eqU .proj₁))
-mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 1≡2 (same refl refl refl)
+mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 1≡2 (same refl refl refl) 
   rewrite subeq-1≡2 (p₁ ++ (q ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) (η (B ⇐ A) ⊛ U₁) |
-          subeq-1/\2 p₁ (η B') (η (B ⇐ A) ⊛ U₁) q p₃ = intrp≗ refl refl refl
+          subeq-1/\2 p₁ (η B) (η (B' ⇐ A') ⊛ V) q p₃ |
+          subeq-1/\2 p₁ (η (B ⇐ A) ⊛ U₁) (η (B' ⇐ A') ⊛ V) q p₃ |
+          subeq-1≡2 (p₁ ++ (q ◂ sub p₃ (η B'))) (η (B ⇐ A) ⊛ U₁) = intrp≗ refl refl refl
 
-mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 2>L1 (gt {W₂ = W₂} q₁ refl refl refl)
-  rewrite subeq-2>L1 (p₁ ++ (q ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) W₂ (η (B ⇐ A) ⊛ U₁) q₁ |
+mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 2>L1 (gt {W₂ = W₂} q₁ refl refl refl) 
+  rewrite subeq-1/\2 p₁ (sub q₁ (η (B ⇐ A) ⊛ U₁) ⊛ W₂) (η (B' ⇐ A') ⊛ V) q p₃ |
+          subeq-2>L1 (p₁ ++ (q ◂ sub p₃ (η B'))) W₂ (η (B ⇐ A) ⊛ U₁) q₁ |
+          subeq-2>L1 (p₁ ++ (q ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) W₂ (η (B ⇐ A) ⊛ U₁) q₁ |
           subeq-1/\2 p₁ (sub q₁ (η B) ⊛ W₂) (η (B' ⇐ A') ⊛ V) q p₃ = intrp≗ refl refl refl
 
-mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 2>R1 (gt {W₁} q₁ refl refl refl)
-  rewrite subeq-2>R1 (p₁ ++ (q ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) W₁ (η (B ⇐ A) ⊛ U₁) q₁ |
-          subeq-1/\2 p₁ (W₁ ⊛ sub q₁ (η B)) (η (B' ⇐ A') ⊛ V) q p₃ = intrp≗ refl refl refl
+mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt q refl refl refl) | 2>R1 (gt {W₁} q₁ refl refl refl) 
+  rewrite subeq-1/\2 p₁ (W₁ ⊛ sub q₁ (η (B ⇐ A) ⊛ U₁)) (η (B' ⇐ A') ⊛ V) q p₃ |
+          subeq-2>R1 (p₁ ++ (q ◂ sub p₃ (η B'))) W₁ (η (B ⇐ A) ⊛ U₁) q₁ |
+          subeq-2>R1 (p₁ ++ (q ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) W₁ (η (B ⇐ A) ⊛ U₁) q₁ |
+          subeq-1/\2 p₁ (W₁ ⊛ sub q₁ (η B)) (η (B' ⇐ A') ⊛ V) q p₃ =  intrp≗ refl refl refl
 
-mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>L2 (gt ∙ refl refl refl)
-  rewrite subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) U₁ (η (B ⇐ A)) ∙ |
-          subeq-1/\2 p₁ (η B) (η (B' ⇐ A') ⊛ V) p₂ p₃ = intrp≗ refl (⇐L⇐L₂ {p = p₁}) refl
+mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>L2 (gt ∙ refl refl refl) 
+  rewrite subeq-1/\2 p₁ (η (B ⇐ A)) (η (B' ⇐ A') ⊛ V) (p₂ ++ (∙ ◂ U₁)) p₃ |
+          subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (η B'))) U₁ (η (B ⇐ A)) ∙ |
+          subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) U₁ (η (B ⇐ A)) ∙ |
+          subeq-1/\2 p₁ (η B) (η (B' ⇐ A') ⊛ V) p₂ p₃ =  intrp≗ refl (⇐L⇐L₂ {p = p₁}) refl
 
-mip≗ ._ U refl (⇐L⇐L₂ {U = ._} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>R2 (gt q refl refl refl)
-  rewrite subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) (η (B ⇐ A)) U q  = intrp≗ refl (⇐L⇐L₂ {p = p₁}) refl
+mip≗ ._ U refl (⇐L⇐L₂ {U = ._} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>R2 (gt q refl refl refl) 
+  rewrite subeq-1/\2 p₁ U (η (B' ⇐ A') ⊛ V) (p₂ ++ (η (B ⇐ A) ▸ q)) p₃ | 
+          subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (η B'))) (η (B ⇐ A)) U q |
+          subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) (η (B ⇐ A)) U q =  intrp≗ refl (⇐L⇐L₂ {p = p₁}) refl
 
-mip≗ ._ U refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl)
-  rewrite subeq-1/\2 (p₁ ++ (q₁ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) U (η (B ⇐ A) ⊛ U₁) q₂ q₃ |
+mip≗ ._ U refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
+  rewrite subeq-1/\2 p₁ U (η (B' ⇐ A') ⊛ V) (q₁ ++ (q₂ ◂ sub q₃ (η (B ⇐ A) ⊛ U₁))) p₃ |
+          subeq-1/\2 (p₁ ++ (q₁ ◂ sub p₃ (η B'))) U (η (B ⇐ A) ⊛ U₁) q₂ q₃ |
+          subeq-1/\2 (p₁ ++ (q₁ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) U (η (B ⇐ A) ⊛ U₁) q₂ q₃ |
           subeq-1/\2 p₁ U (η (B' ⇐ A') ⊛ V) (q₁ ++ (q₂ ◂ sub q₃ (η B))) p₃ = intrp≗ refl (⇐L⇐L₂ {p = p₁} {q₁ ++ (_ ▸ q₃)} {p₃}) refl
 
 mip≗ ._ U refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt ._ refl refl refl) | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl) 
-  rewrite subeq-2/\1 (p₁ ++ (q₁ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) U (η (B ⇐ A) ⊛ U₁) q₂ q₃ | 
-          subeq-1/\2 p₁ U (η (B' ⇐ A') ⊛ V) (q₁ ++ (sub q₂ (η B) ▸ q₃)) p₃ = intrp≗ refl (⇐L⇐L₂ {p = p₁} {q₁ ++ (q₂ ◂ _)} {p₃}) refl
+  rewrite subeq-1/\2 p₁ U (η (B' ⇐ A') ⊛ V) (q₁ ++ (sub q₂ (η (B ⇐ A) ⊛ U₁) ▸ q₃)) p₃ |
+          subeq-2/\1 (p₁ ++ (q₁ ◂ sub p₃ (η B'))) U (η (B ⇐ A) ⊛ U₁) q₂ q₃ |
+          subeq-2/\1 (p₁ ++ (q₁ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) U (η (B ⇐ A) ⊛ U₁) q₂ q₃ |
+          subeq-1/\2 p₁ U (η (B' ⇐ A') ⊛ V) (q₁ ++ (sub q₂ (η B) ▸ q₃)) p₃ =  intrp≗ refl (⇐L⇐L₂ {p = p₁} {q₁ ++ (q₂ ◂ _)} {p₃}) refl
 
 mip≗ p U eq₁ (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt q refl eqU refl) with subeq _ _ q p₃ (sym (⊛eq eqU .proj₂))
-mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 1≡2 (same refl refl refl)
-  rewrite subeq-2/\1 p₁ (η (B' ⇐ A') ⊛ V) (η (B ⇐ A) ⊛ U₁) p₂ q |
-         subeq-1≡2 (p₁ ++ (sub p₂ (η B) ▸ q)) (η (B' ⇐ A') ⊛ V) = intrp≗ refl refl refl
+mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 1≡2 (same refl refl refl) 
+  rewrite subeq-1≡2 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ q)) (η (B' ⇐ A') ⊛ V) |
+          subeq-2/\1 p₁ (η B') (η (B ⇐ A) ⊛ U₁) p₂ q |
+          subeq-2/\1 p₁ (η (B' ⇐ A') ⊛ V) (η (B ⇐ A) ⊛ U₁) p₂ q |
+          subeq-1≡2 (p₁ ++ (sub p₂ (η B) ▸ q)) (η (B' ⇐ A') ⊛ V) = intrp≗ refl refl refl
 
 mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 2>L1 (gt {W₂ = W₂} q₁ refl refl refl)
-  rewrite subeq-2/\1 p₁ (sub q₁ (η (B' ⇐ A') ⊛ V) ⊛ W₂) (η (B ⇐ A) ⊛ U₁) p₂ q |
+  rewrite subeq-2>L1 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ q)) W₂ (η (B' ⇐ A') ⊛ V) q₁ |
+          subeq-2/\1 p₁ (sub q₁ (η B') ⊛ W₂) (η (B ⇐ A) ⊛ U₁) p₂ q |
+          subeq-2/\1 p₁ (sub q₁ (η (B' ⇐ A') ⊛ V) ⊛ W₂) (η (B ⇐ A) ⊛ U₁) p₂ q |
           subeq-2>L1 (p₁ ++ (sub p₂ (η B) ▸ q)) W₂ (η (B' ⇐ A') ⊛ V) q₁ = intrp≗ refl refl refl
 
-mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 2>R1 (gt {W₁} q₁ refl refl refl)
-  rewrite subeq-2/\1 p₁ (W₁ ⊛ sub q₁ (η (B' ⇐ A') ⊛ V)) (η (B ⇐ A) ⊛ U₁) p₂ q |
-          subeq-2>R1 (p₁ ++ (q ◂ sub p₂ (η B))) W₁ (η (B' ⇐ A') ⊛ V) q₁ = intrp≗ refl refl refl
-  
-mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>L2 (gt ∙ refl refl refl) 
-  rewrite subeq-2/\1 p₁ (η (B' ⇐ A')) (η (B ⇐ A) ⊛ U₁) p₂ (p₃ ++ (∙ ◂ V)) |
-          subeq-1>L2 (p₁ ++ (sub p₂ (η B) ▸ p₃)) V (η (B' ⇐ A')) ∙ = intrp≗ refl (⇐L⇐L₂ {p = p₁}) refl
+mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt q refl refl refl) | 2>R1 (gt {W₁} q₁ refl refl refl) 
+  rewrite subeq-2>R1 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ q)) W₁ (η (B' ⇐ A') ⊛ V) q₁ |
+          subeq-2/\1 p₁ (W₁ ⊛ sub q₁ (η B')) (η (B ⇐ A) ⊛ U₁) p₂ q |
+          subeq-2/\1 p₁ (W₁ ⊛ sub q₁ (η (B' ⇐ A') ⊛ V)) (η (B ⇐ A) ⊛ U₁) p₂ q |
+          subeq-2>R1 (p₁ ++ (sub p₂ (η B) ▸ q)) W₁ (η (B' ⇐ A') ⊛ V) q₁ = intrp≗ refl refl refl
 
-mip≗ ._ U refl (⇐L⇐L₂ {U = U₁} {._} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>R2 (gt q refl refl refl) 
-  rewrite subeq-2/\1 p₁ U (η (B ⇐ A) ⊛ U₁) p₂ (p₃ ++ (η (B' ⇐ A') ▸ q)) |
+mip≗ ._ ._ refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>L2 (gt ∙ refl refl refl)
+  rewrite subeq-1>L2 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ p₃)) V (η (B' ⇐ A')) ∙ |
+          subeq-2/\1 p₁ (η B') (η (B ⇐ A) ⊛ U₁) p₂ p₃ |
+          subeq-2/\1 p₁ (η (B' ⇐ A')) (η (B ⇐ A) ⊛ U₁) p₂ (p₃ ++ (∙ ◂ V)) |
+          subeq-1>L2 (p₁ ++ (sub p₂ (η B) ▸ p₃)) V (η (B' ⇐ A')) ∙ = intrp≗ refl (⇐L⇐L₂ {p = p₁}) refl 
+
+mip≗ ._ U refl (⇐L⇐L₂ {U = U₁} {._} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>R2 (gt q refl refl refl)
+  rewrite subeq-1>R2 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ p₃)) (η (B' ⇐ A')) U q |
+          subeq-2/\1 p₁ U (η (B ⇐ A) ⊛ U₁) p₂ (p₃ ++ (η (B' ⇐ A') ▸ q)) |
           subeq-1>R2 (p₁ ++ (sub p₂ (η B) ▸ p₃)) (η (B' ⇐ A')) U q = intrp≗ refl (⇐L⇐L₂ {p = p₁}) refl
 
-mip≗ ._ U refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl)
+mip≗ ._ U refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
   rewrite subeq-2/\1 p₁ U (η (B ⇐ A) ⊛ U₁) p₂ (q₁ ++ (q₂ ◂ sub q₃ (η (B' ⇐ A') ⊛ V))) |
-          subeq-1/\2 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (η (B' ⇐ A') ⊛ V) q₂ q₃ = intrp≗ refl (⇐L⇐L₂ {p = p₁} {p₂} {q₁ ++ (_ ▸ q₃)}) refl
+          subeq-1/\2 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ q₁)) U (η (B' ⇐ A') ⊛ V) q₂ q₃ |
+          subeq-1/\2 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (η (B' ⇐ A') ⊛ V) q₂ q₃ |
+          subeq-2/\1 p₁ U (η (B ⇐ A) ⊛ U₁) p₂ (q₁ ++ (q₂ ◂ sub q₃ (η B'))) = intrp≗ refl (⇐L⇐L₂ {p = p₁} {p₂} {q₁ ++ (_ ▸ q₃)}) refl
 
 mip≗ ._ U refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt ._ refl refl refl) | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl)
   rewrite subeq-2/\1 p₁ U (η (B ⇐ A) ⊛ U₁) p₂ (q₁ ++ (sub q₂ (η (B' ⇐ A') ⊛ V) ▸ q₃)) |
-          subeq-2/\1 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (η (B' ⇐ A') ⊛ V) q₂ q₃ = intrp≗ refl (⇐L⇐L₂ {p = p₁} {p₂} {q₁ ++ (q₂ ◂ _)}) refl 
+          subeq-2/\1 (p₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ q₁)) U (η (B' ⇐ A') ⊛ V) q₂ q₃ |
+          subeq-2/\1 (p₁ ++ (sub p₂ (η B) ▸ q₁)) U (η (B' ⇐ A') ⊛ V) q₂ q₃ |
+          subeq-2/\1 p₁ U (η (B ⇐ A) ⊛ U₁) p₂ (q₁ ++ (sub q₂ (η B') ▸ q₃)) = intrp≗ refl (⇐L⇐L₂ {p = p₁} {p₂} {q₁ ++ (q₂ ◂ _)}) refl
 
 mip≗ ._ U refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 1/\2 (disj q q₁ q₂ refl refl refl refl)
   rewrite subeq-1/\2 q U (η (B ⇐ A) ⊛ U₁) q₁ (q₂ ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) |
-          subeq-1/\2 q U (η (B' ⇐ A') ⊛ V) q₁ (q₂ ++ (sub p₂ (η B) ▸ p₃)) = intrp≗ refl (⇐L⇐L₂ {p = q ++ (_ ▸ q₂)}) refl
+          subeq-1/\2 q U (η (B' ⇐ A') ⊛ V) q₁ (q₂ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ p₃)) |
+          subeq-1/\2 q U (η (B' ⇐ A') ⊛ V) q₁ (q₂ ++ (sub p₂ (η B) ▸ p₃))|
+          subeq-1/\2 q U (η (B ⇐ A) ⊛ U₁) q₁ (q₂ ++ (p₂ ◂ sub p₃ (η B'))) = intrp≗ refl (⇐L⇐L₂ {p = q ++ (_ ▸ q₂)}) refl
           
-mip≗ ._ U refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2/\1 (disj q q₁ q₂ refl refl refl refl)
+mip≗ ._ U refl (⇐L⇐L₂ {U = U₁} {V} {A = A} {B} {A'} {B'} {p = ._} {p₂} {p₃}) | 2/\1 (disj q q₁ q₂ refl refl refl refl) 
   rewrite subeq-2/\1 q U (η (B ⇐ A) ⊛ U₁) (q₁ ++ (p₂ ◂ sub p₃ (η (B' ⇐ A') ⊛ V))) q₂ |
-          subeq-2/\1 q U (η (B' ⇐ A') ⊛ V) (q₁ ++ (sub p₂ (η B) ▸ p₃)) q₂ = intrp≗ refl (⇐L⇐L₂ {p = q ++ (q₁ ◂ _)}) refl
+          subeq-2/\1 q U (η (B' ⇐ A') ⊛ V) (q₁ ++ (sub p₂ (η (B ⇐ A) ⊛ U₁) ▸ p₃)) q₂ |
+          subeq-2/\1 q U (η (B' ⇐ A') ⊛ V) (q₁ ++ (sub p₂ (η B) ▸ p₃)) q₂ |
+          subeq-2/\1 q U (η (B ⇐ A) ⊛ U₁) (q₁ ++ (p₂ ◂ sub p₃ (η B'))) q₂ = intrp≗ refl (⇐L⇐L₂ {p = q ++ (q₁ ◂ _)}) refl 
       
 mip≗ p U refl refl = intrp≗ refl refl refl
 mip≗ p U refl (~_ {f = f} {f'} eq₂) with mip p U f refl | mip p U f' refl |  mip≗ p U refl eq₂
 ... | intrp D g h | intrp .D g' h' | intrp≗ refl eqg eqh = intrp≗ refl (~ eqg) (~ eqh) 
       
  
-       
+          

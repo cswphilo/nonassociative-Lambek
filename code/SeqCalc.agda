@@ -166,7 +166,7 @@ data _≗_ : {T : Tree} {A : Fma} → T ⊢ A → T ⊢ A → Set where
     → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
     → {f : U ⊢ A} {f' : V ⊢ A'}
     → {g : sub p (sub p₁ (η B) ⊛ sub p₂ (η B')) ⊢ C}
-    → ⇒L (p ++ (p₁ ◂ _)) f (⇒L (p ++ (_ ▸ p₂)) f' g) ≗ ⇒L (p ++ (p₁ ◂ _)) f (⇒L (p ++ (_ ▸ p₂)) f' g)
+    → ⇒L (p ++ (p₁ ◂ _)) f (⇒L (p ++ (_ ▸ p₂)) f' g) ≗ ⇒L (p ++ (_ ▸ p₂)) f' (⇒L (p ++ (p₁ ◂ _)) f g)
   ⇒L⇐L : ∀{T U V A B A' B' C} → {q : Path U} {r : Path V}
     → {f : T ⊢ A'}
     → {g : sub q (η B') ⊢ A} {h : sub r (η B) ⊢ C}
@@ -180,7 +180,7 @@ data _≗_ : {T : Tree} {A : Fma} → T ⊢ A → T ⊢ A → Set where
     → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
     → {f : U ⊢ A} {f' : V ⊢ A'}
     → {g : sub p (sub p₁ (η B) ⊛ sub p₂ (η B')) ⊢ C}
-    → ⇒L (p ++ (p₁ ◂ _)) f (⇐L (p ++ (_ ▸ p₂)) f' g) ≗ ⇒L (p ++ (p₁ ◂ _)) f (⇐L (p ++ (_ ▸ p₂)) f' g)
+    → ⇒L (p ++ (p₁ ◂ _)) f (⇐L (p ++ (_ ▸ p₂)) f' g) ≗ ⇐L (p ++ (_ ▸ p₂)) f' (⇒L (p ++ (p₁ ◂ _)) f g)
   ⇐L⇒L : ∀{T U V A B A' B' C} → {q : Path U} {r : Path V}
     → {f : T ⊢ A'}
     → {g : sub q (η B') ⊢ A} {h : sub r (η B) ⊢ C}
@@ -194,7 +194,7 @@ data _≗_ : {T : Tree} {A : Fma} → T ⊢ A → T ⊢ A → Set where
     → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
     → {f : U ⊢ A} {f' : V ⊢ A'}
     → {g : sub p (sub p₁ (η B) ⊛ sub p₂ (η B')) ⊢ C}
-    → ⇐L (p ++ (p₁ ◂ _)) f (⇒L (p ++ (_ ▸ p₂)) f' g) ≗ ⇐L (p ++ (p₁ ◂ _)) f (⇒L (p ++ (_ ▸ p₂)) f' g)
+    → ⇐L (p ++ (p₁ ◂ _)) f (⇒L (p ++ (_ ▸ p₂)) f' g) ≗ ⇒L (p ++ (_ ▸ p₂)) f' (⇐L (p ++ (p₁ ◂ _)) f g)
   ⇐L⇐L : ∀{T U V A B A' B' C} → {q : Path U} {r : Path V}
     → {f : T ⊢ A'}
     → {g : sub q (η B') ⊢ A} {h : sub r (η B) ⊢ C}
@@ -208,7 +208,7 @@ data _≗_ : {T : Tree} {A : Fma} → T ⊢ A → T ⊢ A → Set where
     → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
     → {f : U ⊢ A} {f' : V ⊢ A'}
     → {g : sub p (sub p₁ (η B) ⊛ sub p₂ (η B')) ⊢ C}
-    → ⇐L (p ++ (p₁ ◂ _)) f (⇐L (p ++ (_ ▸ p₂)) f' g) ≗ ⇐L (p ++ (p₁ ◂ _)) f (⇐L (p ++ (_ ▸ p₂)) f' g)
+    → ⇐L (p ++ (p₁ ◂ _)) f (⇐L (p ++ (_ ▸ p₂)) f' g) ≗ ⇐L (p ++ (_ ▸ p₂)) f' (⇐L (p ++ (p₁ ◂ _)) f g)
 
 ≡to≗ : ∀{T C}
   → {f g : T ⊢ C}
