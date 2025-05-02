@@ -60,3 +60,15 @@ latex/*.run.xml
 *.synctex.gz
 *.synctex.gz(busy)
 *.pdfsync
+code/CutEquations4.agda
+code/Cut3.agda
+code/CutCirceqEquations2.agda
+code/SeqCalc2.agda
+code/Fma1.agda
+code/SubEqProperties2.agda
+code/CutEqualities3.agda
+code/CutEquationsMatchOnLeft.agda
+code/CutEqualitiesMatchOnLeft.agda
+code/CutMatchOnLeft.agda
+code/CutInterpolationMatchOnLeft.agda
+code/CutEquationsMatchOnLeft2.agda

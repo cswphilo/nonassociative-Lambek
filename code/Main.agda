@@ -1,4 +1,4 @@
-{-# OPTIONS --rewriting --allow-unsolved-metas #-}
+{-# OPTIONS --rewriting #-}
 
 module Main where
 
@@ -18,5 +18,4 @@ import Interpolation
 import IntrpWellDefined
 
 -- Cut is Left Inverse of Maehara Interpolation
-
 import CutInterpolation
