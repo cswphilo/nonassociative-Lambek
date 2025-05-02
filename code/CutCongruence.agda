@@ -1,15 +1,15 @@
 {-# OPTIONS --rewriting #-}
 
-module CutEquations3 where
+module CutCongruence where
 
 open import Relation.Binary.PropositionalEquality hiding ([_]; _≗_) 
 open import Data.Product
 open import Data.Empty
 open import Fma
 open import SeqCalc
-open import Cut2
+open import Cut
 open import SubEqProperties
-open import CutEqualities2
+open import CutEqualities
 open import CutCirceqEquations
 
 cut-cong1 : ∀ {T U W C D} (p : Path T)

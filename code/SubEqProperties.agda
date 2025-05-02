@@ -61,3 +61,4 @@ subeq-1>L2 : ∀ {T} (p : Path T) {W₁ : Tree} (W₂ : Tree) (U : Tree)
 subeq-1>L2 ∙ W₁ U q = refl
 subeq-1>L2 (p ◂ U₁) W₁ U q rewrite subeq-1>L2 p W₁ U q = refl
 subeq-1>L2 (T ▸ p) W₁ U q rewrite subeq-1>L2 p W₁ U q = refl
+
