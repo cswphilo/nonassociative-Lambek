@@ -19,6 +19,33 @@
 %\renewcommand\UrlFont{\color{blue}\rmfamily}
 %\urlstyle{rm}
 %
+\usepackage{amsmath,amssymb,amsfonts}%
+%% macros for math symbols
+\newcommand{\ot}{\otimes}
+\newcommand{\cdast}{\circledast}
+\newcommand{\Larr}{\Leftarrow}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\btleft}{\blacktriangleleft}
+\newcommand{\btright}{\blacktriangleright}
+
+%% commands for Agda stuff
+\newcommand{\At}{\mathsf{At}}
+\newcommand{\at}{\mathsf{at}}
+\newcommand{\Fma}{\mathsf{Fma}}
+\newcommand{\data}{\mathsf{data}}
+\newcommand{\Tree}{\mathsf{Tree}}
+\newcommand{\Path}{\mathsf{Path}}
+\newcommand{\path}[1]{\mathsf{Path} ~ #1}
+\newcommand{\Sub}{\mathsf{sub}}
+\newcommand{\sub}[2]{\mathsf{sub} ~ #1 ~ #2}
+\newcommand{\where}{\mathsf{where}}
+\newcommand{\Set}{\mathsf{Set}}
+\newcommand{\record}{\mathsf{record}}
+\newcommand{\field}{\mathsf{field}}
+
+\newcommand{\niccolo}[1]{\textcolor{red}{NV: #1}}
+\newcommand{\cheng}[1]{\textcolor{blue}{CSW: #1}}
+
 \begin{document}
 %
 \title{Contribution Title}
@@ -51,7 +78,7 @@ The abstract should briefly summarize the contents of the paper in
 %
 
 \begin{enumerate}
-  \item Introduction to Agda formalizaiton.
+  \item Introduction to Agda formalization.
   \begin{itemize}
     \item Formulae, trees, and substitution.
     \item How to figure out the accurate relationship between two equal trees with substitution.
@@ -78,8 +105,58 @@ The abstract should briefly summarize the contents of the paper in
 \section{Introduction}
 
 \section{Trees and Substitution}
+In this section, we present the Agda formalization of trees, paths in trees and substitutions.
+% The formalization of trees and substitution are inspired by the ordinary formalization \cite{moot:categorial:2012}.
+\noindent\textbf{Formulae, trees and paths.} In the formalization we fix a type $\At$ of atomic formulae.
+The type $\Fma$ of formulae is the following inductive type:
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\data \:\:  \Fma : \Set \:\: \where} \\
+  \;\; \at &: \At \to \Fma \\
+  \;\; \_{\Larr}\_ &: \Fma \to \Fma \to \Fma \\ 
+  \;\; \_{\Rarr}\_ &: \Fma \to \Fma \to \Fma \\ 
+  \;\; \_{\ot}\_ &: \Fma \to \Fma \to \Fma \\
+\end{array}
+\]
+Underscores are used to represent infix operators, e.g. $A \ot B$ is a formula for all $A,B : \Fma$.
 
-\section{Nonassociative Lambek calculus}
+The type $\Tree$ of trees is the following inductive type:
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\data \:\:  \Tree : \Set \:\: \where} \\
+  \;\; \cdot &: \Tree \\
+  \;\; \eta &: \Fma \to \Tree \\
+  \;\; \_{\cdast}\_ &: \Tree \to \Tree \to \Tree \\
+\end{array}
+\]
+Different from the definitions of trees used for nonassociative Lambek calculus on pen and paper in \cite{moot:categorial:2012}, here holes are also considered as trees. This would not lead to inconsistent derivations because the axiom rules are defined with non-empty antecedents, see Section \ref{sec:calculus}.
+
+The type $\Path$ of paths of trees is the following inductive type:
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\data \:\:  \Path : \Tree \to \Set \:\: \where} \\
+  \;\; \cdot &: \path{\cdot} \\
+  \;\; \_\btleft\_ &: \forall ~ \{T\} ~ (p : \path{T}) ~ U \to \path{(T \cdast U)} \\
+  \;\; \_\btright\_ &: \forall ~ T ~ \{U\} ~ (p : \path{U}) \to \path{(T \cdast U)}
+\end{array}
+\]
+Curly brackets are used in Agda to denote implicit arguments.
+
+Substitution function aims to substitute a tree for a hole in a tree. It is constructed by pattern-matching (i.e. structural recursion) on the path to a specific hole of a tree.
+\[
+\begin{array}{ll}
+  \multicolumn{2}{l}{\Sub : \forall ~ \{T\} \to \path{T} \to \Tree \to \Tree}
+  \\[2pt]
+  \sub{\cdot}{U} &= U
+  \\
+  \sub{p \btleft V}{U} &= \sub{p}{U} \cdast V
+  \\
+  \sub{V \btright p}{U} &= V \cdast \sub{p}{U} 
+\end{array}
+\]
+
+
+\section{Nonassociative Lambek calculus}\label{sec:calculus}
 
 \section{Properties of Cut}
 
@@ -107,7 +184,7 @@ The abstract should briefly summarize the contents of the paper in
 % BibTeX users should specify bibliography style 'splncs04'.
 % References will then be sorted and formatted in the correct style.
 %
-% \bibliographystyle{splncs04}
-% \bibliography{mybibliography}
+\bibliographystyle{splncs04}
+\bibliography{tableaux}
 %
 \end{document}
