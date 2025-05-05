@@ -107,6 +107,7 @@ The abstract should briefly summarize the contents of the paper in
 \section{Trees and Substitution}
 In this section, we present the Agda formalization of trees, paths in trees and substitutions.
 % The formalization of trees and substitution are inspired by the ordinary formalization \cite{moot:categorial:2012}.
+
 \noindent\textbf{Formulae, trees and paths.} In the formalization we fix a type $\At$ of atomic formulae.
 The type $\Fma$ of formulae is the following inductive type:
 \[
@@ -129,7 +130,7 @@ The type $\Tree$ of trees is the following inductive type:
   \;\; \_{\cdast}\_ &: \Tree \to \Tree \to \Tree \\
 \end{array}
 \]
-Different from the definitions of trees used for nonassociative Lambek calculus on pen and paper in \cite{moot:categorial:2012}, here holes are also considered as trees. This would not lead to inconsistent derivations because the axiom rules are defined with non-empty antecedents, see Section \ref{sec:calculus}.
+Different from the definitions of trees used for nonassociative Lambek calculus on pen and paper in \cite{moot:categorial:2012}, holes are also considered as trees and trees are allowed with holes. This would not lead to inconsistent derivations because the axiom rules are defined with non-empty antecedents, see Section \ref{sec:calculus} for the formalization of the rules.
 
 The type $\Path$ of paths of trees is the following inductive type:
 \[
@@ -142,7 +143,7 @@ The type $\Path$ of paths of trees is the following inductive type:
 \]
 Curly brackets are used in Agda to denote implicit arguments.
 
-Substitution function aims to substitute a tree for a hole in a tree. It is constructed by pattern-matching (i.e. structural recursion) on the path to a specific hole of a tree.
+Substitution function is constructed by pattern-matching (i.e. structural recursion) on the path to a specific hole of a tree.
 \[
 \begin{array}{ll}
   \multicolumn{2}{l}{\Sub : \forall ~ \{T\} \to \path{T} \to \Tree \to \Tree}
