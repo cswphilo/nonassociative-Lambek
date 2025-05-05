@@ -10,6 +10,10 @@
 % Other font encondings may result in incorrect characters.
 %
 \usepackage{graphicx}
+\usepackage{quiver}
+\usepackage{tikz-cd}
+\tikzcdset{scale cd/.style={every label/.append style={scale=#1},
+    cells={nodes={scale=#1}}}}
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
 %
@@ -37,7 +41,7 @@
 \newcommand{\Path}{\mathsf{Path}}
 \newcommand{\path}[1]{\mathsf{Path} ~ #1}
 \newcommand{\Sub}{\mathsf{sub}}
-\newcommand{\sub}[2]{\mathsf{sub} ~ #1 ~ #2}
+\newcommand{\sub}[2]{\mathsf{sub} ~ (#1) ~ #2}
 \newcommand{\where}{\mathsf{where}}
 \newcommand{\Set}{\mathsf{Set}}
 \newcommand{\record}{\mathsf{record}}
@@ -108,7 +112,7 @@ The abstract should briefly summarize the contents of the paper in
 In this section, we present the Agda formalization of trees, paths in trees and substitutions.
 % The formalization of trees and substitution are inspired by the ordinary formalization \cite{moot:categorial:2012}.
 
-\noindent\textbf{Formulae, trees and paths.} In the formalization we fix a type $\At$ of atomic formulae.
+\noindent\textbf{Formulae, trees and paths.} In the formalization we fix a type $\At$ of atomic formulae. We always use $X, Y, Z,\dots$ to denote atomic formulae.
 The type $\Fma$ of formulae is the following inductive type:
 \[
 \begin{array}{rl}
@@ -130,7 +134,7 @@ The type $\Tree$ of trees is the following inductive type:
   \;\; \_{\cdast}\_ &: \Tree \to \Tree \to \Tree \\
 \end{array}
 \]
-Different from the definitions of trees used for nonassociative Lambek calculus on pen and paper in \cite{moot:categorial:2012}, holes are also considered as trees and trees are allowed with holes. This would not lead to inconsistent derivations because the axiom rules are defined with non-empty antecedents, see Section \ref{sec:calculus} for the formalization of the rules.
+Unlike the tree definitions for nonassociative Lambek calculus presented in \cite{moot:categorial:2012}, our approach includes holes as trees and permits trees containing holes. This extension doesn't introduce inconsistent derivations since the axiom sequents are defined with non-empty antecedents (see Section \ref{sec:calculus} for the formal sequent calculus).
 
 The type $\Path$ of paths of trees is the following inductive type:
 \[
@@ -155,6 +159,36 @@ Substitution function is constructed by pattern-matching (i.e. structural recurs
   \sub{V \btright p}{U} &= V \cdast \sub{p}{U} 
 \end{array}
 \]
+
+\begin{example}\label{example:tree:and:path}
+The following tree is encoded as $(\eta X ~ \cdast ~ \cdot) \cdast ~ \eta Y$ in Agda.
+The path to the hole is expressed as $(\eta X \btright \cdot) \btleft \eta Y$ which indicates that starting from the root node, we traverse one step left followed by one step right to reach the hole.
+\[
+  % https://q.uiver.app/#q=WzAsNSxbMCw0LCJcXGV0YSBYIl0sWzEsMiwiXFxjZGFzdCJdLFsyLDQsIlxcY2RvdCJdLFsyLDAsIlxcY2Rhc3QiXSxbMywyLCJcXGV0YSBZIl0sWzEsMCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+\begin{tikzcd}[sep=tiny]
+	&& \cdast \\
+	\\
+	& \cdast && {\eta Y} \\
+	\\
+	{\eta X} && \cdot
+	\arrow[no head, from=1-3, to=3-2]
+	\arrow[no head, from=1-3, to=3-4]
+	\arrow[no head, from=3-2, to=5-1]
+	\arrow[no head, from=3-2, to=5-3]
+\end{tikzcd}
+\]
+For any tree $U$, the substitution operation that replaces $\cdot$ with $U$ follows the path specified above.
+\end{example}
+Given two paths $p : \path{T}$ and $q : \path{U}$, we write $p +\!\!+ q : \path{\sub{p}{U}}$ for the concatenation.
+Notice that the concatenation of the two paths is a path in the new tree $\sub{p}{U}$.
+\begin{example}\label{example:path:concatenation}
+  Recall the tree and path in Example \ref{example:tree:and:path}. We call them $T$ and $p$, respectively.
+  Given another tree $U = \eta Z \cdast \cdot$ with the path $q = \eta Z \btright \cdot$, the path $p +\!\!+ q = (\eta X \btright (\eta Z \btright \cdot)) \btleft \eta Y$, which is a path in the tree $\sub{p}{U}$.
+\end{example}
+When proving either cut-elimination or interpolation for nonassociative Lambek calculus, a key step is determining different presentations of the same tree. For cut-elimination, this involves finding the relationship between the principal formula of the endsequent and the cut formula. For interpolation, it concerns the relationship with the interpolating tree. We formalize this common process by constructing datatypes that encompass all possible scenarios where the same tree can be presented in two different ways.
+\begin{example}\label{example:same:tree:diff:sub}
+  Considering the tree in Example \ref{example:tree:and:path}, we can represent it in at least two equivalent ways: $\sub{(\eta X \cdast \cdot) \btright \cdot}{\eta Y}$ or $\sub{(\cdot \btleft \cdot) \btleft \eta Y}{\eta X}$.
+\end{example}\cheng{Maybe this example can be removed or moved to somewhere else. But for now I would jsut keep it here.}
 
 
 \section{Nonassociative Lambek calculus}\label{sec:calculus}
