@@ -31,6 +31,7 @@
 
 %% macros for typesetting
 \newcommand{\udl}[1]{\underline{#1}}
+
 %% macros for math symbols
 \newcommand{\ot}{\otimes}
 \newcommand{\cdast}{\circledast}
@@ -42,7 +43,16 @@
 \newcommand{\bsls}{\backslash}
 \newcommand{\mc}[1]{\mathcal{#1}}
 \newcommand{\mf}[1]{\mathsf{#1}}
+\newcommand{\vars}[1]{\mf{var} (#1)}
+\newcommand{\gs}[1]{\sigma_{X} (#1)}
+\newcommand{\GG}{\Gamma}
+\newcommand{\Gg}{\gamma}
+\newcommand{\GD}{\Delta}
+\newcommand{\Gd}{\delta}
 
+%% macros for acronyms 
+\newcommand{\MIP}{\textsf{MIP}}
+\newcommand{\FL}{$\mathtt{FL}$}
 
 %% macros for derivations
 \newcommand{\vd}{\vdash}
@@ -147,6 +157,30 @@ The abstract should briefly summarize the contents of the paper in
 
 \section{Introduction}
 
+\noindent\textbf{Interpolation}
+\\
+\emph{Maehara interpolation property} (\MIP) \cite{ono:proof:nonclassical:1998} is a property of a cut-free sequent calculus. 
+It originates from Maehara's proof for Craig interpolation for sequent calculus for classical logic $\mathtt{LK}$ \cite{maehara1961} and the method has been subsequently used to prove Craig interpolation for various logics.
+For the full Lambek calculus (\FL), the Maehara interpolation property is formulated as follows:
+\begin{description}
+  \item[(\MIP~for \FL)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that $\vars{D} \subseteq \vars{\GG_0} \cap \vars{\GG_0, \GG_1, C}$
+\end{description}
+The symbol $\vars{A}$ denotes the set of atomic formulae appearing in $A$, which can be extended naturally to lists of formulae.
+
+\FL\ without additive connectives enjoys an stronger form of Maehara interpolation that replaces variable condition with a more refined variable \emph{multiplicity} condition \cite{moot:categorial:2012}.
+This refinement tracks the precise number of occurrences of each atomic formula. Let us denote by $\gs{A}$ the count of occurrences of atomic formula $X$ within formula $A$, and extend this notation to $\gs{\GG}$ representing the occurrence count of $X$ across a sequence of formulae $\GG$.
+Under this perspective, the strengthened version of Maehara interpolation is formulated as follows:
+\begin{description}
+  \item[(\MIP~for \FL~with variable multiplicity condition)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that $\gs{D} \leq \gs{\GG_1}$ and $\gs{D} \leq \gs{\GG_0, \GG_2 , C}$ for all atomic $X$.
+\end{description}
+In his PhD thesis \cite{roorda1991}, Roorda considered a even more stronger variable multiplicity condition, not merely the number of occurrences of atomic formulae but also characterizing the \emph{positive and negative} occurrences of atomic formulae in interpolants. Let $\mathsf{At}^{+}_{X}(A)$ be the multiset of positive occurrences of the atomic formula $X$ in $A$, and let $\mathsf{At}^{-}_{X}(A)$ be the multiset of negative occurrences of the atomic formula $X$ in $A$.
+Roorda's version of Maehara interpolation can be formulated as follows:
+\begin{description}
+  \item[(\MIP~for \FL~with variable multiplicity condition)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that given $p \in \{ +,-\}$ and any atomic formula $X$, there is an injective function from $\mathsf{At}^{p}_{X}(D)$ to $\mathsf{At}^{p}_{X}(\GG_1)$, and an injective function from $\mathsf{At}^{p}_{X}(D)$ to the multiset union of $\mathsf{At}^{\neg p}_{X}(\GG_0, \GG_2)$ and $\mathsf{At}^{p}_{X}(C)$. Here $\neg p$ denotes the opposite polarity of $p$, i.e. $\neg + = -$ and $\neg - = +$.
+\end{description}
+
+Interpolation proofs for various extensions of nonassociative Lambek calculus often depart from the Maehara approach. These alternative methods typically rely on identifying a closed set of formulae that can appear in derivations and proving that interpolant formulae always belong to this set \cite{buszkowski:2009,buszkowski:2010}. Such interpolation theorems primarily serve to establish further properties of the target logic, such as the finite model property, rather than directly addressing our current focus.
+
 \noindent\textbf{Related formalizations of nonassociative Lambek calculus}
 % \\
 % Several previous works have formalized aspects of nonassociative Lambek calculus:
@@ -177,7 +211,7 @@ The type $\Fma$ of formulae is defined as the following inductive type:
 Note that underscores indicate infix operators, so $A \ot B$ represents a formula for any $A,B : \Fma$.
 
 In \cite{moot:categorial:2012}, trees are defined inductively by the grammar $T ::= \Fma \mid (T, T)$.
-A context is defined as a tree with a hole, represented recursively as $\mathcal{C} ::= [\cdot] \mid (\mathcal{C}, T) \mid (T, \mathcal{C})$. 
+A context is defined as a tree with a hole, represented recursively as $\mathcal{C} ::= [\bullet] \mid (\mathcal{C}, T) \mid (T, \mathcal{C})$. 
 
 We formalize the type $\Tree$ of trees as the following inductive type:
 \[
@@ -207,14 +241,14 @@ Curly brackets are used in Agda to denote implicit arguments.
 The substitution of a tree into a hole is defined recursively:
 \begin{displaymath}
   \begin{array}{rcl}
-  subst([\cdot], U) &=& U
+  subst([\bullet], U) &=& U
   \\
   subst((\mc{C},V), U) &=& (subst(\mc{C},U),V)
   \\
   subst((V,\mc{C}), U) &=& (V , subst(\mc{C},U))
   \end{array}
 \end{displaymath}
-We use $T[\cdot]$ to denote a context and $T[U]$ to abbreviate $subst(T[\cdot], U)$.
+We use $T[\bullet]$ to denote a context and $T[U]$ to abbreviate $subst(T[\bullet], U)$.
 
 In Agda, substitution function is constructed by pattern-matching (i.e. structural recursion) on the path to a specific hole of a tree.
 \[
@@ -641,7 +675,7 @@ In Agda, we implement the cut rule as:
 \]
 
 We introduce an auxiliary term $eq$ to enable Agda to pattern-match on $g$.
-The proof proceeds by induction on $g$. Similar to pen-and-paper proofs, in certain cases we need to determine the relative positions of the cut formula and the principal formula. For instance, when $g = \tl g'$, the derivation appears as:
+The proof proceeds by induction on $g$. Similar to pen-and-paper proofs, in certain cases we need to determine the relative positions of the cut formula and the principal formula. For instance, when $g = \tl ~ g'$, the derivation appears as:
 \[
 \begin{array}{c}
   \infer[\cut]{T[U] \vd C}{
@@ -683,8 +717,66 @@ In here we only list three examples of permutative conversions, left and right r
 
 \section{Properties of $\cut$}
 Unit, Associativity, and permutation of $\tl$, $\Rl$, and $\Ll$ with $\cut$.
-\section{Proof-relevant interpolation}
-In this section, we first introduce Maehara interpolation for nonassociative Lambek calculus, then proof-relevant interpolation, and then the well-definedness of interpolation.
+\section{Interpolation properties}
+In this section, we introduce three aspects of interpolation for nonassociative Lambek calculus: Maehara interpolation, proof-relevant interpolation, and showing that Maehara interpolation is well-defined with respect to equivalence of derivations.
+
+Maehara interpolation property for the nonassociative Lambek calculus (\ref{eq:seqcalc}) is stated as the following:
+\begin{theorem}\label{thm:MIP}
+  \item[(\MIP~for nonassociative Lambek calculus)] Given a derivation $f : T[U]\vd C$, there exist a formula $D$ and two derivations $g : T[D] \vd C$ and $h : U \vd D$ such that $\vars{D} \subseteq \vars{U} \cap \vars{T[\bullet], C}$.
+\end{theorem}
+This property, not including the variable multiplicity condition (which is discussed later), is implemented in Agda as the following record type:
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\record \:\:  \MIP ~(T : \Tree) ~ (p : \pathT{T}) ~ (U : \Tree) ~ (C : \Fma) : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\mf{constructor} ~ \mf{intrp}} \\
+  \;\; \field \\
+  \;\; D &: \Fma \\[0.5pt]
+  \;\; g &: \sub{p}{(\eta ~ D)} \vd C \\[0.5pt]
+  \;\; h &: U \vd D 
+\end{array}
+\]
+Elements of type $\MIP ~ T ~ p ~ U ~C$ are triples consisting of a formula $D$ and two derivations $g$ and $h$.
+
+The proof of Theorem \ref{thm:MIP} becomes the construction of the following function:
+\[
+\begin{array}{l}
+\mathsf{mip} : \forall ~ \{T\} ~ (p : \pathT{T}) ~ U ~ \{V ~ C\}
+\\
+\quad \to  (f : V \vd C)
+\\
+\quad \to (eq : V \equiv \sub{p}{U})
+\\
+\quad \to \MIP ~ T ~ p ~ U ~C
+\end{array}
+\]
+The construction of the $\mathsf{mip}$ function proceeds by pattern-matching on the derivation $f$, which mirrors the pen-and-paper proofs in \cite{roorda1991,moot:categorial:2012} that use induction on $f$. Similar to our implementation of cut-elimination, we need to determine whether $U$ and the principal formula of the conclusion coincide. This analysis is handled by the $\mathsf{subeq}$ function, which helps us systematically identify and process all possible cases that may arise during the construction.
+
+We have established a procedure $\mathsf{mip}$ for effectively splitting a derivation $f : T[U] \vdash C$ into two derivations $g : U \vdash D$ and $h : T[D] \vdash C$, with $D$ being ``minimal'' in the sense of satisfying appropriate variable conditions. A natural question arises: what happens when we compose derivations $g$ and $h$ using the admissible $\mathsf{cut}$ rule? Intuition suggests that we should recover the original derivation $f$, at least modulo equivalence of derivations $\circeq$.
+Similar questions have been considered by {\v{C}}ubri{\'c} \cite{Cubric1994} in the setting of intuitionistic propositional logic and by Saurin \cite{Saurin2024} for (extensions) of classical linear logic. They call \emph{proof-relevant interpolation} the study of interpolation procedures in relationship to cut rules and equivalence of proofs, like our $\circeq$. In particular, {\v{C}}ubri{\'c} and Saurin show that interpolation procedures are in a way ``right inverses'' of cut rules. Here we show the same for nonassociative Lambek calculus: the $\mathsf{mip}$ procedure is a right inverse of the $\mathsf{cut}$ rule.
+
+\begin{theorem}\label{thm:cutIntrp}
+Let $g : T[D] \vd C$ and $h : U \vd D$ be the derivations obtained by applying the \MIP~procedure on a derivation $f: T[U] \vd C$. Then $\mf{cut}(g, h) \circeq f$.
+\end{theorem}
+Given a derivation $f : V \vdash C$ and an equality proof $eq : V \equiv \text{sub} \ p \ U$, we first apply the Maehara interpolation procedure $\mathsf{mip}$ on them, obtaining an interpolant formula $D$ and two derivations $\mathsf{MIP}.g \ (\mathsf{mip} \ f \ eq)$ and $\mathsf{MIP}.h \ (\mathsf{mip} \ f \ eq)$ (the $g$ and $h$ in the statement of $\mathsf{MIP}$ in Theorem 1). Then we apply the $\mathsf{cut}$ rule on these, resulting in a derivation which is $\circeq$-related to the original $f$. In Agda, proving proof-relevant interpolation translates to the construction of a term $\mathsf{cut\text{-}intrp}$ with the following type:
+\[
+\begin{array}{l}
+\mathsf{cut\text{-}intrp} : \forall ~ \{T\} ~ (p : \pathT{T}) ~ U ~ \{V ~ C\}
+\\
+\quad \to (f : V \vdash C) ~ (eq : V \equiv \text{sub} ~ p ~ U) 
+\\
+\quad \to \mathsf{cut} ~ (\mathsf{MIP}.h ~ (\mathsf{mip} ~ f ~ eq)) ~ (\mathsf{MIP}.g ~ (\mathsf{mip} ~ f ~ eq)) ~ \mf{refl} 
+\\
+\quad \quad \circeq 
+\\
+\quad \quad \mathsf{subst\text{-}cxt} ~ eq ~ f
+\end{array}
+\]
+% cut-intrp : ∀ {T} (p : Path T) U {V C}
+%   → (f : V ⊢ C) (eq : V ≡ sub p U) 
+%   →  cut p (MIP.h (mip p U f eq)) (MIP.g (mip p U f eq)) refl ≗ subst-cxt eq f
+Notice that $f$ is a term of type $V \vdash C$, while the derivation on the left-hand-side of $\circeq$ has type $\text{sub} \ p \ U \vdash C$. In order to state that the two derivations are $\circeq$-related we need to substitute the context in the type of $f$ using the equality proof $eq : V \equiv \text{sub} \ p \ U$.
+The definition of $\mathsf{cut\text{-}intrp}$ proceeds by pattern-matching on the argument $f$.
+
 \section{Concluding remarks}
 
 \begin{credits}
