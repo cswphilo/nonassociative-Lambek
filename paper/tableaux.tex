@@ -9,13 +9,14 @@
 % so please use T1 fonts in your manuscript whenever possible.
 % Other font encondings may result in incorrect characters.
 %
+\usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{quiver}
 \usepackage{tikz-cd}
 % \tikzcdset{scale cd/.style={every label/.append style={scale=#1},
     % cells={nodes={scale=#1}}}}
-\tikzcdset{row sep/normal=0.25cm}
-\tikzcdset{column sep/normal=0.05cm}
+\tikzcdset{row sep/normal=0.4cm}
+\tikzcdset{column sep/normal=0.02cm}
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
 %
@@ -26,6 +27,9 @@
 %\urlstyle{rm}
 %
 \usepackage{amsmath,amssymb,amsfonts}%
+
+%% macros for typesetting
+\newcommand{\udl}[1]{\underline{#1}}
 %% macros for math symbols
 \newcommand{\ot}{\otimes}
 \newcommand{\cdast}{\circledast}
@@ -33,6 +37,8 @@
 \newcommand{\Rarr}{\Rightarrow}
 \newcommand{\btleft}{\blacktriangleleft}
 \newcommand{\btright}{\blacktriangleright}
+\newcommand{\sls}{\slash}
+\newcommand{\bsls}{\backslash}
 
 %% commands for Agda stuff
 \newcommand{\At}{\mathsf{At}}
@@ -41,13 +47,29 @@
 \newcommand{\data}{\mathsf{data}}
 \newcommand{\Tree}{\mathsf{Tree}}
 \newcommand{\Path}{\mathsf{Path}}
-\newcommand{\path}[1]{\mathsf{Path} ~ #1}
+\newcommand{\pathT}[1]{\mathsf{Path} ~ #1}
+\newcommand{\append}{+\!\!+}
 \newcommand{\Sub}{\mathsf{sub}}
 \newcommand{\sub}[2]{\mathsf{sub} ~ #1 ~ #2}
 \newcommand{\where}{\mathsf{where}}
 \newcommand{\Set}{\mathsf{Set}}
 \newcommand{\record}{\mathsf{record}}
 \newcommand{\field}{\mathsf{field}}
+\newcommand{\subst}{\mathsf{subst}}
+\newcommand{\Same}{\mathsf{Same}}
+\newcommand{\ContainsLeft}{\mathsf{ContainsLeft}}
+\newcommand{\ContainsRight}{\mathsf{ContainsRight}}
+\newcommand{\LeftRight}{\mathsf{LeftRight}}
+\newcommand{\subcases}{\mathsf{SubEqCases}}
+\newcommand{\oneeqtwo}{\mathsf{1{\equiv}2}}
+\newcommand{\twogtLone}{\mathsf{2{>}L1}}
+\newcommand{\twogtRone}{\mathsf{2{>}R1}}
+\newcommand{\onegtLtwo}{\mathsf{1{>}L2}}
+\newcommand{\onegtRtwo}{\mathsf{1{>}R2}}
+\newcommand{\oneLtwoR}{\mathsf{1\sls \bsls 2}}
+\newcommand{\oneRtwoL}{\mathsf{2\sls \bsls 1}}
+\newcommand{\subeq}{\mathsf{subeq}}
+
 
 \newcommand{\niccolo}[1]{\textcolor{red}{NV: #1}}
 \newcommand{\cheng}[1]{\textcolor{blue}{CSW: #1}}
@@ -142,9 +164,9 @@ The type $\Path$ of paths of trees is the following inductive type:
 \[
 \begin{array}{rl}
   \multicolumn{2}{l}{\data \:\:  \Path : \Tree \to \Set \:\: \where} \\
-  \;\; \bullet &: \path{\bullet} \\
-  \;\; \_\btleft\_ &: \forall ~ \{T\} ~ (p : \path{T}) ~ U \to \path{(T \cdast U)} \\
-  \;\; \_\btright\_ &: \forall ~ T ~ \{U\} ~ (p : \path{U}) \to \path{(T \cdast U)}
+  \;\; \bullet &: \pathT{\bullet} \\
+  \;\; \_\btleft\_ &: \forall ~ \{T\} ~ (p : \pathT{T}) ~ U \to \pathT{(T \cdast U)} \\
+  \;\; \_\btright\_ &: \forall ~ T ~ \{U\} ~ (p : \pathT{U}) \to \pathT{(T \cdast U)}
 \end{array}
 \]
 Curly brackets are used in Agda to denote implicit arguments.
@@ -153,7 +175,7 @@ Curly brackets are used in Agda to denote implicit arguments.
 Substitution function is constructed by pattern-matching (i.e. structural recursion) on the path to a specific hole of a tree.
 \[
 \begin{array}{ll}
-  \multicolumn{2}{l}{\Sub : \forall ~ \{T\} \to \path{T} \to \Tree \to \Tree}
+  \multicolumn{2}{l}{\Sub : \forall ~ \{T\} \to \pathT{T} \to \Tree \to \Tree}
   \\[2pt]
   \sub{\bullet}{U} &= U
   \\
@@ -183,17 +205,314 @@ The path to the hole is expressed as $(\eta X \btright \bullet) \btleft \eta Y$ 
 \]
 For any tree $U$, the substitution operation that replaces $\bullet$ with $U$ follows the path specified above.
 \end{example}
-Given two paths $p : \path{T}$ and $q : \path{U}$, we write $p +\!\!+ q : \path{\sub{p}{U}}$ for the concatenation.
+Given two paths $p : \pathT{T}$ and $q : \pathT{U}$, we write $p \append ~ q : \pathT{\sub{p}{U}}$ for the concatenation.
 Notice that the concatenation of the two paths is a path in the new tree $\sub{p}{U}$.
 \begin{example}\label{example:path:concatenation}
   Recall the tree and path in Example \ref{example:tree:and:path}. We call them $T$ and $p$, respectively.
-  Given another tree $U = \eta Z \cdast \bullet$ with the path $q = \eta Z \btright \bullet$, the path $p +\!\!+ q = (\eta X \btright (\eta Z \btright \bullet)) \btleft \eta Y$, which is a path in the tree $\sub{p}{U}$.
+  Given another tree $U = \eta Z \cdast \bullet$ with the path $q = \eta Z \btright \bullet$, the path $p \append ~ q = (\eta X \btright (\eta Z \btright \bullet)) \btleft \eta Y$, which is a path in the tree $\sub{p}{U}$.
 \end{example}
-When proving either cut-elimination or interpolation for nonassociative Lambek calculus, a key step is determining different presentations of the same tree. For cut-elimination, this involves finding the relationship between the principal formula of the endsequent and the cut formula. For interpolation, it concerns the relationship with the interpolating tree. We formalize this common process by constructing datatypes that encompass all possible scenarios where the same tree can be presented in two different ways.
+When proving either cut-elimination or interpolation for nonassociative Lambek calculus, a key step is determining different presentations of the same tree. For cut-elimination, this involves finding the relationship between the principal formula of the endsequent and the cut formula. For interpolation, it concerns the relationship with the interpolating tree. 
 \begin{example}\label{example:same:tree:diff:sub}
   Considering the tree in Example \ref{example:tree:and:path}, we can represent it in at least two equivalent ways: $\sub{((\eta X \cdast \bullet) \btright \bullet)}{\eta Y}$ or $\sub{(\bullet \btleft \eta Y)}{(\eta X \cdast \bullet)}$.
-\end{example}\cheng{Maybe this example can be removed or moved to somewhere else. But for now I would jsut keep it here.}
+\end{example}
+We formalize this common process by constructing record types that encompass all possible scenarios where the same tree can be presented in two different ways.
+Given two paths $p_1 : \pathT{T_1}$ and $p_2 : \pathT{T_2}$ and two trees $U_1$ and $U_2$, if $\sub{p_1}{U_1}$ is equal to $\sub{p_2}{T_2}$, then there are four possibilities:
+\\
+\udl{$U_1$ is equal to $U_2$.}
+In this case, if $\sub{p_1}{U_1}$ is equal to $\sub{p_2}{T_2}$, then $p_1$ and $p_2$ are forced to be equal as well as $T_1$ and $T_2$.
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\record \:\:  \Same ~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\quad \mathsf{constructor} ~ \mathsf{same}} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad eqT &: T_1 \equiv T_2 \\
+  \;\; \quad eqU &: U_1 \equiv U_2 \\
+  \;\; \quad eqp &: \subst ~ Path ~ eqT ~ p_1 \equiv p_1
+\end{array}
+\]
+Notice that given $x,y : A$, their propositional equality is denoted as $x \equiv y$.
+Elements in this type consist of three equalities about original trees, trees used for substitution into holes, and paths, respectively.
+\\
+\udl{$U_1$ contains $U_2$ in its left subtree.}
+In this case, there exists a path in the left subtree of $U_1$ that points to where $U_2$ should be substituted. Put simply, $p_2$ equals $p_1$ extended with the path in the left subtree of $U_1$ without $U_2$ (for brevity, when we say ``left subtree of $U_1$'', we mean the left subtree of $U_1$ minus $U_2$).
+Let $W_1$ and $W_2$ be the left and right subtrees of $U_1$, respectively.
+Consider trees $T_1$ and $\sub{p_1}{U_1}$ with the following structure (where $V_1$ is an arbitrary tree):
 
+\[
+\arraycolsep=1.5cm
+\begin{array}{cc}
+  % https://q.uiver.app/#q=WzAsMyxbMSwwLCJcXGNkYXN0Il0sWzAsMiwiXFxidWxsZXQiXSxbMiwyLCJWXzEiXSxbMCwxLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsMSwicF8xIiwyLHsib2Zmc2V0IjoxLCJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX0sWzAsNjAsNjAsMV1dLFswLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\begin{tikzcd}
+	& \cdast \\
+	\\
+	\bullet && {V_1}
+	\arrow[no head, from=1-2, to=3-1]
+	\arrow["{p_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-2, to=3-1]
+	\arrow[no head, from=1-2, to=3-3]
+\end{tikzcd}
+&
+% https://q.uiver.app/#q=WzAsNSxbMiwwLCJcXGNkYXN0Il0sWzEsMiwiXFxjZGFzdCJdLFszLDIsIlZfMSJdLFswLDQsIldfMSJdLFsyLDQsIldfMiJdLFswLDEsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCwxLCJwXzEiLDIseyJvZmZzZXQiOjEsImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMCw2MCw2MCwxXV0sWzAsMiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDMsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSw0LCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+\begin{tikzcd}
+	&& \cdast \\
+	\\
+	& \cdast && {V_1} \\
+	\\
+	{W_1} && {W_2}
+	\arrow[no head, from=1-3, to=3-2]
+	\arrow["{p_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-3, to=3-2]
+	\arrow[no head, from=1-3, to=3-4]
+	\arrow[no head, from=3-2, to=5-1]
+	\arrow[no head, from=3-2, to=5-3]
+\end{tikzcd}
+\\
+(T_1)
+&
+(\sub{p_1}{U_1})
+\end{array}
+\]
+Since $U_1$ contains $U_2$ in its structure, we can diagram $\sub{p_2}{T_2}$ as shown in the left diagram below, where the blue path represents $p_2$. The right diagram illustrates how $p_2$ extends $p_1$. We denote the path in $W_1$ as $q$
+\begin{equation}\label{eq:ContainsLeft:p1p2}
+  \arraycolsep=1cm
+\begin{array}{cc}
+% https://q.uiver.app/#q=WzAsNyxbMCw2LCJVXzIiXSxbMSw0LCJXXzEiXSxbMiw2LCJWXzIiXSxbMiwyLCJcXGNkYXN0Il0sWzMsNCwiV18yIl0sWzMsMCwiXFxjZGFzdCJdLFs0LDIsIlZfMSJdLFsxLDAsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsNiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDMsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDAsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+\begin{tikzcd}
+	&&& \cdast \\
+	\\
+	&& \cdast && {V_1} \\
+	\\
+	& {W_1} && {W_2} \\
+	\\
+	{U_2} && {V_2}
+	\arrow[no head, from=1-4, to=3-3]
+	\arrow[shift right, draw={rgb,255:red,92;green,92;blue,214}, no head, from=1-4, to=3-3]
+	\arrow[no head, from=1-4, to=3-5]
+	\arrow[no head, from=3-3, to=5-2]
+	\arrow[shift right, draw={rgb,255:red,92;green,92;blue,214}, no head, from=3-3, to=5-2]
+	\arrow[no head, from=3-3, to=5-4]
+	\arrow[no head, from=5-2, to=7-1]
+	\arrow[shift right, color={rgb,255:red,92;green,92;blue,214}, no head, from=5-2, to=7-1]
+	\arrow[no head, from=5-2, to=7-3]
+\end{tikzcd}
+&
+% https://q.uiver.app/#q=WzAsOCxbMCw2LCJVXzIiXSxbMSw0LCJXXzEiXSxbMiw2LCJWXzIiXSxbMiwyLCJcXGNkYXN0Il0sWzMsNCwiV18yIl0sWzMsMCwiXFxjZGFzdCJdLFs0LDIsIlZfMSJdLFsyLDFdLFsxLDAsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsNiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDMsInBfMSIsMix7Im9mZnNldCI6MSwiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19LFswLDYwLDYwLDFdXSxbMSwwLCJxIiwyLHsib2Zmc2V0IjoxLCJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX0sWzAsNjAsNjAsMV1dXQ==
+\begin{tikzcd}
+	&&& \cdast \\
+	&& {} \\
+	&& \cdast && {V_1} \\
+	\\
+	& {W_1} && {W_2} \\
+	\\
+	{U_2} && {V_2}
+	\arrow[no head, from=1-4, to=3-3]
+	\arrow["{p_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-4, to=3-3]
+	\arrow[no head, from=1-4, to=3-5]
+	\arrow[no head, from=3-3, to=5-2]
+	\arrow[shift right, draw={rgb,255:red,92;green,92;blue,214}, no head, from=3-3, to=5-2]
+	\arrow[no head, from=3-3, to=5-4]
+	\arrow[no head, from=5-2, to=7-1]
+	\arrow["q"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=5-2, to=7-1]
+	\arrow[no head, from=5-2, to=7-3]
+\end{tikzcd}
+\end{array}
+\end{equation}
+We can also see that the trees $T_2$ are $U_1$ the following, respectively:
+\begin{equation}\label{eq:ContainsLeft:T2U1}
+\arraycolsep=1cm
+\begin{array}{cc}
+  % https://q.uiver.app/#q=WzAsOCxbMCw2LCJcXGJ1bGxldCJdLFsxLDQsIldfMSJdLFsyLDYsIlZfMiJdLFsyLDIsIlxcY2Rhc3QiXSxbMyw0LCJXXzIiXSxbMywwLCJcXGNkYXN0Il0sWzQsMiwiVl8xIl0sWzIsMV0sWzEsMCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDMsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSw2LCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+\begin{tikzcd}
+	&&& \cdast \\
+	&& {} \\
+	&& \cdast && {V_1} \\
+	\\
+	& {W_1} && {W_2} \\
+	\\
+	\bullet && {V_2}
+	\arrow[no head, from=1-4, to=3-3]
+	\arrow[no head, from=1-4, to=3-5]
+	\arrow[no head, from=3-3, to=5-2]
+	\arrow[no head, from=3-3, to=5-4]
+	\arrow[no head, from=5-2, to=7-1]
+	\arrow[no head, from=5-2, to=7-3]
+\end{tikzcd}
+&
+% https://q.uiver.app/#q=WzAsNixbMCw1LCJVXzIiXSxbMSwzLCJXXzEiXSxbMiw1LCJWXzIiXSxbMiwxLCJcXGNkYXN0Il0sWzMsMywiV18yIl0sWzIsMF0sWzEsMCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+\begin{tikzcd}
+	&& {} \\
+	&& \cdast \\
+	\\
+	& {W_1} && {W_2} \\
+	\\
+	{U_2} && {V_2}
+	\arrow[no head, from=2-3, to=4-2]
+	\arrow[no head, from=2-3, to=4-4]
+	\arrow[no head, from=4-2, to=6-1]
+	\arrow[no head, from=4-2, to=6-3]
+\end{tikzcd}
+\\
+(T_2)
+&
+(U_1)
+\end{array}  
+\end{equation}
+These observations are implemented in Agda as the following:
+\[
+\begin{array}{ll}
+  \multicolumn{2}{l}{\record \:\:  \ContainsLeft ~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\quad \mathsf{constructor} ~ \mathsf{gt}} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad \{W_1 ~ W_2 \} &: \Tree \\
+  \;\; \quad q   &: \pathT{W_1} \\
+  \;\; \quad eqT &: T_2 \equiv \sub{p_1}{(W_1 \cdast W_2)} \\
+  \;\; \quad eqU &: U_1 \equiv \sub{(q \btleft W_2)}{U_2} \\
+  \;\; \quad eqp &: \subst ~ Path ~ eqT ~ p_2 \equiv p_1 \append ~ (q \btleft \_)
+\end{array}
+\]
+Elements in this type include two implicit terms $W_1$ and $W_2$ that represent the left and right subtrees of $U_1$, respectively, along with a path $q : \pathT{W_1}$ that indicates how to extend $p_1$. Additionally, there are three equalities concerning $T_2$, $U_1$, and $p_2$.
+The first and second equalities correspond to our observations from the left and right diagrams in (\ref{eq:ContainsLeft:T2U1}), respectively.
+The third equality reflects what we observed in the right diagram of (\ref{eq:ContainsLeft:p1p2}).
+\\
+\udl{$U_1$ contains $U_2$ in its right subtree.}
+\[
+\begin{array}{ll}
+  \multicolumn{2}{l}{\record \:\:  \ContainsRight ~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\quad \mathsf{constructor} ~ \mathsf{gt}} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad \{W_1 ~ W_2 \} &: \Tree \\
+  \;\; \quad q   &: \pathT{W_2} \\
+  \;\; \quad eqT &: T_2 \equiv \sub{p_1}{(W_1 \cdast W_2)} \\
+  \;\; \quad eqU &: U_1 \equiv \sub{(W_1 \btright q)}{U_2} \\
+  \;\; \quad eqp &: \subst ~ Path ~ eqT ~ p_2 \equiv p_1 \append ~ (\_ \btright q)
+\end{array}
+\]
+This represents the dual case of what we just examined. Notice how the triangles in the type are flipped compared to the previous case.
+\\
+\udl{$U_1$ and $U_2$ are disjoint.}
+In this case, $p_1$ and $p_2$ diverge after a certain point. They share a common initial path, but then split at a node where they take different directions. Consider the following tree (where $V$ is an arbitrary tree):
+\[
+% https://q.uiver.app/#q=WzAsNSxbMiwwLCJcXGNkYXN0Il0sWzEsMiwiXFxjZGFzdCJdLFszLDIsIlYiXSxbMCw0LCJcXGJ1bGxldCJdLFsyLDQsIlxcYnVsbGV0Il0sWzAsMSwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFswLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCwxLCIiLDIseyJvZmZzZXQiOjEsImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsMywiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDQsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSw0LCIiLDIseyJvZmZzZXQiOi0xLCJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsMywiIiwyLHsib2Zmc2V0IjoxLCJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFswLDEsIiIsMix7Im9mZnNldCI6LTEsImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+\begin{tikzcd}
+	&& \cdast \\
+	\\
+	& \cdast && V \\
+	\\
+	\bullet && \bullet
+	\arrow[no head, from=1-3, to=3-2]
+	\arrow[shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-3, to=3-2]
+	\arrow[shift left, color={rgb,255:red,92;green,92;blue,214}, no head, from=1-3, to=3-2]
+	\arrow[no head, from=1-3, to=3-4]
+	\arrow[no head, from=3-2, to=5-1]
+	\arrow[shift right, draw={rgb,255:red,214;green,92;blue,92}, no head, from=3-2, to=5-1]
+	\arrow[no head, from=3-2, to=5-3]
+	\arrow[shift left, draw={rgb,255:red,92;green,92;blue,214}, no head, from=3-2, to=5-3]
+\end{tikzcd}
+\]
+The red path represents $p_1$ while the blue path shows $p_2$ Notice how they share a common initial segment. Let us call this shared part $q$ with the remaining segments of $p_1$ and $p_2$ as $q_1$ and $q_2$ respectively. This gives us the following diagram:
+\begin{equation}\label{eq:LeftRight:paths}
+% https://q.uiver.app/#q=WzAsNSxbMiwwLCJcXGNkYXN0Il0sWzEsMiwiXFxjZGFzdCJdLFszLDIsIlYiXSxbMCw0LCJcXGJ1bGxldCJdLFsyLDQsIlxcYnVsbGV0Il0sWzAsMSwicSIsMix7ImNvbG91ciI6WzI3MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19LFsyNzAsNjAsNjAsMV1dLFswLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwzLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsNCwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDQsInFfMiIsMCx7Im9mZnNldCI6LTEsImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19LFsyNDAsNjAsNjAsMV1dLFsxLDMsInFfMSIsMix7Im9mZnNldCI6MSwiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19LFswLDYwLDYwLDFdXV0=
+\begin{tikzcd}
+	&& \cdast \\
+	\\
+	& \cdast && V \\
+	\\
+	\bullet && \bullet
+	\arrow["q"', color={rgb,255:red,153;green,92;blue,214}, no head, from=1-3, to=3-2]
+	\arrow[no head, from=1-3, to=3-4]
+	\arrow[no head, from=3-2, to=5-1]
+	\arrow["{q_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=3-2, to=5-1]
+	\arrow[no head, from=3-2, to=5-3]
+	\arrow["{q_2}", shift left, color={rgb,255:red,92;green,92;blue,214}, no head, from=3-2, to=5-3]
+\end{tikzcd}  
+\end{equation}
+We obtain $T_1$ by substituting $U_2$ at the hole along path $q \append ~ q_2$, while similarly, we get $T_2$ by substituting $U_1$ at the hole along path $q \append ~ q_1$.
+\begin{equation}\label{eq:LeftRight:trees}
+  \arraycolsep=1cm
+\begin{array}{cc}
+% https://q.uiver.app/#q=WzAsNSxbMiwwLCJcXGNkYXN0Il0sWzEsMiwiXFxjZGFzdCJdLFszLDIsIlYiXSxbMCw0LCJcXGJ1bGxldCJdLFsyLDQsIlVfMiJdLFswLDEsInEiLDIseyJjb2xvdXIiOlsyNzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMjcwLDYwLDYwLDFdXSxbMCwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsMywiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDQsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSw0LCJxXzIiLDAseyJvZmZzZXQiOi0xLCJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMjQwLDYwLDYwLDFdXSxbMSwzLCJxXzEiLDIseyJvZmZzZXQiOjEsImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMCw2MCw2MCwxXV1d
+\begin{tikzcd}
+	&& \cdast \\
+	\\
+	& \cdast && V \\
+	\\
+	\bullet && {U_2}
+	\arrow["q"', color={rgb,255:red,153;green,92;blue,214}, no head, from=1-3, to=3-2]
+	\arrow[no head, from=1-3, to=3-4]
+	\arrow[no head, from=3-2, to=5-1]
+	\arrow["{q_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=3-2, to=5-1]
+	\arrow[no head, from=3-2, to=5-3]
+	\arrow["{q_2}", shift left, color={rgb,255:red,92;green,92;blue,214}, no head, from=3-2, to=5-3]
+\end{tikzcd}
+&
+% https://q.uiver.app/#q=WzAsNSxbMiwwLCJcXGNkYXN0Il0sWzEsMiwiXFxjZGFzdCJdLFszLDIsIlYiXSxbMCw0LCJVXzEiXSxbMiw0LCJcXGJ1bGxldCJdLFswLDEsInEiLDIseyJjb2xvdXIiOlsyNzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMjcwLDYwLDYwLDFdXSxbMCwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsMywiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDQsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSw0LCJxXzIiLDAseyJvZmZzZXQiOi0xLCJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMjQwLDYwLDYwLDFdXSxbMSwzLCJxXzEiLDIseyJvZmZzZXQiOjEsImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMCw2MCw2MCwxXV1d
+\begin{tikzcd}
+	&& \cdast \\
+	\\
+	& \cdast && V \\
+	\\
+	{U_1} && \bullet
+	\arrow["q"', color={rgb,255:red,153;green,92;blue,214}, no head, from=1-3, to=3-2]
+	\arrow[no head, from=1-3, to=3-4]
+	\arrow[no head, from=3-2, to=5-1]
+	\arrow["{q_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=3-2, to=5-1]
+	\arrow[no head, from=3-2, to=5-3]
+	\arrow["{q_2}", shift left, color={rgb,255:red,92;green,92;blue,214}, no head, from=3-2, to=5-3]
+\end{tikzcd}
+\\
+(T_1)
+&
+(T_2)
+\end{array}
+\end{equation}
+We implement the observations in Agda as the following type:
+\[
+\begin{array}{ll}
+  \multicolumn{2}{l}{\record \:\:  \LeftRight ~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\quad \mathsf{constructor} ~ \mathsf{disj}} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad \{W ~ W_1 ~ W_2 \} &: \Tree \\
+  \;\; \quad q       &: \pathT{W} \\
+  \;\; \quad q_1     &: \pathT{W_1} \\
+  \;\; \quad q_2     &: \pathT{W_2} \\
+  \;\; \quad eqT_1   &: \sub{q}{(W_1 \cdast \sub{q_2}{U_2})} \equiv T_1 \\
+  \;\; \quad eqT_2   &: T_2 \equiv \sub{q}{(\sub{q_1}{U_1} \cdast W_2)} \\
+  \;\; \quad eqp_1   &: \subst ~ Path ~ eqT_1 ~ (q \append ~ (q_1 \btleft \_)) \equiv p_1 \\
+  \;\; \quad eqp_2   &: \subst ~ Path ~ eqT_2 ~ p_2 \equiv q \append ~ (\_ \btright q_2)
+\end{array}
+\]
+Elements of this type include three implicit terms: $W$, $W_1$, and $W_2$. Here, $W$ represents the structure containing both the common path $q$ and the largest subtree beginning at the divergence point of $p_1$ and $p_2$. Meanwhile, $W_1$ represents the subtree where $U_1$ will be substituted, and $W_2$ represents the subtree where $U_2$ will be substituted.
+The remaining equalities reflect what we observed in the diagrams shown in (\ref{eq:LeftRight:paths}) and (\ref{eq:LeftRight:trees}).
+
+While our illustration shows $U_1$ positioned to the left of $U_2$, the dual case where $U_2$ appears to the left of $U_1$ is also possible and is covered by this type definition.
+
+After having distinguished the cases above, we define a datatype to collect all possible cases of the relative positions of $U_1$ and $U_2$.
+In the types above, we do not care about the order of $U_1$ and $U_2$ and for a better proving experience (using the datatype in the subsequent proofs), we take the order of $U_1$ and $U_2$ into account and develop seven cases.
+
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\data \:\:  \mathsf{SubEqCases} \:\: (U_1 ~ U_2 : Tree) : \Set \:\: \where} \\
+  \;\; \oneeqtwo &: \Same ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ U_1 ~ U_2 \\
+  \;\; \twogtLone &: \ContainsLeft ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ U_1 ~ U_2 \\
+  \;\; \twogtRone &: \ContainsRight ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ U_1 ~ U_2 \\
+  \;\; \onegtLtwo &: \ContainsLeft ~ p_2 ~ p_1 ~ U_2 ~ U_1 \to \subcases ~ U_1 ~ U_2 \\
+  \;\; \onegtRtwo &: \ContainsRight ~ p_2 ~ p_1 ~ U_2 ~ U_1 \to \subcases ~ U_1 ~ U_2 \\
+  \;\; \oneLtwoR &: \LeftRight ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ U_1 ~ U_2 \\
+  \;\; \oneRtwoL &: \LeftRight ~ p_2 ~ p_1 ~ U_2 ~ U_1 \to \subcases ~ U_1 ~ U_2
+\end{array}
+\]
+The constructor $\onegtLtwo$ means $U_2$ is inside $U_1$ and the path $p_2$ is longer than $p_1$.
+The other constructors are read in a similar manner, but one should be careful about the order of arguments. For example, in the constructor $\twogtLone$, the arguments are swapped.
+
+In the final step, we construct a function to examine the correctness of the types we have defined above.
+\[
+\begin{array}{l}
+ \subeq : \forall ~ \{T_1 ~ T_2 \} ~ U_1 ~ U_2 ~ (p_1 : \pathT{T_1}) ~ (p_2 : \pathT{T_2})
+  \\
+  \quad \to \sub{p_1}{U_1} \equiv \sub{p_2}{U_2}
+  \\
+  \quad \to \subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2
+\end{array}
+\]
+This function demonstrates that when two substitutions are equal, we can always identify a corresponding type from one of the cases defined above. The proof proceeds by pattern-matching on paths $p_1$ and $p_2$. For simple base cases, the proof directly constructs the appropriate case value. For recursive cases, we use Agda's $\mathsf{with}$ to perform intermediate computations and use the intermediate results to construct the desired term in the type.
 
 \section{Nonassociative Lambek calculus}\label{sec:calculus}
 
