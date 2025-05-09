@@ -15,8 +15,8 @@
 \usepackage{proof}
 \usepackage{tikz-cd}
 % \tikzcdset{scale cd/.style={every label/.append style={scale=#1},
-    % cells={nodes={scale=#1}}}}
-\tikzcdset{row sep/normal=0.4cm}
+%     cells={nodes={scale=#1}}}}
+\tikzcdset{row sep/normal=0.22cm}
 \tikzcdset{column sep/normal=0.02cm}
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
@@ -31,6 +31,7 @@
 
 %% macros for typesetting
 \newcommand{\udl}[1]{\underline{#1}}
+\newcommand{\proofbox}[1]{\begin{array}{c} #1 \end{array}}
 
 %% macros for math symbols
 \newcommand{\ot}{\otimes}
@@ -49,10 +50,14 @@
 \newcommand{\Gg}{\gamma}
 \newcommand{\GD}{\Delta}
 \newcommand{\Gd}{\delta}
+\newcommand{\Gl}{\lambda}
 
 %% macros for acronyms 
 \newcommand{\MIP}{\textsf{MIP}}
+\newcommand{\MIPeq}{{\textsf{MIP}{\circeq}}}
 \newcommand{\FL}{$\mathtt{FL}$}
+\newcommand{\Lam}{$\mathtt{L}$}
+\newcommand{\NL}{$\mathtt{NL}$}
 
 %% macros for derivations
 \newcommand{\vd}{\vdash}
@@ -101,9 +106,11 @@
 
 \begin{document}
 %
-\title{Contribution Title}
+\title{Agda Formalization of Cut-elimination and Proof-relevant Interpolation in Nonassociative Lambek Calculus}
+% Mechanizing Cut-elimination and Proof-relevant Interpolation for Nonassociative Lambek Calculus in Agda
 %
-%\titlerunning{Abbreviated paper title}
+\titlerunning{Agda Formalization for Nonassociative Lambek Calculus}
+% Nonassociative Lambek Calculus in Agda
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
@@ -121,79 +128,62 @@ Cheng-Syuan Wan \orcidID{0000-0003-2053-1688}}
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-The abstract should briefly summarize the contents of the paper in
-150--250 words.
-
-\keywords{Nonassociative Lambek calculus \and Agda \and Cut-elimination \and Craig interpolation}
+This paper presents a formalization of the nonassociative Lambek calculus in the Agda proof assistant, focusing on three major proof-theoretic properties: cut-elimination, Maehara interpolation, and proof-relevant interpolation. The sequents in nonassociative Lambek calculus with binary trees as their antecedents create subtleties and obscure the process of proving logical properties through case distinctions. We formally characterize these case distinctions for binary trees, which serves as a foundation for proving both cut-elimination and the Maehara interpolation property. Beyond these two properties, we also formalize proof-relevant interpolation and demonstrate that the Maehara interpolation procedure is well-defined with respect to equivalence of derivations. Our work, especially the case distinction type defined here, aims to serve as a foundation for further research and formalization on nonassociative Lambek calculus.
+\keywords{Nonassociative Lambek calculus \and Agda \and Cut-elimination \and Maehara interpolation \and Proof-relevant interpolation}
 \end{abstract}
 %
 %
 %
 
+\section{Introduction}
+From the viewpoint of sequent calculus, substructural logics are defined by the absence of at least one structural rule. A notable instance is Lambek's syntactic calculus \cite{lambek:mathematics:58}, which forbids weakening, contraction and exchange. Its non-associative variant, further disallows associativity.
+% also introduced by Lambek \cite{Lambek1961}, disallows associativity as well.
+Lambek calculus (both its associative and nonassociative variants) has been studied extensively and has linguistic applications. For a comprehensive introduction, see \cite{moot:categorial:2012}. While Lambek calculus has different presentations, including axiomatic (or syntactic), natural deduction, and sequent calculus, we focus primarily on the proof-theoretic aspect, specifically the sequent calculus formulation.
+
+Sequents in associative Lambek calculus (\Lam) are of the form $\GG \vd C$, where $\GG$ is a \emph{list} of formulae and $C$ is a single formula, while sequents in nonassociative Lambek calculus (\NL) are of the form $T \vd C$ where $T$ is a \emph{binary tree}. This structural difference makes the proofs of logical properties for the \NL\ trickier than for the associative variant.
+
+For example, when proving cut-elimination, in certain cases, we must determine whether the cut formula coincides with the principal formula of the conclusion. For \Lam, the flat antecedents make the situation clear: there are three possibilities—either the cut formula is to the left of the principal formula, to the right, or it is the principal formula itself.
+
+However, for the \NL, while the case distinction follows similar principles, the hierarchical tree structure obscures these relationships. Consider a derivation that ends with the $\tl$ rule, producing a sequent of the form $T[A \ot B] \vd C$. By assumption of the proof of cut-elimination, the antecedent $T[A \ot B]$ admits an alternative representation $T'[D]$ where $D$ is the cut formula. The challenge lies in precisely characterizing the structural relationship between the tensor product $A \ot B$ and the cut formula $D$ within the tree. Unlike in the associative case, this relationship cannot be presented in a left/right positioning way, but we need a more careful presentation of the trees
+
+Though we can intuitively grasp what occurs in cut-elimination proofs, what about properties more complex than cut-elimination? Especially when proving properties related to equivalence of derivations that require nested presentation of trees, we need a more tractable machinery to ensure correctness of proofs.
+
+This need leads us to consider a formal verification of the \NL. Our approach involves paths in trees, allowing each subtree to be represented as a substitution along a path in the original tree. This transforms the problem of determining relative positions between different subtrees into a formalizable question about the relationship between two paths in a tree.
+For example, if two formulae $A$ and $B$ are in a tree with paths $p_1$ and $p_2$ respectively, and these paths are disjoint (diverging at some point), then there must exist some common path $q$ and two paths $q_1$ and $q_2$ after divergence such that $p_1$ equals the path concatenation of $q$ and $q_1$, while $p_2$ equals the concatenation of $q$ and $q_2$.
+
+We formalize this case distinction in Agda. Formalization of mathematics and logics has become a trend in both theoretical computer science and mathematics. While there are many suitable proof assistants (e.g., Agda, Coq, HOL4, and Lean), we choose Agda because its code is more mathematical in style and the process of proving theorems resembles providing algorithms to compute desired terms in the target type.
+\cheng{Maybe here can be some more explanation about why formalization is important}.
+
+Within proof theory, interpolation properties serve as fundamental property of a logic and of interests by different logicians. The Maehara interpolation property (\MIP), originating from Maehara's proof of Craig interpolation for classical logic \cite{maehara1961}. Maehara's method has been applied and adapted for several logics, especially for substructural logics that admit a cut-free sequent calculus \cite{ono:proof:nonclassical:1998}.
+
+For nonassociative Lambek calculus, traditional approaches to interpolation for \NL\ extensions often focus on establishing properties like the finite model property \cite{buszkowski:2009,buszkowski:2010} and use different constraints on interpolants.
+Our method is more akin to traditional Maehara method because our interest lies in a more refined analysis based on equivalence of derivations.
+By formalizing both standard Maehara interpolation and its proof-relevant variant (in the sense of \v{C}ubri{\'c} \cite{Cubric1994} and Saurin \cite{Saurin2024}), we aim to capture not only the existence of interpolants but also their relationship to the structure of derivations. This refined approach enables us to address the well-definedness of interpolation procedures with respect to equivalence of derivations, i.e. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
+
+In this paper, we formalize \NL\ and prove properties in Agda:
 \begin{enumerate}
-  \item Introduction to Agda formalization.
-  \begin{itemize}
-    \item Formulae, trees, and substitution.
-    \item How to figure out the accurate relationship between two equal trees with substitution.
-  \end{itemize}
-  \item The target calculus, nonassociative Lambek calculus.
-  \begin{itemize}
-    \item Rules (including cut), and then cut-elimination.
-    \item List some of permutative conversions and leave the full list in the appendix.
-    \item Statement of equations and properties of cut and the equivalence relation.
-  \end{itemize}
-  \item Proof-relevant interpolation.
-  \begin{itemize}
-    \item Statement of Maehara interpolation (from Roorda or someone else) and its translation in Agda. Maybe a proof sketch.
-    \item Proof-relevant interpolation (cut-intrp). Statement and sketch of proof.
-    \item Well-definedness of interpolation. Statement and sketch of proof.
-  \end{itemize}
-  \item Discussion.
-  \begin{itemize}
-    \item Type-checking takes a long time.
-    \item This is the first step of the big project on proof-relevant interpolation. In this calculus, the equivalence relations on interpolation triple is simple to define. In other words, the interpolant formulae are always identical for any two equivalent derivations while it is not the case in the associative Lambek calculus (give an example).
-  \end{itemize}
+  \item Cut-elimination
+  \item Maehara interpolation 
+  \item Proof-relevant interpolation
+  \item Well-definedness of the Maehara interpolation procedure with respect to equivalence of derivations
 \end{enumerate}
 
-\section{Introduction}
-
-\noindent\textbf{Interpolation}
-\\
-\emph{Maehara interpolation property} (\MIP) \cite{ono:proof:nonclassical:1998} is a property of a cut-free sequent calculus. 
-It originates from Maehara's proof for Craig interpolation for sequent calculus for classical logic $\mathtt{LK}$ \cite{maehara1961} and the method has been subsequently used to prove Craig interpolation for various logics.
-For the full Lambek calculus (\FL), the Maehara interpolation property is formulated as follows:
-\begin{description}
-  \item[(\MIP~for \FL)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that $\vars{D} \subseteq \vars{\GG_0} \cap \vars{\GG_0, \GG_1, C}$
-\end{description}
-The symbol $\vars{A}$ denotes the set of atomic formulae appearing in $A$, which can be extended naturally to lists of formulae.
-
-\FL\ without additive connectives enjoys an stronger form of Maehara interpolation that replaces variable condition with a more refined variable \emph{multiplicity} condition \cite{moot:categorial:2012}.
-This refinement tracks the precise number of occurrences of each atomic formula. Let us denote by $\gs{A}$ the count of occurrences of atomic formula $X$ within formula $A$, and extend this notation to $\gs{\GG}$ representing the occurrence count of $X$ across a sequence of formulae $\GG$.
-Under this perspective, the strengthened version of Maehara interpolation is formulated as follows:
-\begin{description}
-  \item[(\MIP~for \FL~with variable multiplicity condition)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that $\gs{D} \leq \gs{\GG_1}$ and $\gs{D} \leq \gs{\GG_0, \GG_2 , C}$ for all atomic $X$.
-\end{description}
-In his PhD thesis \cite{roorda1991}, Roorda considered a even more stronger variable multiplicity condition, not merely the number of occurrences of atomic formulae but also characterizing the \emph{positive and negative} occurrences of atomic formulae in interpolants. Let $\mathsf{At}^{+}_{X}(A)$ be the multiset of positive occurrences of the atomic formula $X$ in $A$, and let $\mathsf{At}^{-}_{X}(A)$ be the multiset of negative occurrences of the atomic formula $X$ in $A$.
-Roorda's version of Maehara interpolation can be formulated as follows:
-\begin{description}
-  \item[(\MIP~for \FL~with variable multiplicity condition)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that given $p \in \{ +,-\}$ and any atomic formula $X$, there is an injective function from $\mathsf{At}^{p}_{X}(D)$ to $\mathsf{At}^{p}_{X}(\GG_1)$, and an injective function from $\mathsf{At}^{p}_{X}(D)$ to the multiset union of $\mathsf{At}^{\neg p}_{X}(\GG_0, \GG_2)$ and $\mathsf{At}^{p}_{X}(C)$. Here $\neg p$ denotes the opposite polarity of $p$, i.e. $\neg + = -$ and $\neg - = +$.
-\end{description}
-
-Interpolation proofs for various extensions of nonassociative Lambek calculus often depart from the Maehara approach. These alternative methods typically rely on identifying a closed set of formulae that can appear in derivations and proving that interpolant formulae always belong to this set \cite{buszkowski:2009,buszkowski:2010}. Such interpolation theorems primarily serve to establish further properties of the target logic, such as the finite model property, rather than directly addressing our current focus.
+The paper proceeds as follows. We begin with the foundations of our formalization, including definitions of trees, paths in trees, substitutions, and case distinctions for identifying relationships between paths. Next, we introduce the sequent calculus of \NL\ and formalize cut-elimination. The subsequent section addresses equivalence of derivations and properties of the $\cut$ rule.
+In the final sections, we formally prove Maehara interpolation and proof-relevant interpolation to demonstrate that our formalization provides a correct and usable strategy. It is worth noting that the proof-relevant interpolation results presented here are novel contributions to the study of \NL.
 
 \noindent\textbf{Related formalizations of nonassociative Lambek calculus}
 % \\
 % Several previous works have formalized aspects of nonassociative Lambek calculus:
 \begin{enumerate}
   \item Chapter 4 of Anoun et al.'s tutorial \cite{anoun2004proof} presents a Coq formalization of nonassociative Lambek calculus, covering axiomatic calculus, natural deduction, and sequent calculus.
-  \item Tian \cite{tian2017formalized} built upon this foundation with a project that ported the Coq proofs above to the HOL4 proof assistant.
+  \item Tian \cite{tian2017formalized} built a project that ported the Coq proofs above to the HOL4 proof assistant.
   \item Kokke \cite{kokke2017formalising} took a different approach by formalizing Lambek-Grishin calculus in Agda. However, their work focused on axiomatic calculus, where both the antecedent and succedent are single formulae, in contrast to our tree sequent calculus formalization.
 \end{enumerate}
 While these earlier formalizations primarily focused on implementing the calculi and proving cut-elimination with potential linguistic applications in mind, our project takes a more proof-theoretic perspective and focuses on the equational theory of proofs. We formalize not only cut-elimination but also extend to Maehara interpolation, proof-relevant interpolation, and demonstrate that Maehara interpolation is well-defined with respect to equivalence of derivations.
 
-\section{Trees and substitution}\label{sec:agda:base}
-In this section, we present the Agda formalization of trees, paths in trees and substitutions.
-% The formalization of trees and substitution are inspired by the ordinary formalization \cite{moot:categorial:2012}.
+\section{Formalization Foundations}\label{sec:agda:base}
+In this section, we introduce the core elements of our Agda formalization: trees, paths within trees, and substitutions. We focus particularly on the key formalization of determining the relative positions of subtrees of a tree.
+It is designed to precisely characterize whether two subtrees with different representations are identical, one contains the other, or they diverge after some common path. This spatial relationship analysis is fundamental to our subsequent formalization of cut-elimination and interpolation properties of \NL.
 
 \noindent\textbf{Formulae, trees and paths.}
 In the original paper, formulae are inductively generated by the grammar $A, B ::= X \ | \ A \Larr B \ | \ B \Rarr A \ | \ A \ot B$, where $X$ is drawn from a set $\mathsf{At}$ of atomic formulae.
@@ -353,7 +343,7 @@ Since $U_1$ contains $U_2$ in its structure, we can diagram $\sub{p_2}{T_2}$ as 
   \arraycolsep=1cm
 \begin{array}{cc}
 % https://q.uiver.app/#q=WzAsNyxbMCw2LCJVXzIiXSxbMSw0LCJXXzEiXSxbMiw2LCJWXzIiXSxbMiwyLCJcXGNkYXN0Il0sWzMsNCwiV18yIl0sWzMsMCwiXFxjZGFzdCJdLFs0LDIsIlZfMSJdLFsxLDAsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsNiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDMsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDAsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
-\begin{tikzcd}
+\begin{tikzcd}[row sep=0.16cm]
 	&&& \cdast \\
 	\\
 	&& \cdast && {V_1} \\
@@ -373,7 +363,7 @@ Since $U_1$ contains $U_2$ in its structure, we can diagram $\sub{p_2}{T_2}$ as 
 \end{tikzcd}
 &
 % https://q.uiver.app/#q=WzAsOCxbMCw2LCJVXzIiXSxbMSw0LCJXXzEiXSxbMiw2LCJWXzIiXSxbMiwyLCJcXGNkYXN0Il0sWzMsNCwiV18yIl0sWzMsMCwiXFxjZGFzdCJdLFs0LDIsIlZfMSJdLFsyLDFdLFsxLDAsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsNiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDMsInBfMSIsMix7Im9mZnNldCI6MSwiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19LFswLDYwLDYwLDFdXSxbMSwwLCJxIiwyLHsib2Zmc2V0IjoxLCJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX0sWzAsNjAsNjAsMV1dXQ==
-\begin{tikzcd}
+\begin{tikzcd}[row sep=0.16cm]
 	&&& \cdast \\
 	&& {} \\
 	&& \cdast && {V_1} \\
@@ -398,7 +388,7 @@ We can also see that the trees $T_2$ are $U_1$ the following, respectively:
 \arraycolsep=1cm
 \begin{array}{cc}
   % https://q.uiver.app/#q=WzAsOCxbMCw2LCJcXGJ1bGxldCJdLFsxLDQsIldfMSJdLFsyLDYsIlZfMiJdLFsyLDIsIlxcY2Rhc3QiXSxbMyw0LCJXXzIiXSxbMywwLCJcXGNkYXN0Il0sWzQsMiwiVl8xIl0sWzIsMV0sWzEsMCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDMsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSw2LCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
-\begin{tikzcd}
+\begin{tikzcd}[row sep=0.16cm]
 	&&& \cdast \\
 	&& {} \\
 	&& \cdast && {V_1} \\
@@ -415,7 +405,7 @@ We can also see that the trees $T_2$ are $U_1$ the following, respectively:
 \end{tikzcd}
 &
 % https://q.uiver.app/#q=WzAsNixbMCw1LCJVXzIiXSxbMSwzLCJXXzEiXSxbMiw1LCJWXzIiXSxbMiwxLCJcXGNkYXN0Il0sWzMsMywiV18yIl0sWzIsMF0sWzEsMCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
-\begin{tikzcd}
+\begin{tikzcd}[row sep=0.16cm]
 	&& {} \\
 	&& \cdast \\
 	\\
@@ -715,10 +705,215 @@ Sets of derivations are quotiented by a congruence relation $\circeq$, generated
 Apart from the equations that make $\circeq$ as a congruence relation, there are twenty seven cases of permutative conversions for derivations in (\ref{eq:seqcalc}).
 In here we only list three examples of permutative conversions, left and right rules permutation, left and left rules sequential permutation, and left and left rules parallel permutation.
 
-\section{Properties of $\cut$}
-Unit, Associativity, and permutation of $\tl$, $\Rl$, and $\Ll$ with $\cut$.
+\begin{proposition}
+  The following equivalence of derivations are admissible in \NL.
+  \[
+  \begin{array}{rcl}
+    \proofbox{
+        \infer[\cut]{T[U[V , A \Rarr B]] \vd C}{
+      \infer[\Rl]{U[V , A \Rarr B] \vd D}{
+        \deduce{V \vd A}{f}
+        &
+        \deduce{U[B] \vd D}{h}
+      }
+      &
+      \deduce{T[D] \vd C}{g}
+    }
+    }
+    &=&
+    \proofbox{
+      \infer[\Rl]{T[U[V , A \Rarr B]] \vd C}{
+        \deduce{V \vd A}{f}
+        &
+        \infer[\cut]{T[U[B]] \vd C}{
+          \deduce{U[B] \vd D}{h}
+          &
+          \deduce{T[D] \vd C}{g}
+        }
+      }
+    }
+    \\[5pt]
+    \proofbox{
+        \infer[\cut]{T[U[B \Larr A , V]] \vd C}{
+      \infer[\Ll]{U[B \Larr A , V] \vd D}{
+        \deduce{V \vd A}{f}
+        &
+        \deduce{U[B] \vd D}{h}
+      }
+      &
+      \deduce{T[D] \vd C}{g}
+    }
+    }
+    &=&
+    \proofbox{
+      \infer[\Ll]{T[U[B \Larr A , V]] \vd C}{
+        \deduce{V \vd A}{f}
+        &
+        \infer[\cut]{T[U[B]] \vd C}{
+          \deduce{U[B] \vd D}{h}
+          &
+          \deduce{T[D] \vd C}{g}
+        }
+      }
+    }
+    \\[5pt]
+    \proofbox{
+      \infer[\cut]{T[U[A \ot B]] \vd C}{
+        \infer[\tl]{U[A \ot B] \vd D}{
+          \deduce{U[A , B] \vd D}{h}
+        }
+        &
+        \deduce{T[D] \vd C}{g}
+      }
+    }
+    &=&
+    \proofbox{
+      \infer[\tl]{T[U[A \ot B]] \vd C}{
+        \infer[\cut]{T[U[A , B]] \vd D}{
+          \deduce{U[A , B] \vd D}{h}
+          &
+          \deduce{T[D] \vd C}{g}
+        }
+      }
+    }
+  \end{array}
+  \]
+\end{proposition}
+% cut⇒L≗ : ∀ {T U V W A B C D} (p : Path T) (q : Path U)
+%   → {f : V ⊢ A}
+%   → (h : sub q (η B) ⊢ D)
+%   → (g : W ⊢ C)
+%   → (eq : W ≡ sub p (η D))
+%   → cut p (⇒L q f h) (subst-cxt eq g) refl ≗ ⇒L (p ++ q) f (cut p h (subst-cxt eq g) refl)
+
+% cut⇐L≗ : ∀ {T U V W A B C D} (p : Path T) (q : Path U)
+%   → {f : V ⊢ A}
+%   → (h : sub q (η B) ⊢ D)
+%   → (g : W ⊢ C)
+%   → (eq : W ≡ sub p (η D))
+%   → cut p (⇐L q f h) (subst-cxt eq g) refl ≗ ⇐L (p ++ q) f (cut p h (subst-cxt eq g) refl)
+
+% cut⊗L≗ : ∀ {T U W A B C D} (p : Path T) (q : Path U)
+%   → (h : sub q (η A ⊛ η B) ⊢ D)
+%   → (g : W ⊢ C)
+%   → (eq : W ≡ sub p (η D))
+%   → cut p (⊗L q h) (subst-cxt eq g) refl ≗ ⊗L (p ++ q) (cut p h (subst-cxt eq g) refl)
+
+More equations on derivations hold in \NL\ due to the cut-elimination procedures defined in Section \ref{sec:calculus},
+which fully describes the possible interaction between different applications of $\cut$. The first set of equations in Proposition \ref{prop:cut:unit:assoc} shows that the rule $\ax$ is the unit of $\cut$, sequential composition of $\cut$ is associative, and parallel composition of $\cut$ is commutative.
+Notice that pairs of derivations in these equations are \emph{strictly} equal, not merely $\circeq$-related.
+\begin{proposition}\label{prop:cut:unit:assoc}
+  The following equations are derivable in \NL.
+  \[
+  \proofbox{
+      \infer[\cut]{T[X] \vd C}{
+        \infer[\ax]{X \vd X}{}
+        &
+        \deduce{T[X] \vd C}{g}
+      }
+    }
+    \ = \ 
+    \proofbox{
+      \deduce{T[X] \vd C}{g}
+    }
+  \]
+  \[
+  \arraycolsep=2pt
+  \begin{array}{l}
+    \proofbox{
+      \infer[\cut]{T[U[V]] \vd C}{
+        \infer[\cut]{U[V] \vd E}{
+          \deduce{V \vd D}{f}
+          &
+          \deduce{U[D] \vd E}{g}
+        }
+        &
+        \deduce{T[E] \vd C}{h}
+      }
+    }
+    \\
+    \hspace*{3cm} = \  
+    \proofbox{
+      \infer[\cut]{T[U[V]] \vd C}{
+        \deduce{V \vd D}{f}
+        &
+        \infer[\cut]{T[U[D]] \vd C}{
+          \deduce{U[D] \vd E}{g}
+          &
+          \deduce{T[E] \vd C}{h}
+        }
+      }
+    }
+  \end{array}
+  \]
+  \[
+  \begin{array}{l}
+    \proofbox{
+      \infer[\cut]{W[W_1[T], W_2[U]] \vd C}{
+        \deduce{T \vd D}{f}
+        &
+        \infer[\cut]{W[W_1[D], W_2[U]] \vd C}{
+          \deduce{U \vd E}{g}
+          &
+          \deduce{W[W_1[D], W_2[E]] \vd C}{h}
+        }
+      }
+    }
+    \\
+    \hspace*{3cm} = \ 
+    \proofbox{
+      \infer[\cut]{W[W_1[T], W_2[U]] \vd C}{
+        \deduce{U \vd E}{g}
+        &
+        \infer[\cut]{W[W_1[T], W_2[E]] \vd C}{
+          \deduce{T \vd D}{f}
+          &
+          \deduce{W[W_1[D], W_2[E]] \vd C}{h}
+        }
+      }
+    }
+  \end{array}
+  \]
+\end{proposition}
+% cut-unit : ∀ {T X W C} (p : Path T)
+%   → (g : W ⊢ C)
+%   → (eq : W ≡ sub p (η (at X))) 
+%   → cut p ax (subst-cxt eq g) refl ≡ (subst-cxt eq g)
+
+% cut-vass : ∀ {T U V W₁ W₂ C D E} (p : Path T) (q : Path U)
+%   → (f : V ⊢ D) (g : W₁ ⊢ E) (h : W₂ ⊢ C)
+%   → (eq₁ : W₁ ≡ sub p (η D)) (eq₂ : W₂ ≡ sub q (η E))
+%   → cut q (cut p f g eq₁) h eq₂ ≡ cut (q ++ p) f (cut q g h eq₂) (cong (λ x → sub q x) eq₁)
+
+% cut-hass : ∀ {T U V W₁ W₂ W₃ C D E} (p₁ : Path W₁) (p₂ : Path W₂) (p₃ : Path W₃)
+%   → (f : T ⊢ D) (g : U ⊢ E) (h : V ⊢ C)
+%   → (eq : V ≡ sub p₁ (sub p₂ (η D) ⊛ sub p₃ (η E)))
+%   → cut (p₁ ++ (p₂ ◂ _)) f (cut (p₁ ++ (_ ▸ p₃)) g h eq) refl ≡ cut (p₁ ++ (_ ▸ p₃)) g (cut (p₁ ++ (p₂ ◂ _)) f h eq) refl
+
 \section{Interpolation properties}
 In this section, we introduce three aspects of interpolation for nonassociative Lambek calculus: Maehara interpolation, proof-relevant interpolation, and showing that Maehara interpolation is well-defined with respect to equivalence of derivations.
+
+\emph{Maehara interpolation property} (\MIP) \cite{ono:proof:nonclassical:1998} is a property of a cut-free sequent calculus. 
+It originates from Maehara's proof for Craig interpolation for sequent calculus for classical logic $\mathtt{LK}$ \cite{maehara1961} and the method has been subsequently used to prove Craig interpolation for various logics.
+For the full Lambek calculus (\FL), the Maehara interpolation property is formulated as follows:
+\begin{description}
+  \item[(\MIP~for \FL)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that $\vars{D} \subseteq \vars{\GG_0} \cap \vars{\GG_0, \GG_1, C}$
+\end{description}
+The symbol $\vars{A}$ denotes the set of atomic formulae appearing in $A$, which can be extended naturally to lists of formulae, trees, and contexts.
+
+% \FL\ without additive connectives enjoys an stronger form of Maehara interpolation that replaces variable condition with a more refined variable \emph{multiplicity} condition \cite{moot:categorial:2012}.
+% This refinement tracks the precise number of occurrences of each atomic formula. Let us denote by $\gs{A}$ the count of occurrences of atomic formula $X$ within formula $A$, and extend this notation to $\gs{\GG}$ representing the occurrence count of $X$ across a sequence of formulae $\GG$.
+% Under this perspective, the strengthened version of Maehara interpolation is formulated as follows:
+% \begin{description}
+%   \item[(\MIP~for \FL~with variable multiplicity condition)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that $\gs{D} \leq \gs{\GG_1}$ and $\gs{D} \leq \gs{\GG_0, \GG_2 , C}$ for all atomic $X$.
+% \end{description}
+% In his PhD thesis \cite{roorda1991}, Roorda considered a even more stronger variable multiplicity condition, not merely the number of occurrences of atomic formulae but also characterizing the \emph{positive and negative} occurrences of atomic formulae in interpolants. Let $\mathsf{At}^{+}_{X}(A)$ be the multiset of positive occurrences of the atomic formula $X$ in $A$, and let $\mathsf{At}^{-}_{X}(A)$ be the multiset of negative occurrences of the atomic formula $X$ in $A$.
+% Roorda's version of Maehara interpolation can be formulated as follows:
+% \begin{description}
+%   \item[(\MIP~for \FL~with variable polarity condition)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that given $p \in \{ +,-\}$ and any atomic formula $X$, there is an injective function from $\mathsf{At}^{p}_{X}(D)$ to $\mathsf{At}^{p}_{X}(\GG_1)$, and an injective function from $\mathsf{At}^{p}_{X}(D)$ to the multiset union of $\mathsf{At}^{\neg p}_{X}(\GG_0, \GG_2)$ and $\mathsf{At}^{p}_{X}(C)$. Here $\neg p$ denotes the opposite polarity of $p$, i.e. $\neg + = -$ and $\neg - = +$.
+% \end{description}
+
+Interpolation proofs for various extensions of nonassociative Lambek calculus often depart from the Maehara approach. These alternative methods typically rely on identifying a closed set of formulae that can appear in derivations and proving that interpolant formulae always belong to this set \cite{buszkowski:2009,buszkowski:2010}. Such interpolation theorems primarily serve to establish further properties of the target logic, such as the finite model property, rather than directly addressing our current focus.
 
 Maehara interpolation property for the nonassociative Lambek calculus (\ref{eq:seqcalc}) is stated as the following:
 \begin{theorem}\label{thm:MIP}
@@ -728,11 +923,11 @@ This property, not including the variable multiplicity condition (which is discu
 \[
 \begin{array}{rl}
   \multicolumn{2}{l}{\record \:\:  \MIP ~(T : \Tree) ~ (p : \pathT{T}) ~ (U : \Tree) ~ (C : \Fma) : \Set \:\: \where} \\
-  \multicolumn{2}{l}{\mf{constructor} ~ \mf{intrp}} \\
-  \;\; \field \\
-  \;\; D &: \Fma \\[0.5pt]
-  \;\; g &: \sub{p}{(\eta ~ D)} \vd C \\[0.5pt]
-  \;\; h &: U \vd D 
+  \multicolumn{2}{l}{\quad \mf{constructor} ~ \mf{intrp}} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad D &: \Fma \\[0.5pt]
+  \;\; \quad g &: \sub{p}{(\eta ~ D)} \vd C \\[0.5pt]
+  \;\; \quad h &: U \vd D 
 \end{array}
 \]
 Elements of type $\MIP ~ T ~ p ~ U ~C$ are triples consisting of a formula $D$ and two derivations $g$ and $h$.
@@ -776,6 +971,40 @@ Given a derivation $f : V \vdash C$ and an equality proof $eq : V \equiv \text{s
 %   →  cut p (MIP.h (mip p U f eq)) (MIP.g (mip p U f eq)) refl ≗ subst-cxt eq f
 Notice that $f$ is a term of type $V \vdash C$, while the derivation on the left-hand-side of $\circeq$ has type $\text{sub} \ p \ U \vdash C$. In order to state that the two derivations are $\circeq$-related we need to substitute the context in the type of $f$ using the equality proof $eq : V \equiv \text{sub} \ p \ U$.
 The definition of $\mathsf{cut\text{-}intrp}$ proceeds by pattern-matching on the argument $f$.
+
+We define an interpolant triple $(D, g, h)$ as the formulae $D$ together with two derivations $g$ and $h$ that result from applying Maehara interpolation to a derivation $f: T[U] \vdash C$. Two interpolant triples $(D, g, h)$ and $(D', g', h')$ are considered equivalent when $D = D'$, $g \circeq g'$, and $h \circeq h'$.
+
+This equivalence relation between interpolant triples leads to a theorem connecting interpolation and equivalence of derivations: when two derivations $f, f': T[U] \vdash C$ are equivalent (i.e. $f \circeq f'$), their corresponding interpolant triples must also be equivalent. Formally:
+\begin{theorem}
+  Given two derivations $f, f' : T[U] \vdash C$, if $f \circeq f'$, then the interpolant triples of $f$ and $f'$ are equivalent.
+\end{theorem}
+In Agda, the property is implemented as the following record type:
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\record \:\:  \MIPeq : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\quad \mf{constructor} ~ \mf{intrp}{\circeq}} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad eqD &: D \equiv D' \\[0.5pt]
+  \;\; \quad eqg &: \mf{subst\text{-}cxt} ~ (\mf{cong} ~ (\Gl x \to \sub{p}{(\eta x)}) ~ eqD) ~ g \circeq g' \\[0.5pt]
+  \;\; \quad eqh &: \mf{subst\text{-}succ} ~ eqD ~ h \circeq h'
+\end{array}
+\]
+Elements of type $\MIP ~ T ~ p ~ U ~C$ are triples consisting of a formula $D$ and two derivations $g$ and $h$.
+
+The proof of Theorem \ref{thm:MIP} becomes the construction of the following function:
+\[
+\begin{array}{l}
+\mathsf{mip{\circeq}} : \forall ~ \{T\} ~ (p : \pathT{T}) ~ U ~ \{V ~ C\} ~ \{f ~ f' : V \vd C\}
+\\[0.8pt]
+\quad \to  (eq_1 : V \equiv \sub{p}{U})
+\\[0.8pt]
+\quad \to (eq_2 : f \circeq f')
+\\[0.8pt]
+\quad \to \MIPeq ~ T ~ p ~ U ~ C ~ (\mf{mip} ~ p ~ U ~ f ~ eq_1) ~ (\mf{mip} ~ p ~ U ~ f' ~ eq_1)
+\end{array}
+\]
+We construct $\mathsf{mip{\circeq}}$ by pattern-matching on $eq_2$, the equivalence of derivations. 
+The main challenge is handling the thirty-six cases that arise from the equations making $\circeq$ an equivalence relation and a congruence relations wrt. to the logical rules and permutative conversion equations, further complicated by determining the relative positions between interpolant formulae and principal formulae. This proof is difficult to complete accurately on pen-and-paper and prone to errors. Agda is essential here, helping us examine all possible cases systematically and providing formal verification of the completed proof.
 
 \section{Concluding remarks}
 
