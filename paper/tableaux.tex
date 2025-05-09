@@ -99,6 +99,7 @@
 \newcommand{\oneLtwoR}{\mathsf{1\sls \bsls 2}}
 \newcommand{\oneRtwoL}{\mathsf{2\sls \bsls 1}}
 \newcommand{\subeq}{\mathsf{subeq}}
+\newcommand{\inT}{\in^{\mf{T}}}
 
 
 \newcommand{\niccolo}[1]{\textcolor{red}{NV: #1}}
@@ -106,11 +107,9 @@
 
 \begin{document}
 %
-\title{Agda Formalization of Cut-elimination and Proof-relevant Interpolation in Nonassociative Lambek Calculus}
-% Mechanizing Cut-elimination and Proof-relevant Interpolation for Nonassociative Lambek Calculus in Agda
+\title{An Agda Formalization of Nonassociative Lambek Calculus and Its Metatheory}
 %
-\titlerunning{Agda Formalization for Nonassociative Lambek Calculus}
-% Nonassociative Lambek Calculus in Agda
+\titlerunning{Agda Formalization of Nonassociative Lambek Calculus}
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
@@ -160,13 +159,7 @@ For nonassociative Lambek calculus, traditional approaches to interpolation for 
 Our method is more akin to traditional Maehara method because our interest lies in a more refined analysis based on equivalence of derivations.
 By formalizing both standard Maehara interpolation and its proof-relevant variant (in the sense of \v{C}ubri{\'c} \cite{Cubric1994} and Saurin \cite{Saurin2024}), we aim to capture not only the existence of interpolants but also their relationship to the structure of derivations. This refined approach enables us to address the well-definedness of interpolation procedures with respect to equivalence of derivations, i.e. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
 
-In this paper, we formalize \NL\ and prove properties in Agda:
-\begin{enumerate}
-  \item Cut-elimination
-  \item Maehara interpolation 
-  \item Proof-relevant interpolation
-  \item Well-definedness of the Maehara interpolation procedure with respect to equivalence of derivations
-\end{enumerate}
+In this paper, we formalize \NL\ and prove properties in Agda: $(i)$ cut-elimination, $(ii)$ Maehara interpolation, $(iii)$ proof-relevant interpolation, and $(iv)$ \linebreak well-definedness of the Maehara interpolation procedure with respect to equivalence of derivations.
 
 The paper proceeds as follows. We begin with the foundations of our formalization, including definitions of trees, paths in trees, substitutions, and case distinctions for identifying relationships between paths. Next, we introduce the sequent calculus of \NL\ and formalize cut-elimination. The subsequent section addresses equivalence of derivations and properties of the $\cut$ rule.
 In the final sections, we formally prove Maehara interpolation and proof-relevant interpolation to demonstrate that our formalization provides a correct and usable strategy. It is worth noting that the proof-relevant interpolation results presented here are novel contributions to the study of \NL.
@@ -362,10 +355,10 @@ Since $U_1$ contains $U_2$ in its structure, we can diagram $\sub{p_2}{T_2}$ as 
 	\arrow[no head, from=5-2, to=7-3]
 \end{tikzcd}
 &
-% https://q.uiver.app/#q=WzAsOCxbMCw2LCJVXzIiXSxbMSw0LCJXXzEiXSxbMiw2LCJWXzIiXSxbMiwyLCJcXGNkYXN0Il0sWzMsNCwiV18yIl0sWzMsMCwiXFxjZGFzdCJdLFs0LDIsIlZfMSJdLFsyLDFdLFsxLDAsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsNiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDMsInBfMSIsMix7Im9mZnNldCI6MSwiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19LFswLDYwLDYwLDFdXSxbMSwwLCJxIiwyLHsib2Zmc2V0IjoxLCJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX0sWzAsNjAsNjAsMV1dXQ==
+% https://q.uiver.app/#q=WzAsNyxbMCw2LCJVXzIiXSxbMSw0LCJXXzEiXSxbMiw2LCJWXzIiXSxbMiwyLCJcXGNkYXN0Il0sWzMsNCwiV18yIl0sWzMsMCwiXFxjZGFzdCJdLFs0LDIsIlZfMSJdLFsxLDAsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsNiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDMsInBfMSIsMix7Im9mZnNldCI6MSwiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19LFswLDYwLDYwLDFdXSxbMSwwLCJxIiwyLHsib2Zmc2V0IjoxLCJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX0sWzAsNjAsNjAsMV1dXQ==
 \begin{tikzcd}[row sep=0.16cm]
 	&&& \cdast \\
-	&& {} \\
+	\\
 	&& \cdast && {V_1} \\
 	\\
 	& {W_1} && {W_2} \\
@@ -383,14 +376,14 @@ Since $U_1$ contains $U_2$ in its structure, we can diagram $\sub{p_2}{T_2}$ as 
 \end{tikzcd}
 \end{array}
 \end{equation}
-We can also see that the trees $T_2$ are $U_1$ the following, respectively:
+The trees $T_2$ and $U_1$ are the following:
 \begin{equation}\label{eq:ContainsLeft:T2U1}
 \arraycolsep=1cm
 \begin{array}{cc}
-  % https://q.uiver.app/#q=WzAsOCxbMCw2LCJcXGJ1bGxldCJdLFsxLDQsIldfMSJdLFsyLDYsIlZfMiJdLFsyLDIsIlxcY2Rhc3QiXSxbMyw0LCJXXzIiXSxbMywwLCJcXGNkYXN0Il0sWzQsMiwiVl8xIl0sWzIsMV0sWzEsMCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDMsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSw2LCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+% https://q.uiver.app/#q=WzAsNyxbMCw2LCJcXGJ1bGxldCJdLFsxLDQsIldfMSJdLFsyLDYsIlZfMiJdLFsyLDIsIlxcY2Rhc3QiXSxbMyw0LCJXXzIiXSxbMywwLCJcXGNkYXN0Il0sWzQsMiwiVl8xIl0sWzEsMCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDMsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSw2LCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
 \begin{tikzcd}[row sep=0.16cm]
 	&&& \cdast \\
-	&& {} \\
+	\\
 	&& \cdast && {V_1} \\
 	\\
 	& {W_1} && {W_2} \\
@@ -652,8 +645,9 @@ The admissible cut rule for this calculus takes the form:
   }
 \end{array}
 \]
+In the types of the function below, and further in this paper, we sometimes omit some of the implicit arguments to shorten the types and improve readability.
 
-In Agda, we implement the cut rule as:
+The $\cut$ rule is implemented as:
 \[
 \begin{array}{l}
   \cut : (f : U \vd D) ~(g : W \vd C) 
@@ -700,14 +694,85 @@ The same technique of using auxiliary functions is also applied to the rules $\R
 \end{remark}
 
 \section{Equivalence of derivations}
-Sets of derivations are quotiented by a congruence relation $\circeq$, generated by the pairs of derivations in Appendix. (\cheng{Not done yet!})
-
-Apart from the equations that make $\circeq$ as a congruence relation, there are twenty seven cases of permutative conversions for derivations in (\ref{eq:seqcalc}).
-In here we only list three examples of permutative conversions, left and right rules permutation, left and left rules sequential permutation, and left and left rules parallel permutation.
-
-\begin{proposition}
-  The following equivalence of derivations are admissible in \NL.
+Sets of derivations of \NL\ are quotiented by a congruence relation $\circeq$, generated by the pairs of derivations.
+There are twenty-seven cases of permutative conversions, therefore we only present three examples in Figure \ref{fig:example:perm:conversion}, each of which represents left rules permute with right rules, permutation of sequential application of left rules, and permutation of parallel application of left rules.
+\begin{figure}[t]
   \[
+  \scalebox{0.91}{$
+  \begin{array}{rcl}
+    \proofbox{
+      \infer[\tl]{T[A \ot B] \vd A' \Rarr B'}{
+        \infer[\Rr]{T[A , B] \vd A' \Rarr B'}{
+          \deduce{A' , T[A , B] \vd B'}{f}
+        }
+      }
+    }
+    &\circeq&
+    \proofbox{
+      \infer[\Rr]{T[A \ot B] \vd A' \Rarr B'}{
+        \infer[\tl]{A' , T[A \ot B] \vd B'}{
+          \deduce{A' , T[A , B] \vd B'}{f}
+        }
+      }
+    }
+    \\
+    \proofbox{
+      \infer[\tl]{U[T[A' \ot B'], A \Rarr B] \vd C}{
+        \infer[\Rl]{U[T[A' , B'], A \Rarr B] \vd C}{
+          \deduce{T[A' , B'] \vd A}{f}
+          &
+          \deduce{U[B] \vd C}{g}
+        }
+      }
+    }
+    &\circeq&
+    \proofbox{
+      \infer[\Rl]{U[T[A' \ot B'], A \Rarr B] \vd C}{
+        \infer[\tl]{T[A' \ot B'] \vd A}{
+          \deduce{T[A' , B'] \vd A}{f}
+        }
+        &
+        \deduce{U[B] \vd C}{g}
+      }
+    }
+    \\
+    \proofbox{
+      \infer[\Rl]{T[W_1[U , A \Rarr B] , W_2[V , A' \Rarr B']] \vd C}{
+        \deduce{U \vd A}{f}
+        &
+        \infer[\Rl]{T[W_1[B] , W_2[V , A' \Rarr B']] \vd C}{
+          \deduce{V \vd A'}{f'}
+          &
+          \deduce{T[W_1[B] , W_2[B']] \vd C}{g}
+        }
+      }
+    }
+    &\circeq&
+    \proofbox{
+      \infer[\Rl]{T[W_1[U , A \Rarr B] , W_2[V , A' \Rarr B']] \vd C}{
+        \deduce{V \vd A'}{f'}
+        &
+        \infer[\Rl]{T[W_1[U , A \Rarr B] , W_2[B']] \vd C}{
+          \deduce{U \vd A'}{f}
+          &
+          \deduce{T[W_1[B] , W_2[B']] \vd C}{h}
+        }
+      }
+    }
+  \end{array}
+  $}
+  \]
+  \caption{Examples of permutative conversions}
+  \label{fig:example:perm:conversion}
+\end{figure}
+
+More equivalences and equations on derivations hold in \NL\ due to the cut-elimination procedures defined in Section \ref{sec:calculus}.
+The first is the set of equivalences in Figure \ref{fig:cut:left:rules}, which shows that $\cut$ and left rules are permutatable up to $\circeq$. Notice that the cut-elimination procedure is defined by first induction on the right premise while here the permutativity lies for the left premises.
+The second is the set of equations in Figure \ref{fig:cut:properties}, which shows that the rule $\ax$ is the unit of $\cut$, sequential composition of $\cut$ is associative, and parallel composition of $\cut$ is commutative.
+Notice that pairs of derivations in these equations are \emph{strictly} equal, not merely $\circeq$-related.
+  \begin{figure}[t]
+  \[
+  \scalebox{0.9}{$
   \begin{array}{rcl}
     \proofbox{
         \infer[\cut]{T[U[V , A \Rarr B]] \vd C}{
@@ -720,7 +785,7 @@ In here we only list three examples of permutative conversions, left and right r
       \deduce{T[D] \vd C}{g}
     }
     }
-    &=&
+    &\circeq&
     \proofbox{
       \infer[\Rl]{T[U[V , A \Rarr B]] \vd C}{
         \deduce{V \vd A}{f}
@@ -744,7 +809,7 @@ In here we only list three examples of permutative conversions, left and right r
       \deduce{T[D] \vd C}{g}
     }
     }
-    &=&
+    &\circeq&
     \proofbox{
       \infer[\Ll]{T[U[B \Larr A , V]] \vd C}{
         \deduce{V \vd A}{f}
@@ -766,7 +831,7 @@ In here we only list three examples of permutative conversions, left and right r
         \deduce{T[D] \vd C}{g}
       }
     }
-    &=&
+    &\circeq&
     \proofbox{
       \infer[\tl]{T[U[A \ot B]] \vd C}{
         \infer[\cut]{T[U[A , B]] \vd D}{
@@ -777,8 +842,11 @@ In here we only list three examples of permutative conversions, left and right r
       }
     }
   \end{array}
+  $}
   \]
-\end{proposition}
+    \caption{Permutation of $\cut$ and left rules}
+    \label{fig:cut:left:rules}
+  \end{figure}
 % cut⇒L≗ : ∀ {T U V W A B C D} (p : Path T) (q : Path U)
 %   → {f : V ⊢ A}
 %   → (h : sub q (η B) ⊢ D)
@@ -798,13 +866,11 @@ In here we only list three examples of permutative conversions, left and right r
 %   → (g : W ⊢ C)
 %   → (eq : W ≡ sub p (η D))
 %   → cut p (⊗L q h) (subst-cxt eq g) refl ≗ ⊗L (p ++ q) (cut p h (subst-cxt eq g) refl)
-
-More equations on derivations hold in \NL\ due to the cut-elimination procedures defined in Section \ref{sec:calculus},
-which fully describes the possible interaction between different applications of $\cut$. The first set of equations in Proposition \ref{prop:cut:unit:assoc} shows that the rule $\ax$ is the unit of $\cut$, sequential composition of $\cut$ is associative, and parallel composition of $\cut$ is commutative.
-Notice that pairs of derivations in these equations are \emph{strictly} equal, not merely $\circeq$-related.
-\begin{proposition}\label{prop:cut:unit:assoc}
-  The following equations are derivable in \NL.
+  \begin{figure}[t]
   \[
+  \arraycolsep=2pt
+  \scalebox{0.88}{$
+  \begin{array}{rcl}
   \proofbox{
       \infer[\cut]{T[X] \vd C}{
         \infer[\ax]{X \vd X}{}
@@ -812,14 +878,11 @@ Notice that pairs of derivations in these equations are \emph{strictly} equal, n
         \deduce{T[X] \vd C}{g}
       }
     }
-    \ = \ 
+    &=&
     \proofbox{
       \deduce{T[X] \vd C}{g}
     }
-  \]
-  \[
-  \arraycolsep=2pt
-  \begin{array}{l}
+\\
     \proofbox{
       \infer[\cut]{T[U[V]] \vd C}{
         \infer[\cut]{U[V] \vd E}{
@@ -831,8 +894,7 @@ Notice that pairs of derivations in these equations are \emph{strictly} equal, n
         \deduce{T[E] \vd C}{h}
       }
     }
-    \\
-    \hspace*{3cm} = \  
+    &=&  
     \proofbox{
       \infer[\cut]{T[U[V]] \vd C}{
         \deduce{V \vd D}{f}
@@ -844,10 +906,7 @@ Notice that pairs of derivations in these equations are \emph{strictly} equal, n
         }
       }
     }
-  \end{array}
-  \]
-  \[
-  \begin{array}{l}
+    \\
     \proofbox{
       \infer[\cut]{W[W_1[T], W_2[U]] \vd C}{
         \deduce{T \vd D}{f}
@@ -859,8 +918,7 @@ Notice that pairs of derivations in these equations are \emph{strictly} equal, n
         }
       }
     }
-    \\
-    \hspace*{3cm} = \ 
+    &=& 
     \proofbox{
       \infer[\cut]{W[W_1[T], W_2[U]] \vd C}{
         \deduce{U \vd E}{g}
@@ -873,8 +931,11 @@ Notice that pairs of derivations in these equations are \emph{strictly} equal, n
       }
     }
   \end{array}
+  $}
   \]
-\end{proposition}
+  \caption{Unit, associativity, and commutativity of $\cut$}
+  \label{fig:cut:properties}
+  \end{figure}
 % cut-unit : ∀ {T X W C} (p : Path T)
 %   → (g : W ⊢ C)
 %   → (eq : W ≡ sub p (η (at X))) 
@@ -890,6 +951,19 @@ Notice that pairs of derivations in these equations are \emph{strictly} equal, n
 %   → (eq : V ≡ sub p₁ (sub p₂ (η D) ⊛ sub p₃ (η E)))
 %   → cut (p₁ ++ (p₂ ◂ _)) f (cut (p₁ ++ (_ ▸ p₃)) g h eq) refl ≡ cut (p₁ ++ (_ ▸ p₃)) g (cut (p₁ ++ (p₂ ◂ _)) f h eq) refl
 
+The relation $\circeq$ is implemented as an inductive type family indexed over pairs of derivations.
+In the Agda definition of $\circeq$, there is: $(i)$ a constructor for each permutative conversion, $(ii)$  constructors for reflexivity, symmetry and transitivity of $\circeq$, and  $(iii)$ constructors evidencing the compatibility of $\circeq$ with the inference rules of \NL.
+We present three indicative examples, one for each class of equational generators: the constructor $\tl\Rr$ associated to the first example of permutative conversion in Figure \ref{fig:example:perm:conversion}; the constructor $\mathsf{sym}{\circeq}$ associated to symmetry of $\circeq$; the constructor $\mathsf{cong}\Rl$ associated to the compatibility of $\circeq$ wrt. $\Rl$.
+\[
+\begin{array}{rcl}
+\tl\Rr &:& (p : \pathT{T}) ~ (f : \eta A' \cdast \sub{p}{(\eta A \cdast \eta B)} \vd B') \\
+&\to& \tl ~ p ~ (\Rr ~ f) ~ \circeq \Rr ~ (\tl ~ (\bullet \btright p) ~ f)  \\[2pt]
+\mathsf{sym}{\circeq} &:& (f ~ g : T \vd C) ~ (eq : f \circeq g) \to g \circeq f \\[2pt]
+\mathsf{cong}\Rl &:& (p : \pathT{T}) ~ (f ~ f' : U \vd A) ~ (g ~ g' : \sub{p}{\eta B} \vd C) \\
+& \to & (eq : f \circeq f') ~ (eq' : g \circeq g') \to \, \Rl ~ p ~ f ~ g \circeq \Rl ~ p ~ f' ~ g'
+\end{array}
+\]
+
 \section{Interpolation properties}
 In this section, we introduce three aspects of interpolation for nonassociative Lambek calculus: Maehara interpolation, proof-relevant interpolation, and showing that Maehara interpolation is well-defined with respect to equivalence of derivations.
 
@@ -899,7 +973,7 @@ For the full Lambek calculus (\FL), the Maehara interpolation property is formul
 \begin{description}
   \item[(\MIP~for \FL)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that $\vars{D} \subseteq \vars{\GG_0} \cap \vars{\GG_0, \GG_1, C}$
 \end{description}
-The symbol $\vars{A}$ denotes the set of atomic formulae appearing in $A$, which can be extended naturally to lists of formulae, trees, and contexts.
+ $\vars{A}$ denotes the set of atomic formulae appearing in $A$, which can be extended naturally to lists of formulae, trees, and contexts.
 
 % \FL\ without additive connectives enjoys an stronger form of Maehara interpolation that replaces variable condition with a more refined variable \emph{multiplicity} condition \cite{moot:categorial:2012}.
 % This refinement tracks the precise number of occurrences of each atomic formula. Let us denote by $\gs{A}$ the count of occurrences of atomic formula $X$ within formula $A$, and extend this notation to $\gs{\GG}$ representing the occurrence count of $X$ across a sequence of formulae $\GG$.
@@ -937,14 +1011,103 @@ The proof of Theorem \ref{thm:MIP} becomes the construction of the following fun
 \begin{array}{l}
 \mathsf{mip} : \forall ~ \{T\} ~ (p : \pathT{T}) ~ U ~ \{V ~ C\}
 \\
-\quad \to  (f : V \vd C)
-\\
-\quad \to (eq : V \equiv \sub{p}{U})
+\quad \to  (f : V \vd C) ~ (eq : V \equiv \sub{p}{U})
 \\
 \quad \to \MIP ~ T ~ p ~ U ~C
 \end{array}
 \]
 The construction of the $\mathsf{mip}$ function proceeds by pattern-matching on the derivation $f$, which mirrors the pen-and-paper proofs in \cite{roorda1991,moot:categorial:2012} that use induction on $f$. Similar to our implementation of cut-elimination, we need to determine whether $U$ and the principal formula of the conclusion coincide. This analysis is handled by the $\mathsf{subeq}$ function, which helps us systematically identify and process all possible cases that may arise during the construction.
+
+The variable condition for \MIP\ is implemented as follows.
+We first define datatype $\in^{\mf{T}}$ which captures how atomic formulas can appear in a tree.
+\[
+\begin{array}{lrl}
+  \multicolumn{3}{l}{\data \:\: \_\inT\_ ~ (X : \At) : \Tree \to \Set \:\: \where} \\
+  \;\; \quad \at& &: \forall ~ \{A\} \to X \in A \to X \inT \eta A \\
+  \;\; \quad \mf{left}& &: \forall \{T ~ U\} \to X \inT T \to X \inT T \cdast U \\
+  \;\; \quad \mf{right}& &: \forall \{T ~ U\} \to X \inT U \to X \inT T \cdast U
+\end{array}
+\]
+Each constructor represents a way an atomic formula can appear in a tree: $\at$ indicates that if $X \in \vars{A}$, then $X$ also appears in the set of atomic formulae of the \emph{tree} $A$; $\mf{left}$ means that if $X \in \vars{T}$, then it also appears in the set of atomic formulae of the tree $T \cdast U$ for any $U$; and $\mf{right}$ is the dual case.
+
+When a tree $U$ is substituted into a context $T[\bullet]$ (resulting in $T[U]$), variables can come from either the context or the substituted tree. We capture this relationship with two functions:
+\[
+\begin{array}{l}
+{\in}\mf{sub}_1 : \forall ~ \{A ~ T ~ U \} ~ (p : \pathT{T}) \to A \inT T \to A \inT \sub{p}{U}
+\\
+{\in}\mf{sub}_2 : \forall ~ \{A ~ T ~ U \} ~ (p : \pathT{T}) \to A \inT U \to A \inT \sub{p}{U}
+\end{array}
+\]
+The function ${\in}\mf{sub}_1$ shows how variables from the original context $T$ propagate to the substituted tree, while ${\in}\mf{sub}_2$ shows how variables from the substituted tree $U$ appear in the substituted tree. Both functions are defined by pattern-matching on the path $p : \pathT{T}$, with ${\in}\mf{sub}_1$ additionally pattern-matching on the witness that $A$ appears in $T$.
+
+With these foundations, we define the variable condition as a record type:
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\record \:\:  \mf{VarCond} ~ (T : \Tree) ~ (p : \pathT{T}) ~ (U : \Tree) ~ (C ~ D : \Fma) : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\quad \mf{constructor} ~ \mf{var}} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad \mf{varg} &: \forall \{X\} \to X \in D \to X \inT T \uplus X \in C \\[0.5pt]
+  \;\; \quad \mf{varh} &: \forall \{X\} \to X \in D \to X \inT U
+\end{array}
+\]
+$\uplus$ denotes disjoint union in Agda.
+This record captures the essential variable condition for interpolation: $\mf{varg}$ states that any variable appearing in the interpolant formula $D$ must come from either the context $T[\bullet]$ or the formula $C$, while $\mf{varh}$ states that all variables in the interpolant $D$ must also appear in the tree $U$.
+
+We verify that the interpolant produced by our algorithm satisfies this variable condition through the function:
+\[
+\begin{array}{l}
+\mf{varcond} : \forall ~ \{T\} ~ (p : \pathT{T}) ~ U ~ \{V ~ C\}
+\\
+\quad \to  (f : V \vd C) ~ (eq : V \equiv \sub{p}{U})
+\\
+\quad \to \mf{VarCond} ~ T ~ p ~ U ~ C ~ (D ~ (\mf{mip'} ~ p ~ U ~ f ~ eq))
+\end{array}
+\]
+This function constructs a proof of the variable condition for the interpolant generated by $\mf{mip}$. Its implementation follows the structure of $\mf{mip}$, ensuring that the variable condition is preserved through all cases of the interpolation algorithm.
+
+% _∈_ : (X : At) → Fma → Set
+% X ∈ at Y = X ≡ Y
+% X ∈ (A ⇒ B) = X ∈ A ⊎ X ∈ B
+% X ∈ (B ⇐ A) = X ∈ A ⊎ X ∈ B
+% X ∈ (A ⊗ B) = X ∈ A ⊎ X ∈ B
+  
+% data _∈ᵀ_ (X : At) : Tree → Set where
+%   at : ∀ {A} → X ∈ A → X ∈ᵀ η A
+%   left : ∀ {T U} → X ∈ᵀ T → X ∈ᵀ T ⊛ U
+%   right : ∀ {T U} → X ∈ᵀ U → X ∈ᵀ T ⊛ U
+
+% -- _∈ᵀ_ : At → Tree → Set
+% -- X ∈ᵀ T = Σ Fma λ A → (X ∈ A) × (A ∈ᵀ T)
+
+% sub∈ : ∀ {A T U} (p : Path T) → A ∈ᵀ sub p U → A ∈ᵀ T ⊎ A ∈ᵀ U
+% sub∈ ∙ (at m) = inj₂ (at m)
+% sub∈ ∙ (left m) = inj₂ (left m)
+% sub∈ ∙ (right m) = inj₂ (right m)
+% sub∈ (p ◂ _) (left m) = elim⊎ (λ n → inj₁ (left n)) inj₂ (sub∈ p m)
+% sub∈ (p ◂ _) (right m) = inj₁ (right m)
+% sub∈ (T ▸ p) (left m) = inj₁ (left m)
+% sub∈ (T ▸ p) (right m) = elim⊎ (λ x → inj₁ (right x)) inj₂ (sub∈ p m)
+
+% ∈sub₁ : ∀ {A T U} (p : Path T) → A ∈ᵀ T → A ∈ᵀ sub p U
+% ∈sub₁ (p ◂ _) (left m) = left (∈sub₁ p m)
+% ∈sub₁ (p ◂ _) (right m) = right m
+% ∈sub₁ (_ ▸ p) (left m) = left m
+% ∈sub₁ (_ ▸ p) (right m) = right (∈sub₁ p m)
+
+% ∈sub₂ : ∀ {A T U} (p : Path T) → A ∈ᵀ U → A ∈ᵀ sub p U
+% ∈sub₂ ∙ m = m
+% ∈sub₂ (p ◂ _) m = left (∈sub₂ p m)
+% ∈sub₂ (_ ▸ p) m = right (∈sub₂ p m)
+
+% record VarCond (T : Tree) (p : Path T) (U : Tree) (C D : Fma) : Set where
+%   constructor var
+%   field
+%     varg : ∀ {X} → X ∈ D → X ∈ᵀ T ⊎ X ∈ C
+%     varh : ∀ {X} → X ∈ D → X ∈ᵀ U
+
+% varcond : ∀ {T} (p : Path T) U {V C}
+%   → (f : V ⊢ C) (eq : V ≡ sub p U) 
+%   → VarCond T p U C (D (mip' p U f eq))
 
 We have established a procedure $\mathsf{mip}$ for effectively splitting a derivation $f : T[U] \vdash C$ into two derivations $g : U \vdash D$ and $h : T[D] \vdash C$, with $D$ being ``minimal'' in the sense of satisfying appropriate variable conditions. A natural question arises: what happens when we compose derivations $g$ and $h$ using the admissible $\mathsf{cut}$ rule? Intuition suggests that we should recover the original derivation $f$, at least modulo equivalence of derivations $\circeq$.
 Similar questions have been considered by {\v{C}}ubri{\'c} \cite{Cubric1994} in the setting of intuitionistic propositional logic and by Saurin \cite{Saurin2024} for (extensions) of classical linear logic. They call \emph{proof-relevant interpolation} the study of interpolation procedures in relationship to cut rules and equivalence of proofs, like our $\circeq$. In particular, {\v{C}}ubri{\'c} and Saurin show that interpolation procedures are in a way ``right inverses'' of cut rules. Here we show the same for nonassociative Lambek calculus: the $\mathsf{mip}$ procedure is a right inverse of the $\mathsf{cut}$ rule.
@@ -1006,7 +1169,17 @@ The proof of Theorem \ref{thm:MIP} becomes the construction of the following fun
 We construct $\mathsf{mip{\circeq}}$ by pattern-matching on $eq_2$, the equivalence of derivations. 
 The main challenge is handling the thirty-six cases that arise from the equations making $\circeq$ an equivalence relation and a congruence relations wrt. to the logical rules and permutative conversion equations, further complicated by determining the relative positions between interpolant formulae and principal formulae. This proof is difficult to complete accurately on pen-and-paper and prone to errors. Agda is essential here, helping us examine all possible cases systematically and providing formal verification of the completed proof.
 
-\section{Concluding remarks}
+\section{Concluding Remarks}
+
+In this paper, we presented an Agda formalization of \NL, focusing on three major proof-theoretic properties: cut-elimination, Maehara interpolation, and proof-relevant interpolation. Our key contribution is the formal characterization of case distinctions for binary trees, which serves as a foundation for rigorously proving properties of \NL.
+
+While cut-elimination and the standard Maehara interpolation property for \NL\ have been established in previous research, our work still offers several contributions. First, our Agda formalization of the case distinction type for trees provides a rigorous foundation that can be reused in further research such as uniform interpolation \cite{alizadeh:2014}. Second, our proof-relevant interpolation results, demonstrating that the Maehara interpolation procedure is well-defined with respect to equivalence of derivations, is new theoretical result of \NL.
+
+Our formalization implements only the basic variable condition for interpolation. The condition can be strengthened to include variable multiplicity \cite{moot:categorial:2012}, or even variable polarity conditions \cite{roorda1991}. However the implementation in Agda is not yet clear, so we leave them as future work.
+
+The well-definedness result for the Maehara interpolation procedure with respect to equivalence of derivations is attainable for nonassociative Lambek calculus because the logic does not contain complicated equivalences of formulae, making the interpolation triple straightforward to define. We anticipate that extending this approach to the associative or semi-associative Lambek calculus \cite{VW2025} would be more challenging, as those systems involve more complex equational theories on formulae.
+
+From a practical perspective, it is worth mentioning that the formalization of these proofs is computationally intensive. The type-checking time for certain files is substantial; the well-definedness proofs (\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/IntrpWellDefined.agda}{$\mf{IntrpWellDefined.agda}$}) require approximately ten minutes to type-check, while the associativity of $\cut$ (\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/CutAssociativities.agda}{$\mf{CutAssociativities.agda}$}) and the congruence of $\cut$ wrt. $\circeq$ (\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/CutCongruence.agda}{$\mf{CutCongruence.agda}$}) require around two hours and six hours, respectively.
 
 \begin{credits}
 \subsubsection{\ackname} This work was supported by the Estonian Research Council grant PSG749. 
