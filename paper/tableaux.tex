@@ -62,8 +62,8 @@
 %% macros for derivations
 \newcommand{\vd}{\vdash}
 \newcommand{\ax}{\mathsf{ax}}
-\newcommand{\tl}{\otimes \mathsf{L}}
-\newcommand{\tr}{\otimes\mathsf{R}}
+\newcommand{\tl}{{\otimes}\mathsf{L}}
+\newcommand{\tr}{{\otimes}\mathsf{R}}
 \newcommand{\Ll}{{\Larr}\mathsf{L}}
 \newcommand{\Lr}{{\Larr}\mathsf{R}}
 \newcommand{\Rl}{{\Rarr}\mathsf{L}}
@@ -87,17 +87,17 @@
 \newcommand{\field}{\mathsf{field}}
 \newcommand{\subst}{\mathsf{subst}}
 \newcommand{\Same}{\mathsf{Same}}
-\newcommand{\ContainsLeft}{\mathsf{ContainsLeft}}
-\newcommand{\ContainsRight}{\mathsf{ContainsRight}}
-\newcommand{\LeftRight}{\mathsf{LeftRight}}
+\newcommand{\ContainsLeft}{{\in}\mathsf{Left}}
+\newcommand{\ContainsRight}{{\in}\mathsf{Right}}
+\newcommand{\LeftRight}{\mathsf{Disj}}
 \newcommand{\subcases}{\mathsf{SubEq}}
-\newcommand{\oneeqtwo}{\mathsf{1{\equiv}2}}
-\newcommand{\twogtLone}{\mathsf{2{>}L1}}
-\newcommand{\twogtRone}{\mathsf{2{>}R1}}
-\newcommand{\onegtLtwo}{\mathsf{1{>}L2}}
-\newcommand{\onegtRtwo}{\mathsf{1{>}R2}}
-\newcommand{\oneLtwoR}{\mathsf{1\sls \bsls 2}}
-\newcommand{\oneRtwoL}{\mathsf{2\sls \bsls 1}}
+\newcommand{\oneeqtwo}{\mathsf{case}_1}%{\mathsf{1{\equiv}2}}
+\newcommand{\twogtLone}{\mathsf{case}_2}%{\mathsf{2{>}L1}}
+\newcommand{\twogtRone}{\mathsf{case}_3}%{\mathsf{2{>}R1}}
+\newcommand{\onegtLtwo}{\mathsf{case}_4}%{\mathsf{1{>}L2}}
+\newcommand{\onegtRtwo}{\mathsf{case}_5}%{\mathsf{1{>}R2}}
+\newcommand{\oneLtwoR}{\mathsf{case}_6}%{\mathsf{1\sls \bsls 2}}
+\newcommand{\oneRtwoL}{\mathsf{case}_7}%{\mathsf{2\sls \bsls 1}}
 \newcommand{\subeq}{\mathsf{subeq}}
 \newcommand{\inT}{\in^{\mf{T}}}
 
@@ -216,7 +216,6 @@ Underscores indicate infix operators, e.g. $A \ot B$ is a formula for any $A,B :
 
 In the literature on \NL\ \cite{moot:categorial:2012}, trees (also called structures) are defined inductively by the grammar $T,U ::= A \mid (T, U)$ where $A$ is a single formula.
 Contexts are trees with a hole, inductively specified by the grammar   $\mathcal{C} ::= [\bullet] \mid (\mathcal{C}, T) \mid (T, \mathcal{C})$. 
-
 In our formalization, we conflate the two notions and define a type $\Tree$ of trees possibly containing more than one hole. This representation becomes convenient in the specification of the technical lemma.
 We will see in Section \ref{sec:calculus} that allowing the presence of holes in trees is unproblematic, as antecedents of valid sequents are necessarily free of holes.
 %We formalize the type $\Tree$ of trees as the following inductive type:
@@ -228,7 +227,7 @@ We will see in Section \ref{sec:calculus} that allowing the presence of holes in
   \;\; \_{\cdast}\_ &: \Tree \to \Tree \to \Tree \\
 \end{array}
 \]
-\niccolo{Maybe we can change $\eta$ to $\mathsf{fma}$ and $\cdast$ to a special comma/semicolon, to keep notation closer to the usual one.}
+%\niccolo{Maybe we can change $\eta$ to $\mathsf{fma}$ and $\cdast$ to a special comma/semicolon, to keep notation closer to the usual one.}
 
 %Our definition more closely resembles the definition of contexts in \cite{moot:categorial:2012}. This approach facilitates smoother proofs and allows us to define derivations using the same type. This definition does not introduce inconsistent derivations since the axiom sequents are defined with non-empty antecedents (see Section \ref{sec:calculus} for the formal sequent calculus).
 
@@ -311,21 +310,21 @@ This subsection is dedicated to providing a concrete characterization of the equ
 
 The type $\subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2$ is the disjoint union of all the  cases that can occur, of which we there are 7:
 \[
-\begin{array}{rl}
-  \multicolumn{2}{l}{\data \:\:  \mathsf{SubEq} \:\: (p_1 : \pathT{T_1})~ (p_2 : \pathT{T_2})~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
-  \;\; \oneeqtwo &: \Same ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
-  \;\; \twogtLone &: \ContainsLeft ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
-  \;\; \twogtRone &: \ContainsRight ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
-  \;\; \onegtLtwo &: \ContainsLeft ~ p_2 ~ p_1 ~ U_2 ~ U_1 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
-  \;\; \onegtRtwo &: \ContainsRight ~ p_2 ~ p_1 ~ U_2 ~ U_1 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
-  \;\; \oneLtwoR &: \LeftRight ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
-  \;\; \oneRtwoL &: \LeftRight ~ p_2 ~ p_1 ~ U_2 ~ U_1 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2
+\begin{array}{rll}
+  \multicolumn{3}{l}{\data \:\:  \mathsf{SubEq} \:\: (p_1 : \pathT{T_1})~ (p_2 : \pathT{T_2})~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
+  \;\; \oneeqtwo &: \Same ~ p_1 ~ p_2 ~ U_1 ~ U_2 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \twogtLone &: \ContainsLeft ~ p_1 ~ p_2 ~ U_1 ~ U_2 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \twogtRone &: \ContainsRight ~ p_1 ~ p_2 ~ U_1 ~ U_2 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \onegtLtwo &: \ContainsLeft ~ p_2 ~ p_1 ~ U_2 ~ U_1 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \onegtRtwo &: \ContainsRight ~ p_2 ~ p_1 ~ U_2 ~ U_1 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \oneLtwoR &: \LeftRight ~ p_1 ~ p_2 ~ U_1 ~ U_2 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \oneRtwoL &: \LeftRight ~ p_2 ~ p_1 ~ U_2 ~ U_1 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2
 \end{array}
 \]
 Let us go through them one by one.
 %To this aim, we fix two paths $p_1 : \pathT{T_1}$ and $p_2 : \pathT{T_2}$ and two trees $U_1$ and $U_2$, such that $\sub{p_1}{U_1}$ is propositionally equal to $\sub{p_2}{T_2}$. There are four possibilities:
 \\
-\udl{1. $U_1$ is equal to $U_2$.}
+\begin{case}[$U_1$ is equal to $U_2$]
 In this case, $T_1$ must be equal to $T_2$ and $p_1$ and $p_2$ must be equal as well. We collect this information in the record type $\Same ~ p_1 ~ p_2 ~ U_1 ~ U_2$.
 \[
 \begin{array}{rl}
@@ -339,8 +338,8 @@ In this case, $T_1$ must be equal to $T_2$ and $p_1$ and $p_2$ must be equal as 
 \]
 Terms of this type are triples consisting of three equalities about the outer trees, the inner trees used for substitution into holes, and paths, respectively.
 Notice that paths $p_1$ and $p_2$ have different types, so to be able to equate them one needs to first substitute $T_2$ for the equal tree $T_1$ in the type of $p_1$. This is what the application of $\subst$ in the type of $eqp$ is used for.
-\\
-\udl{2. $U_1$ contains $U_2$ in its left subtree.}
+\end{case}
+\begin{case}[$U_1$ contains $U_2$ in its left subtree]
 In this case, there exist trees $W_1$ and $W_2$ and a path $q$ in $W_1$ such that $U_1$ is equal to the tree $\sub{q}{U_2} \cdast W_2$.
 Moreover, $p_2$ is equal to the concatenation of $p_1$ with $q \btleft W_2$.
 Visually, an example of a tree $\sub{p_1}{U_2}$ (equal to $\sub{p_1}{U_1})$ for this case looks as follows:
@@ -561,8 +560,8 @@ Terms of this type are tuples consisting of trees $W_1$ and $W_2$ (which are imp
 Additionally, there are three equalities characterizing $T_2$, $U_1$, and $p_2$, as depicted in (\ref{eq:containsleft}).
 %The first and second equalities correspond to our observations from the left and right diagrams in (\ref{eq:ContainsLeft:T2U1}), respectively.
 %The third equality reflects what we observed in the right diagram of (\ref{eq:ContainsLeft:p1p2}).
-\\
-\udl{3. $U_1$ contains $U_2$ in its right subtree.}
+\end{case}
+\begin{case}[$U_1$ contains $U_2$ in its right subtree]
 This case is similar to the previous one, with the difference that now $q$ is a path in $W_2$ and $U_1$ is equal to $W_1 \cdast \sub{q}{U_2}$.
 Moreover, $p_2$ is equal to the concatenation of $p_1$ with $W_1 \btright q$.
 This information is collected in the record type $\ContainsRight~p_1 ~ p_2 ~ U_1 ~ U_2$:
@@ -577,14 +576,14 @@ This information is collected in the record type $\ContainsRight~p_1 ~ p_2 ~ U_1
   \;\; \quad eqp &: \subst ~ \Path ~ eqT ~ p_2 \equiv p_1 \append ~ (W_1 \btright q)
 \end{array}
 \]
-\\
-\udl{4. $U_2$ contains $U_1$ in its left subtree.}
+\end{case}
+\begin{case}[$U_2$ contains $U_1$ in its left subtree]
 This case corresponds to an element of type $\ContainsLeft~p_2 ~ p_1 ~ U_2 ~ U_1$.
-\\
-\udl{5. $U_2$ contains $U_1$ in its right subtree.}
+\end{case}
+\begin{case}[$U_2$ contains $U_1$ in its right subtree]
 This case corresponds to an element of type $\ContainsRight~p_2 ~ p_1 ~ U_2 ~ U_1$.
-\\
-\udl{6. $U_1$ and $U_2$ are disjoint and $U_1$ is on the left of $U_2$.}
+\end{case}
+\begin{case}[$U_1$ and $U_2$ are disjoint and $U_1$ is on the left of $U_2$]
 In this case, $p_1$ and $p_2$ share a common initial path $q$, but then split at a node where they take different directions: $p_1$ continues on the left branch while $p_2$ continues on the right branch. This means that there exist two trees $W_1$ and $W_2$, as well as two paths $p_1 : \pathT{W_1}$ and $p_2 : \pathT{W_2}$, such that $p_1$ is equal to the concatenation of $q$ with $q_1 \btleft W_2$, while $p_2$ is equal to the concatenation of $q$ with $W_1 \btright q_2$.
 Visually, an example of a tree $\sub{p_1}{U_2}$ (equal to $\sub{p_1}{U_1})$ for this case looks as follows:
 \[
@@ -778,10 +777,10 @@ This information is collected in the record type $\LeftRight~p_1 ~ p_2 ~ U_1 ~ U
 Terms of this type are tuples consiting of three (implicit) trees $W$, $W_1$, and $W_2$. The tree $W$ contains the common path $q$ and it is the largest common prefix tree of both $T_1$ and $T_2$.% such representing the largest subtree beginning at the divergence point of $p_1$ and $p_2$.
 The tree $W_1$ is the subtree where $U_1$ will be substituted, while $W_2$ the one where $U_2$ will be substituted.
 The remaining equalities characterize $T_1$, $T_2$, $p_1$ and $p_2$, as depicted in (\ref{eq:leftright}).
-\\
-\udl{7. $U_1$ and $U_2$ are disjoint and $U_2$ is on the left of $U_1$.}
+\end{case}
+\begin{case}[$U_1$ and $U_2$ are disjoint and $U_2$ is on the left of $U_1$]
 This case is similar to the previous one, all information is recorded in the type $\LeftRight~p_2 ~ p_1 ~ U_2 ~ U_1$.
-
+\end{case}
 %While our illustration shows $U_1$ positioned to the left of $U_2$, the dual case where $U_2$ appears to the left of $U_1$ is also possible and is covered by this type definition.
 
 One can check that the 7 previous cases are mutually disjoint and exhaustive, and that the type $\subcases ~p_1 ~p_2 ~U_1 ~U_2$ is indeed equivalent to $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$. The right-to-left direction of this equivalence corresponds to the construction of the function $\subeq$ in (\ref{eq:subeq}), which is defined by pattern-matching on the given paths $p_1$ and $p_2$.
@@ -805,10 +804,9 @@ One can check that the 7 previous cases are mutually disjoint and exhaustive, an
 %
 %This function demonstrates that when two substitutions are equal, we can always identify a corresponding type from one of the cases defined above. The proof proceeds by pattern-matching on paths $p_1$ and $p_2$. For simple base cases, the proof directly constructs the appropriate case value. For recursive cases, we use Agda's $\mathsf{with}$ to perform intermediate computations and use the intermediate results to construct the desired term in the corresponding type.
 
-\section{Nonassociative Lambek calculus}\label{sec:calculus}
-In this section, we present the sequent calculus for the nonassociative Lambek calculus and its cut-elimination property.
-
-A sequent takes the form $T \vd C$, where $T$ is a tree and $C$ is a single formula.
+\section{The Nonassociative Lambek Calculus}\label{sec:calculus}
+We now present the sequent calculus for \NL\ and its cut admissibility property.
+A sequent in \NL\ takes the form $T \vd C$, where $T$ is a tree and $C$ is a single formula.
 The derivation rules of the calculus are given below:
 \begin{equation}\label{eq:seqcalc}
 \begin{array}{c}
@@ -816,114 +814,120 @@ The derivation rules of the calculus are given below:
   \quad
   \infer[\Rr]{T \vd A \Rarr B}{A , T \vd B} 
   \quad
-  \infer[\Lr]{T \vd A \Rarr B}{T , A \vd B \Larr A} 
-  \\[7pt]
-  \infer[\Rl]{T[U , A \Rarr B] \vd C}{
-    U \vd A
-    &
-    T[B] \vd C
-  }
+  \infer[\Lr]{T \vd A \Rarr B}{T , A \vd B \Larr A}
   \quad
-  \infer[\Ll]{T[U , B \Larr A] \vd C}{
-    U \vd A
-    &
-    T[B] \vd C
-  }
-  \\[7pt]
   \infer[\tr]{T , U \vd A \ot B}{
     T \vd A
     &
     U \vd B
   }
+  \\[7pt]
+  \infer[\Rl]{\mc{C}[U , A \Rarr B] \vd C}{
+    U \vd A
+    &
+    \mc{C}[B] \vd C
+  }
   \quad
-  \infer[\tl]{T[A \ot B] \vd C}{
-    T[A , B] \vd C
+  \infer[\Ll]{\mc{C}[U , B \Larr A] \vd C}{
+    U \vd A
+    &
+    \mc{C}[B] \vd C
+  }
+  \quad
+  \infer[\tl]{\mc{C}[A \ot B] \vd C}{
+    \mc{C}[A , B] \vd C
   }
 \end{array}
 \end{equation}
+Notice that the axiom rule above operates only on atomic formulae $X$. A general axiom rule, with $X$ replaced by an arbitrary formula $A$, is admissible.
 
-In our Agda implementation, derivations are encoded as an inductive datatype where each rule in (\ref{eq:seqcalc}) corresponds to exactly one constructor. Here we illustrate two examples, $\ax$ and $\Rl$:
+In our Agda formalization, the entailment relation $\vdash$ is implemented as an inductive type family indexed over the types $\Tree$ and $\Fma$, i.e. $T \vdash C$ is a type for each $T : \Tree$ and $C : \Fma$. 
+There is one constructor for each rule in (\ref{eq:seqcalc}).
+The type of the constructors mimic closely the inference rules, but they use paths to describe the exact position of each hole and they employ the function $\Sub$ for the implementation of substitution in a hole.
+Here we only show the constructors associated to two rules $\ax$ and $\Rl$:
 \[
-\begin{array}{l}
-\ax : \forall \{X\} 
-\\
-\quad \to \eta ~ (\at ~ X) \vd \at ~ X
+\begin{array}{ll}
+  \multicolumn{2}{l}{\data \:\:  \_{\vdash}\_  : \Tree \to \Fma \to \Set \:\: \where} \\
+  \;\; \quad \ax &: \forall \{X\} \to \eta ~ (\at ~ X) \vd \at ~ X \\
+  \;\; \quad \Rl &: \forall \{T ~ U ~ A ~ B ~ C \} ~(p : \pathT{T}) ~(f : U \vd A) ~ (g : \sub{p}{(\eta ~ B)} \vd C) \\
+ \;\; \quad &\to \sub{p}{(U\cdast ~ \eta ~ (A \Rarr B))} \vd C
 \end{array}
 \]
+%This constructor specifies that for any atomic formula $X : \At$, there exists a term of type $\eta ~ (\at ~ X) \vd \at ~ X$, directly corresponding to the $\ax$ rule in (\ref{eq:seqcalc}). Since the antecedent is a tree without holes, this construction avoids introducing inconsistent derivations.
+%
+%The $\Rl$ rule is implemented as:
+%\[
+%\begin{array}{rcl}
+%\Rl & : & \forall ~ \{T ~ U ~ A ~ B ~ C \} \\
+%&\to& (p : \pathT{T}) \\
+%&\to&(f : U \vd A) ~ (g : \sub{p}{(\eta ~ B)} \vd C) \\
+%&\to& \sub{p}{(U\cdast ~ \eta ~ (A \Rarr B))} \vd C
+%\end{array}
+%\]
+%The type of the constructor $\Rl$ reads: given terms (derivations) $f : U \vd A$ and $g : \sub{p}{(\eta ~ B)} \vd C$, then $\Rl ~f ~g$ is a derivations of type $\sub{p}{(U\cdast ~ \eta ~ (A \Rarr B))} \vd C$.
 
-This constructor specifies that for any atomic formula $X : \At$, there exists a term of type $\eta ~ (\at ~ X) \vd \at ~ X$, directly corresponding to the $\ax$ rule in (\ref{eq:seqcalc}). Since the antecedent is a tree without holes, this construction avoids introducing inconsistent derivations.
-
-The $\Rl$ rule is implemented as:
-\[
-\begin{array}{rcl}
-\Rl & : & \forall ~ \{T ~ U ~ A ~ B ~ C \} \\
-&\to& (p : \pathT{T}) \\
-&\to&(f : U \vd A) ~ (g : \sub{p}{(\eta ~ B)} \vd C) \\
-&\to& \sub{p}{(U\cdast ~ \eta ~ (A \Rarr B))} \vd C
-\end{array}
-\]
-
-Thus, given terms $f : U \vd A$ and $g : \sub{p}{(\eta ~ B)} \vd C$, the expression $\Rl ~f ~g$ produces a term of type $\sub{p}{(U\cdast ~ \eta ~ (A \Rarr B))} \vd C$.
-
-The admissible cut rule for this calculus takes the form:
+\subsection{Cut Admissibility}
+The cut rule in \NL\ takes the form
 \[
 \begin{array}{c}
-  \infer[\cut]{T[U] \vd C}{
+  \infer[\cut]{\mc{C}[U] \vd C}{
     U \vd D
     &
-    T[D] \vd C
+    \mc{C}[D] \vd C
   }
 \end{array}
 \]
-In the types of the function below, and further in this paper, we sometimes omit some of the implicit arguments to shorten the types and improve readability.
-
-The $\cut$ rule is implemented as:
+which in Agda becomes
 \[
-\begin{array}{l}
-  \cut : (f : U \vd D) ~(g : W \vd C) 
-  \\
-  \quad \to (eq : W \equiv \sub{p}{(\eta ~ D)})
-  \\
-  \quad \to \sub{p}{U} \vd C
+\begin{array}{rl}
+  \cut &: \{ p : \pathT{T}\} ~(f : U \vd D) ~(g : W \vd C) 
+ ~(eq : W \equiv \sub{p}{(\eta ~ D)})
+ \\ &\to \sub{p}{U} \vd C
 \end{array}
 \]
+Notice that some implicit arguments ($T,U,W,D$ and $C$) have been omitted to shorten the specification of $\cut$ and improve readability. We will similarly omit implicit arguments later in the paper.
+Notice that the function $\cut$ takes an extra equality proof $eq$.
+This is needed since without $eq$, i.e. if we assumed an argument $g : \sub{p}{(\eta ~ D)} \vdash C$ instead, Agda would not allow pattern-matching on $g$, as it is unable to unify the antecedent $\sub{p}{(\eta ~ D)}$ with the ones appearing in the conclusion of inference rules.
 
-We introduce an auxiliary term $eq$ to enable Agda to pattern-match on $g$.
-The proof proceeds by induction on $g$. Similar to pen-and-paper proofs, in certain cases we need to determine the relative positions of the cut formula and the principal formula. For instance, when $g = \tl ~ g'$, the derivation appears as:
+The construction of the function $\cut$ proof proceeds by pattern-matching on on $g$. Similarly to the pen-and-paper proof, when $g$ ends with an application of a left-introduction rule, we need to determine the relative positions of the cut formula and the principal formula. For instance, when $g = \tl ~ g'$, we have the following situation:
 \[
 \begin{array}{c}
-  \infer[\cut]{T[U] \vd C}{
+  \infer[\cut]{\mc{C}[U] \vd C}{
     \deduce{U \vd D}{f}
     &
-    \infer[\tl]{T'[A \ot B] \vd C}{
-      \deduce{T'[A , B] \vd C}{g'}
+    \infer[\tl]{\mc{C}'[A \ot B] \vd C}{
+      \deduce{\mc{C}'[A , B] \vd C}{g'}
     }
   }
 \end{array}
 \] 
+with $\mc{C}'[A\ot B] = \mc{C}[D]$. 
+%must have another representation as $T''[D]$ for some tree $T''$. In pen-and-paper proofs, we need to determine whether $D$ exactly matches the principal formula $A \ot B$.
 
-Here, the tree $T'[A\ot B]$ must have another representation as $T''[D]$ for some tree $T''$. In pen-and-paper proofs, we need to determine whether $D$ exactly matches the principal formula $A \ot B$.
-
-In our Agda implementation, we use the $\mf{with}$ construct and the $\subeq$ function to perform intermediate computation and identify the different possible cases.
-There are three subcases: $\oneeqtwo$ (where $D$ is exactly the principal formula $A \ot B$), $\oneLtwoR$ (where $D$ and $A \ot B$ are in different subtrees with $A \ot B$ on the left and $D$ on the right), and $\oneRtwoL$ (the dual case).
+In the Agda formalization, the latter (propositional) equality appears as the type $\sub{p'}{(\eta ~ (A \ot B))} \equiv \sub{p}{(\eta ~ D)}$ of the argument $eq$, where $p'$ is a path in another tree $T'$.
+At this point we apply the technical lemma $\subeq$ of (\ref{eq:subeq}) to the equality proof $eq$ in order to identify the different possible cases.
+Here there are only three non-vacuous cases: $\oneeqtwo$ (where $D$ is exactly the principal formula $A \ot B$), $\oneLtwoR$ (where $D$ and $A \ot B$ are in different subtrees with $A \ot B$ on the left and $D$ on the right), and $\oneRtwoL$ (the dual case).
 For the latter two cases, we permute the $\tl$ rule downward and continue recursively.
-For the exact match case, we introduce an auxiliary function:
+For the first case, we introduce an auxiliary function, defined by mutual recursion with $\cut$:
 \[
 \begin{array}{l}
-  \cut\tl : (f : U \vd A \ot B) ~(g : \sub{p}{(\eta ~ A \cdast \eta ~ B)} \vd C) 
+  \cut\tl : \{p : \pathT{T}\}~ (f : U \vd A \ot B) ~(g : \sub{p}{(\eta ~ A \cdast \eta ~ B)} \vd C) 
   \\
   \quad \to \sub{p}{U} \vd C
 \end{array}
 \]
+The construction of $\cut\tl$ proceeds by pattern-matching on $f$, mirroring the pen-and-paper proof where one further inducts on the derivation of the first premise when the cut formula coincides with the principal formula.
+%We employ this auxiliary function to avoid termination checking failures in subsequent proofs involving properties of $\cut$.
+In the definition of $\cut$, the cases when the derivation $g$ ends with an application of rules $\Rl$ and $\Ll$ also require special care, similar to the case of $\tl$ described above, i.e. an application of the technical lemma $\subeq$ and the definition of two auxiliary functions $\cut\Rl$ and $\cut\Ll$ for the cases when the cut formula $D$ coincides with the principal formula.
+The functions  $\cut\Rl$ and $\cut\Ll$ are defined by mutual recursion with $\cut$ and $\cut\tl$.
 
-This function is proven by pattern-matching on $f$, mirroring the pen-and-paper approach where we further induct on the other derivation when the cut formula and principal formula coincide.
-We employ this auxiliary function to avoid termination checking failures in subsequent proofs involving properties of $\cut$.
-The same technique of using auxiliary functions is also applied to the rules $\Rl$ and $\Ll$.
+\niccolo{If there is space, add $\cut\Rl$ and $\cut\Ll$.}
+
 \begin{remark}
-  An alternative approach would be to prove $\cut$ by first pattern-matching on $f$ and distinguishing cases where $f$ concludes with a right rule. However, this approach results in a longer proof that requires more applications of the $\mf{with}$ construct and the $\subeq$ function, which significantly increases type-checking time of the subsequent proofs of properties related to $\cut$. 
+  Alternatively, $\cut$ can be defined by pattern-matching on the first argument $f$ instead of $g$ and then distinguishing cases where $f$ ends with an application of a right-introduction rule. The latter approach results in an equivalent but longer definition of $\cut$, since it requires a larger number of applications of the function $\subeq$. This in turn has a negative impact on the type-checking time of the whole development, especially of proofs of properties of $\cut$.
 \end{remark}
 
-\section{Equivalence of derivations}
+\section{Equivalence of Derivations}
 Sets of derivations of \NL\ are quotiented by a congruence relation $\circeq$, generated by the pairs of derivations.
 There are twenty-seven cases of permutative conversions, therefore we only present three examples in Figure \ref{fig:example:perm:conversion}, each of which represents left rules permute with right rules, permutation of sequential application of left rules, and permutation of parallel application of left rules.
 \begin{figure}[t]
@@ -1163,7 +1167,7 @@ Notice that pairs of derivations in these equations are \emph{strictly} equal, n
   \end{array}
   $}
   \]
-  \caption{Unit, associativity, and commutativity of $\cut$}
+  \caption{Unitality, associativity, and commutativity of $\cut$}
   \label{fig:cut:properties}
   \end{figure}
 % cut-unit : ∀ {T X W C} (p : Path T)
@@ -1194,7 +1198,7 @@ We present three indicative examples, one for each class of equational generator
 \end{array}
 \]
 
-\section{Interpolation properties}
+\section{Interpolation Properties}
 In this section, we introduce three aspects of interpolation for nonassociative Lambek calculus: Maehara interpolation, proof-relevant interpolation, and showing that Maehara interpolation is well-defined with respect to equivalence of derivations.
 
 \emph{Maehara interpolation property} (\MIP) \cite{ono:proof:nonclassical:1998} is a property of a cut-free sequent calculus. 
