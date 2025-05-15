@@ -90,7 +90,7 @@
 \newcommand{\ContainsLeft}{\mathsf{ContainsLeft}}
 \newcommand{\ContainsRight}{\mathsf{ContainsRight}}
 \newcommand{\LeftRight}{\mathsf{LeftRight}}
-\newcommand{\subcases}{\mathsf{SubEqCases}}
+\newcommand{\subcases}{\mathsf{SubEq}}
 \newcommand{\oneeqtwo}{\mathsf{1{\equiv}2}}
 \newcommand{\twogtLone}{\mathsf{2{>}L1}}
 \newcommand{\twogtRone}{\mathsf{2{>}R1}}
@@ -128,7 +128,7 @@ Cheng-Syuan Wan \orcidID{0000-0003-2053-1688}}
 %
 \begin{abstract}
   This paper presents a formalization of the nonassociative Lambek calculus in the Agda proof assistant. %, focusing on two major proof-theoretic properties: cut admissibility and Maehara interpolation. 
-  The sequent calculus for this logic has sequents with binary trees as antecedents, in which formulae are stored as leaves. The shape of the antecedents creates subtleties when proving logical properties, since one often needs to analyse equalities involving the sequntial composition of trees. We formally characterize these equalities and show how to employ the resulting technical lemma to prove cut admissibility and the Maehara interpolation propery, which implies Craig interpolation. We prove a proof-relevant version of Maehara interpolation, showing that the interpolation procedure is well-defined wrt.~a certain notion of equivalence of derivations and that it is a partial inverse of the admissible cut rule.
+  The sequent calculus for this logic has sequents with binary trees as antecedents, in which formulae are stored as leaves. The shape of the antecedents creates subtleties when proving logical properties, since one often needs to analyse equalities involving the sequntial composition of trees. We formally characterize these equalities and show how to employ the resulting technical lemma to prove cut admissibility and the Maehara interpolation propery, which implies Craig interpolation. We prove a proof-relevant version of Maehara interpolation, showing that the interpolation procedure is well-defined wrt.\ a certain notion of equivalence of derivations and that it is a partial inverse of the admissible cut rule.
   %Our work, especially the case distinction type defined here, aims to serve as a foundation for further research and formalization on nonassociative Lambek calculus.
 \keywords{nonassociative Lambek calculus \and Agda \and cut admissibility \and Maehara interpolation \and proof-relevant interpolation}
 \end{abstract}
@@ -147,53 +147,60 @@ This structural difference makes the proofs of logical properties for \NL\ trick
 For example, when proving cut admissibility, in certain cases, one must determine whether the cut formula coincides with the principal formula of the conclusion. For \Lam, the flat antecedents make the situation clear: there are three possibilities--either the cut formula is to the left of the principal formula, to the right, or it is the principal formula itself.
 
 For \NL, the situation is more involved, as there are more cases to examine. %while the case distinction follows similar principles, the hierarchical tree structure obscures these relationships.
-For example, consider the proof of cut admissibility, in which we wish to compose the derivations of sequents $U \vdash D$ and $T[D] \vd C$. Here $T$ is a context, i.e. a tree with a hole, and $T[D]$ is the tree resulting from plugging the formula $D$ in the hole. If the derivation of the second sequent ends with an application of the left $\Rl$-introduction rule,
-then its antecedent is of the form $T'[U' , A \Rarr B]$ for some context $T'$, tree $U'$ and formulae $A,B$ (where $T[U',A\Rarr B]$ is the tree arising from substituting the tree $(U', A\Rarr B)$ in context $T'$). This means that we are given an equality of trees $T[D]=T'[U',A \Rarr B]$ and we need to precisely characterize the structural relationship between the cut formula $D$ and the tree $(U,A \Rarr B)$ within the contexts $T$ and $T'$.
+For example, consider the proof of cut admissibility, in which we wish to compose the derivations of sequents $U \vdash D$ and $\mc{C}[D] \vd C$. Here $\mc{C}$ is a context, i.e. a tree with a hole, and $\mc{C}[D]$ is the tree resulting from plugging the formula $D$ in the hole. If the derivation of the second sequent ends with an application of the left $\Rl$-introduction rule,
+then its antecedent is of the form $\mc{C}'[U' , A \Rarr B]$ for some context $\mc{C}'$, tree $U'$ and formulae $A,B$ (where $\mc{C}'[U',A\Rarr B]$ is the tree arising from substituting the tree $(U', A\Rarr B)$ in context $\mc{C}'$). This means that we are given an equality of trees $\mc{C}[D]=\mc{C}'[U',A \Rarr B]$ and we need to precisely characterize the structural relationship between the cut formula $D$ and the tree $(U,A \Rarr B)$ within the contexts $\mc{C}$ and $\mc{C}'$.
 %$\ot$-introduction rule, then its antecedent is of the form $T'[A \ot B]$ for some context $T'$ and formulae $A,B$. This means that we are given an equality of trees $T[D]=T'[A \ot B]$ and we need to precisely characterize the structural relationship between the tensor formula $A \ot B$ and the cut formula $D$ within these trees.
 This relationship is not as simple as in the associative Lambek calculus, it involves a more complex splitting of the contexts from which more cases arise.
 
-Though we can intuitively understand what occurs in the proof of cut admissibility, since it is not too difficult to compute all possible cases, what about more complex properties? For example, consider proving that the admissible cut rule is associative, i.e. the two ways of cutting three sequents of the form $U \vdash D$, $T[D] \vdash E$ and $V[E] \vdash C$ produce equal derivations. Because of the large number of cases arising from the induction on the shape of derivations and, mostly, from the analysis of equalities of trees discussed in the previous paragraph, establishing the associativity of cut becomes very challenging to perform with pen and paper, as it is hard to keep track of all the possible cases to consider.
+Though we can intuitively understand what occurs in the proof of cut admissibility, since it is not too difficult to compute all possible cases, what about more complex properties? For example, consider proving that the admissible cut rule is associative, i.e. the two ways of cutting three sequents of the form $U \vdash D$, $\mc{C}[D] \vdash E$ and $\mc{C'}[E] \vdash C$ produce equal derivations. Because of the large number of cases arising from the induction on the shape of derivations and, mostly, from the analysis of equalities of trees discussed in the previous paragraph, establishing the associativity of cut becomes very challenging to perform with pen and paper, as it is hard to keep track of all the possible cases to consider.
 On the other hand, interactive theorem provers are very good tools for dealing with large inductive proofs and keeping track of all existing proof obligations.
 
 %This need leads us to consider a formal verification of the \NL. Our approach involves paths in trees, allowing each subtree to be represented as a substitution along a path in the original tree. This transforms the problem of determining relative positions between different subtrees into a formalizable question about the relationship between two paths in a tree.
 %For example, if two formulae $A$ and $B$ are in a tree with paths $p_1$ and $p_2$ respectively, and these paths are disjoint (diverging at some point), then there must exist some common path $q$ and two paths $q_1$ and $q_2$ after divergence such that $p_1$ equals the path concatenation of $q$ and $q_1$, while $p_2$ equals the concatenation of $q$ and $q_2$.
 
-In this work, we present the formalization of the sequent calculus for \NL~and its metatheory in the Agda proof assistant. We start by formally describing all possible cases arising from equalities of sequentially-composed trees of the form $T[U]=T'[U']$, which is the main technical lemma that we employ in the proof of logical properties. In particular, the proof of cut admissibility and the establishment of (categorical) properties of the admissible cut rule: associativity, commutativity and unitality.
+In this work, we present the formalization of the sequent calculus for \NL\ and its metatheory in the Agda proof assistant. We start by formally describing all possible cases arising from equalities of sequentially-composed trees of the form $\mc{C}[U]=\mc{C}'[U']$, which is the main technical lemma that we employ in the proof of logical properties. In particular, the proof of cut admissibility and the establishment of (categorical) properties of the admissible cut rule: associativity, commutativity and unitality.
 %Formalization of mathematics and logics has become a trend in both theoretical computer science and mathematics. While there are many suitable proof assistants (e.g., Agda, Coq, HOL4, and Lean), we choose Agda because its code is more mathematical in style and the process of proving theorems resembles providing algorithms to compute desired terms in the target type.
 %\cheng{Maybe here can be some more explanation about why formalization is important}.
 
 %Within proof theory, interpolation properties serve as fundamental property of a logic and of interests by different logicians.
 Successively, we move to the formal proof of the Maehara interpolation property (\MIP), originating from Maehara's proof of Craig interpolation for classical logic \cite{maehara1961}.
-Maehara's method has been applied and adapted to several logics, especially to substructural logics that admit a cut-free sequent calculus \cite{ono:proof:nonclassical:1998}. \MIP~states that given a sequent $T[U] \vdash C$ there exist a formula $D$ and derivations of sequents $U \vdash D$ and $T[D] \vdash C$, such that all the atomic formulae appearing in $D$ appear also in $U$, as well as in $T,C$.
+Maehara's method has been applied and adapted to several logics, especially to substructural logics that admit a cut-free sequent calculus \cite{ono:proof:nonclassical:1998}. \MIP\ states that given a sequent $\mc{C}[U] \vdash C$ there exist a formula $D$ and derivations of sequents $U \vdash D$ and $\mc{C}[D] \vdash C$, such that all the atomic formulae appearing in $D$ appear also in $U$, as well as in $T,C$.
 More precisely, we formalize a proof-relevant (in the sense of \v{C}ubri{\'c} \cite{Cubric1994} and Saurin \cite{Saurin2024}) variant of \MIP: we aim to capture not only the existence of interpolants but also their relationship to the admissible cut rule. In order to achieve this, we first introduce an equivalence relation $\circeq$ on derivations, capturing all the possible permutative conversions. We then show that both the cut admissibility and Maehara interpolation procedures are well-defined wrt. to the relation $\circeq$. %e.g. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
- Then we show that the interpolation procedure is a partial inverse of the admissible cut rule, in the sense that running the interpolation algorithm on a derivation $f$ of a sequent $T[D] \vdash C$ and successively cutting the resulting two derivations along the interpolant formula results in a derivation that is $\circeq$-related to $f$.
+ Then we show that the interpolation procedure is a partial inverse of the admissible cut rule, in the sense that running the interpolation algorithm on a derivation $f$ of a sequent $\mc{C}[D] \vdash C$ and successively cutting the resulting two derivations along the interpolant formula results in a derivation that is $\circeq$-related to $f$.
 %i.e. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
 
 %In this paper, we formalize \NL\ and prove properties in Agda: $(i)$ cut-elimination, $(ii)$ Maehara interpolation, $(iii)$ proof-relevant interpolation, and $(iv)$ \linebreak well-definedness of the Maehara interpolation procedure with respect to equivalence of derivations.
-Summarising, this work makes the following contributions: $(i)$ we prove a technical lemma for dealing with equalities of the form $T[U] = T'[U']$; $(ii)$ we employ the lemma to formally define effective procedures for cut admissibility and Maehara (and consequently Craig) interpolation; $(iii)$ we prove proof-relevant versions of the latter, by introducing an equivalence of derivations $\circeq$ and formally establishing many properties of the defined procedures: cut is associative, commutative and unital; cut and interpolation are well-defined wrt. $\circeq$; interpolation is a partial inverse of cut. We notice that contribution $(iii)$ is completely novel in the study of the metatheory of \NL.
+Summarising, this work makes the following contributions: $(i)$ we prove a technical lemma for dealing with equalities of the form $\mc{C}[U] = \mc{C}'[U']$; $(ii)$ we employ the lemma to formally define effective procedures for cut admissibility and Maehara (and consequently Craig) interpolation; $(iii)$ we prove proof-relevant versions of the latter, by introducing an equivalence of derivations $\circeq$ and formally establishing many properties of the defined procedures: cut is associative, commutative and unital; cut and interpolation are well-defined wrt. $\circeq$; interpolation is a partial inverse of cut. We notice that contribution $(iii)$ is completely novel in the study of the metatheory of \NL.
 %The paper proceeds as follows. We begin with the foundations of our formalization, including definitions of trees, paths in trees, substitutions, and case distinctions for identifying relationships between paths. Next, we introduce the sequent calculus of \NL\ and formalize cut-elimination. The subsequent section addresses equivalence of derivations and properties of the $\cut$ rule.
 %In the final sections, we formally prove Maehara interpolation and proof-relevant interpolation to demonstrate that our formalization provides a correct and usable strategy. It is worth noting that the proof-relevant interpolation results presented here are novel contributions to the study of \NL.
-
-The Agda formalization is freely available online at: \url{https://github.com/cswphilo/nonassociative-Lambek/tree/main/code}.
 
 \paragraph{Related work.}
 % \\
 % Several previous works have formalized aspects of nonassociative Lambek calculus:
-There exists some previous work on the formalization of \NL~in proof assistants. Chapter 4 of Anoun et al.'s tutorial \cite{anoun2004proof} presents a Coq formalization of the nonassociative Lambek calculus, covering axiomatic calculus, natural deduction and sequent calculus. Tian \cite{tian2017formalized} ported the above Coq formalization to HOL4. Kokke \cite{kokke2017formalising} formalized the nonassociative Lambek-Grishin calculus in Agda. %However, their work focused on axiomatic calculus, where both the antecedent and succedent are single formulae, in contrast to the sequent calculus with tree as antecedents that we formalize.
+There is some previous work on the formalization of \NL\ in proof assistants. Chapter 4 of Anoun et al.'s tutorial \cite{anoun2004proof} presents a Coq formalization of the nonassociative Lambek calculus, covering axiomatic calculus, natural deduction and sequent calculus. Tian \cite{tian2017formalized} ported the above Coq formalization to HOL4. Kokke \cite{kokke2017formalising} formalized the nonassociative Lambek-Grishin calculus in Agda. %However, their work focused on axiomatic calculus, where both the antecedent and succedent are single formulae, in contrast to the sequent calculus with tree as antecedents that we formalize.
 These earlier formalizations primarily focus on implementing the calculi and proving cut admissibility with potential linguistic applications in mind.
 %Our project takes a more proof-theoretic perspective, formally verify  focusing on the equational theory of proofs. We formalize not only cut-elimination but also extend to Maehara interpolation, proof-relevant interpolation, and demonstrate that Maehara interpolation is well-defined with respect to equivalence of derivations.
 
 Craig interpolation for intuitionistic logic has been formalized in Isabelle/HOL by Ridge \cite{ridge:2006} and in Nominal Isabelle by Chapman et al. \cite{ChapmanMU08}. For  classical logie, there is a formalization in Isabelle/HOL by Michealis and Nipkow \cite{michealis:2017}. Recently,  F{\'{e}}r{\'{e}}e and van Gool \cite{feree:2023} have formalized uniform interpolation for intuitionistic logic in Coq, which was extended to a class of modal logic by F{\'{e}}r{\'{e}}e et al. \cite{feree:24}. As far as we know, there are no formalized proofs of Craig/Maehara interpolation for substructural logics in the literature.
 
-We would like to add that the (pen-and-paper, non-formalized) proof of Maehara interpolation for \NL~is uncommon in the literature, as we were unable to find a reference for it. For \NL (and its extensions with modalities, additive connectives, etc.) researchers have traditionally been interested in other interpolation properties, involving a different condition on atomic formulae, which are useful for establishing the finite model property and the relationship between Lambek grammars and context-free grammars \cite{jager:04,buszkowski:2009,buszkowski:2010,lin:14}.
+We would like to add that the (pen-and-paper, non-formalized) proof of Maehara interpolation for \NL\ is uncommon in the literature, as we were unable to find a reference for it. For \NL (and its extensions with modalities, additive connectives, etc.) researchers have traditionally been interested in other interpolation properties, involving a different condition on atomic formulae, which are useful for establishing the finite model property and the relationship between Lambek grammars and context-free grammars \cite{jager:04,buszkowski:2009,buszkowski:2010,lin:14}.
 %Our method is more akin to traditional Maehara's method because our interest lies in a more refined analysis based on equivalence of derivations.
 
-\section{Formalization Foundations}\label{sec:agda:base}
-In this section, we introduce the core elements of our Agda formalization: trees, paths within trees, and substitutions. We focus particularly on the key formalization of determining the relative positions of subtrees of a tree.
-It is designed to precisely characterize whether two subtrees with different representations are identical, one contains the other, or they diverge after some common path. This spatial relationship analysis is fundamental to our subsequent formalization of cut-elimination and interpolation properties of \NL.
+\paragraph{Formalization}
+The Agda formalization is freely available online at: \url{https://github.com/cswphilo/nonassociative-Lambek/tree/main/code}.
 
-\noindent\textbf{Formulae, trees and paths.}
-In the original paper, formulae are inductively generated by the grammar $A, B ::= X \ | \ A \Larr B \ | \ B \Rarr A \ | \ A \ot B$, where $X$ is drawn from a set $\mathsf{At}$ of atomic formulae.
+
+
+\section{Basics on Trees}\label{sec:agda:base}
+In this section, we introduce the core elements of our Agda formalization: trees, paths within trees and substitutions.
+We mainly aim at proving a technical lemma characterizing equalities of the form $\mc{C}[U] = \mc{C}'[U']$. Intuitively, this lemma states that either $(i)$ $U = U'$, $(ii)$ $U$ is a subtree of $U'$, $(iii)$ $U'$ is a subtree of $U$, or  $(iv)$ $U$ and $U'$ are disjoint subtrees. Formally, one needs also to characterize the shape of contexts $\mc{C}$ and $\mc{C}'$ in all these cases.
+%We focus particularly on the key formalization of determining the relative positions of subtrees of a tree.
+%It is designed to precisely characterize whether two subtrees with different representations are identical, one contains the other, or they diverge after some common path.
+The technical lemma is fundamental to our subsequent formalization of cut admissibility and Maehara interpolation for \NL, as well as for establishing properties of these procedures.
+
+\subsection{Formulae, Trees, Substitutions}
+Formulae of \NL\ are inductively generated by the grammar $A, B ::= X \ | \ A \Larr B \ | \ B \Rarr A \ | \ A \ot B$, where $X$ is drawn from a set $\mathsf{At}$ of atomic formulae,
+$\ot$ is multiplicative conjunction and $\Larr$,$\Rarr$ are left and right implications (also called residuals).
 In our formalization, we postulate a type $\At$ of atomic formulae. We consistently use $X, Y, Z, \ldots$ to represent atomic formulae.
 The type $\Fma$ of formulae is defined as the following inductive type:
 \[
@@ -205,12 +212,14 @@ The type $\Fma$ of formulae is defined as the following inductive type:
   \;\; \_{\ot}\_ &: \Fma \to \Fma \to \Fma \\
 \end{array}
 \]
-Note that underscores indicate infix operators, so $A \ot B$ represents a formula for any $A,B : \Fma$.
+Underscores indicate infix operators, e.g. $A \ot B$ is a formula for any $A,B : \Fma$.
 
-In \cite{moot:categorial:2012}, trees are defined inductively by the grammar $T ::= \Fma \mid (T, T)$.
-A context is defined as a tree with a hole, represented recursively as $\mathcal{C} ::= [\bullet] \mid (\mathcal{C}, T) \mid (T, \mathcal{C})$. 
+In the literature on \NL\ \cite{moot:categorial:2012}, trees (also called structures) are defined inductively by the grammar $T,U ::= A \mid (T, U)$ where $A$ is a single formula.
+Contexts are trees with a hole, inductively specified by the grammar   $\mathcal{C} ::= [\bullet] \mid (\mathcal{C}, T) \mid (T, \mathcal{C})$. 
 
-We formalize the type $\Tree$ of trees as the following inductive type:
+In our formalization, we conflate the two notions and define a type $\Tree$ of trees possibly containing more than one hole. This representation becomes convenient in the specification of the technical lemma.
+We will see in Section \ref{sec:calculus} that allowing the presence of holes in trees is unproblematic, as antecedents of valid sequents are necessarily free of holes.
+%We formalize the type $\Tree$ of trees as the following inductive type:
 \[
 \begin{array}{rl}
   \multicolumn{2}{l}{\data \:\:  \Tree : \Set \:\: \where} \\
@@ -219,98 +228,123 @@ We formalize the type $\Tree$ of trees as the following inductive type:
   \;\; \_{\cdast}\_ &: \Tree \to \Tree \to \Tree \\
 \end{array}
 \]
+\niccolo{Maybe we can change $\eta$ to $\mathsf{fma}$ and $\cdast$ to a special comma/semicolon, to keep notation closer to the usual one.}
 
-Our definition more closely resembles the definition of contexts in \cite{moot:categorial:2012}. This approach facilitates smoother proofs and allows us to define derivations using the same type. This definition does not introduce inconsistent derivations since the axiom sequents are defined with non-empty antecedents (see Section \ref{sec:calculus} for the formal sequent calculus).
+%Our definition more closely resembles the definition of contexts in \cite{moot:categorial:2012}. This approach facilitates smoother proofs and allows us to define derivations using the same type. This definition does not introduce inconsistent derivations since the axiom sequents are defined with non-empty antecedents (see Section \ref{sec:calculus} for the formal sequent calculus).
 
-
-The type $\Path$ of paths of trees is the following inductive type:
+We introduce a type $\pathT{T}$ whose terms are paths in the tree $T$. These are sequences of left ($\btleft$) or right ($\btright$) moves from the root node of $T$ to a hole $\bullet$.
+The type family $\Path$ is the following inductive type family:
 \[
 \begin{array}{rl}
   \multicolumn{2}{l}{\data \:\:  \Path : \Tree \to \Set \:\: \where} \\
   \;\; \bullet &: \pathT{\bullet} \\
-  \;\; \_\btleft\_ &: \forall ~ \{T\} ~ (p : \pathT{T}) ~ U \to \pathT{(T \cdast U)} \\
-  \;\; \_\btright\_ &: \forall ~ T ~ \{U\} ~ (p : \pathT{U}) \to \pathT{(T \cdast U)}
+  \;\; \_{\btleft}\_ &: \forall ~ \{T\} ~ (p : \pathT{T}) ~ U \to \pathT{(T \cdast U)} \\
+  \;\; \_{\btright}\_ &: \forall ~ T ~ \{U\} ~ (p : \pathT{U}) \to \pathT{(T \cdast U)}
 \end{array}
 \]
 Curly brackets are used in Agda to denote implicit arguments.
 
-\noindent\textbf{Substitution and equality of trees.}
-The substitution of a tree into a hole is defined recursively:
+In the literature on \NL\ \cite{moot:categorial:2012}, the substitution $\mc{C}[U]$ of a tree $U$ into a hole of a context $\mc{C}$ is defined by structural recursion on $\mc{C}$:
 \begin{displaymath}
   \begin{array}{rcl}
-  subst([\bullet], U) &=& U
+  [\bullet][U] &=& U
   \\
-  subst((\mc{C},V), U) &=& (subst(\mc{C},U),V)
+  (\mc{C},V)[U] &=& (\mc{C}[U],V)
   \\
-  subst((V,\mc{C}), U) &=& (V , subst(\mc{C},U))
+  (V,\mc{C})[U] &=& (V , \mc{C}[U])
   \end{array}
 \end{displaymath}
-We use $T[\bullet]$ to denote a context and $T[U]$ to abbreviate $subst(T[\bullet], U)$.
+%We use $T[\bullet]$ to denote a context and $T[U]$ to abbreviate $subst(T[\bullet], U)$.
 
-In Agda, substitution function is constructed by pattern-matching (i.e. structural recursion) on the path to a specific hole of a tree.
+In Agda, the substitution function replace a hole in $T$, specified by a given path, by another tree $U$. This is defined by pattern-matching on the path. If $T$ has $n+1$ holes, the resulting tree $\sub{p}{U}$ has $n$ holes.
 \[
 \begin{array}{ll}
-  \multicolumn{2}{l}{\Sub : \forall ~ \{T\} \to \pathT{T} \to \Tree \to \Tree}
+  \multicolumn{2}{l}{\Sub : \forall \{T\} \to \pathT{T} \to \Tree \to \Tree}
   \\[2pt]
   \sub{\bullet}{U} &= U
   \\
-  \sub{p \btleft V}{U} &= \sub{p}{U} \cdast V
+  \sub{(p \btleft V)}{U} &= \sub{p}{U} \cdast V
   \\
-  \sub{V \btright p}{U} &= V \cdast \sub{p}{U} 
+  \sub{(V \btright p)}{U} &= V \cdast \sub{p}{U} 
 \end{array}
 \]
 
+%For any tree $U$, the substitution operation that replaces $\bullet$ with $U$ follows the path specified above.
+Two paths $p : \pathT{T}$ and $q : \pathT{U}$ can be concatenated, resulting in a path $p \append ~ q : \pathT{(\sub{p}{U})}$ in the tree obtained by sustituting $U$ in the hole specified by path $p$. Path concatenation is defined by structural recursion on the first path $p$.
+
 \begin{example}\label{example:tree:and:path}
-The following tree is encoded as $(\eta X ~ \cdast ~ \bullet) \cdast ~ \eta Y$ in Agda.
-The path to the hole is expressed as $(\eta X \btright \bullet) \btleft \eta Y$ which indicates that starting from the root node, we traverse one step left followed by one step right to reach the hole.
+Consider the tree $T = (\eta X ~ \cdast ~ \bullet) \cdast ~ \eta Y$, which contains a single hole.
+The path to the hole is $p = (\eta X \btright \bullet) \btleft \eta Y$, which indicates that, starting from the root node, we take one step to the left followed by one step to the right, after which we reach the hole.
+%\[
+%  % https://q.uiver.app/#q=WzAsNSxbMCw0LCJcXGV0YSBYIl0sWzEsMiwiXFxjZGFzdCJdLFsyLDQsIlxcY2RvdCJdLFsyLDAsIlxcY2Rhc3QiXSxbMywyLCJcXGV0YSBZIl0sWzEsMCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+%\begin{tikzcd}
+%% [sep=tiny]
+%	&& \cdast \\
+%	\\
+%	& \cdast && {\eta Y} \\
+%	\\
+%	{\eta X} && \bullet
+%	\arrow[no head, from=1-3, to=3-2]
+%	\arrow[no head, from=1-3, to=3-4]
+%	\arrow[no head, from=3-2, to=5-1]
+%	\arrow[no head, from=3-2, to=5-3]
+%\end{tikzcd}
+%\]
+%  Recall the tree and path in Example \ref{example:tree:and:path}. We call them $T$ and $p$, respectively.
+  Given another tree $U = \eta Z \cdast \bullet$ and a path $q = \eta Z \btright \bullet$ in $U$, the concatenation of paths $p$ and $q$ is $p \append ~ q = (\eta X \btright (\eta Z \btright \bullet)) \btleft \eta Y$, which is a path in the tree $\sub{p}{U} = (\eta X ~ \cdast ~ (\eta Z \cdast \bullet)) \cdast ~ \eta Y$.
+\end{example}
+
+\subsection{Equality of Substituted Trees}
+When proving cut admissibility and Maehara interpolation for \NL, a common step is determining all possible cases arising from equalities of the form $\mc{C_1}[U_1] = \mc{C_2}[U_2]$. In our Agda formalization, these will be propositional equalities of the form $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$, where $p_1$ and $p_2$ are paths in some trees $T_1$ and $T_2$ respectively. %different presentations of the same tree. For cut-elimination, this involves finding the relationship between the principal formula of the endsequent and the cut formula. For interpolation, it concerns the relationship with the interpolating tree. 
+%\begin{example}\label{example:same:tree:diff:sub}
+%  Consider the tree $T$ in Example \ref{example:tree:and:path}, we can represent it in at least two equivalent ways: $\sub{((\eta X \cdast \bullet) \btright \bullet)}{\eta Y}$ or $\sub{(\bullet \btleft \eta Y)}{(\eta X \cdast \bullet)}$.
+%\end{example}
+%We formalize this common process by constructing record types that encompass all possible scenarios where the same tree can be presented in two different ways.
+This subsection is dedicated to providing a concrete characterization of the equality type $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$, i.e. we are after a type $\subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2$ that is equivalent to $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$. In the proof-theoretic applications that will follow, we will only employ one direction of this equivalence:
 \[
-  % https://q.uiver.app/#q=WzAsNSxbMCw0LCJcXGV0YSBYIl0sWzEsMiwiXFxjZGFzdCJdLFsyLDQsIlxcY2RvdCJdLFsyLDAsIlxcY2Rhc3QiXSxbMywyLCJcXGV0YSBZIl0sWzEsMCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
-\begin{tikzcd}
-% [sep=tiny]
-	&& \cdast \\
-	\\
-	& \cdast && {\eta Y} \\
-	\\
-	{\eta X} && \bullet
-	\arrow[no head, from=1-3, to=3-2]
-	\arrow[no head, from=1-3, to=3-4]
-	\arrow[no head, from=3-2, to=5-1]
-	\arrow[no head, from=3-2, to=5-3]
-\end{tikzcd}
+\begin{array}{l}
+ \subeq : \forall ~ \{T_1 ~ T_2 \} ~ U_1 ~ U_2 ~ (p_1 : \pathT{T_1}) ~ (p_2 : \pathT{T_2})
+  \\
+  \quad \to \sub{p_1}{U_1} \equiv \sub{p_2}{U_2}
+  \\
+  \quad \to \subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2
+\end{array}
 \]
-For any tree $U$, the substitution operation that replaces $\bullet$ with $U$ follows the path specified above.
-\end{example}
-Given two paths $p : \pathT{T}$ and $q : \pathT{U}$, we write $p \append ~ q : \pathT{\sub{p}{U}}$ for the concatenation.
-Notice that the concatenation of the two paths is a path in the new tree $\sub{p}{U}$.
-\begin{example}\label{example:path:concatenation}
-  Recall the tree and path in Example \ref{example:tree:and:path}. We call them $T$ and $p$, respectively.
-  Given another tree $U = \eta Z \cdast \bullet$ with the path $q = \eta Z \btright \bullet$, the path $p \append ~ q = (\eta X \btright (\eta Z \btright \bullet)) \btleft \eta Y$, which is a path in the tree $\sub{p}{U}$.
-\end{example}
-When proving either cut-elimination or interpolation for nonassociative Lambek calculus, a key step is determining different presentations of the same tree. For cut-elimination, this involves finding the relationship between the principal formula of the endsequent and the cut formula. For interpolation, it concerns the relationship with the interpolating tree. 
-\begin{example}\label{example:same:tree:diff:sub}
-  Considering the tree in Example \ref{example:tree:and:path}, we can represent it in at least two equivalent ways: $\sub{((\eta X \cdast \bullet) \btright \bullet)}{\eta Y}$ or $\sub{(\bullet \btleft \eta Y)}{(\eta X \cdast \bullet)}$.
-\end{example}
-We formalize this common process by constructing record types that encompass all possible scenarios where the same tree can be presented in two different ways.
-Given two paths $p_1 : \pathT{T_1}$ and $p_2 : \pathT{T_2}$ and two trees $U_1$ and $U_2$, if $\sub{p_1}{U_1}$ is equal to $\sub{p_2}{T_2}$, then there are four possibilities:
-\\
-\udl{$U_1$ is equal to $U_2$.}
-In this case, if $\sub{p_1}{U_1}$ is equal to $\sub{p_2}{T_2}$, then $p_1$ and $p_2$ are forced to be equal as well as $T_1$ and $T_2$.
+
+The type $\subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2$ is the disjoint union of all the  cases that can occur, of which we there are 7:
 \[
 \begin{array}{rl}
-  \multicolumn{2}{l}{\record \:\:  \Same ~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
-  \multicolumn{2}{l}{\quad \mathsf{constructor} ~ \mathsf{same}} \\
+  \multicolumn{2}{l}{\data \:\:  \mathsf{SubEq} \:\: (p_1 : \pathT{T_1})~ (p_2 : \pathT{T_2})~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
+  \;\; \oneeqtwo &: \Same ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \twogtLone &: \ContainsLeft ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \twogtRone &: \ContainsRight ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \onegtLtwo &: \ContainsLeft ~ p_2 ~ p_1 ~ U_2 ~ U_1 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \onegtRtwo &: \ContainsRight ~ p_2 ~ p_1 ~ U_2 ~ U_1 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \oneLtwoR &: \LeftRight ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \oneRtwoL &: \LeftRight ~ p_2 ~ p_1 ~ U_2 ~ U_1 \to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2
+\end{array}
+\]
+Let us go through them one by one.
+%To this aim, we fix two paths $p_1 : \pathT{T_1}$ and $p_2 : \pathT{T_2}$ and two trees $U_1$ and $U_2$, such that $\sub{p_1}{U_1}$ is propositionally equal to $\sub{p_2}{T_2}$. There are four possibilities:
+\\
+\udl{$U_1$ is equal to $U_2$.}
+In this case, $T_1$ must also be equal to $T_2$ and the paths $p_1$ and $p_2$ must be equal as well. This information is collected in the record type $\Same ~ p_1 ~ p_2 ~ U_1 ~ U_2$.
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\record \:\:  \Same ~(p_1 : \pathT{T_1})~ (p_2 : \pathT{T_2})~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
+%  \multicolumn{2}{l}{\quad \mathsf{constructor} ~ \mathsf{same}} \\
   \multicolumn{2}{l}{\quad \field} \\
   \;\; \quad eqT &: T_1 \equiv T_2 \\
   \;\; \quad eqU &: U_1 \equiv U_2 \\
-  \;\; \quad eqp &: \subst ~ Path ~ eqT ~ p_1 \equiv p_1
+  \;\; \quad eqp &: \subst ~ \Path ~ eqT ~ p_1 \equiv p_2
 \end{array}
 \]
-Notice that given $x,y : A$, their propositional equality is denoted as $x \equiv y$.
-Elements in this type consist of three equalities about original trees, trees used for substitution into holes, and paths, respectively.
+Terms of this type are triples consisting of three equalities about the outer trees, the inner trees used for substitution into holes, and paths, respectively.
+Notice that paths $p_1$ and $p_2$ have different types, so to be able to equate them one needs to first substitute $T_2$ for the equal tree $T_1$ in the type of $p_1$. This is what the application of $\subst$ in the type of $eqp$ is used for.
 \\
 \udl{$U_1$ contains $U_2$ in its left subtree.}
-In this case, there exists a path in the left subtree of $U_1$ that points to where $U_2$ should be substituted. Put simply, $p_2$ equals $p_1$ extended with the path in the left subtree of $U_1$ without $U_2$ (for brevity, when we say ``left subtree of $U_1$'', we mean the left subtree of $U_1$ minus $U_2$).
-Let $W_1$ and $W_2$ be the left and right subtrees of $U_1$, respectively.
+In this case, $U_1$ is of the form $W_1 \cdast W_2$ and there exists a path $q$ in $W_1$ that points to the hole in which $U_2$ has been substituted. This means that path $p_2$ is equal to $p_1$ extended with the path $q \btleft W_2$. %in the left subtree of $U_1$ without $U_2$ (for brevity, when we say ``left subtree of $U_1$'', we mean the left subtree of $U_1$ minus $U_2$).
+%Let $W_1$ and $W_2$ be the left and right subtrees of $U_1$, respectively.
 Consider trees $T_1$ and $\sub{p_1}{U_1}$ with the following structure (where $V_1$ is an arbitrary tree):
 
 \[
@@ -564,7 +598,7 @@ In the types above, we do not care about the order of $U_1$ and $U_2$ and for a 
 
 \[
 \begin{array}{rl}
-  \multicolumn{2}{l}{\data \:\:  \mathsf{SubEqCases} \:\: (U_1 ~ U_2 : Tree) : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\data \:\:  \mathsf{SubEq} \:\: (U_1 ~ U_2 : Tree) : \Set \:\: \where} \\
   \;\; \oneeqtwo &: \Same ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ U_1 ~ U_2 \\
   \;\; \twogtLone &: \ContainsLeft ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ U_1 ~ U_2 \\
   \;\; \twogtRone &: \ContainsRight ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ U_1 ~ U_2 \\
@@ -577,16 +611,6 @@ In the types above, we do not care about the order of $U_1$ and $U_2$ and for a 
 The constructor $\onegtLtwo$ means $U_2$ is inside $U_1$ and the path $p_2$ is longer than $p_1$.
 The other constructors are read in a similar manner, but one should be careful about the order of arguments. For example, in the constructor $\twogtLone$, the arguments are swapped.
 
-In the final step, we construct a function to examine the correctness of the types we have defined above.
-\[
-\begin{array}{l}
- \subeq : \forall ~ \{T_1 ~ T_2 \} ~ U_1 ~ U_2 ~ (p_1 : \pathT{T_1}) ~ (p_2 : \pathT{T_2})
-  \\
-  \quad \to \sub{p_1}{U_1} \equiv \sub{p_2}{U_2}
-  \\
-  \quad \to \subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2
-\end{array}
-\]
 This function demonstrates that when two substitutions are equal, we can always identify a corresponding type from one of the cases defined above. The proof proceeds by pattern-matching on paths $p_1$ and $p_2$. For simple base cases, the proof directly constructs the appropriate case value. For recursive cases, we use Agda's $\mathsf{with}$ to perform intermediate computations and use the intermediate results to construct the desired term in the corresponding type.
 
 \section{Nonassociative Lambek calculus}\label{sec:calculus}
