@@ -383,13 +383,13 @@ Since $U_1$ contains $U_2$ in its structure, we can diagram $\sub{p_2}{T_2}$ as 
 \begin{equation}\label{eq:ContainsLeft:p1p2}
   \arraycolsep=1cm
 \begin{array}{cc}
-% https://q.uiver.app/#q=WzAsNyxbMCw2LCJVXzIiXSxbMSw0LCJXXzEiXSxbMiw2LCJWXzIiXSxbMiwyLCJcXGNkYXN0Il0sWzMsNCwiV18yIl0sWzMsMCwiXFxjZGFzdCJdLFs0LDIsIlZfMSJdLFsxLDAsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsNiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDMsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDAsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+% https://q.uiver.app/#q=WzAsNyxbMCw2LCJVXzIiXSxbMSw0LCJcXGNkYXN0Il0sWzIsNiwiVl8yIl0sWzIsMiwiXFxjZGFzdCJdLFszLDQsIldfMiJdLFszLDAsIlxcY2Rhc3QiXSxbNCwyLCJWXzEiXSxbMSwwLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsMiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMyw0LCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsMywiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDYsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCIiLDAseyJvZmZzZXQiOjEsImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDAseyJvZmZzZXQiOjEsImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwwLCIiLDAseyJvZmZzZXQiOjEsImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
 \begin{tikzcd}[row sep=0.16cm]
 	&&& \cdast \\
 	\\
 	&& \cdast && {V_1} \\
 	\\
-	& {W_1} && {W_2} \\
+	& \cdast && {W_2} \\
 	\\
 	{U_2} && {V_2}
 	\arrow[no head, from=1-4, to=3-3]
@@ -399,17 +399,17 @@ Since $U_1$ contains $U_2$ in its structure, we can diagram $\sub{p_2}{T_2}$ as 
 	\arrow[shift right, draw={rgb,255:red,92;green,92;blue,214}, no head, from=3-3, to=5-2]
 	\arrow[no head, from=3-3, to=5-4]
 	\arrow[no head, from=5-2, to=7-1]
-	\arrow[shift right, color={rgb,255:red,92;green,92;blue,214}, no head, from=5-2, to=7-1]
+	\arrow[shift right, draw={rgb,255:red,92;green,92;blue,214}, no head, from=5-2, to=7-1]
 	\arrow[no head, from=5-2, to=7-3]
 \end{tikzcd}
 &
-% https://q.uiver.app/#q=WzAsNyxbMCw2LCJVXzIiXSxbMSw0LCJXXzEiXSxbMiw2LCJWXzIiXSxbMiwyLCJcXGNkYXN0Il0sWzMsNCwiV18yIl0sWzMsMCwiXFxjZGFzdCJdLFs0LDIsIlZfMSJdLFsxLDAsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsNiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIiIsMCx7Im9mZnNldCI6MSwiY29sb3VyIjpbMjQwLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDMsInBfMSIsMix7Im9mZnNldCI6MSwiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19LFswLDYwLDYwLDFdXSxbMSwwLCJxIiwyLHsib2Zmc2V0IjoxLCJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX0sWzAsNjAsNjAsMV1dXQ==
+% https://q.uiver.app/#q=WzAsNyxbMCw2LCJVXzIiXSxbMSw0LCJcXGNkYXN0Il0sWzIsNiwiVl8yIl0sWzIsMiwiXFxjZGFzdCJdLFszLDQsIldfMiJdLFszLDAsIlxcY2Rhc3QiXSxbNCwyLCJWXzEiXSxbMSwwLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsMiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMyw0LCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsMywiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDYsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDAseyJvZmZzZXQiOjEsImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCJwXzEiLDIseyJvZmZzZXQiOjEsImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMCw2MCw2MCwxXV0sWzEsMCwicSIsMix7Im9mZnNldCI6MSwiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19LFswLDYwLDYwLDFdXV0=
 \begin{tikzcd}[row sep=0.16cm]
 	&&& \cdast \\
 	\\
 	&& \cdast && {V_1} \\
 	\\
-	& {W_1} && {W_2} \\
+	& \cdast && {W_2} \\
 	\\
 	{U_2} && {V_2}
 	\arrow[no head, from=1-4, to=3-3]
@@ -428,13 +428,13 @@ The trees $T_2$ and $U_1$ are the following:
 \begin{equation}\label{eq:ContainsLeft:T2U1}
 \arraycolsep=1cm
 \begin{array}{cc}
-% https://q.uiver.app/#q=WzAsNyxbMCw2LCJcXGJ1bGxldCJdLFsxLDQsIldfMSJdLFsyLDYsIlZfMiJdLFsyLDIsIlxcY2Rhc3QiXSxbMyw0LCJXXzIiXSxbMywwLCJcXGNkYXN0Il0sWzQsMiwiVl8xIl0sWzEsMCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDMsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSw2LCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+% https://q.uiver.app/#q=WzAsNyxbMCw2LCJcXGJ1bGxldCJdLFsxLDQsIlxcY2Rhc3QiXSxbMiw2LCJWXzIiXSxbMiwyLCJcXGNkYXN0Il0sWzMsNCwiV18yIl0sWzMsMCwiXFxjZGFzdCJdLFs0LDIsIlZfMSJdLFsxLDAsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsNiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
 \begin{tikzcd}[row sep=0.16cm]
 	&&& \cdast \\
 	\\
 	&& \cdast && {V_1} \\
 	\\
-	& {W_1} && {W_2} \\
+	& \cdast && {W_2} \\
 	\\
 	\bullet && {V_2}
 	\arrow[no head, from=1-4, to=3-3]
@@ -445,18 +445,17 @@ The trees $T_2$ and $U_1$ are the following:
 	\arrow[no head, from=5-2, to=7-3]
 \end{tikzcd}
 &
-% https://q.uiver.app/#q=WzAsNixbMCw1LCJVXzIiXSxbMSwzLCJXXzEiXSxbMiw1LCJWXzIiXSxbMiwxLCJcXGNkYXN0Il0sWzMsMywiV18yIl0sWzIsMF0sWzEsMCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+% https://q.uiver.app/#q=WzAsNSxbMCw0LCJVXzIiXSxbMSwyLCJcXGNkYXN0Il0sWzIsNCwiVl8yIl0sWzIsMCwiXFxjZGFzdCJdLFszLDIsIldfMiJdLFsxLDAsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
 \begin{tikzcd}[row sep=0.16cm]
-	&& {} \\
 	&& \cdast \\
 	\\
-	& {W_1} && {W_2} \\
+	& \cdast && {W_2} \\
 	\\
 	{U_2} && {V_2}
-	\arrow[no head, from=2-3, to=4-2]
-	\arrow[no head, from=2-3, to=4-4]
-	\arrow[no head, from=4-2, to=6-1]
-	\arrow[no head, from=4-2, to=6-3]
+	\arrow[no head, from=1-3, to=3-2]
+	\arrow[no head, from=1-3, to=3-4]
+	\arrow[no head, from=3-2, to=5-1]
+	\arrow[no head, from=3-2, to=5-3]
 \end{tikzcd}
 \\
 (T_2)
