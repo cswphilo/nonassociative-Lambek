@@ -1210,16 +1210,14 @@ In Agda, the proof of this equivalence also proceeds by induction on the second 
   
 \niccolo{Add the appropriate types here.}
 
-\section{Interpolation Properties}
-In this section, we introduce three aspects of interpolation for nonassociative Lambek calculus: Maehara interpolation, proof-relevant interpolation, and showing that Maehara interpolation is well-defined with respect to equivalence of derivations.
+\section{Maehara Interpolation}
+%In this section, we introduce three aspects of interpolation for nonassociative Lambek calculus: Maehara interpolation, proof-relevant interpolation, and showing that Maehara interpolation is well-defined with respect to equivalence of derivations.
 
-\emph{Maehara interpolation property} (\MIP) \cite{ono:proof:nonclassical:1998} is a property of a cut-free sequent calculus. 
-It originates from Maehara's proof for Craig interpolation for sequent calculus for classical logic $\mathtt{LK}$ \cite{maehara1961} and the method has been subsequently used to prove Craig interpolation for various logics.
-For the full Lambek calculus (\FL), the Maehara interpolation property is formulated as follows:
-\begin{description}
-  \item[(\MIP~for \FL)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that $\vars{D} \subseteq \vars{\GG_0} \cap \vars{\GG_0, \GG_1, C}$
-\end{description}
- $\vars{A}$ denotes the set of atomic formulae appearing in $A$, which can be extended naturally to lists of formulae, trees, and contexts.
+The Maehara interpolation property (\MIP) is a property of a cut-free sequent calculus. 
+It originates from Maehara's proof of Craig interpolation for the sequent calculus for classical logic $\mathtt{LK}$ \cite{maehara1961}.
+The method has been subsequently used to prove Craig interpolation for various logics.
+For the associative Lambek calculus, \MIP\ is formulated as follows \cite{ono:proof:nonclassical:1998}: given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that $\vars{D} \subseteq \vars{\GG_0} \cap \vars{\GG_0, \GG_1, C}$.
+Here  $\vars{A}$ denotes the set of atomic formulae appearing in $A$, which can be extended naturally to lists of formulae.
 
 % \FL\ without additive connectives enjoys an stronger form of Maehara interpolation that replaces variable condition with a more refined variable \emph{multiplicity} condition \cite{moot:categorial:2012}.
 % This refinement tracks the precise number of occurrences of each atomic formula. Let us denote by $\gs{A}$ the count of occurrences of atomic formula $X$ within formula $A$, and extend this notation to $\gs{\GG}$ representing the occurrence count of $X$ across a sequence of formulae $\GG$.
@@ -1233,16 +1231,13 @@ For the full Lambek calculus (\FL), the Maehara interpolation property is formul
 %   \item[(\MIP~for \FL~with variable polarity condition)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that given $p \in \{ +,-\}$ and any atomic formula $X$, there is an injective function from $\mathsf{At}^{p}_{X}(D)$ to $\mathsf{At}^{p}_{X}(\GG_1)$, and an injective function from $\mathsf{At}^{p}_{X}(D)$ to the multiset union of $\mathsf{At}^{\neg p}_{X}(\GG_0, \GG_2)$ and $\mathsf{At}^{p}_{X}(C)$. Here $\neg p$ denotes the opposite polarity of $p$, i.e. $\neg + = -$ and $\neg - = +$.
 % \end{description}
 
-Interpolation proofs for various extensions of nonassociative Lambek calculus often depart from the Maehara approach. These alternative methods typically rely on identifying a closed set of formulae that can appear in derivations and proving that interpolant formulae always belong to this set \cite{buszkowski:2009,buszkowski:2010}. Such interpolation theorems primarily serve to establish further properties of the target logic, such as the finite model property, rather than directly addressing our current focus.
+%Interpolation proofs for various extensions of nonassociative Lambek calculus often depart from the Maehara approach. These alternative methods typically rely on identifying a closed set of formulae that can appear in derivations and proving that interpolant formulae always belong to this set \cite{buszkowski:2009,buszkowski:2010}. Such interpolation theorems primarily serve to establish further properties of the target logic, such as the finite model property, rather than directly addressing our current focus.
 
-Maehara interpolation property for the nonassociative Lambek calculus (\ref{eq:seqcalc}) is stated as the following:
-\begin{theorem}\label{thm:MIP}
-  \item[(\MIP~for nonassociative Lambek calculus)] Given a derivation $f : T[U]\vd C$, there exist a formula $D$ and two derivations $g : T[D] \vd C$ and $h : U \vd D$ such that $\vars{D} \subseteq \vars{U} \cap \vars{T[\bullet], C}$.
-\end{theorem}
+\MIP\ for \NL\ has the following form: given a derivation $f : T[U]\vd C$, there exist a formula $D$ and two derivations $g : T[D] \vd C$ and $h : U \vd D$ such that $\vars{D} \subseteq \vars{U} \cap \vars{T[\bullet], C}$.
 This property, not including the variable multiplicity condition (which is discussed later), is implemented in Agda as the following record type:
 \[
 \begin{array}{rl}
-  \multicolumn{2}{l}{\record \:\:  \MIP ~(T : \Tree) ~ (p : \pathT{T}) ~ (U : \Tree) ~ (C : \Fma) : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\record \:\:  \MIP ~ (p : \pathT{T}) ~ (U : \Tree) ~ (C : \Fma) : \Set \:\: \where} \\
   \multicolumn{2}{l}{\quad \mf{constructor} ~ \mf{intrp}} \\
   \multicolumn{2}{l}{\quad \field} \\
   \;\; \quad D &: \Fma \\[0.5pt]
@@ -1250,66 +1245,62 @@ This property, not including the variable multiplicity condition (which is discu
   \;\; \quad h &: U \vd D 
 \end{array}
 \]
-Elements of type $\MIP ~ T ~ p ~ U ~C$ are triples consisting of a formula $D$ and two derivations $g$ and $h$.
-
-The proof of Theorem \ref{thm:MIP} becomes the construction of the following function:
+Elements of type $\MIP ~ p ~ U ~C$ are triples consisting of a formula $D$ and two derivations $g$ and $h$.
+Proving the Maehara interpolation property translates to constructing the following function:
 \[
 \begin{array}{l}
 \mathsf{mip} : \forall ~ \{T\} ~ (p : \pathT{T}) ~ U ~ \{V ~ C\}
 \\
 \quad \to  (f : V \vd C) ~ (eq : V \equiv \sub{p}{U})
 \\
-\quad \to \MIP ~ T ~ p ~ U ~C
+\quad \to \MIP ~ p ~ U ~C
 \end{array}
 \]
-The construction of the $\mathsf{mip}$ function proceeds by pattern-matching on the derivation $f$, which mirrors the pen-and-paper proofs in \cite{roorda1991,moot:categorial:2012} that use induction on $f$. Similar to our implementation of cut-elimination, we need to determine whether $U$ and the principal formula of the conclusion coincide. This analysis is handled by the $\mathsf{subeq}$ function, which helps us systematically identify and process all possible cases that may arise during the construction.
+The construction of the $\mathsf{mip}$ function proceeds by pattern-matching on the derivation $f$, which mirrors the pen-and-paper proofs in \cite{roorda1991,moot:categorial:2012} (for \Lam\ instead of \NL) that use induction on $f$.
+Similar to our implementation of cut admissibility, there are cases when we need to determine whether the tree $U$ and the principal formula of the conclusion coincide. This analysis is again handled by the $\mathsf{subeq}$ function, which helps us systematically identifying and process all possible cases that may arise during the construction.
 
-The variable condition for \MIP\ is implemented as follows.
-We first define datatype $\in^{\mf{T}}$ which captures how atomic formulas can appear in a tree.
-\[
-\begin{array}{lrl}
-  \multicolumn{3}{l}{\data \:\: \_\inT\_ ~ (X : \At) : \Tree \to \Set \:\: \where} \\
-  \;\; \quad \at& &: \forall ~ \{A\} \to X \in A \to X \inT \eta A \\
-  \;\; \quad \mf{left}& &: \forall \{T ~ U\} \to X \inT T \to X \inT T \cdast U \\
-  \;\; \quad \mf{right}& &: \forall \{T ~ U\} \to X \inT U \to X \inT T \cdast U
-\end{array}
-\]
-Each constructor represents a way an atomic formula can appear in a tree: $\at$ indicates that if $X \in \vars{A}$, then $X$ also appears in the set of atomic formulae of the \emph{tree} $A$; $\mf{left}$ means that if $X \in \vars{T}$, then it also appears in the set of atomic formulae of the tree $T \cdast U$ for any $U$; and $\mf{right}$ is the dual case.
-
-When a tree $U$ is substituted into a context $T[\bullet]$ (resulting in $T[U]$), variables can come from either the context or the substituted tree. We capture this relationship with two functions:
-\[
-\begin{array}{l}
-{\in}\mf{sub}_1 : \forall ~ \{A ~ T ~ U \} ~ (p : \pathT{T}) \to A \inT T \to A \inT \sub{p}{U}
-\\
-{\in}\mf{sub}_2 : \forall ~ \{A ~ T ~ U \} ~ (p : \pathT{T}) \to A \inT U \to A \inT \sub{p}{U}
-\end{array}
-\]
-The function ${\in}\mf{sub}_1$ shows how variables from the original context $T$ propagate to the substituted tree, while ${\in}\mf{sub}_2$ shows how variables from the substituted tree $U$ appear in the substituted tree. Both functions are defined by pattern-matching on the path $p : \pathT{T}$, with ${\in}\mf{sub}_1$ additionally pattern-matching on the witness that $A$ appears in $T$.
-
-With these foundations, we define the variable condition as a record type:
+The variable condition for \MIP\ is implemented in Agda as follows.
+We first introduce a type $X \in A$ whose terms correspond to occurrences of the atomic formula $X$ in the formula $A$. This can be lifted to a type $X \inT T$, whose terms are occurrences of $X$ in any formula appearing as a leaf of $T$.
+%\[
+%\begin{array}{lrl}
+%  \multicolumn{3}{l}{\data \:\: \_{\inT}\_ ~ (X : \At) : \Tree \to \Set \:\: \where} \\
+%  \;\; \quad \at& &: \forall ~ \{A\} \to X \in A \to X \inT \eta A \\
+%  \;\; \quad \mf{left}& &: \forall \{T ~ U\} \to X \inT T \to X \inT T \cdast U \\
+%  \;\; \quad \mf{right}& &: \forall \{T ~ U\} \to X \inT U \to X \inT T \cdast U
+%\end{array}
+%\]
+%Each constructor represents a way an atomic formula can appear in a tree: $\at$ indicates that if $X \in \vars{A}$, then $X$ also appears in the set of atomic formulae of the \emph{tree} $A$; $\mf{left}$ means that if $X \in \vars{T}$, then it also appears in the set of atomic formulae of the tree $T \cdast U$ for any $U$; and $\mf{right}$ is the dual case.
+%When a tree $U$ is substituted into a context $T[\bullet]$ (resulting in $T[U]$), variables can come from either the context or the substituted tree. We capture this relationship with two functions:
+%\[
+%\begin{array}{l}
+%{\in}\mf{sub}_1 : \forall ~ \{A ~ T ~ U \} ~ (p : \pathT{T}) \to A \inT T \to A \inT \sub{p}{U}
+%\\
+%{\in}\mf{sub}_2 : \forall ~ \{A ~ T ~ U \} ~ (p : \pathT{T}) \to A \inT U \to A \inT \sub{p}{U}
+%\end{array}
+%\]
+%The function ${\in}\mf{sub}_1$ shows how variables from the original context $T$ propagate to the substituted tree, while ${\in}\mf{sub}_2$ shows how variables from the substituted tree $U$ appear in the substituted tree. Both functions are defined by pattern-matching on the path $p : \pathT{T}$, with ${\in}\mf{sub}_1$ additionally pattern-matching on the witness that $A$ appears in $T$.
+The variable condition can then be expressed as a record type:
 \[
 \begin{array}{rl}
-  \multicolumn{2}{l}{\record \:\:  \mf{VarCond} ~ (T : \Tree) ~ (p : \pathT{T}) ~ (U : \Tree) ~ (C ~ D : \Fma) : \Set \:\: \where} \\
-  \multicolumn{2}{l}{\quad \mf{constructor} ~ \mf{var}} \\
+  \multicolumn{2}{l}{\record \:\:  \mf{VarCond}~ (p : \pathT{T}) ~ (U : \Tree) ~ (C ~ D : \Fma) : \Set \:\: \where} \\
   \multicolumn{2}{l}{\quad \field} \\
   \;\; \quad \mf{varg} &: \forall \{X\} \to X \in D \to X \inT T \uplus X \in C \\[0.5pt]
   \;\; \quad \mf{varh} &: \forall \{X\} \to X \in D \to X \inT U
 \end{array}
 \]
-$\uplus$ denotes disjoint union in Agda.
-This record captures the essential variable condition for interpolation: $\mf{varg}$ states that any variable appearing in the interpolant formula $D$ must come from either the context $T[\bullet]$ or the formula $C$, while $\mf{varh}$ states that all variables in the interpolant $D$ must also appear in the tree $U$.
-
-We verify that the interpolant produced by our algorithm satisfies this variable condition through the function:
+Here $\uplus$ denotes the disjoint union of types in Agda.
+Terms of the above type are pairs of functions: $\mf{varg}$ sends each occurrence of atomic formula $X$ in $D$ to an occurrence of $X$ in $T,C$, while $\mf{varh}$ sends occurrences of X in $D$ to occurrence of $X$ in $U$.
+In Agda we verify that the interpolant formula $D$ produced by the $\mf{mip}$ procedure satisfies this variable condition by constructing the following function:
 \[
 \begin{array}{l}
 \mf{varcond} : \forall ~ \{T\} ~ (p : \pathT{T}) ~ U ~ \{V ~ C\}
 \\
 \quad \to  (f : V \vd C) ~ (eq : V \equiv \sub{p}{U})
 \\
-\quad \to \mf{VarCond} ~ T ~ p ~ U ~ C ~ (D ~ (\mf{mip'} ~ p ~ U ~ f ~ eq))
+\quad \to \mf{VarCond} ~ p ~ U ~ C ~ (\MIP.D ~ (\mf{mip} ~ p ~ U ~ f ~ eq))
 \end{array}
 \]
-This function constructs a proof of the variable condition for the interpolant generated by $\mf{mip}$. Its implementation follows the structure of $\mf{mip}$, ensuring that the variable condition is preserved through all cases of the interpolation algorithm.
+The definition of $\mf{varcond}$ follows the structure of $\mf{mip}$, ensuring that the variable condition is preserved through all cases of the interpolation algorithm.
 
 % _∈_ : (X : At) → Fma → Set
 % X ∈ at Y = X ≡ Y
@@ -1355,6 +1346,41 @@ This function constructs a proof of the variable condition for the interpolant g
 %   → (f : V ⊢ C) (eq : V ≡ sub p U) 
 %   → VarCond T p U C (D (mip' p U f eq))
 
+We define an interpolant triple $(D, g, h)$ as the formulae $D$ together with two derivations $g$ and $h$ that result from applying Maehara interpolation to a derivation $f: T[U] \vdash C$. Two interpolant triples $(D, g, h)$ and $(D', g', h')$ are considered equivalent when $D = D'$, $g \circeq g'$, and $h \circeq h'$.
+
+This equivalence relation between interpolant triples leads to a theorem connecting interpolation and equivalence of derivations: when two derivations $f, f': T[U] \vdash C$ are equivalent (i.e. $f \circeq f'$), their corresponding interpolant triples must also be equivalent. Formally:
+\begin{theorem}
+  Given two derivations $f, f' : T[U] \vdash C$, if $f \circeq f'$, then the interpolant triples of $f$ and $f'$ are equivalent.
+\end{theorem}
+In Agda, the property is implemented as the following record type:
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\record \:\:  \MIPeq : \Set \:\: \where} \\
+%  \multicolumn{2}{l}{\quad \mf{constructor} ~ \mf{intrp}{\circeq}} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad eqD &: D \equiv D' \\[0.5pt]
+  \;\; \quad eqg &: \mf{subst\text{-}cxt} ~ (\mf{cong} ~ (\Gl x \to \sub{p}{(\eta x)}) ~ eqD) ~ g \circeq g' \\[0.5pt]
+  \;\; \quad eqh &: \mf{subst\text{-}succ} ~ eqD ~ h \circeq h'
+\end{array}
+\]
+Elements of type $\MIP ~ p ~ U ~C$ are triples consisting of a formula $D$ and two derivations $g$ and $h$.
+
+The proof of \MIP\ for \NL\ becomes the construction of the following function:
+\[
+\begin{array}{l}
+\mathsf{mip{\circeq}} : \forall ~ \{T\} ~ (p : \pathT{T}) ~ U ~ \{V ~ C\} ~ \{f ~ f' : V \vd C\}
+\\[0.8pt]
+\quad \to  (eq_1 : V \equiv \sub{p}{U})
+\\[0.8pt]
+\quad \to (eq_2 : f \circeq f')
+\\[0.8pt]
+\quad \to \MIPeq ~ T ~ p ~ U ~ C ~ (\mf{mip} ~ p ~ U ~ f ~ eq_1) ~ (\mf{mip} ~ p ~ U ~ f' ~ eq_1)
+\end{array}
+\]
+We construct $\mathsf{mip{\circeq}}$ by pattern-matching on $eq_2$, the equivalence of derivations. 
+The main challenge is handling the thirty-six cases that arise from the equations making $\circeq$ an equivalence relation and a congruence relations wrt. to the logical rules and permutative conversion equations, further complicated by determining the relative positions between interpolant formulae and principal formulae. This proof is difficult to complete accurately on pen-and-paper and prone to errors. Agda is essential here, helping us examine all possible cases systematically and providing formal verification of the completed proof.
+
+\subsection{Proof-relevant Interpolation}
 We have established a procedure $\mathsf{mip}$ for effectively splitting a derivation $f : T[U] \vdash C$ into two derivations $g : U \vdash D$ and $h : T[D] \vdash C$, with $D$ being ``minimal'' in the sense of satisfying appropriate variable conditions. A natural question arises: what happens when we compose derivations $g$ and $h$ using the admissible $\mathsf{cut}$ rule? Intuition suggests that we should recover the original derivation $f$, at least modulo equivalence of derivations $\circeq$.
 Similar questions have been considered by {\v{C}}ubri{\'c} \cite{Cubric1994} in the setting of intuitionistic propositional logic and by Saurin \cite{Saurin2024} for (extensions) of classical linear logic. They call \emph{proof-relevant interpolation} the study of interpolation procedures in relationship to cut rules and equivalence of proofs, like our $\circeq$. In particular, {\v{C}}ubri{\'c} and Saurin show that interpolation procedures are in a way ``right inverses'' of cut rules. Here we show the same for nonassociative Lambek calculus: the $\mathsf{mip}$ procedure is a right inverse of the $\mathsf{cut}$ rule.
 
@@ -1381,39 +1407,6 @@ Given a derivation $f : V \vdash C$ and an equality proof $eq : V \equiv \text{s
 Notice that $f$ is a term of type $V \vdash C$, while the derivation on the left-hand-side of $\circeq$ has type $\text{sub} \ p \ U \vdash C$. In order to state that the two derivations are $\circeq$-related we need to substitute the context in the type of $f$ using the equality proof $eq : V \equiv \text{sub} \ p \ U$.
 The definition of $\mathsf{cut\text{-}intrp}$ proceeds by pattern-matching on the argument $f$.
 
-We define an interpolant triple $(D, g, h)$ as the formulae $D$ together with two derivations $g$ and $h$ that result from applying Maehara interpolation to a derivation $f: T[U] \vdash C$. Two interpolant triples $(D, g, h)$ and $(D', g', h')$ are considered equivalent when $D = D'$, $g \circeq g'$, and $h \circeq h'$.
-
-This equivalence relation between interpolant triples leads to a theorem connecting interpolation and equivalence of derivations: when two derivations $f, f': T[U] \vdash C$ are equivalent (i.e. $f \circeq f'$), their corresponding interpolant triples must also be equivalent. Formally:
-\begin{theorem}
-  Given two derivations $f, f' : T[U] \vdash C$, if $f \circeq f'$, then the interpolant triples of $f$ and $f'$ are equivalent.
-\end{theorem}
-In Agda, the property is implemented as the following record type:
-\[
-\begin{array}{rl}
-  \multicolumn{2}{l}{\record \:\:  \MIPeq : \Set \:\: \where} \\
-  \multicolumn{2}{l}{\quad \mf{constructor} ~ \mf{intrp}{\circeq}} \\
-  \multicolumn{2}{l}{\quad \field} \\
-  \;\; \quad eqD &: D \equiv D' \\[0.5pt]
-  \;\; \quad eqg &: \mf{subst\text{-}cxt} ~ (\mf{cong} ~ (\Gl x \to \sub{p}{(\eta x)}) ~ eqD) ~ g \circeq g' \\[0.5pt]
-  \;\; \quad eqh &: \mf{subst\text{-}succ} ~ eqD ~ h \circeq h'
-\end{array}
-\]
-Elements of type $\MIP ~ T ~ p ~ U ~C$ are triples consisting of a formula $D$ and two derivations $g$ and $h$.
-
-The proof of Theorem \ref{thm:MIP} becomes the construction of the following function:
-\[
-\begin{array}{l}
-\mathsf{mip{\circeq}} : \forall ~ \{T\} ~ (p : \pathT{T}) ~ U ~ \{V ~ C\} ~ \{f ~ f' : V \vd C\}
-\\[0.8pt]
-\quad \to  (eq_1 : V \equiv \sub{p}{U})
-\\[0.8pt]
-\quad \to (eq_2 : f \circeq f')
-\\[0.8pt]
-\quad \to \MIPeq ~ T ~ p ~ U ~ C ~ (\mf{mip} ~ p ~ U ~ f ~ eq_1) ~ (\mf{mip} ~ p ~ U ~ f' ~ eq_1)
-\end{array}
-\]
-We construct $\mathsf{mip{\circeq}}$ by pattern-matching on $eq_2$, the equivalence of derivations. 
-The main challenge is handling the thirty-six cases that arise from the equations making $\circeq$ an equivalence relation and a congruence relations wrt. to the logical rules and permutative conversion equations, further complicated by determining the relative positions between interpolant formulae and principal formulae. This proof is difficult to complete accurately on pen-and-paper and prone to errors. Agda is essential here, helping us examine all possible cases systematically and providing formal verification of the completed proof.
 
 \section{Concluding Remarks}
 
