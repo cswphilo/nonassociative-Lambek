@@ -128,7 +128,7 @@ Cheng-Syuan Wan \orcidID{0000-0003-2053-1688}}
 %
 \begin{abstract}
   This paper presents a formalization of the nonassociative Lambek calculus in the Agda proof assistant. %, focusing on two major proof-theoretic properties: cut admissibility and Maehara interpolation. 
-  The sequent calculus for this logic has sequents with binary trees as antecedents, in which formulae are stored as leaves. The shape of the antecedents creates subtleties when proving logical properties, since one often needs to analyse equalities involving the sequntial composition of trees. We formally characterize these equalities and show how to employ the resulting technical lemma to prove cut admissibility and the Maehara interpolation propery, which implies Craig interpolation. We prove a proof-relevant version of Maehara interpolation, showing that the interpolation procedure is well-defined wrt.\ a certain notion of equivalence of derivations and that it is a partial inverse of the admissible cut rule.
+  The sequent calculus for this logic has sequents with binary trees as antecedents, in which formulae are stored as leaves. The shape of the antecedents creates subtleties when proving logical properties, since one often needs to analyse equalities involving the sequntial composition of trees. We formally characterize these equalities and show how to employ the resulting technical lemma to prove cut admissibility and the Maehara interpolation propery, which implies Craig interpolation. We prove a proof-relevant version of Maehara interpolation, showing that the interpolation procedure is well-defined wrt.\ a certain notion of equivalence of derivations and that it is a right inverse of the admissible cut rule.
   %Our work, especially the case distinction type defined here, aims to serve as a foundation for further research and formalization on nonassociative Lambek calculus.
 \keywords{nonassociative Lambek calculus \and Agda \and cut admissibility \and Maehara interpolation \and proof-relevant interpolation}
 \end{abstract}
@@ -166,11 +166,11 @@ In this work, we present the formalization of the sequent calculus for \NL\ and 
 Successively, we move to the formal proof of the Maehara interpolation property (\MIP), originating from Maehara's proof of Craig interpolation for classical logic \cite{maehara1961}.
 Maehara's method has been applied and adapted to several logics, especially to substructural logics that admit a cut-free sequent calculus \cite{ono:proof:nonclassical:1998}. \MIP\ states that given a sequent $\mc{C}[U] \vdash C$ there exist a formula $D$ and derivations of sequents $U \vdash D$ and $\mc{C}[D] \vdash C$, such that all the atomic formulae appearing in $D$ appear also in $U$, as well as in $T,C$.
 More precisely, we formalize a proof-relevant (in the sense of \v{C}ubri{\'c} \cite{Cubric1994} and Saurin \cite{Saurin2024}) variant of \MIP: we aim to capture not only the existence of interpolants but also their relationship to the admissible cut rule. In order to achieve this, we first introduce an equivalence relation $\circeq$ on derivations, capturing all the possible permutative conversions. We then show that both the cut admissibility and Maehara interpolation procedures are well-defined wrt. to the relation $\circeq$. %e.g. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
- Then we show that the interpolation procedure is a partial inverse of the admissible cut rule, in the sense that running the interpolation algorithm on a derivation $f$ of a sequent $\mc{C}[D] \vdash C$ and successively cutting the resulting two derivations along the interpolant formula results in a derivation that is $\circeq$-related to $f$.
+ Then we show that the interpolation procedure is a right inverse of the admissible cut rule, in the sense that running the interpolation algorithm on a derivation $f$ of a sequent $\mc{C}[D] \vdash C$ and successively cutting the resulting two derivations along the interpolant formula results in a derivation that is $\circeq$-related to $f$.
 %i.e. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
 
 %In this paper, we formalize \NL\ and prove properties in Agda: $(i)$ cut-elimination, $(ii)$ Maehara interpolation, $(iii)$ proof-relevant interpolation, and $(iv)$ \linebreak well-definedness of the Maehara interpolation procedure with respect to equivalence of derivations.
-Summarising, this work makes the following contributions: $(i)$ we prove a technical lemma for dealing with equalities of the form $\mc{C}[U] = \mc{C}'[U']$; $(ii)$ we employ the lemma to formally define effective procedures for cut admissibility and Maehara (and consequently Craig) interpolation; $(iii)$ we prove proof-relevant versions of the latter, by introducing an equivalence of derivations $\circeq$ and formally establishing many properties of the defined procedures: cut is associative, commutative and unital; cut and interpolation are well-defined wrt. $\circeq$; interpolation is a partial inverse of cut. We notice that contribution $(iii)$ is completely novel in the study of the metatheory of \NL.
+Summarising, this work makes the following contributions: $(i)$ we prove a technical lemma for dealing with equalities of the form $\mc{C}[U] = \mc{C}'[U']$; $(ii)$ we employ the lemma to formally define effective procedures for cut admissibility and Maehara (and consequently Craig) interpolation; $(iii)$ we prove proof-relevant versions of the latter, by introducing an equivalence of derivations $\circeq$ and formally establishing many properties of the defined procedures: cut is associative, commutative and unital; cut and interpolation are well-defined wrt. $\circeq$; interpolation is a right inverse of cut. We notice that contribution $(iii)$ is completely novel in the study of the metatheory of \NL.
 %The paper proceeds as follows. We begin with the foundations of our formalization, including definitions of trees, paths in trees, substitutions, and case distinctions for identifying relationships between paths. Next, we introduce the sequent calculus of \NL\ and formalize cut-elimination. The subsequent section addresses equivalence of derivations and properties of the $\cut$ rule.
 %In the final sections, we formally prove Maehara interpolation and proof-relevant interpolation to demonstrate that our formalization provides a correct and usable strategy. It is worth noting that the proof-relevant interpolation results presented here are novel contributions to the study of \NL.
 
@@ -931,61 +931,61 @@ The functions  $\cut\Rl$ and $\cut\Ll$ are defined by mutual recursion with $\cu
   \scalebox{0.88}{$
   \begin{array}{rcl}
   \proofbox{
-      \infer[\cut]{T[X] \vd C}{
+      \infer[\cut]{\mc{C}[X] \vd C}{
         \infer[\ax]{X \vd X}{}
         &
-        \deduce{T[X] \vd C}{g}
+        \deduce{\mc{C}[X] \vd C}{g}
       }
     }
     &=&
     \proofbox{
-      \deduce{T[X] \vd C}{g}
+      \deduce{\mc{C}[X] \vd C}{g}
     }
 \\
     \proofbox{
-      \infer[\cut]{T[U[V]] \vd C}{
-        \infer[\cut]{U[V] \vd E}{
+      \infer[\cut]{\mc{C}[\mc{C}'[V]] \vd C}{
+        \infer[\cut]{\mc{C}'[V] \vd E}{
           \deduce{V \vd D}{f}
           &
-          \deduce{U[D] \vd E}{g}
+          \deduce{\mc{C}'[D] \vd E}{g}
         }
         &
-        \deduce{T[E] \vd C}{h}
+        \deduce{\mc{C}[E] \vd C}{h}
       }
     }
     &=&  
     \proofbox{
-      \infer[\cut]{T[U[V]] \vd C}{
+      \infer[\cut]{\mc{C}[\mc{C}'[V]] \vd C}{
         \deduce{V \vd D}{f}
         &
-        \infer[\cut]{T[U[D]] \vd C}{
-          \deduce{U[D] \vd E}{g}
+        \infer[\cut]{\mc{C}[\mc{C}'[D]] \vd C}{
+          \deduce{\mc{C}'[D] \vd E}{g}
           &
-          \deduce{T[E] \vd C}{h}
+          \deduce{\mc{C}[E] \vd C}{h}
         }
       }
     }
     \\
     \proofbox{
-      \infer[\cut]{W[W_1[T], W_2[U]] \vd C}{
+      \infer[\cut]{\mc{C}[\mc{C}_1[T], \mc{C}_2[U]] \vd C}{
         \deduce{T \vd D}{f}
         &
-        \infer[\cut]{W[W_1[D], W_2[U]] \vd C}{
+        \infer[\cut]{\mc{C}[\mc{C}_1[D], \mc{C}_2[U]] \vd C}{
           \deduce{U \vd E}{g}
           &
-          \deduce{W[W_1[D], W_2[E]] \vd C}{h}
+          \deduce{\mc{C}[\mc{C}_1[D], \mc{C}_2[E]] \vd C}{h}
         }
       }
     }
     &=& 
     \proofbox{
-      \infer[\cut]{W[W_1[T], W_2[U]] \vd C}{
+      \infer[\cut]{\mc{C}[\mc{C}_1[T], \mc{C}_2[U]] \vd C}{
         \deduce{U \vd E}{g}
         &
-        \infer[\cut]{W[W_1[T], W_2[E]] \vd C}{
+        \infer[\cut]{\mc{C}[\mc{C}_1[T], \mc{C}_2[E]] \vd C}{
           \deduce{T \vd D}{f}
           &
-          \deduce{W[W_1[D], W_2[E]] \vd C}{h}
+          \deduce{\mc{C}[\mc{C}_1[D], \mc{C}_2[E]] \vd C}{h}
         }
       }
     }
@@ -1029,61 +1029,61 @@ These are representative examples of three classes of permutative conversions:  
   \scalebox{0.91}{$
   \begin{array}{rcl}
     \proofbox{
-      \infer[\tl]{T[A \ot B] \vd A' \Rarr B'}{
-        \infer[\Rr]{T[A , B] \vd A' \Rarr B'}{
-          \deduce{A' , T[A , B] \vd B'}{f}
+      \infer[\tl]{\mc{C}[A \ot B] \vd A' \Rarr B'}{
+        \infer[\Rr]{\mc{C}[A , B] \vd A' \Rarr B'}{
+          \deduce{A' , \mc{C}[A , B] \vd B'}{f}
         }
       }
     }
     &\circeq&
     \proofbox{
-      \infer[\Rr]{T[A \ot B] \vd A' \Rarr B'}{
-        \infer[\tl]{A' , T[A \ot B] \vd B'}{
-          \deduce{A' , T[A , B] \vd B'}{f}
+      \infer[\Rr]{\mc{C}[A \ot B] \vd A' \Rarr B'}{
+        \infer[\tl]{A' , \mc{C}[A \ot B] \vd B'}{
+          \deduce{A' , \mc{C}[A , B] \vd B'}{f}
         }
       }
     }
     \\
     \proofbox{
-      \infer[\tl]{U[T[A' \ot B'], A \Rarr B] \vd C}{
-        \infer[\Rl]{U[T[A' , B'], A \Rarr B] \vd C}{
-          \deduce{T[A' , B'] \vd A}{f}
+      \infer[\tl]{\mc{C}'[\mc{C}[A' \ot B'], A \Rarr B] \vd C}{
+        \infer[\Rl]{\mc{C}'[\mc{C}[A' , B'], A \Rarr B] \vd C}{
+          \deduce{\mc{C}[A' , B'] \vd A}{f}
           &
-          \deduce{U[B] \vd C}{g}
+          \deduce{\mc{C}'[B] \vd C}{g}
         }
       }
     }
     &\circeq&
     \proofbox{
-      \infer[\Rl]{U[T[A' \ot B'], A \Rarr B] \vd C}{
-        \infer[\tl]{T[A' \ot B'] \vd A}{
-          \deduce{T[A' , B'] \vd A}{f}
+      \infer[\Rl]{\mc{C}'[\mc{C}[A' \ot B'], A \Rarr B] \vd C}{
+        \infer[\tl]{\mc{C}[A' \ot B'] \vd A}{
+          \deduce{\mc{C}[A' , B'] \vd A}{f}
         }
         &
-        \deduce{U[B] \vd C}{g}
+        \deduce{\mc{C}'[B] \vd C}{g}
       }
     }
     \\
     \proofbox{
-      \infer[\Rl]{T[W_1[U , A \Rarr B] , W_2[V , A' \Rarr B']] \vd C}{
+      \infer[\Rl]{\mc{C}[\mc{C}_1[U , A \Rarr B] , \mc{C}_2[V , A' \Rarr B']] \vd C}{
         \deduce{U \vd A}{f}
         &
-        \infer[\Rl]{T[W_1[B] , W_2[V , A' \Rarr B']] \vd C}{
+        \infer[\Rl]{\mc{C}[\mc{C}_1[B] , \mc{C}_2[V , A' \Rarr B']] \vd C}{
           \deduce{V \vd A'}{f'}
           &
-          \deduce{T[W_1[B] , W_2[B']] \vd C}{g}
+          \deduce{\mc{C}[\mc{C}_1[B] , \mc{C}_2[B']] \vd C}{g}
         }
       }
     }
     &\circeq&
     \proofbox{
-      \infer[\Rl]{T[W_1[U , A \Rarr B] , W_2[V , A' \Rarr B']] \vd C}{
+      \infer[\Rl]{\mc{C}[\mc{C}_1[U , A \Rarr B] , \mc{C}_2[V , A' \Rarr B']] \vd C}{
         \deduce{V \vd A'}{f'}
         &
-        \infer[\Rl]{T[W_1[U , A \Rarr B] , W_2[B']] \vd C}{
+        \infer[\Rl]{\mc{C}[\mc{C}_1[U , A \Rarr B] , \mc{C}_2[B']] \vd C}{
           \deduce{U \vd A'}{f}
           &
-          \deduce{T[W_1[B] , W_2[B']] \vd C}{h}
+          \deduce{\mc{C}[\mc{C}_1[B] , \mc{C}_2[B']] \vd C}{h}
         }
       }
     }
@@ -1114,69 +1114,69 @@ In Agda, the proof of this equivalence also proceeds by induction on the second 
   \scalebox{0.9}{$
   \begin{array}{rcl}
     \proofbox{
-        \infer[\cut]{T[U[V , A \Rarr B]] \vd C}{
-      \infer[\Rl]{U[V , A \Rarr B] \vd D}{
+        \infer[\cut]{\mc{C}[\mc{C}'[V , A \Rarr B]] \vd C}{
+      \infer[\Rl]{\mc{C}'[V , A \Rarr B] \vd D}{
         \deduce{V \vd A}{f}
         &
-        \deduce{U[B] \vd D}{h}
+        \deduce{\mc{C}'[B] \vd D}{h}
       }
       &
-      \deduce{T[D] \vd C}{g}
+      \deduce{\mc{C}[D] \vd C}{g}
     }
     }
     &\circeq&
     \proofbox{
-      \infer[\Rl]{T[U[V , A \Rarr B]] \vd C}{
+      \infer[\Rl]{\mc{C}[\mc{C}'[V , A \Rarr B]] \vd C}{
         \deduce{V \vd A}{f}
         &
-        \infer[\cut]{T[U[B]] \vd C}{
-          \deduce{U[B] \vd D}{h}
+        \infer[\cut]{\mc{C}[\mc{C}'[B]] \vd C}{
+          \deduce{\mc{C}'[B] \vd D}{h}
           &
-          \deduce{T[D] \vd C}{g}
+          \deduce{\mc{C}[D] \vd C}{g}
         }
       }
     }
     \\[5pt]
     \proofbox{
-        \infer[\cut]{T[U[B \Larr A , V]] \vd C}{
-      \infer[\Ll]{U[B \Larr A , V] \vd D}{
+        \infer[\cut]{\mc{C}[\mc{C}'[B \Larr A , V]] \vd C}{
+      \infer[\Ll]{\mc{C}'[B \Larr A , V] \vd D}{
         \deduce{V \vd A}{f}
         &
-        \deduce{U[B] \vd D}{h}
+        \deduce{\mc{C}'[B] \vd D}{h}
       }
       &
-      \deduce{T[D] \vd C}{g}
+      \deduce{\mc{C}[D] \vd C}{g}
     }
     }
     &\circeq&
     \proofbox{
-      \infer[\Ll]{T[U[B \Larr A , V]] \vd C}{
+      \infer[\Ll]{\mc{C}[\mc{C}'[B \Larr A , V]] \vd C}{
         \deduce{V \vd A}{f}
         &
-        \infer[\cut]{T[U[B]] \vd C}{
-          \deduce{U[B] \vd D}{h}
+        \infer[\cut]{\mc{C}[\mc{C}'[B]] \vd C}{
+          \deduce{\mc{C}'[B] \vd D}{h}
           &
-          \deduce{T[D] \vd C}{g}
+          \deduce{\mc{C}[D] \vd C}{g}
         }
       }
     }
     \\[5pt]
     \proofbox{
-      \infer[\cut]{T[U[A \ot B]] \vd C}{
-        \infer[\tl]{U[A \ot B] \vd D}{
-          \deduce{U[A , B] \vd D}{h}
+      \infer[\cut]{\mc{C}[\mc{C}'[A \ot B]] \vd C}{
+        \infer[\tl]{\mc{C}'[A \ot B] \vd D}{
+          \deduce{\mc{C}'[A , B] \vd D}{h}
         }
         &
-        \deduce{T[D] \vd C}{g}
+        \deduce{\mc{C}[D] \vd C}{g}
       }
     }
     &\circeq&
     \proofbox{
-      \infer[\tl]{T[U[A \ot B]] \vd C}{
-        \infer[\cut]{T[U[A , B]] \vd D}{
-          \deduce{U[A , B] \vd D}{h}
+      \infer[\tl]{\mc{C}[\mc{C}'[A \ot B]] \vd C}{
+        \infer[\cut]{\mc{C}[\mc{C}'[A , B]] \vd D}{
+          \deduce{\mc{C}'[A , B] \vd D}{h}
           &
-          \deduce{T[D] \vd C}{g}
+          \deduce{\mc{C}[D] \vd C}{g}
         }
       }
     }
@@ -1210,7 +1210,7 @@ In Agda, the proof of this equivalence also proceeds by induction on the second 
   
 \niccolo{Add the appropriate types here.}
 
-\section{Maehara Interpolation}
+\section{Proof-Relevant Maehara Interpolation}
 %In this section, we introduce three aspects of interpolation for nonassociative Lambek calculus: Maehara interpolation, proof-relevant interpolation, and showing that Maehara interpolation is well-defined with respect to equivalence of derivations.
 
 The Maehara interpolation property (\MIP) is a property of a cut-free sequent calculus. 
@@ -1233,7 +1233,7 @@ Here  $\vars{A}$ denotes the set of atomic formulae appearing in $A$, which can 
 
 %Interpolation proofs for various extensions of nonassociative Lambek calculus often depart from the Maehara approach. These alternative methods typically rely on identifying a closed set of formulae that can appear in derivations and proving that interpolant formulae always belong to this set \cite{buszkowski:2009,buszkowski:2010}. Such interpolation theorems primarily serve to establish further properties of the target logic, such as the finite model property, rather than directly addressing our current focus.
 
-\MIP\ for \NL\ has the following form: given a derivation $f : T[U]\vd C$, there exist a formula $D$ and two derivations $g : T[D] \vd C$ and $h : U \vd D$ such that $\vars{D} \subseteq \vars{U} \cap \vars{T[\bullet], C}$.
+\MIP\ for \NL\ has the following form: given a derivation $f : \mc{C}[U]\vd C$, there exist a formula $D$ and two derivations $g : \mc{C}[D] \vd C$ and $h : U \vd D$ such that $\vars{D} \subseteq \vars{U} \cap \vars{\mc{C}, C}$.
 This property, not including the variable multiplicity condition (which is discussed later), is implemented in Agda as the following record type:
 \[
 \begin{array}{rl}
@@ -1249,11 +1249,7 @@ Elements of type $\MIP ~ p ~ U ~C$ are triples consisting of a formula $D$ and t
 Proving the Maehara interpolation property translates to constructing the following function:
 \[
 \begin{array}{l}
-\mathsf{mip} : \forall ~ \{T\} ~ (p : \pathT{T}) ~ U ~ \{V ~ C\}
-\\
-\quad \to  (f : V \vd C) ~ (eq : V \equiv \sub{p}{U})
-\\
-\quad \to \MIP ~ p ~ U ~C
+\mathsf{mip} : (f : V \vd C) ~ (eq : V \equiv \sub{p}{U}) \to \MIP ~ p ~ U ~C
 \end{array}
 \]
 The construction of the $\mathsf{mip}$ function proceeds by pattern-matching on the derivation $f$, which mirrors the pen-and-paper proofs in \cite{roorda1991,moot:categorial:2012} (for \Lam\ instead of \NL) that use induction on $f$.
@@ -1284,8 +1280,8 @@ The variable condition can then be expressed as a record type:
 \begin{array}{rl}
   \multicolumn{2}{l}{\record \:\:  \mf{VarCond}~ (p : \pathT{T}) ~ (U : \Tree) ~ (C ~ D : \Fma) : \Set \:\: \where} \\
   \multicolumn{2}{l}{\quad \field} \\
-  \;\; \quad \mf{varg} &: \forall \{X\} \to X \in D \to X \inT T \uplus X \in C \\[0.5pt]
-  \;\; \quad \mf{varh} &: \forall \{X\} \to X \in D \to X \inT U
+  \;\; \quad varg &: \forall \{X\} \to X \in D \to X \inT T \uplus X \in C \\[0.5pt]
+  \;\; \quad varh &: \forall \{X\} \to X \in D \to X \inT U
 \end{array}
 \]
 Here $\uplus$ denotes the disjoint union of types in Agda.
@@ -1293,11 +1289,7 @@ Terms of the above type are pairs of functions: $\mf{varg}$ sends each occurrenc
 In Agda we verify that the interpolant formula $D$ produced by the $\mf{mip}$ procedure satisfies this variable condition by constructing the following function:
 \[
 \begin{array}{l}
-\mf{varcond} : \forall ~ \{T\} ~ (p : \pathT{T}) ~ U ~ \{V ~ C\}
-\\
-\quad \to  (f : V \vd C) ~ (eq : V \equiv \sub{p}{U})
-\\
-\quad \to \mf{VarCond} ~ p ~ U ~ C ~ (\MIP.D ~ (\mf{mip} ~ p ~ U ~ f ~ eq))
+\mf{varcond} : (f : V \vd C) ~ (eq : V \equiv \sub{p}{U}) \to \mf{VarCond} ~ p ~ U ~ C ~ (\MIP.D ~ (\mf{mip} ~ f ~ eq))
 \end{array}
 \]
 The definition of $\mf{varcond}$ follows the structure of $\mf{mip}$, ensuring that the variable condition is preserved through all cases of the interpolation algorithm.
@@ -1346,79 +1338,78 @@ The definition of $\mf{varcond}$ follows the structure of $\mf{mip}$, ensuring t
 %   → (f : V ⊢ C) (eq : V ≡ sub p U) 
 %   → VarCond T p U C (D (mip' p U f eq))
 
-We define an interpolant triple $(D, g, h)$ as the formulae $D$ together with two derivations $g$ and $h$ that result from applying Maehara interpolation to a derivation $f: T[U] \vdash C$. Two interpolant triples $(D, g, h)$ and $(D', g', h')$ are considered equivalent when $D = D'$, $g \circeq g'$, and $h \circeq h'$.
-
-This equivalence relation between interpolant triples leads to a theorem connecting interpolation and equivalence of derivations: when two derivations $f, f': T[U] \vdash C$ are equivalent (i.e. $f \circeq f'$), their corresponding interpolant triples must also be equivalent. Formally:
-\begin{theorem}
-  Given two derivations $f, f' : T[U] \vdash C$, if $f \circeq f'$, then the interpolant triples of $f$ and $f'$ are equivalent.
-\end{theorem}
-In Agda, the property is implemented as the following record type:
+Similarly to the cut rule, the procedure $\mf{mip}$ must also be well-defined wrt.\ the equivalence of derivations $\circeq$.
+To this end, we need to pick an appropriate notion of equivalence of terms of type $\MIP~p~U~C$.
+For \NL, we say that two interpolant triples $(D, g, h)$ and $(D', g', h')$ of type $\MIP~p~U~C$ are equivalent when $D \equiv D'$, $g$ is  $\circeq$-related to $g'$ and $h$ is $\circeq$-related to  $h'$. This is a quite strong notion of equivalence, as interpolant formulae $D$ and $D'$ are required to be syntactically the same.
+In Agda, equivalences of interpolant triples are terms of the following record type:
 \[
 \begin{array}{rl}
-  \multicolumn{2}{l}{\record \:\:  \MIPeq : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\record \:\:  \MIPeq ~ (m_1 ~ m_2 : \MIP ~ p ~ U ~C) : \Set \:\: \where} \\
 %  \multicolumn{2}{l}{\quad \mf{constructor} ~ \mf{intrp}{\circeq}} \\
   \multicolumn{2}{l}{\quad \field} \\
   \;\; \quad eqD &: D \equiv D' \\[0.5pt]
-  \;\; \quad eqg &: \mf{subst\text{-}cxt} ~ (\mf{cong} ~ (\Gl x \to \sub{p}{(\eta x)}) ~ eqD) ~ g \circeq g' \\[0.5pt]
-  \;\; \quad eqh &: \mf{subst\text{-}succ} ~ eqD ~ h \circeq h'
+  \;\; \quad eqg &: \subst ~(\lambda x.\ \sub{p}{(\eta ~ x)} \vd C)~eqD~g \circeq g' \\[0.5pt]
+  \;\; \quad eqh &: \subst ~(\lambda x.\ U \vd x) ~ eqD ~ h \circeq h'
 \end{array}
 \]
-Elements of type $\MIP ~ p ~ U ~C$ are triples consisting of a formula $D$ and two derivations $g$ and $h$.
-
-The proof of \MIP\ for \NL\ becomes the construction of the following function:
+%Elements of type $\MIP ~ p ~ U ~C$ are triples consisting of a formula $D$ and two derivations $g$ and $h$.
+Well-definedness of Maehara interpolation wrt.\ $\circeq$ in Agda corresponds to the construction of the following function:
+%This equivalence relation between interpolant triples leads to a theorem connecting interpolation and equivalence of derivations: when two derivations $f, f': T[U] \vdash C$ are equivalent (i.e. $f \circeq f'$), their corresponding interpolant triples must also be equivalent. Formally:
+%\begin{theorem}
+%  Given two derivations $f, f' : T[U] \vdash C$, if $f \circeq f'$, then the interpolant triples of $f$ and $f'$ are equivalent.
+%\end{theorem}
+%The proof of \MIP\ for \NL\ becomes the construction of the following function:
 \[
 \begin{array}{l}
-\mathsf{mip{\circeq}} : \forall ~ \{T\} ~ (p : \pathT{T}) ~ U ~ \{V ~ C\} ~ \{f ~ f' : V \vd C\}
+\mathsf{mip{\circeq}} : \{f ~ f' : V \vd C\}~ (eq_1 : V \equiv \sub{p}{U})
+~(eq_2 : f \circeq f')
 \\[0.8pt]
-\quad \to  (eq_1 : V \equiv \sub{p}{U})
-\\[0.8pt]
-\quad \to (eq_2 : f \circeq f')
-\\[0.8pt]
-\quad \to \MIPeq ~ T ~ p ~ U ~ C ~ (\mf{mip} ~ p ~ U ~ f ~ eq_1) ~ (\mf{mip} ~ p ~ U ~ f' ~ eq_1)
+\quad \to \MIPeq ~ (\mf{mip} ~ f ~ eq_1) ~ (\mf{mip} ~ f' ~ eq_1)
 \end{array}
 \]
-We construct $\mathsf{mip{\circeq}}$ by pattern-matching on $eq_2$, the equivalence of derivations. 
-The main challenge is handling the thirty-six cases that arise from the equations making $\circeq$ an equivalence relation and a congruence relations wrt. to the logical rules and permutative conversion equations, further complicated by determining the relative positions between interpolant formulae and principal formulae. This proof is difficult to complete accurately on pen-and-paper and prone to errors. Agda is essential here, helping us examine all possible cases systematically and providing formal verification of the completed proof.
+We define $\mathsf{mip{\circeq}}$ by pattern-matching on $eq_2$, i.e. the proof of equivalence of derivations. 
+The main challenge is handling the thirty-six cases that arise from the pattern-match, with further numerous subcases arising from the applications of $\subeq$, which are necessary for the $\mf{mip}$ procedure to compute. The use of Agda was invaluable here, helping us examine all possible cases systematically and verifying the correctness of the completed proof.
 
-\subsection{Proof-relevant Interpolation}
-We have established a procedure $\mathsf{mip}$ for effectively splitting a derivation $f : T[U] \vdash C$ into two derivations $g : U \vdash D$ and $h : T[D] \vdash C$, with $D$ being ``minimal'' in the sense of satisfying appropriate variable conditions. A natural question arises: what happens when we compose derivations $g$ and $h$ using the admissible $\mathsf{cut}$ rule? Intuition suggests that we should recover the original derivation $f$, at least modulo equivalence of derivations $\circeq$.
-Similar questions have been considered by {\v{C}}ubri{\'c} \cite{Cubric1994} in the setting of intuitionistic propositional logic and by Saurin \cite{Saurin2024} for (extensions) of classical linear logic. They call \emph{proof-relevant interpolation} the study of interpolation procedures in relationship to cut rules and equivalence of proofs, like our $\circeq$. In particular, {\v{C}}ubri{\'c} and Saurin show that interpolation procedures are in a way ``right inverses'' of cut rules. Here we show the same for nonassociative Lambek calculus: the $\mathsf{mip}$ procedure is a right inverse of the $\mathsf{cut}$ rule.
+%\subsection{Proof-Relevant Interpolation}
+We have established a procedure $\mathsf{mip}$ for effectively splitting a derivation $f : \mc{C}[U] \vdash C$ into two derivations $g : U \vdash D$ and $h : \mc{C}[D] \vdash C$, with $D$ being ``minimal'' in the sense of satisfying an appropriate variable condition. A natural question arises: what happens when we compose derivations $g$ and $h$ using the admissible cut rule? Intuition suggests that we should recover the original derivation $f$, at least modulo equivalence of derivations $\circeq$.
+Similar questions have been considered by {\v{C}}ubri{\'c} \cite{Cubric1994} in the setting of intuitionistic propositional logic and by Saurin \cite{Saurin2024} for (extensions) of classical linear logic. They call \emph{proof-relevant interpolation} the study of interpolation procedures in relationship to the cut rule and equivalence of proofs, like our $\circeq$. In particular, {\v{C}}ubri{\'c} and Saurin show that interpolation procedures are in a way ``right inverses'' of the cut rule. Here we show the same for \NL: 
+if $g : \mc{C}[D] \vd C$ and $h : U \vd D$ are derivations obtained by applying the $\mf{mip}$ procedure on a derivation $f: \mc{C}[U] \vd C$, then $\mf{cut}(h, g)$ is $\circeq$-related to $f$.
 
-\begin{theorem}\label{thm:cutIntrp}
-Let $g : T[D] \vd C$ and $h : U \vd D$ be the derivations obtained by applying the \MIP~procedure on a derivation $f: T[U] \vd C$. Then $\mf{cut}(g, h) \circeq f$.
-\end{theorem}
-Given a derivation $f : V \vdash C$ and an equality proof $eq : V \equiv \text{sub} \ p \ U$, we first apply the Maehara interpolation procedure $\mathsf{mip}$ on them, obtaining an interpolant formula $D$ and two derivations $\mathsf{MIP}.g \ (\mathsf{mip} \ f \ eq)$ and $\mathsf{MIP}.h \ (\mathsf{mip} \ f \ eq)$ (the $g$ and $h$ in the statement of $\mathsf{MIP}$ in Theorem 1). Then we apply the $\mathsf{cut}$ rule on these, resulting in a derivation which is $\circeq$-related to the original $f$. In Agda, proving proof-relevant interpolation translates to the construction of a term $\mathsf{cut\text{-}intrp}$ with the following type:
+%Given a derivation $f : V \vdash C$ and an equality proof $eq : V \equiv \text{sub} \ p \ U$, we first apply the Maehara interpolation procedure $\mathsf{mip}$ on them, obtaining an interpolant formula $D$ and two derivations $\mathsf{MIP}.g \ (\mathsf{mip} \ f \ eq)$ and $\mathsf{MIP}.h \ (\mathsf{mip} \ f \ eq)$ (the $g$ and $h$ in the statement of $\mathsf{MIP}$ in Theorem 1). Then we apply the $\mathsf{cut}$ rule on these, resulting in a derivation which is $\circeq$-related to the original $f$.
+
+In Agda, proving proof-relevant interpolation translates to the construction of the following function:
 \[
 \begin{array}{l}
-\mathsf{cut\text{-}intrp} : \forall ~ \{T\} ~ (p : \pathT{T}) ~ U ~ \{V ~ C\}
-\\
-\quad \to (f : V \vdash C) ~ (eq : V \equiv \text{sub} ~ p ~ U) 
+\mathsf{cut\text{-}intrp} : (f : V \vdash C) ~ (eq : V \equiv \sub{p}{U}) 
 \\
 \quad \to \mathsf{cut} ~ (\mathsf{MIP}.h ~ (\mathsf{mip} ~ f ~ eq)) ~ (\mathsf{MIP}.g ~ (\mathsf{mip} ~ f ~ eq)) ~ \mf{refl} 
-\\
-\quad \quad \circeq 
-\\
-\quad \quad \mathsf{subst\text{-}cxt} ~ eq ~ f
+\circeq 
+\subst~ (\lambda x.\ x \vdash C)~eq~f
 \end{array}
 \]
 % cut-intrp : ∀ {T} (p : Path T) U {V C}
 %   → (f : V ⊢ C) (eq : V ≡ sub p U) 
 %   →  cut p (MIP.h (mip p U f eq)) (MIP.g (mip p U f eq)) refl ≗ subst-cxt eq f
-Notice that $f$ is a term of type $V \vdash C$, while the derivation on the left-hand-side of $\circeq$ has type $\text{sub} \ p \ U \vdash C$. In order to state that the two derivations are $\circeq$-related we need to substitute the context in the type of $f$ using the equality proof $eq : V \equiv \text{sub} \ p \ U$.
-The definition of $\mathsf{cut\text{-}intrp}$ proceeds by pattern-matching on the argument $f$.
+The term $f$ has type $V \vdash C$, while the derivation on the left-hand-side of $\circeq$ has type $\text{sub} \ p \ U \vdash C$, so we fix this mismatch with an application of $\subst$. %In order to state that the two derivations are $\circeq$-related we need to substitute the context in the type of $f$ using the equality proof $eq : V \equiv \text{sub} \ p \ U$.
+As expected, the definition of $\mathsf{cut\text{-}intrp}$ proceeds by pattern-matching on the argument $f$.
 
 
-\section{Concluding Remarks}
+\section{Conclusion}
 
-In this paper, we presented an Agda formalization of \NL, focusing on three major proof-theoretic properties: cut-elimination, Maehara interpolation, and proof-relevant interpolation. Our key contribution is the formal characterization of case distinctions for binary trees, which serves as a foundation for rigorously proving properties of \NL.
+In this paper, we presented an Agda formalization of \NL, showcasing the proofs of two major logical properties: cut admissibility and proof-relevant Maehara interpolation. The key technical contribution is the formal characterization of equality of substituted trees, which serves as a fundamental lemma for the formalization of the aforementioned properties (and for proving other properties in the future, such as uniform interpolation \cite{alizadeh:2014} for an extension of \NL with additives).
+While cut admissibility and the standard Maehara interpolation property for \NL\ have been established in previous research, our formalization also offers some new theoretical results. Namely a proof-relevant version of \MIP\ and the well-definedness of $\cut$ and $\mf{mip}$ with respect to permutative conversions.
+%interpolation First, our Agda formalization of the case distinction type for trees provides a rigorous foundation that can be reused in further research such as uniform interpolation \cite{alizadeh:2014}. Second, our proof-relevant interpolation results, demonstrating that the Maehara interpolation procedure is well-defined with respect to equivalence of derivations, is new theoretical result of \NL.
 
-While cut-elimination and the standard Maehara interpolation property for \NL\ have been established in previous research, our work still offers several contributions. First, our Agda formalization of the case distinction type for trees provides a rigorous foundation that can be reused in further research such as uniform interpolation \cite{alizadeh:2014}. Second, our proof-relevant interpolation results, demonstrating that the Maehara interpolation procedure is well-defined with respect to equivalence of derivations, is new theoretical result of \NL.
+For many substructural logics, the variable condition in the Maehara interpolation property can be strengthened to include the multiplicity \cite{moot:categorial:2012} and the polarity \cite{roorda1991} of occurrences of atomic formulae. This is true for \NL\ and we plan to formalize these upgrades of the variable condition $\mf{VarCond}$ in future work.
 
-Our formalization implements only the basic variable condition for interpolation. The condition can be strengthened to include variable multiplicity \cite{moot:categorial:2012}, or even variable polarity conditions \cite{roorda1991}. However the implementations in Agda are not yet clear, so we leave them as future work.
+The well-definedness of $\mf{mip}$ wrt. $\circeq$  is attainable in \NL, but it cannot be proved for more structured logics (such as the associative Lambek calculus, or even a semi-associative fragment \cite{VW2025}) without relaxing the equivalence of interpolation triples. In particular, one cannot expect the interpolant formulae to be syntactically equal, as in our type $\MIPeq ~ m_1 ~ m_2$. A possible relaxation would be replacing equality by logical equivalence. 
+%for nonassociative Lambek calculus because the logic does not contain complicated equivalences of formulae, making the interpolation triple straightforward to define. We anticipate that extending this approach to the associative or semi-associative Lambek calculus \cite{VW2025} would be more challenging, as those systems involve more complex equational theories on formulae.
 
-The well-definedness result for the Maehara interpolation procedure with respect to equivalence of derivations is attainable for nonassociative Lambek calculus because the logic does not contain complicated equivalences of formulae, making the interpolation triple straightforward to define. We anticipate that extending this approach to the associative or semi-associative Lambek calculus \cite{VW2025} would be more challenging, as those systems involve more complex equational theories on formulae.
-
-From a practical perspective, it is worth mentioning that the formalization of these proofs is computationally intensive. The type-checking time for certain files is substantial; the well-definedness proofs (\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/IntrpWellDefined.agda}{$\mf{IntrpWellDefined.agda}$}) require approximately ten minutes to type-check, while the associativity of $\cut$ (\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/CutAssociativities.agda}{$\mf{CutAssociativities.agda}$}) and the congruence of $\cut$ wrt. $\circeq$ (\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/CutCongruence.agda}{$\mf{CutCongruence.agda}$}) require around two hours and six hours on a MacBook Pro 2020 with 2 GHz Intel Core i5.
+From a practical perspective, it is worth mentioning that this Agda formalization is computationally intensive. The type-checking time for some files is quite substantial: the well-definedness proofs $\mathsf{mip{\circeq}}$ %(\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/IntrpWellDefined.agda}{$\mf{IntrpWellDefined.agda}$})
+takes ${\sim}$10 minutes to type-check, while the associativity of $\cut$ %(\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/CutAssociativities.agda}{$\mf{CutAssociativities.agda}$})
+and the congruence of $\cut$ wrt. $\circeq$ %(\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/CutCongruence.agda}{$\mf{CutCongruence.agda}$})
+require >2 hours on a MacBook Pro 2020 with 2 GHz Intel Core i5.
+In future work, we plan to refactor our code in order to reduce the compilation time.
 
 \begin{credits}
 \subsubsection{\ackname} This work was supported by the Estonian Research Council grant PSG749. 
