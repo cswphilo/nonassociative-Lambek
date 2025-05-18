@@ -23,9 +23,9 @@
 %
 % If you use the hyperref package, please uncomment the following two lines
 % to display URLs in blue roman font according to Springer's eBook style:
-%\usepackage{color}
-%\renewcommand\UrlFont{\color{blue}\rmfamily}
-%\urlstyle{rm}
+\usepackage{color}
+\renewcommand\UrlFont{\color{blue}\rmfamily}
+\urlstyle{rm}
 %
 \usepackage{amsmath,amssymb,amsfonts}%
 
@@ -152,7 +152,7 @@ then its antecedent is of the form $\mc{C}'[U' , A \Rarr B]$ for some context $\
 %$\ot$-introduction rule, then its antecedent is of the form $T'[A \ot B]$ for some context $T'$ and formulae $A,B$. This means that we are given an equality of trees $T[D]=T'[A \ot B]$ and we need to precisely characterize the structural relationship between the tensor formula $A \ot B$ and the cut formula $D$ within these trees.
 This relationship is not as simple as in the associative Lambek calculus, it involves a more complex splitting of the contexts from which more cases arise.
 
-Though we can intuitively understand what occurs in the proof of cut admissibility, since it is not too difficult to compute all possible cases, what about more complex properties? For example, consider proving that the admissible cut rule is associative, i.e. the two ways of cutting three sequents of the form $U \vdash D$, $\mc{C}[D] \vdash E$ and $\mc{C}'[E] \vdash C$ produce equal derivations. Because of the large number of cases arising from the induction on the shape of derivations and, mostly, from the analysis of equalities of trees discussed in the previous paragraph, establishing the associativity of cut becomes very challenging to perform with pen and paper, as it is hard to keep track of all the possible cases to consider.
+We can intuitively understand what occurs in the proof of cut admissibility, since it is not too difficult to compute all possible cases. However, what about more complex properties?  For example, consider proving that the admissible cut rule is associative, i.e. the two ways of cutting three sequents of the form $U \vdash D$, $\mc{C}[D] \vdash E$ and $\mc{C}'[E] \vdash C$ produce equal derivations. Because of the large number of cases arising from the induction on the shape of derivations and, mostly, from the analysis of equalities of trees discussed in the previous paragraph, establishing the associativity of cut becomes very challenging to perform with pen and paper, as it is hard to keep track of all the possible cases to consider.
 On the other hand, interactive theorem provers are very good tools for dealing with large inductive proofs and keeping track of all existing proof obligations.
 
 %This need leads us to consider a formal verification of the \NL. Our approach involves paths in trees, allowing each subtree to be represented as a substitution along a path in the original tree. This transforms the problem of determining relative positions between different subtrees into a formalizable question about the relationship between two paths in a tree.
@@ -166,7 +166,7 @@ In this work, we present the formalization of the sequent calculus for \NL\ and 
 Successively, we present the formal proof of the Maehara interpolation property (\MIP), originating from Maehara's proof of Craig interpolation for classical logic \cite{maehara1961}.
 Maehara's method has been applied and adapted to several logics, especially to substructural logics that admit a cut-free sequent calculus \cite{ono:proof:nonclassical:1998}. \MIP\ states that, given a sequent $\mc{C}[U] \vdash C$, there exist a formula $D$ and derivations of sequents $U \vdash D$ and $\mc{C}[D] \vdash C$, such that all the atomic formulae appearing in $D$ appear also in $U$, as well as in $\mc{C},C$.
 More precisely, we formalize a proof-relevant (in the sense of \v{C}ubri{\'c} \cite{Cubric1994} and Saurin \cite{Saurin2024}) variant of \MIP: we aim to capture not only the existence of interpolants but also their relationship to the admissible cut rule. In order to achieve this, we first introduce an equivalence relation $\circeq$ on derivations, capturing all the possible permutative conversions. We then show that both the cut rule and the interpolation procedure are well-defined wrt. to the relation $\circeq$. %e.g. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
- Then we show that the interpolation procedure is a right inverse of the admissible cut rule, in the sense that running the interpolation algorithm on a derivation $f$ of a sequent $\mc{C}[D] \vdash C$ and successively cutting the resulting two derivations along the interpolant formula results in a derivation that is $\circeq$-related to $f$.
+ Then we show that the interpolation procedure is a right inverse of the admissible cut rule, in the sense that running the interpolation algorithm on a derivation $f$ of a sequent $\mc{C}[U] \vdash C$ and successively cutting the resulting two derivations along the interpolant formula results in a derivation that is $\circeq$-related to $f$.
 %i.e. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
 
 %In this paper, we formalize \NL\ and prove properties in Agda: $(i)$ cut-elimination, $(ii)$ Maehara interpolation, $(iii)$ proof-relevant interpolation, and $(iv)$ \linebreak well-definedness of the Maehara interpolation procedure with respect to equivalence of derivations.
@@ -243,7 +243,7 @@ The type family $\Path$ is the following inductive type family:
 \end{array}
 \]
 Curly brackets are used in Agda to denote implicit arguments.
-The constructor name $\bullet$ is overloaded: we have that $\bullet : \Tree$ is a tree consisting of a single hole and $\bullet : \pathT{\bullet}$ is the unique path to a hole in that tree.
+The constructor name $\bullet$ is overloaded: we have that $\bullet : \Tree$ is a tree consisting of a single hole and $\bullet : \pathT{\bullet}$ is the unique path to the hole in that tree.
 
 In the literature on \NL\ \cite{moot:categorial:2012}, the substitution $\mc{C}[U]$ of a tree $U$ into a hole of a context $\mc{C}$ is defined by structural recursion on $\mc{C}$:
 \begin{displaymath}
@@ -817,7 +817,7 @@ The inference rules of the calculus are given below:
   \quad
   \infer[\Rr]{T \vd A \Rarr B}{A , T \vd B} 
   \quad
-  \infer[\Lr]{T \vd A \Rarr B}{T , A \vd B \Larr A}
+  \infer[\Lr]{T \vd B \Larr A}{T , A \vd B}
   \quad
   \infer[\tr]{T , U \vd A \ot B}{
     T \vd A
@@ -831,7 +831,7 @@ The inference rules of the calculus are given below:
     \mc{C}[B] \vd C
   }
   \quad
-  \infer[\Ll]{\mc{C}[U , B \Larr A] \vd C}{
+  \infer[\Ll]{\mc{C}[B \Larr A , U] \vd C}{
     U \vd A
     &
     \mc{C}[B] \vd C
@@ -1091,7 +1091,7 @@ These are representative examples of three classes of permutative conversions:  
         \infer[\Rl]{\mc{C}[\mc{C}_1[U , A \Rarr B] , \mc{C}_2[B']] \vd C}{
           \deduce{U \vd A'}{f}
           &
-          \deduce{\mc{C}[\mc{C}_1[B] , \mc{C}_2[B']] \vd C}{h}
+          \deduce{\mc{C}[\mc{C}_1[B] , \mc{C}_2[B']] \vd C}{g}
         }
       }
     }
