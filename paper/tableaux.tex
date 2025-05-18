@@ -116,7 +116,7 @@
 \author{Niccol{\`o} Veltri\orcidID{0000-0002-7230-3436} \and
 Cheng-Syuan Wan \orcidID{0000-0003-2053-1688}}
 %
-\authorrunning{N. Velri and C.-S. Wan}
+\authorrunning{N. Veltri and C.-S. Wan}
 % First names are abbreviated in the running head.
 % If there are more than two authors, 'et al.' is used.
 %
@@ -128,7 +128,7 @@ Cheng-Syuan Wan \orcidID{0000-0003-2053-1688}}
 %
 \begin{abstract}
   This paper presents a formalization of the nonassociative Lambek calculus in the Agda proof assistant. %, focusing on two major proof-theoretic properties: cut admissibility and Maehara interpolation. 
-  The sequent calculus for this logic has sequents with binary trees as antecedents, in which formulae are stored as leaves. The shape of the antecedents creates subtleties when proving logical properties, since in many cases one needs to analyse equalities involving sequentially-composed trees. We formally characterize these equalities and show how to employ the resulting technical lemma to prove cut admissibility and the Maehara interpolation propery, which implies Craig interpolation. We show that both the cut rule and the interpolation procedure are well-defined wrt.\ a certain notion of equivalence of derivations. We additionally prove a proof-relevant version of Maehara interpolation, exibiting the interpolation procedure as a right inverse of the admissible cut rule. 
+  The sequent calculus for this logic has sequents with binary trees as antecedents, in which formulae are stored as leaves. The shape of the antecedents creates subtleties when proving logical properties, since in many cases one needs to analyze equalities involving sequentially-composed trees. We formally characterize these equalities and show how to employ the resulting technical lemma to prove cut admissibility and the Maehara interpolation properly, which implies Craig interpolation. We show that both the cut rule and the interpolation procedure are well-defined wrt.\ a certain notion of equivalence of derivations. We additionally prove a proof-relevant version of Maehara interpolation, exhibiting the interpolation procedure as a right inverse of the admissible cut rule. 
   %Our work, especially the case distinction type defined here, aims to serve as a foundation for further research and formalization on nonassociative Lambek calculus.
 \keywords{nonassociative Lambek calculus \and Agda \and cut admissibility \and Maehara interpolation \and proof-relevant interpolation}
 \end{abstract}
@@ -170,7 +170,7 @@ More precisely, we formalize a proof-relevant (in the sense of \v{C}ubri{\'c} \c
 %i.e. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
 
 %In this paper, we formalize \NL\ and prove properties in Agda: $(i)$ cut-elimination, $(ii)$ Maehara interpolation, $(iii)$ proof-relevant interpolation, and $(iv)$ \linebreak well-definedness of the Maehara interpolation procedure with respect to equivalence of derivations.
-Summarising, this work makes the following contributions: $(i)$ we formalize a technical lemma for dealing with equalities of the form $\mc{C}[U] = \mc{C}'[U']$; $(ii)$ we employ the lemma to formally define effective procedures for cut admissibility and Maehara (and consequently Craig) interpolation; $(iii)$ we prove proof-relevant versions of the latter, by introducing an equivalence of derivations $\circeq$ and formally establishing many properties of the defined procedures: cut is associative, commutative and unital; cut and interpolation are well-defined wrt. $\circeq$; interpolation is a right inverse of cut. We notice that contribution $(iii)$ is completely novel in the study of the metatheory of \NL, not only its mechanization in a proof assistant.
+Summarizing, this work makes the following contributions: $(i)$ we formalize a technical lemma for dealing with equalities of the form $\mc{C}[U] = \mc{C}'[U']$; $(ii)$ we employ the lemma to formally define effective procedures for cut admissibility and Maehara (and consequently Craig) interpolation; $(iii)$ we prove proof-relevant versions of the latter, by introducing an equivalence of derivations $\circeq$ and formally establishing many properties of the defined procedures: cut is associative, commutative and unital; cut and interpolation are well-defined wrt. $\circeq$; interpolation is a right inverse of cut. We notice that contribution $(iii)$ is completely novel in the study of the metatheory of \NL, not only its mechanization in a proof assistant.
 %The paper proceeds as follows. We begin with the foundations of our formalization, including definitions of trees, paths in trees, substitutions, and case distinctions for identifying relationships between paths. Next, we introduce the sequent calculus of \NL\ and formalize cut-elimination. The subsequent section addresses equivalence of derivations and properties of the $\cut$ rule.
 %In the final sections, we formally prove Maehara interpolation and proof-relevant interpolation to demonstrate that our formalization provides a correct and usable strategy. It is worth noting that the proof-relevant interpolation results presented here are novel contributions to the study of \NL.
 
@@ -271,7 +271,7 @@ In Agda, the substitution function replace a hole in $T$, specified by a given p
 \]
 
 %For any tree $U$, the substitution operation that replaces $\bullet$ with $U$ follows the path specified above.
-Two paths $p : \pathT{T}$ and $q : \pathT{U}$ can be concatenated, resulting in a path $p \append ~ q : \pathT{(\sub{p}{U})}$ in the tree obtained by sustituting $U$ in the hole specified by path $p$. Path concatenation is defined by pattern-matching on $p$.
+Two paths $p : \pathT{T}$ and $q : \pathT{U}$ can be concatenated, resulting in a path $p \append ~ q : \pathT{(\sub{p}{U})}$ in the tree obtained by substituting $U$ in the hole specified by path $p$. Path concatenation is defined by pattern-matching on $p$.
 
 \begin{example}\label{example:tree:and:path}
 Consider the tree $T = (\eta X ~ \cdast ~ \bullet) \cdast ~ \eta Y$, which contains a single hole.
@@ -776,7 +776,7 @@ This information is collected in the record type $\LeftRight~p_1 ~ p_2 ~ U_1 ~ U
   \;\; \quad eqp_2   &: \subst ~ \Path ~ eqT_2 ~ p_2 \equiv q \append ~ (W_1 \btright q_2)
 \end{array}
 \]
-Terms of this type are tuples consiting of three (implicit) trees $W$, $W_1$, and $W_2$. The tree $W$ contains the common path $q$ and it is the largest common prefix tree of both $T_1$ and $T_2$. %such representing the largest subtree beginning at the divergence point of $p_1$ and $p_2$.
+Terms of this type are tuples consisting of three (implicit) trees $W$, $W_1$, and $W_2$. The tree $W$ contains the common path $q$ and it is the largest common prefix tree of both $T_1$ and $T_2$. %such representing the largest subtree beginning at the divergence point of $p_1$ and $p_2$.
 The tree $W_1$ is the subtree where $U_1$ will be substituted, while $W_2$ the one where $U_2$ will be substituted.
 The remaining equalities characterize $T_1$, $T_2$, $p_1$ and $p_2$.
 %, as depicted in (\ref{eq:leftright}).
@@ -1023,7 +1023,7 @@ The functions  $\cut\Rl$ and $\cut\Ll$ are defined by mutual recursion with $\cu
 \end{remark}
 
 The admissible cut rule satisfies the set of equations in Figure \ref{fig:cut:properties}, which shows that $\cut$ is unital wrt.\ the rule $\ax$, sequential composition of $\cut$ is associative, and parallel composition of $\cut$ is commutative.
-The proofs of these results are quite technical and we highly benefitted from the employment of Agda for keeping track of all proof obligations. The technical lemma $\subeq$ was also indispensable for this task.
+The proofs of these results are quite technical and we highly benefited from the employment of Agda for keeping track of all proof obligations. The technical lemma $\subeq$ was also indispensable for this task.
 
 \section{Equivalence of Derivations}
 In our Agda formalization, a sequent $T \vdash C$ is a type which in general is not a proposition, i.e. it may have multiple distinct terms/derivations.
@@ -1115,7 +1115,7 @@ Here we present three indicative examples, one for each class of equational gene
 \end{array}
 \]
 
-The admissible cut rule satsfies the set of equivalences in Figure \ref{fig:cut:left:rules}, which shows that $\cut$ and left rules in the first premise are permutatable up to $\circeq$. These equations arise from our implementation of cut admissibility, which proceeds by structural recursion on the second premise. If $\cut$ were defined by pattern-matching on the first premise instead, as discussed in Remark \ref{remark}, then we would have  equivalences showing that $\cut$ and right rules in the second premise are permutable up to $\circeq$.
+The admissible cut rule satisfies the set of equivalences in Figure \ref{fig:cut:left:rules}, which shows that $\cut$ and left rules in the first premise are permutable up to $\circeq$. These equations arise from our implementation of cut admissibility, which proceeds by structural recursion on the second premise. If $\cut$ were defined by pattern-matching on the first premise instead, as discussed in Remark \ref{remark}, then we would have  equivalences showing that $\cut$ and right rules in the second premise are permutable up to $\circeq$.
 In Agda, the proof of this equivalence also proceeds by induction on the second premise.
   \begin{figure}[t]
   \[
@@ -1379,7 +1379,7 @@ In Agda, equivalences of interpolant triples are terms of the following record t
 \end{array}
 \]
 %Elements of type $\MIP ~ p ~ U ~C$ are triples consisting of a formula $D$ and two derivations $g$ and $h$.
-Well-definedness of Maehara interpolation wrt.\ $\circeq$ in Agda corresponds to the construction of the function below, which proceeds by pattern-matching on $eq_2$:
+well-definedness of Maehara interpolation wrt.\ $\circeq$ in Agda corresponds to the construction of the function below, which proceeds by pattern-matching on $eq_2$:
 %This equivalence relation between interpolant triples leads to a theorem connecting interpolation and equivalence of derivations: when two derivations $f, f': T[U] \vdash C$ are equivalent (i.e. $f \circeq f'$), their corresponding interpolant triples must also be equivalent. Formally:
 %\begin{theorem}
 %  Given two derivations $f, f' : T[U] \vdash C$, if $f \circeq f'$, then the interpolant triples of $f$ and $f'$ are equivalent.
