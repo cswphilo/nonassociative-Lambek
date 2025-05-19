@@ -14,6 +14,10 @@ open import CutEqualities
 open import CutCirceqEquations
 open import CutCongruence
 
+{-
+Proof-relevant interpolation for NL, i.e.
+Maehara interpolation procedure is a right inverse of Cut
+-}
 
 sub∙ : ∀ {T} (p : Path T) → sub p ∙ ≡ T
 sub∙ ∙ = refl

@@ -6,6 +6,8 @@ open import Relation.Binary.PropositionalEquality hiding ([_]; _≗_)
 open import Data.Product 
 open import Fma
 
+-- Some lemmata about SubEq
+
 sub≡ : ∀ {T U V} (p : Path T) → sub p U ≡ sub p V → U ≡ V
 sub≡ ∙ refl = refl
 sub≡ (p ◂ U) eq = sub≡ p (⊛eq eq .proj₁)

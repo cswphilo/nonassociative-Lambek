@@ -11,6 +11,10 @@ open import Cut
 open import CutEqualities
 open import SubEqProperties
 
+{-
+Associativity (cut-vass) and Commutativity (cut-hass) of Cut
+-}
+
 cut-vass : ∀ {T U V W₁ W₂ C D E} (p : Path T) (q : Path U)
   → (f : V ⊢ D) (g : W₁ ⊢ E) (h : W₂ ⊢ C)
   → (eq₁ : W₁ ≡ sub p (η D)) (eq₂ : W₂ ≡ sub q (η E))

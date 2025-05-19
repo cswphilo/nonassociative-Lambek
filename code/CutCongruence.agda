@@ -12,6 +12,10 @@ open import SubEqProperties
 open import CutEqualities
 open import CutCirceqEquations
 
+{-
+Cut is well-defined wrt. ≗
+-}
+
 cut-cong1 : ∀ {T U W C D} (p : Path T)
   → {f f' : U ⊢ D} 
   → (g : W ⊢ C)

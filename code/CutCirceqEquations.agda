@@ -10,6 +10,10 @@ open import SeqCalc
 open import Cut
 open import SubEqProperties
 
+{-
+Equivalences of derivations on the permuation of Cut and Left rules 
+-}
+
 cut⇒L≗ : ∀ {T U V W A B C D} (p : Path T) (q : Path U)
   → {f : V ⊢ A}
   → (h : sub q (η B) ⊢ D)

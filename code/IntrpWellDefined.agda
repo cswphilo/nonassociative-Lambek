@@ -9,6 +9,10 @@ open import SeqCalc
 open import Interpolation
 open import SubEqProperties
 
+{-
+Maehara interpolation procedure is well-defined wrt. ≗
+-}
+
 module _ (T : Tree) (p : Path T) (U : Tree) (C : Fma) (m m' : MIP T p U C) where
   open MIP m 
   open MIP m' renaming (D to D'; g to g'; h to h')

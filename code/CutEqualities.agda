@@ -10,6 +10,10 @@ open import SeqCalc
 open import Cut
 open import SubEqProperties
 
+{-
+Unitality of Cut
+-}
+
 cut⇒L-2>L1 : ∀ {T U A B C E F} (p : Path T)
   → (h : U ⊢ E) (g : η E ⊢ A)
   → (h₁ : η B ⊢ F) (g₁ : sub p (η F) ⊢ C)

@@ -52,6 +52,8 @@ subst-succ : ∀ {T C C'} → C ≡ C'
   → T ⊢ C → T ⊢ C'
 subst-succ refl f = f  
 
+-- Equivalence of derivations of NL
+
 data _≗_ : {T : Tree} {A : Fma} → T ⊢ A → T ⊢ A → Set where
 -- equivalence relation
   refl : ∀{T A} {f : T ⊢ A} → f ≗ f
