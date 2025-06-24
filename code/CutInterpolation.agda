@@ -7,7 +7,7 @@ open import Data.Product
 open import Data.Empty
 open import Fma
 open import SeqCalc
-open import Cut2
+open import Cut
 open import Interpolation
 open import SubEqProperties
 open import CutEqualities
@@ -29,7 +29,7 @@ sub∙ (T ▸ p) = cong (_ ⊛_) (sub∙ p)
 ++∙ : ∀ {T} (p : Path T) → p ++ ∙ ≡ p
 ++∙ ∙ = refl
 ++∙ (p ◂ U) = cong (_◂ U) (++∙ p)
-++∙ (T ▸ p) = cut⇒L-cong1 p₁ g g₁ eq' (T ▸_) (++∙ p)
+++∙ (T ▸ p) = cong (T ▸_) (++∙ p)
 
 {-# REWRITE ++∙ #-}
 -- right unitality of ++
