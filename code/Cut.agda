@@ -2,9 +2,6 @@
 
 module Cut where
 
-open import Relation.Binary.PropositionalEquality
-open import Data.Product
-open import Data.Empty
 open import Fma
 open import SeqCalc
 

@@ -2,10 +2,7 @@
 
 module Fma where
 
-open import Relation.Binary.PropositionalEquality hiding ([_])
-open import Data.Product 
-
-{-# BUILTIN REWRITE _≡_ #-}
+open import Utilities public
 
 -- ============================================================
 -- Formulae and Trees of Non-Associative Lambek Calculus NL

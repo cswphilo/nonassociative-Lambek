@@ -2,8 +2,6 @@
 
 module SubEqProperties where
 
-open import Relation.Binary.PropositionalEquality hiding ([_]; _≗_) 
-open import Data.Product 
 open import Fma
 
 -- Some lemmata about SubEq

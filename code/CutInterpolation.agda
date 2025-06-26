@@ -2,9 +2,6 @@
 
 module CutInterpolation where
 
-open import Relation.Binary.PropositionalEquality hiding ([_]; _≗_) 
-open import Data.Product
-open import Data.Empty
 open import Fma
 open import SeqCalc
 open import Cut

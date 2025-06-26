@@ -2,10 +2,6 @@
 
 module VarCondition where
 
-open import Relation.Binary.PropositionalEquality
-open import Data.Sum renaming ([_,_] to elim⊎)
-open import Data.Empty
-open import Data.Product
 open import Fma
 open import SeqCalc
 open import Interpolation
@@ -13,6 +9,12 @@ open import Interpolation
 -- ===============================================
 -- The variable condition of Maehara interpolation
 -- ===============================================
+
+infixr 1 _⊎_
+
+data _⊎_ {a} (A : Set a) (B : Set a) : Set a where
+  inj₁ : (x : A) → A ⊎ B
+  inj₂ : (y : B) → A ⊎ B
 
 open MIP
 
@@ -27,8 +29,11 @@ data _∈ᵀ_ (X : At) : Tree → Set where
   left : ∀ {T U} → X ∈ᵀ T → X ∈ᵀ T ⊛ U
   right : ∀ {T U} → X ∈ᵀ U → X ∈ᵀ T ⊛ U
 
--- _∈ᵀ_ : At → Tree → Set
--- X ∈ᵀ T = Σ Fma λ A → (X ∈ A) × (A ∈ᵀ T)
+elim⊎ : ∀ {a} {A B : Set a} {C : A ⊎ B → Set a} →
+        ((x : A) → C (inj₁ x)) → ((x : B) → C (inj₂ x)) →
+        ((x : A ⊎ B) → C x)
+elim⊎ f g (inj₁ x) = f x
+elim⊎ f g (inj₂ y) = g y
 
 sub∈ : ∀ {A T U} (p : Path T) → A ∈ᵀ sub p U → A ∈ᵀ T ⊎ A ∈ᵀ U
 sub∈ ∙ (at m) = inj₂ (at m)

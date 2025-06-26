@@ -2,8 +2,6 @@
 
 module Interpolation where
 
-open import Relation.Binary.PropositionalEquality
-open import Data.Product 
 open import Fma
 open import SeqCalc
 
