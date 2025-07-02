@@ -1,0 +1,13 @@
+To give a stronger recommendation for this paper, I would have liked to see this work taken even further. For example, I would have liked to have seen a deeper or unexpected application of the technology that is developed here. For example, can this formalisation be generalised in a way that it can be applied to nearby logics? Can you make use of this formalisation and existing formalisations of, say, context-free languages, to obtain PTIME membership? See results by Buszkowski, Bulinska and other authors. E.g.,
+
+On the Complexity of Nonassociative Lambek Calculus with Unit. Maria Bulińska. Studia Logica, Vol. 93, No. 1 (October 2009), pp. 1-14.
+
+What about a reduction from a known hard problem towards proving lower bounds?
+
+It might appear a little unfair that I am suggesting extensions whose difficulty is unclear, but part of the research challenge is to identify an extension that is sufficiently novel and feasible.
+
+The paper is generally well-written. In particular, the code and explanatory text are well integrated.
+
+Further comments
+
+-A logic that is not really nearby since it is associative, but possibly still amenable to the methods developed in this paper, is bunched implication logic BI. Could you make use of the tree formalisation to formalise cut-admissibility of BI? In this logic, the presence of two constructors make the bunches especially difficult to handle by hand, and hence a formalisation would be even more valuable.

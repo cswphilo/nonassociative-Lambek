@@ -1,0 +1,16 @@
+Among the possible improvements: I was under the impression that the authors could make a more consistent choice on the intended background of the reader: sometimes basic informations about Agda are recalled while more complex stuffs are omitted and similarly for the equivalence of derivations and interpolation.
+Given the primary focus of TABLEAUX, I would suggest providing more focus on the actual arguments and concentrating, for the formalization, to its distinctive features (management of trees, time of type-checking, compatibility with equivalence of derivations, etc.) In that case, the formalization could be viwed as a support for the full proofs.
+
+Detailed comments:
+- p5: you define contexts and paths: aren't paths essentially single-hole contexts? Can this be put to use?
+- p6, case 2: "an example of tree sub p*2* U2"
+- p6 bottom of the page, next to T2, there is an extra T1
+- p7 bottom of the page: why not making explicit W1 and W2 to have a clearer picture?
+- p13, l-3: a in inference -> an inference
+- p13, l-2: process -> processing
+- about references:
+* Craig original paper is not cited while I think this reference would be adequate
+* [6] you cite Cubric Arch Math Logic paper but I would suggest also citing his PhD
+* [10] the reference by Kokke corresponds to a work presented at the 1st Workshop on Type Theory and Lexical Semantics in ESSLLI 2015 -> I would suggest adding this in your reference list.
+* [14] On Maehara's reference, you translated the name of the journal in english while I think it is more common to use the japanese name of the journal, isn't it.
+* [20] Saurin's work will appear in FSCD 2025.

@@ -1,0 +1,93 @@
+In s2.2 (pg 5) the authors discuss "determining all possible cases arising
+from equalities of the form C1[U1] = C2[U2], represented in Agda as
+sub p1 U1 ≡ sub p2 U2. First question, what does ≡ mean? The readers
+shouldn't be presumed to be familiar specifically with Agda.
+
+There are 7 cases set out in detail, eg U1 is contained in the left
+subtree of U2 is one of them. On pg 8 they say "One can check that
+the 7 previous cases are mutually disjoint and exhaustive,
+and that the type SubEq p1 p2 U1 U2 [defined by the 7 cases]
+is indeed equivalent to sub p1 U1 ≡ sub p2 U2."
+Now has this been proved in Agda? or just checked by pen-and-paper?
+If the latter - is there some reason why it couldn't be proved in Agda?
+and if not, why hasn't it?
+
+As a general comment, also relevant elsewhere, there should be more
+said to highlight which results have been proved _in Agda_.
+
+S3.1 Cut Admissibility shows the cut rule, and describes
+"The construction of the function cut" which mimics a typical
+cut-admissibility proof. That is, the function called cut takes
+as arguments the two premises (*) of the cut rule and returns a cut-free
+derivation of the conclusion.
+
+(*) that is, in each case, a term (whose content is the derivation
+of a sequent in the logic) of a type (which is the sequent)
+
+(note, I think this point should be made more clearly, there will be
+some readers familiar with the HOL style of provers but not the
+Coq/Lean/Agda style of provers ; likewise, the reference to
+"type-checking" near the bottom of page 10 refers to what some readers
+would think of as verifying the proof)
+
+Now, there are references to the "admissible cut rule"
+(eg pg 10, last paragraph, pg 12, 2nd last paragraph, pg 14, last paragraph).
+I gather that this means the result of applying the cut-elimination
+procedure embodied in the definition of the function "cut".
+This meaning was not at all clear to me, and should be made clearer.
+Also, it means that the results mentioned (such as those in Fig 1)
+depend on the authors' choice of cut-elimination procedure
+(and Remark 1 on page 10 makes it clear that there is a choice).
+
+S4. Equivalence of Derivations
+I don't understand the first sentence: my understanding would be that
+T |- C is (in logic) a proposition (in the form of a sequent), and in
+Agda is a type; a term of that type embodies a derivation of the sequent,
+and so there may be several terms of that type.
+
+The authors introduce a relation (which I will call eq-dot) between
+derivations, defining derivations being “morally” the same. They prove,
+in Agda, that "The admissible cut rule satisfies the set of equivalences
+in Figure 3" - which I take to mean that re-ordering (eg) the ⊗ L and
+cut rules, and then applying the cut-elimination function "cut",
+results in eq-dot-equivalent derivations.
+
+(For clarity, change "equivalent" in the bottom line of pg 11 to
+"eq-dot-equivalent").
+
+They also show (I gather, in Agda), that their various transformations
+on derivations preserve eq-dot-equivalence.
+
+S5 Proof-Relevant Maehara Interpolation
+They prove the Maehara Interpolation property by defining a function
+giving the interpolant. They show how the variable condition on the
+interpolant was expressed in Agda, and that their interpolant satisfies
+it, and that their definition of the interpolant is well-defined on
+eq-dot-equivalence classes. They also show that combining the
+(derivations of) the two resulting sequents using their cut-elimination
+function recovers the original derivation, up to eq-dot equivalence.
+
+The first paragraph of s6 Conclusions describes the extent to which
+their results about NL are novel, thus
+
+While cut admissibility and the standard Maehara interpolation property
+for NL have been established in previous research, our formalization also
+offers some new theoretical results: a proof-relevant version of MIP and the
+well-definedness of cut and mip with respect to permutative conversions.
+
+Their contribution is more in the area of (i) proving known results in
+Agda (thus confirming their correctness), and (ii) showing how to do
+these in a prover such as Agda.
+
+Minor comments/typos:
+diagram at the bottom of pg 6: (i) is there a stray T1 there
+(above and to the right of "T2 =")?
+(ii) are the two lowest leaves (on the low left) of U1 out of order?
+
+Figures 1,2,3, each with 3 examples, could have more space between the
+3 examples in each figure.
+
+pg 13, s5, first para: var(D) ⊆ var(Γ0) ∩ var(Γ0, Γ1, C),
+I think there must be a typo here
+
+pg 13, 3rd last line, "of a in inference" - ??
