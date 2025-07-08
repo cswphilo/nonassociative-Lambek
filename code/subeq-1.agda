@@ -1,6 +1,6 @@
 {-# OPTIONS --rewriting #-}
 
-module subeq-1 where
+module Subeq-1 where
 
 open import Fma
 
