@@ -1,0 +1,118 @@
+Rev 1
+
+- In s2.2 (pg 5) ... what does ≡ mean?
+
+Explain.
+TODO
+
+- the type SubEq p1 p2 U1 U2 [defined by the 7 cases] is indeed equivalent to sub p1 U1 ≡ sub p2 U2."
+Now has this been proved in Agda?
+
+Prove it.
+TODO
+
+- there should be more said to highlight which results have been proved _in Agda_.
+
+Maybe add links to Agda code?
+TODO
+
+- S3.1 Cut Admissibility ... That is, the function called cut takes as arguments the two premises (*) of the cut rule and returns a cut-free derivation of the conclusion  ... this point should be made more clearly
+
+Add explicit explanation that the "cut" term is a function taking two derivations and producing a new one, etc etc.
+
+Also explain that this is not cut elimination, since there is no primitive cut rule. And add that one could alternatively start with a sequent calculus with cut (and appropriate extra equivalences in \doteq for cut, e.g. the ones in Fig 1) and define a cut elimination procedure translating derivations in the calculus with cut into derivations in the calculus without cut, that also preserves the equivalences.
+TODO
+
+- S4. Equivalence of Derivations ... T |- C is (in logic) a proposition
+
+In our work, a sequent T |- C should be thought as a collection of proofs, and each term f : T |- C is a specific derivation of the sequent.
+TODO
+
+- change "equivalent" in the bottom line of pg 11 to
+"eq-dot-equivalent"
+
+Change.
+TODO
+
+- diagram at the bottom of pg 6: (i) is there a stray T1 there?
+
+Remove.
+TODO
+
+- Figures 1,2,3, each with 3 examples, could have more space between the
+3 examples in each figure.
+
+Add some space.
+TODO
+
+- pg 13, s5, first para: var(D) ⊆ var(Γ0) ∩ var(Γ0, Γ1, C)
+
+Replace with var(D) ⊆ var(Γ1) ∩ var(Γ0, Γ2, C),
+TODO
+
+- pg 13, 3rd last line, "of a in inference"
+
+"of an inference"
+TODO
+
+---
+
+Rev 2
+
+- can this formalisation be generalised in a way that it can be applied to nearby logics? Can you make use of this formalisation and existing formalisations of, say, context-free languages, to obtain PTIME membership?
+
+Add a sentence in the end about future work: formalize the relationship with context-free grammars (Buszkowski, Bulinska, others).
+
+Buszkowski, W.: Generative Capacity of Nonassociative Lambek Calculus. Bull.
+Polish Acad. Scie. Math. 34, 507–516 (1986)
+Kandulski, M.: The equivalence of nonassociative Lambek categorial grammars and context
+free grammars. Zeitschrift für Mathematische Logic und Grundlagen der Mathematik 34,
+41–52 (1988)
+TODO
+
+---
+
+Rev 3
+
+- p6, case 2: "an example of tree sub p*2* U2"
+
+Fix, also in the end of p7.
+TODO
+
+- p13, l-2: process -> processing
+
+Fix.
+TODO
+
+- Craig original paper is not cited while I think this reference would be adequate.
+
+Add.
+TODO
+
+- [6] you cite Cubric Arch Math Logic paper but I would suggest also citing his PhD
+
+Add.
+TODO
+
+- [10] the reference by Kokke corresponds to a work presented at the 1st Workshop on Type Theory and Lexical Semantics in ESSLLI 2015 -> I would suggest adding this in your reference list.
+
+Fix reference.
+https://www.lirmm.fr/tytles/Articles/Kokke.pdf
+TODO
+
+- [14] On Maehara's reference, you translated the name of the journal in english while I think it is more common to use the japanese name of the journal, isn't it.
+
+Change back to Japanese.
+TODO
+
+- [20] Saurin's work will appear in FSCD 2025.
+
+Fix.
+TODO
+
+---
+
+Other
+
+Mention "rewrites" in Agda in the end of Section 2.1: "sub++" and "++assoc".
+TODO
