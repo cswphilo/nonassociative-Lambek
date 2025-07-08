@@ -3,7 +3,7 @@ Rev 1
 - In s2.2 (pg 5) ... what does ≡ mean?
 
 Explain.
-TODO
+DONE
 
 - the type SubEq p1 p2 U1 U2 [defined by the 7 cases] is indeed equivalent to sub p1 U1 ≡ sub p2 U2."
 Now has this been proved in Agda?
@@ -115,4 +115,4 @@ DONE
 Other
 
 Mention "rewrites" in Agda in the end of Section 2.1: "sub++" and "++assoc".
-TODO
+DONE

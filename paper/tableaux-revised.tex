@@ -183,7 +183,7 @@ These earlier formalizations primarily focus on implementing the calculi and pro
 
 Craig interpolation for intuitionistic logic has been formalized in Isabelle/HOL by Ridge \cite{ridge:2006} and in Nominal Isabelle by Chapman et al. \cite{ChapmanMU08}. For  classical logic, there is a formalization in Isabelle/HOL by Michealis and Nipkow \cite{michealis:2017}. Recently,  F{\'{e}}r{\'{e}}e and van Gool \cite{feree:2023} have formalized uniform interpolation for intuitionistic logic in Coq, which was extended to a class of modal logic by F{\'{e}}r{\'{e}}e et al. \cite{feree:24}. As far as we know, there are no formalized proofs of Craig/Maehara interpolation for substructural logics in the literature.
 
-We would like to add that the (pen-and-paper, non-formalized) proof of Maehara interpolation for \NL\ is uncommon in the literature, as we were unable to find a reference for it. For \NL\ (and its extensions with modalities, additive connectives, etc.) researchers have traditionally been interested in other interpolation properties, involving a different condition on atomic formulae, which are useful for establishing the finite model property and the relationship between Lambek grammars and context-free grammars \cite{jager:04,buszkowski:2009,buszkowski:2010,lin:14}.
+We would like to add that the (pen-and-paper, non-formalized) proof of Maehara interpolation for \NL\ is uncommon in the literature, as we were unable to find a reference for it. For \NL\ (and its extensions with modalities, additive connectives, etc.) researchers have traditionally been interested in other interpolation properties, involving a different condition on atomic formulae, which are useful for establishing the finite model property and the relationship between Lambek grammars and context-free grammars \cite{buszkowski1986generative,kandulski1988equivalence,jager:04,buszkowski:2009,buszkowski:2010,lin:14}.
 %Our method is more akin to traditional Maehara's method because our interest lies in a more refined analysis based on equivalence of derivations.
 
 \paragraph{Formalization}
@@ -273,6 +273,13 @@ In Agda, the substitution function replace a hole in $T$, specified by a given p
 %For any tree $U$, the substitution operation that replaces $\bullet$ with $U$ follows the path specified above.
 Two paths $p : \pathT{T}$ and $q : \pathT{U}$ can be concatenated, resulting in a path $p \append ~ q : \pathT{(\sub{p}{U})}$ in the tree obtained by substituting $U$ in the hole specified by path $p$. Path concatenation is defined by pattern-matching on $p$.
 
+Given paths $p : \pathT{T}$ and $q : \pathT{U}$, substituting a tree $V$ in the concatenation $p \append~ q$ is the same as first substituting $V$ in $q$ and then substituting the result in $p$, i.e. $\sub{(p \append ~q)}{V} \equiv \sub{p}{(\sub{q}{V})}$.
+Agda allows the extension of its evaluation relation with new computation rules using the flag \texttt{{-}{-}rewriting}.
+This enabled us to turn the latter propositional equality into a judgemental one.
+This is only used to \emph{simplify} the proofs of cut admissibility and Maehara interpolation (and their properties). All our formalized results remain valid when the equalities is propositional instead of judgemental.
+
+Path concatenation is also associative, i.e. $(p \append~ q) \append~ r \equiv p \append~ (q \append~ r)$ for $p : \pathT{T}$, $q : \pathT{U}$ and $r : \pathT{V}$. Notice that the latter is a well-formed equality type, since the term $(p \append~ q) \append~ r$ has type $\pathT{(\sub{(p \append ~q)}{V})}$ while $p \append~ (q \append~ r)$ has type $\pathT{(\sub{p}{(\sub{q}{V})})}$, but these types are judgementally equal (due to the discussion in the previous paragraph).
+
 \begin{example}\label{example:tree:and:path}
 Consider the tree $T = (\eta X ~ \cdast ~ \bullet) \cdast ~ \eta Y$, which contains a single hole.
 The path to the hole is $p = (\eta X \btright \bullet) \btleft \eta Y$, which indicates that, starting from the root node, we take one step to the left followed by one step to the right, after which we reach the hole.
@@ -295,8 +302,11 @@ The path to the hole is $p = (\eta X \btright \bullet) \btleft \eta Y$, which in
   Given another tree $U = \eta Z \cdast \bullet$ and a path $q = \eta Z \btright \bullet$ in $U$, the concatenation of paths $p$ and $q$ is $p \append ~ q = (\eta X \btright (\eta Z \btright \bullet)) \btleft \eta Y$, which is a path in the tree $\sub{p}{U} = (\eta X ~ \cdast ~ (\eta Z \cdast \bullet)) \cdast ~ \eta Y$.
 \end{example}
 
+
 \subsection{Equality of Substituted Trees}
-When proving cut admissibility and Maehara interpolation for \NL, a common step is determining all possible cases arising from equalities of the form $\mc{C}_1[U_1] = \mc{C}_2[U_2]$. In our Agda formalization, these will be propositional equalities of the form $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$, where $p_1$ and $p_2$ are paths in some trees $T_1$ and $T_2$ respectively. %different presentations of the same tree. For cut-elimination, this involves finding the relationship between the principal formula of the endsequent and the cut formula. For interpolation, it concerns the relationship with the interpolating tree. 
+When proving cut admissibility and Maehara interpolation for \NL, a common step is determining all possible cases arising from equalities of the form $\mc{C}_1[U_1] = \mc{C}_2[U_2]$. In our Agda formalization, these will be equalities of the form $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$, where $p_1$ and $p_2$ are paths in some trees $T_1$ and $T_2$ respectively,
+and $\equiv$ is Agda's propositional equality type.
+%different presentations of the same tree. For cut-elimination, this involves finding the relationship between the principal formula of the endsequent and the cut formula. For interpolation, it concerns the relationship with the interpolating tree. 
 %\begin{example}\label{example:same:tree:diff:sub}
 %  Consider the tree $T$ in Example \ref{example:tree:and:path}, we can represent it in at least two equivalent ways: $\sub{((\eta X \cdast \bullet) \btright \bullet)}{\eta Y}$ or $\sub{(\bullet \btleft \eta Y)}{(\eta X \cdast \bullet)}$.
 %\end{example}
@@ -892,13 +902,12 @@ which in Agda becomes
 Notice that some implicit arguments ($T,U,W,D$ and $C$) have been omitted to shorten the specification of $\cut$ and improve readability. We will similarly omit implicit arguments later in the paper.
 The function $\cut$ takes an extra equality proof $eq$, which allows us to pattern-match on $g$. Without $eq$, i.e. if we assumed an argument $g : \sub{p}{(\eta ~ D)} \vdash C$ instead, Agda would not allow pattern-matching on $g$, as it is unable to unify the antecedent $\sub{p}{(\eta ~ D)}$ with the ones appearing in the conclusion of inference rules.
 
-Conceptually, we are constructing a function $\cut$ that takes two derivations and produces a new one.
-Since there is no primitive $\cut$ rule in our calculus (\ref{eq:seqcalc}), the $\cut$ function takes two cut-free derivations and produces a new cut-free derivation.
-This construction should therefore be understood as a proof of \emph{cut-admissibility}, not as a procedure for cut-elimination.
-
-An alternative approach would be to define a sequent calculus that includes a primitive $\cut$ rule.
-In that setting, one would also extend the equational theory on derivations with appropriate extra equivalences in $\circeq$ (see Section \ref{sec:equiv:der}) for $\cut$, e.g. the ones in Figure \ref{fig:cut:properties}.
-One then can define a cut-elimination procedure that translates derivations in the calculus with $\cut$ in the calculus without $\cut$ and show that procedure preserves the equivalences.
+Concretely, we are constructing a function $\cut$ that takes two derivations $f : U \vd D$ and $g : W \vd C$ (and an equality proof $eq : W \equiv \sub{p}{(\eta ~ D)}$) and produces a new derivation $\cut~f ~g ~eq :  \sub{p}{U} \vd C$.
+Since there is no primitive $\cut$ rule in our calculus (\ref{eq:seqcalc}), all derivations $f$, $g$ and $\cut~f ~g ~eq$ are cut-free.
+This construction should therefore be understood as a proof of \emph{cut admissibility}, not as a procedure for cut elimination.
+An alternative approach would have been introducing a second sequent calculus that includes a primitive $\cut$ rule and constructing a cut elimination procedure that translates derivations in the calculus with primitive $\cut$ in the calculus without $\cut$
+%\footnote{In this alternative approach, one need to also introduce an equational theory on derivations extending the relation $\circeq$ introduced in Section \ref{sec:equiv:der} with appropriate extra equivalences involving the primitive $\cut$ rule, e.g. the ones in Figure \ref{fig:cut:properties}, then show that the cut elimination procedure preserves the equivalences.}
+.
 
 The construction of the function $\cut$ proceeds by pattern-matching on $g$. Similarly to the pen-and-paper proof, when $g$ ends with an application of a left-introduction rule, we need to determine the relative positions of the cut formula and the principal formula. For instance, when $g = \tl ~ g'$, we have the following situation:
 \[
@@ -1034,8 +1043,9 @@ The admissible cut rule satisfies the set of equations in Figure \ref{fig:cut:pr
 The proofs of these results are quite technical and we highly benefited from the employment of Agda for keeping track of all proof obligations. The technical lemma $\subeq$ was also indispensable for this task.
 
 \section{Equivalence of Derivations}\label{sec:equiv:der}
-In our Agda formalization, a sequent $T \vd C$ should be thought as a collection of proofs, and each term $f : T \vd C$ is a specific derivation of the sequent.
-Some of these derivations are ``morally'' the same, they only differ by some permutation of rules in their proof tree.
+In logic, one often distinguishes between the proposition $T \vd C$ (``$T$ proves $C$'') and the collection of its proofs. In Agda, the two perspectives are unified: the sequent $T \vd C$ is a type and a term $f : T \vd C$ is a specific derivation of the sequent. Different terms $f, g : T \vd C$ correspond to different witnesses of the validity of the sequent.
+
+Nevertheless, some derivations are ``morally'' the same, they only differ by some ``inessential'' permutation of rules in their proof tree.
 In the literature on substructural logic, one would say that these derivations are different sequentialization of the same proof net.
 We introduce a congruence relation $\circeq$ relating precisely these derivations in \NL. 
 The congruence $\circeq$ is generated by twenty-seven permutative conversions, of which we present three in Figure \ref{fig:example:perm:conversion}.
@@ -1437,7 +1447,7 @@ For many substructural logics, the variable condition in the Maehara interpolati
 The well-definedness of $\mf{mip}$ wrt. $\circeq$  is attainable in \NL, but it cannot be proved for more structured logics (such as the associative Lambek calculus, or even a semi-associative fragment \cite{VW2025}) without relaxing the equivalence of interpolation triples. In particular, one cannot expect the interpolant formulae to be syntactically equal, as in our type $\MIPeq ~ m_1 ~ m_2$. A possible relaxation would be replacing equality by logical equivalence. 
 %for nonassociative Lambek calculus because the logic does not contain complicated equivalences of formulae, making the interpolation triple straightforward to define. We anticipate that extending this approach to the associative or semi-associative Lambek calculus \cite{VW2025} would be more challenging, as those systems involve more complex equational theories on formulae.
 
-We would also like to explore the possibility to apply our formalization in formalizing the existing result on the relationship between context-free languages and nonassociative Lambek calculus \cite{buszkowski1986generative,kandulski1988equivalence}.
+We would also like to employ our Agda formalization, especially the formalized interpolation procedure and its properties, as a stepping stone towards the formalization of the relationship between context-free languages and nonassociative Lambek calculus \cite{buszkowski1986generative,kandulski1988equivalence}.
 
 From a practical perspective, it is worth mentioning that this Agda formalization is computationally intensive. The type-checking time for some files is quite substantial: the well-definedness proof $\mathsf{mip{\circeq}}$ %(\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/IntrpWellDefined.agda}{$\mf{IntrpWellDefined.agda}$})
 takes ${\sim}$10 minutes to type-check, while the associativity of $\cut$ %(\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/CutAssociativities.agda}{$\mf{CutAssociativities.agda}$})
