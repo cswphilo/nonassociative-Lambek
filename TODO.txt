@@ -9,7 +9,7 @@ TODO
 Now has this been proved in Agda?
 
 Prove it.
-TODO
+DONE
 
 - there should be more said to highlight which results have been proved _in Agda_.
 
