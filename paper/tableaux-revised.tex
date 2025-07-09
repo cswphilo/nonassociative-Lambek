@@ -873,7 +873,7 @@ The inference rules of the calculus are given below:
 \end{equation}
 Notice that the axiom rule $\ax$ operates only on atomic formulae $X$. A general axiom rule, with $X$ replaced by an arbitrary formula $A$, is admissible.
 
-In our Agda formalization, the entailment relation $\vdash$ is implemented as an inductive type family indexed over the types $\Tree$ and $\Fma$, i.e. $T \vdash C$ is a type for each $T : \Tree$ and $C : \Fma$ (\agdaref{SeqCalc.agda\#L13}). 
+In our Agda formalization, the entailment relation $\vdash$ (\agdaref{SeqCalc.agda\#L13}) is implemented as an inductive type family indexed over the types $\Tree$ and $\Fma$, i.e. $T \vdash C$ is a type for each $T : \Tree$ and $C : \Fma$. 
 There is one constructor for each rule in (\ref{eq:seqcalc}).
 The types of the constructors mimic closely the inference rules, but they use paths to describe the exact position of each hole and they employ the function $\Sub$ for the implementation of substitution in a hole.
 Here we only show the constructors associated to two rules $\ax$ and $\Rl$:
@@ -1349,7 +1349,7 @@ The variable condition can then be expressed as a record type $\mf{VarCond}$ (\a
 \]
 Here $\uplus$ is the disjoint union of types in Agda.
 Terms of the above type are pairs of functions: $\mf{varg}$ sends each occurrence of atomic formula $X$ in $D$ to an occurrence of $X$ in $T,C$, while $\mf{varh}$ sends occurrences of X in $D$ to occurrence of $X$ in $U$.
-In Agda we verify that the interpolant formula $D$ produced by the $\mf{mip}$ procedure satisfies this variable condition by constructing the function (\agdaref{VarCondition.agda\#L64}):
+In Agda we verify that the interpolant formula $D$ produced by the $\mf{mip}$ procedure satisfies this variable condition by constructing the function $\mf{varcond}$ (\agdaref{VarCondition.agda\#L64}):
 \[
 \begin{array}{l}
 \mf{varcond} : (f : V \vd C) ~ (eq : V \equiv \sub{p}{U}) \to \mf{VarCond} ~ p ~ U ~ C ~ (\MIP.D ~ (\mf{mip} ~ f ~ eq))
