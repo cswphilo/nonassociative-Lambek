@@ -14,7 +14,7 @@ DONE
 - there should be more said to highlight which results have been proved _in Agda_.
 
 Maybe add links to Agda code?
-TODO
+DONE
 
 - S3.1 Cut Admissibility ... That is, the function called cut takes as arguments the two premises (*) of the cut rule and returns a cut-free derivation of the conclusion  ... this point should be made more clearly
 
