@@ -707,7 +707,7 @@ cut-cong2 p f eq (⊗L⇐L₁ {A = A} {B} {A'} {B'} {p = p₁} {p'}) | 2>R1 (gt 
 cut-cong2 ._ f refl (⊗L⇐L₁ {A = A} {B} {A'} {B'} {p' = p'}) | 2>R1 (gt q refl refl refl) | 1≡2 (same refl refl refl) 
   rewrite subeq-2>R1 p' (η (B ⇐ A)) (η (A' ⊗ B')) q |
           subeq-1≡2 (p' ++ (η (B ⇐ A) ▸ q)) (η (A' ⊗ B')) |
-          subeq-1≡2 q (η (A' ⊗ B')) = cut⊗L⇐L-vass₁ p' q f -- cut⊗L⇒L p' q f
+          subeq-1≡2 q (η (A' ⊗ B')) = cut⊗L⇐L-vass₁ p' q f 
 cut-cong2 {D = D} ._ f refl (⊗L⇐L₁ {A = A} {B} {A'} {B'} {p' = p'}) | 2>R1 (gt q refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl)
   rewrite subeq-2>R1 p' (η (B ⇐ A)) (η D) (q₁ ++ (sub q₂ (η (A' ⊗ B')) ▸ q₃)) |
           subeq-1/\2 q₁ (η (A' ⊗ B')) (η D) q₂ q₃ |

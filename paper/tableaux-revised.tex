@@ -175,14 +175,14 @@ On the other hand, interactive theorem provers are very good tools for dealing w
 %This need leads us to consider a formal verification of the \NL. Our approach involves paths in trees, allowing each subtree to be represented as a substitution along a path in the original tree. This transforms the problem of determining relative positions between different subtrees into a formalizable question about the relationship between two paths in a tree.
 %For example, if two formulae $A$ and $B$ are in a tree with paths $p_1$ and $p_2$ respectively, and these paths are disjoint (diverging at some point), then there must exist some common path $q$ and two paths $q_1$ and $q_2$ after divergence such that $p_1$ equals the path concatenation of $q$ and $q_1$, while $p_2$ equals the concatenation of $q$ and $q_2$.
 
-In this work, we present the formalization of the sequent calculus for \NL\ and its metatheory in the Agda proof assistant. We start by formally describing all possible cases arising from equalities of sequentially-composed trees of the form $\mc{C}[U]=\mc{C}'[U']$, which is the main technical lemma that we employ in the proof of logical properties. In particular, the proof of cut admissibility and the establishment of properties of the admissible cut rule: associativity, commutativity and unitality wrt.\ the axiom rule.
+In this work, we present the formalization of the sequent calculus for \NL\ and its metatheory in the Agda proof assistant. We start by formally describing all possible cases arising from equalities of sequentially-composed trees of the form $\mc{C}[U]=\mc{C}'[U']$, which is the main technical lemma that we employ in the proof of logical properties. In particular, cut admissibility and properties of the admissible cut rule: associativity, commutativity and unitality wrt.\ the axiom rule.
 %Formalization of mathematics and logics has become a trend in both theoretical computer science and mathematics. While there are many suitable proof assistants (e.g., Agda, Coq, HOL4, and Lean), we choose Agda because its code is more mathematical in style and the process of proving theorems resembles providing algorithms to compute desired terms in the target type.
 %\cheng{Maybe here can be some more explanation about why formalization is important}.
 
 %Within proof theory, interpolation properties serve as fundamental property of a logic and of interests by different logicians.
-Successively, we present the formal proof of the Maehara interpolation property (\MIP), originating from Maehara's proof of Craig interpolation \cite{craig:interpolation:1957} for classical logic \cite{maehara1961}.
-Maehara's method has been applied and adapted to several logics, especially to substructural logics that admit a cut-free sequent calculus \cite{ono:proof:nonclassical:1998}. \MIP\ states that, given a sequent $\mc{C}[U] \vdash C$, there exist a formula $D$ and derivations of sequents $U \vdash D$ and $\mc{C}[D] \vdash C$, such that all the atomic formulae appearing in $D$ appear also in $U$, as well as in $\mc{C},C$.
-More precisely, we formalize a proof-relevant (in the sense of \v{C}ubri{\'c} \cite{vcubric1993results,Cubric1994} and Saurin \cite{Saurin2024}) variant of \MIP: we aim to capture not only the existence of interpolants but also their relationship to the admissible cut rule. In order to achieve this, we first introduce an equivalence relation $\circeq$ on derivations, capturing all the possible permutative conversions. We then show that both the cut rule and the interpolation procedure are well-defined wrt. to the relation $\circeq$. %e.g. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
+We then present the formal proof of the Maehara interpolation property, originating from Maehara's proof of Craig interpolation \cite{craig:interpolation:1957} for classical logic \cite{maehara1961}.
+Maehara's method has been applied and adapted to several logics, especially to substructural logics that admit a cut-free sequent calculus \cite{ono:proof:nonclassical:1998}. The Maheara interpolation property states that, given a sequent $\mc{C}[U] \vdash C$, there exist a formula $D$ and derivations of sequents $U \vdash D$ and $\mc{C}[D] \vdash C$, such that all the atomic formulae appearing in $D$ appear also in $U$, as well as in $\mc{C},C$.
+More precisely, we formalize a proof-relevant (in the sense of \v{C}ubri{\'c} \cite{vcubric1993results,Cubric1994} and Saurin \cite{Saurin2024}) variant of Maehara interpolation: we aim to capture not only the existence of interpolants but also their relationship to the admissible cut rule. In order to achieve this, we first introduce an equivalence relation $\circeq$ on derivations, capturing all the possible permutative conversions. We then show that both the cut rule and the interpolation procedure are well-defined wrt. to the relation $\circeq$. %e.g. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
  Then we show that the interpolation procedure is a right inverse of the admissible cut rule, in the sense that running the interpolation algorithm on a derivation $f$ of a sequent $\mc{C}[U] \vdash C$ and successively cutting the resulting two derivations along the interpolant formula results in a derivation that is $\circeq$-related to $f$.
 %i.e. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
 
@@ -198,7 +198,7 @@ There is some previous work on the formalization of \NL\ in proof assistants. Ch
 These earlier formalizations primarily focus on implementing the calculi and proving cut admissibility with potential linguistic applications in mind.
 %Our project takes a more proof-theoretic perspective, formally verify  focusing on the equational theory of proofs. We formalize not only cut-elimination but also extend to Maehara interpolation, proof-relevant interpolation, and demonstrate that Maehara interpolation is well-defined with respect to equivalence of derivations.
 
-The Craig interpolation property for intuitionistic logic has been formalized in Isabelle/HOL by Ridge \cite{ridge:2006} and in Nominal Isabelle by Chapman et al. \cite{ChapmanMU08}. For  classical logic, there is a formalization in Isabelle/HOL by Michealis and Nipkow \cite{michealis:2017}. Recently,  F{\'{e}}r{\'{e}}e and van Gool \cite{feree:2023} have formalized uniform interpolation for intuitionistic logic in Coq, which was extended to a class of modal logic by F{\'{e}}r{\'{e}}e et al. \cite{feree:24}. As far as we know, there are no formalized proofs of Craig/Maehara interpolation for substructural logics in the literature.
+The Craig interpolation property for intuitionistic logic has been formalized in Isabelle/HOL by Ridge \cite{ridge:2006} and in Nominal Isabelle by Chapman et al. \cite{ChapmanMU08}. For  classical logic, there is a formalization in Isabelle/HOL by Michealis and Nipkow \cite{michealis:2017}. Recently,  F{\'{e}}r{\'{e}}e and van Gool \cite{feree:2023} have formalized uniform interpolation for intuitionistic logic in Coq, which was extended to a class of modal logics by F{\'{e}}r{\'{e}}e et al. \cite{feree:24}. As far as we know, there are no formalized proofs of Craig/Maehara interpolation for substructural logics in the literature.
 
 We would like to add that the (pen-and-paper, non-formalized) proof of Maehara interpolation for \NL\ is uncommon in the literature, as we were unable to find a reference for it. For \NL\ (and its extensions with modalities, additive connectives, etc.) researchers have traditionally been interested in other interpolation properties, involving a different condition on atomic formulae, which are useful for establishing the finite model property and the relationship between Lambek grammars and context-free grammars \cite{buszkowski1986generative,kandulski1988equivalence,jager:04,buszkowski:2009,buszkowski:2010,lin:14}.
 %Our method is more akin to traditional Maehara's method because our interest lies in a more refined analysis based on equivalence of derivations.
@@ -217,9 +217,11 @@ We mainly aim at proving a technical lemma characterizing equalities of the form
 The technical lemma is fundamental to our subsequent formalization of cut admissibility and Maehara interpolation for \NL, as well as for establishing properties of these procedures.
 
 \subsection{Formulae, Trees, Substitutions}
-Formulae of \NL\ are inductively generated by the grammar $A, B ::= X \ | \ A \Larr B \ | \ B \Rarr A \ | \ A \ot B$, where $X$ is drawn from a set $\mathsf{At}$ of atomic formulae,
+Formulae of \NL\ are inductively generated by the grammar
+$$A, B ::= X \ | \ A \Larr B \ | \ B \Rarr A \ | \ A \ot B$$
+where $X$ is drawn from a set $\mathsf{At}$ of atomic formulae,
 $\ot$ is multiplicative conjunction and $\Larr$,$\Rarr$ are left and right implications (also called residuals).
-In our formalization, we postulate the existence of a type $\At$ of atomic formulae. We consistently use $X, Y, Z, \ldots$ to represent atomic formulae.
+In our formalization, we postulate the existence of a type $\At$ of atomic formulae. We consistently use letters $X, Y, Z$ to denote atomic formulae.
 The type $\Fma$ (\agdaref{Fma.agda\#L17}) of formulae is defined as the following inductive type:
 \[
 \begin{array}{rl}
@@ -245,7 +247,7 @@ We will see in Section \ref{sec:calculus} that allowing the presence of holes in
   \;\; \_{\cdast}\_ &: \Tree \to \Tree \to \Tree \\
 \end{array}
 \]
-The two non-recursive constructors $\bullet$ and $\eta$ correspond to holes and formulae, while $\cdast$ is the node constructor.
+The base constructor $\bullet$ corresponds to a hole, the constructor $\eta$ corresponds to a leaf containing a formula, while $\cdast$ is the node constructor.
 %\niccolo{Maybe we can change $\eta$ to $\mathsf{fma}$ and $\cdast$ to a special comma/semicolon, to keep notation closer to the usual one.}
 
 %Our definition more closely resembles the definition of contexts in \cite{moot:categorial:2012}. This approach facilitates smoother proofs and allows us to define derivations using the same type. This definition does not introduce inconsistent derivations since the axiom sequents are defined with non-empty antecedents (see Section \ref{sec:calculus} for the formal sequent calculus).
@@ -291,13 +293,6 @@ In Agda, the substitution function replaces a hole in $T$, specified by a given 
 %For any tree $U$, the substitution operation that replaces $\bullet$ with $U$ follows the path specified above.
 Two paths $p : \pathT{T}$ and $q : \pathT{U}$ can be concatenated, resulting in a path $p \append ~ q : \pathT{(\sub{p}{U})}$ in the tree obtained by substituting $U$ in the hole specified by path $p$. Concatenation is defined by pattern-matching on $p$ (\agdaref{Fma.agda\#L52}).
 
-Given paths $p : \pathT{T}$ and $q : \pathT{U}$, substituting a tree $V$ in the concatenation $p \append~ q$ is the same as first substituting $V$ in $q$ and then substituting the result in $p$, i.e. $\sub{(p \append ~q)}{V} \equiv \sub{p}{(\sub{q}{V})}$ (\agdaref{Fma.agda\#L61}).
-Agda allows the extension of its evaluation relation with new computation rules using the flag \texttt{{-}{-}rewriting}.
-This enabled us to turn the latter propositional equality into a judgemental one.
-This is only used to \emph{simplify} the proofs of cut admissibility and Maehara interpolation (and their properties). All our formalized results remain valid when the equalities is propositional instead of judgemental.
-
-Path concatenation is also associative, i.e. $(p \append~ q) \append~ r \equiv p \append~ (q \append~ r)$ for $p : \pathT{T}$, $q : \pathT{U}$ and $r : \pathT{V}$ (\agdaref{Fma.agda\#L69}). Notice that the latter is a well-formed equality type, since the term $(p \append~ q) \append~ r$ has type $\pathT{(\sub{(p \append ~q)}{V})}$ while $p \append~ (q \append~ r)$ has type $\pathT{(\sub{p}{(\sub{q}{V})})}$, but these types are judgementally equal (due to the discussion in the previous paragraph).
-
 \begin{example}\label{example:tree:and:path}
 Consider the tree $T = (\eta X ~ \cdast ~ \bullet) \cdast ~ \eta Y$, which contains a single hole.
 The path to the hole is $p = (\eta X \btright \bullet) \btleft \eta Y$, which indicates that, starting from the root node, we take one step to the left followed by one step to the right, after which we reach the hole.
@@ -320,10 +315,17 @@ The path to the hole is $p = (\eta X \btright \bullet) \btleft \eta Y$, which in
   Given another tree $U = \eta Z \cdast \bullet$ and a path $q = \eta Z \btright \bullet$ in $U$, the concatenation of paths $p$ and $q$ is $p \append ~ q = (\eta X \btright (\eta Z \btright \bullet)) \btleft \eta Y$, which is a path in the tree $\sub{p}{U} = (\eta X ~ \cdast ~ (\eta Z \cdast \bullet)) \cdast ~ \eta Y$.
 \end{example}
 
+Given paths $p : \pathT{T}$ and $q : \pathT{U}$, substituting a tree $V$ in the concatenation $p \append~ q$ is the same as first substituting $V$ in $q$ and then substituting the result in $p$, i.e. $\sub{(p \append ~q)}{V} \equiv \sub{p}{(\sub{q}{V})}$ (\agdaref{Fma.agda\#L61}),
+where $\equiv$ is Agda's propositional equality type.
+Agda allows the extension of its evaluation relation with new computation rules using the flag \texttt{{-}{-}rewriting}.
+This enabled us to turn the latter propositional equality into a judgemental one.
+This is only used to \emph{simplify} the proofs of cut admissibility and Maehara interpolation (and their properties).
+All our formalized results remain valid when the equality is propositional instead of judgemental.
+
+Path concatenation is also associative, i.e. $(p \append~ q) \append~ r \equiv p \append~ (q \append~ r)$ for $p : \pathT{T}$, $q : \pathT{U}$ and $r : \pathT{V}$ (\agdaref{Fma.agda\#L69}). Notice that the latter is a well-formed equality type, since the term $(p \append~ q) \append~ r$ has type $\pathT{(\sub{(p \append ~q)}{V})}$ while $p \append~ (q \append~ r)$ has type $\pathT{(\sub{p}{(\sub{q}{V})})}$, but these types are judgementally equal (due to the discussion in the previous paragraph).
 
 \subsection{Equality of Substituted Trees}
-When proving cut admissibility and Maehara interpolation for \NL, a common step is determining all possible cases arising from equalities of the form $\mc{C}_1[U_1] = \mc{C}_2[U_2]$. In our Agda formalization, these will be equalities of the form $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$, where $p_1$ and $p_2$ are paths in some trees $T_1$ and $T_2$ respectively,
-and $\equiv$ is Agda's propositional equality type.
+When proving cut admissibility and Maehara interpolation for \NL, a common step is determining all possible cases arising from equalities of the form $\mc{C}_1[U_1] = \mc{C}_2[U_2]$. In our Agda formalization, these will be propositional equalities of the form $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$, where $p_1$ and $p_2$ are paths in some trees $T_1$ and $T_2$ respectively.
 %different presentations of the same tree. For cut-elimination, this involves finding the relationship between the principal formula of the endsequent and the cut formula. For interpolation, it concerns the relationship with the interpolating tree. 
 %\begin{example}\label{example:same:tree:diff:sub}
 %  Consider the tree $T$ in Example \ref{example:tree:and:path}, we can represent it in at least two equivalent ways: $\sub{((\eta X \cdast \bullet) \btright \bullet)}{\eta Y}$ or $\sub{(\bullet \btleft \eta Y)}{(\eta X \cdast \bullet)}$.
@@ -334,7 +336,7 @@ This subsection is dedicated to providing a concrete characterization of the equ
 \begin{array}{l}
  \subeq : \forall ~ \{T_1 ~ T_2 \} ~ U_1 ~ U_2 ~ (p_1 : \pathT{T_1}) ~ (p_2 : \pathT{T_2})
   \\
-  \quad \to \sub{p_1}{U_1} \equiv \sub{p_2}{U_2} \to \subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2
+  \quad \to (eq : \sub{p_1}{U_1} \equiv \sub{p_2}{U_2}) \to \subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2
 \end{array}
 \end{equation}
 
@@ -816,12 +818,12 @@ This case is similar to the previous one, all information is recorded in the typ
 %While our illustration shows $U_1$ positioned to the left of $U_2$, the dual case where $U_2$ appears to the left of $U_1$ is also possible and is covered by this type definition.
 
 One can check that the 7 previous cases are mutually disjoint and exhaustive, and that the type $\subcases ~p_1 ~p_2 ~U_1 ~U_2$ is indeed equivalent to $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$. The right-to-left direction of this equivalence corresponds to the construction of the function $\subeq$ in (\ref{eq:subeq}), which is defined by pattern-matching on the given paths $p_1$ and $p_2$.
-Conversely, the left-to-right direction of the equivalence is established by the function $\subeq^{-1}$ (\agdaref{subeq-1.agda\#L7}), which is defined by pattern-matching on the type $\subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2$:
+Conversely, the left-to-right direction of the equivalence is established by the function $\subeq^{-1}$ (\agdaref{subeq-1.agda\#L7}), which is defined by pattern-matching on the argument $s$ of type $\subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2$:
 \[
 \begin{array}{l}
  \subeq^{-1} : \forall ~ \{T_1 ~ T_2 \} ~ U_1 ~ U_2 ~ (p_1 : \pathT{T_1}) ~ (p_2 : \pathT{T_2})
   \\
-  \quad \to \subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \sub{p_1}{U_1} \equiv \sub{p_2}{U_2}
+  \quad \to (s : \subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2) \to \sub{p_1}{U_1} \equiv \sub{p_2}{U_2}
 \end{array}
 \]
 
@@ -931,11 +933,11 @@ Notice that some implicit arguments ($T,U,W,D$ and $C$) have been omitted to sho
 The function $\cut$ takes an extra equality proof $eq$, which allows us to pattern-match on $g$. Without $eq$, i.e. if we assumed an argument $g : \sub{p}{(\eta ~ D)} \vdash C$ instead, Agda would not allow pattern-matching on $g$, as it is unable to unify the antecedent $\sub{p}{(\eta ~ D)}$ with the ones appearing in the conclusion of inference rules.
 
 Concretely, we are constructing a function $\cut$ that takes two derivations $f : U \vd D$ and $g : W \vd C$ (and an equality proof $eq : W \equiv \sub{p}{(\eta ~ D)}$) and produces a new derivation $\cut~f ~g ~eq :  \sub{p}{U} \vd C$.
-Since there is no primitive $\cut$ rule in our calculus (\ref{eq:seqcalc}), all derivations $f$, $g$ and $\cut~f ~g ~eq$ are cut-free.
+Since there is no primitive cut rule in our calculus (\ref{eq:seqcalc}), all derivations $f$, $g$ and $\cut~f ~g ~eq$ are cut-free.
 This construction should therefore be understood as a proof of \emph{cut admissibility}, not as a procedure for cut elimination.
-An alternative approach would have been introducing a second sequent calculus that includes a primitive $\cut$ rule and constructing a cut elimination procedure that translates derivations in the calculus with primitive $\cut$ in the calculus without $\cut$
+An alternative approach would have been introducing a second sequent calculus that includes a primitive cut rule and constructing a cut elimination procedure that translates derivations in the calculus with primitive cut rule in the calculus (\ref{eq:seqcalc}).
 %\footnote{In this alternative approach, one need to also introduce an equational theory on derivations extending the relation $\circeq$ introduced in Section \ref{sec:equiv:der} with appropriate extra equivalences involving the primitive $\cut$ rule, e.g. the ones in Figure \ref{fig:cut:properties}, then show that the cut elimination procedure preserves the equivalences.}
-.
+
 
 The construction of the function $\cut$ proceeds by pattern-matching on $g$. Similarly to the pen-and-paper proof, when $g$ ends with an application of a left-introduction rule, we need to determine the relative positions of the cut formula and the principal formula. For instance, when $g = \tl ~ g'$, we have the following situation:
 \[
@@ -967,12 +969,16 @@ For the first case, we introduce an auxiliary function $\cut\tl$ (\agdaref{Cut.a
 The construction of $\cut\tl$ proceeds by pattern-matching on $f$, mirroring the pen-and-paper proof where one further inducts on the derivation of the first premise when the cut formula coincides with the principal formula.
 %We employ this auxiliary function to avoid termination checking failures in subsequent proofs involving properties of $\cut$.
 In the definition of $\cut$, the cases when the derivation $g$ ends with an application of rules $\Rl$ and $\Ll$ also require special care, similar to the case of $\tl$ described above, i.e. an application of the technical lemma $\subeq$ and the definition of two auxiliary functions $\cut\Rl$ and $\cut\Ll$ for the cases when the cut formula $D$ coincides with the principal formula.
-The functions  $\cut\Rl$ (\agdaref{Cut.agda\#L26}) and $\cut\Ll$ (\agdaref{Cut.agda\#L17}) are defined by mutual recursion with $\cut$ and $\cut\tl$. Here we only show the type of $\cut\Rl$:
+The functions  $\cut\Rl$ (\agdaref{Cut.agda\#L26}) and $\cut\Ll$ (\agdaref{Cut.agda\#L17}) are defined by mutual recursion with $\cut$ and $\cut\tl$. 
 \[
 \begin{array}{l}
   \cut\Rl : \{p : \pathT{T}\}~ (f : U \vd A \Rarr B) ~(g : V \vdash A) ~(g': \sub{p}{(\eta  ~ B)} \vd C) 
   \\
   \quad \to \sub{p}{(V \cdast U)} \vd C
+  \\[2pt]
+  \cut\Ll : \{p : \pathT{T}\}~ (f : U \vd B \Larr A) ~(g : V \vdash A) ~(g': \sub{p}{(\eta  ~ B)} \vd C) 
+  \\
+  \quad \to \sub{p}{(U \cdast V)} \vd C
 \end{array}
 \]
 
@@ -1162,7 +1168,7 @@ Here we present three indicative examples, one for each class of equational gene
 \]
 
 The admissible cut rule satisfies the set of equivalences in Figure \ref{fig:cut:left:rules}, which shows that $\cut$ and left rules in the first premise are permutable up to $\circeq$ (\agdaref{CutCirceqEquations.agda\#L14}). These equations arise from our implementation of cut admissibility, which proceeds by structural recursion on the second premise. If $\cut$ were defined by pattern-matching on the first premise instead, as discussed in Remark \ref{remark}, then we would have  equivalences showing that $\cut$ and right rules in the second premise are permutable up to $\circeq$.
-In Agda, the proof of this equivalence also proceeds by induction on the second premise.
+In Agda, the proofs of the equivalences in Figure \ref{fig:cut:left:rules} also proceeds by induction on the second premise.
   \begin{figure}[t]
   \[
 %  \scalebox{0.9}{$
@@ -1284,10 +1290,10 @@ The main challenge is handling the thirty-six cases that arise from the pattern-
 \section{Proof-Relevant Maehara Interpolation}
 %In this section, we introduce three aspects of interpolation for nonassociative Lambek calculus: Maehara interpolation, proof-relevant interpolation, and showing that Maehara interpolation is well-defined with respect to equivalence of derivations.
 
-The Maehara interpolation property (\MIP) is a property of a cut-free sequent calculus. 
+The Maehara interpolation property is a property of a cut-free sequent calculus. 
 It originates from Maehara's proof of Craig interpolation for the sequent calculus for classical logic $\mathtt{LK}$ \cite{maehara1961}.
 The method has been subsequently used to prove Craig interpolation for various logics.
-For the associative Lambek calculus, \MIP\ is formulated as follows \cite{ono:proof:nonclassical:1998}: given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that $\vars{D} \subseteq \vars{\GG_1} \cap \vars{\GG_0, \GG_2, C}$.
+For the associative Lambek calculus, the Maehara interpolation property is formulated as follows \cite{ono:proof:nonclassical:1998}: given a derivation $f : \GG_0, \GG_1, \GG_2 \vdash C$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that $\vars{D} \subseteq \vars{\GG_1} \cap \vars{\GG_0, \GG_2, C}$.
 Here  $\vars{A}$ denotes the set of atomic formulae appearing in $A$, which can be extended naturally to lists of formulae.
 
 % \FL\ without additive connectives enjoys an stronger form of Maehara interpolation that replaces variable condition with a more refined variable \emph{multiplicity} condition \cite{moot:categorial:2012}.
@@ -1304,7 +1310,7 @@ Here  $\vars{A}$ denotes the set of atomic formulae appearing in $A$, which can 
 
 %Interpolation proofs for various extensions of nonassociative Lambek calculus often depart from the Maehara approach. These alternative methods typically rely on identifying a closed set of formulae that can appear in derivations and proving that interpolant formulae always belong to this set \cite{buszkowski:2009,buszkowski:2010}. Such interpolation theorems primarily serve to establish further properties of the target logic, such as the finite model property, rather than directly addressing our current focus.
 
-\MIP\ for \NL\ has the following form: given a derivation $f : \mc{C}[U]\vd C$, there exist a formula $D$ and two derivations $g : \mc{C}[D] \vd C$ and $h : U \vd D$ such that $\vars{D} \subseteq \vars{U} \cap \vars{\mc{C}, C}$.
+Maehara interpolation for \NL\ has the following form: given a derivation $f : \mc{C}[U]\vd C$, there exist a formula $D$ and two derivations $g : \mc{C}[D] \vd C$ and $h : U \vd D$ such that $\vars{D} \subseteq \vars{U} \cap \vars{\mc{C}, C}$.
 This property, not including the variable condition (discussed later), is implemented in Agda as the record type $\MIP$ (\agdaref{Interpolation.agda\#L12}):
 \[
 \begin{array}{rl}
@@ -1327,8 +1333,8 @@ The construction of the $\mathsf{mip}$ function proceeds by pattern-matching on 
 %, which mirrors the pen-and-paper proofs in \cite{roorda1991,moot:categorial:2012} (for \Lam\ instead of \NL) that use induction on $f$.
 Similar to our implementation of cut admissibility, there are cases when we need to determine whether the tree $U$ and the principal formula of the conclusion of an inference rule coincide. This analysis is again handled by the $\mathsf{subeq}$ function, which helps us systematically identifying and processing all possible cases that may arise during the construction.
 
-The variable condition for \MIP\ is implemented in Agda as follows.
-We first introduce a type $X \in A$ whose terms correspond to occurrences of the atomic formula $X$ in the formula $A$. This can be lifted to a type $X \inT T$, whose terms are occurrences of $X$ in any formula appearing as a leaf of $T$.
+The variable condition of Maehara interpolation is implemented in Agda as follows.
+We first introduce a type $X \in A$ (\agdaref{VarCondition.agda\#L21}) whose terms correspond to occurrences of the atomic formula $X$ in the formula $A$. This can be lifted to a type $X \inT T$ (\agdaref{VarCondition.agda\#L27}), whose terms are occurrences of $X$ in any formula appearing as a leaf of $T$.
 %\[
 %\begin{array}{lrl}
 %  \multicolumn{3}{l}{\data \:\: \_{\inT}\_ ~ (X : \At) : \Tree \to \Set \:\: \where} \\
@@ -1468,7 +1474,7 @@ The definition of $\mathsf{cut\text{-}intrp}$ proceeds by pattern-matching on th
 \section{Conclusions}
 
 We have presented an Agda formalization of \NL, showcasing the proofs of two major logical properties: cut admissibility and proof-relevant Maehara interpolation. The key technical contribution is the formal characterization of equality of substituted trees, which serves as a fundamental lemma for the formalization of the aforementioned properties (and for proving other properties in the future, such as uniform interpolation \cite{alizadeh:2014} for an extension of \NL\ with additives).
-While cut admissibility and the standard Maehara interpolation property for \NL\ have been established in previous research, our formalization also offers some new theoretical results: a proof-relevant version of \MIP\ and the well-definedness of $\cut$ and $\mf{mip}$ with respect to permutative conversions.
+While cut admissibility and the standard Maehara interpolation property for \NL\ have been established in previous research, our formalization also offers some new theoretical results: a proof-relevant version of Maehara interpolation and the well-definedness of $\cut$ and $\mf{mip}$ with respect to permutative conversions.
 %interpolation First, our Agda formalization of the case distinction type for trees provides a rigorous foundation that can be reused in further research such as uniform interpolation \cite{alizadeh:2014}. Second, our proof-relevant interpolation results, demonstrating that the Maehara interpolation procedure is well-defined with respect to equivalence of derivations, is new theoretical result of \NL.
 
 For many substructural logics, the variable condition in the Maehara interpolation property can be strengthened to include the multiplicity \cite{moot:categorial:2012} and the polarity \cite{roorda1991} of occurrences of atomic formulae. This is true for \NL\ and we plan to formalize these upgrades of the variable condition $\mf{VarCond}$ in future work.

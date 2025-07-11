@@ -11,9 +11,6 @@ sub≡ ∙ refl = refl
 sub≡ (p ◂ U) eq = sub≡ p (⊛eq eq .proj₁)
 sub≡ (T ▸ p) eq = sub≡ p (⊛eq eq .proj₂)
 
--- subeq∙₁ : ∀ {T} (p : Path T) (U : Tree)
---   → subeq (sub p U) U ∙ p refl ≡ {!   !}
--- subeq∙₁ p U = {!   !}
 subeq-1≡2 : ∀ {T} (p : Path T) (U : Tree)
   → subeq U U p p refl ≡ 1≡2 (same refl refl refl)
 subeq-1≡2 ∙ U = refl

@@ -157,11 +157,6 @@ data _≗_ : {T : Tree} {A : Fma} → T ⊢ A → T ⊢ A → Set where
     → {f : T ⊢ A'}
     → {g : sub q (η B') ⊢ A} {h : sub r (η B) ⊢ C}
     → ⇒L (r ++ (q ◂ _)) f (⇒L r g h) ≗ ⇒L r (⇒L q f g) h
-  -- ⇒L⇒L₂1/\2 : ∀{T U V W₁ W₂ A B A' B' C} 
-  --   → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
-  --   → {f : U ⊢ A} {f' : V ⊢ A'}
-  --   → {g : sub p (sub p₁ (η B') ⊛ sub p₂ (η B)) ⊢ C}
-  --   → ⇒L (p ++ (_ ▸ p₂)) f (⇒L (p ++ (p₁ ◂ _)) f' g) ≗ ⇒L (p ++ (_ ▸ p₂)) f (⇒L (p ++ (p₁ ◂ _)) f' g) 
   ⇒L⇒L₂ : ∀{T U V W₁ W₂ A B A' B' C} 
     → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
     → {f : U ⊢ A} {f' : V ⊢ A'}
@@ -171,11 +166,6 @@ data _≗_ : {T : Tree} {A : Fma} → T ⊢ A → T ⊢ A → Set where
     → {f : T ⊢ A'}
     → {g : sub q (η B') ⊢ A} {h : sub r (η B) ⊢ C}
     → ⇒L (r ++ (_ ▸ q)) f (⇐L r g h) ≗ ⇐L r (⇒L q f g) h
-  -- ⇒L⇐L₂1/\2 : ∀{T U V W₁ W₂ A B A' B' C} 
-  --   → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
-  --   → {f : U ⊢ A} {f' : V ⊢ A'}
-  --   → {g : sub p (sub p₁ (η B') ⊛ sub p₂ (η B)) ⊢ C}
-  --   → ⇒L (p ++ (_ ▸ p₂)) f (⇐L (p ++ (p₁ ◂ _)) f' g) ≗ ⇒L (p ++ (_ ▸ p₂)) f (⇐L (p ++ (p₁ ◂ _)) f' g) 
   ⇒L⇐L₂ : ∀{T U V W₁ W₂ A B A' B' C} 
     → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
     → {f : U ⊢ A} {f' : V ⊢ A'}
@@ -185,11 +175,6 @@ data _≗_ : {T : Tree} {A : Fma} → T ⊢ A → T ⊢ A → Set where
     → {f : T ⊢ A'}
     → {g : sub q (η B') ⊢ A} {h : sub r (η B) ⊢ C}
     → ⇐L (r ++ (q ◂ _)) f (⇒L r g h) ≗ ⇒L r (⇐L q f g) h
-  -- ⇐L⇒L₂1/\2 : ∀{T U V W₁ W₂ A B A' B' C} 
-  --   → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
-  --   → {f : U ⊢ A} {f' : V ⊢ A'}
-  --   → {g : sub p (sub p₁ (η B') ⊛ sub p₂ (η B)) ⊢ C}
-  --   → ⇐L (p ++ (_ ▸ p₂)) f (⇒L (p ++ (p₁ ◂ _)) f' g) ≗ ⇐L (p ++ (_ ▸ p₂)) f (⇒L (p ++ (p₁ ◂ _)) f' g) 
   ⇐L⇒L₂ : ∀{T U V W₁ W₂ A B A' B' C} 
     → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
     → {f : U ⊢ A} {f' : V ⊢ A'}
@@ -199,11 +184,6 @@ data _≗_ : {T : Tree} {A : Fma} → T ⊢ A → T ⊢ A → Set where
     → {f : T ⊢ A'}
     → {g : sub q (η B') ⊢ A} {h : sub r (η B) ⊢ C}
     → ⇐L (r ++ (_ ▸ q)) f (⇐L r g h) ≗ ⇐L r (⇐L q f g) h
-  -- ⇐L⇐L₂1/\2 : ∀{T U V W₁ W₂ A B A' B' C} 
-  --   → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
-  --   → {f : U ⊢ A} {f' : V ⊢ A'}
-  --   → {g : sub p (sub p₁ (η B') ⊛ sub p₂ (η B)) ⊢ C}
-  --   → ⇐L (p ++ (_ ▸ p₂)) f (⇐L (p ++ (p₁ ◂ _)) f' g) ≗ ⇐L (p ++ (_ ▸ p₂)) f (⇐L (p ++ (p₁ ◂ _)) f' g) 
   ⇐L⇐L₂ : ∀{T U V W₁ W₂ A B A' B' C} 
     → {p : Path T} {p₁ : Path W₁} {p₂ : Path W₂}
     → {f : U ⊢ A} {f' : V ⊢ A'}
@@ -215,11 +195,6 @@ data _≗_ : {T : Tree} {A : Fma} → T ⊢ A → T ⊢ A → Set where
   → f ≡ g
   → f ≗ g
 ≡to≗ refl = refl
-
--- -- η-conversions
---   ax⊗ : {A B : Fma} → ax ≗ ⊗L {A = A} {B} leaf (⊗R ax ax)
---   ax⇒ : {A B : Fma} → ax ≗ ⇒R {A = A} {B} (⇒L leaf ax ax)
---   ax⇐ : {A B : Fma} → ax ≗ ⇐R {A = A} {B} (⇐L leaf ax ax)
 
 ⇒L' : ∀ {T U V W A B C}
   → (p : Path T)

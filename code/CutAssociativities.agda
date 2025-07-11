@@ -8,13 +8,6 @@ open import Cut
 open import CutEqualities
 open import SubEqProperties
 
-cong₂ : ∀{a} {A B C : Set a} (f : A → B → C) {x y u v}
-  → x ≡ y → u ≡ v → f x u ≡ f y v
-cong₂ f refl refl = refl
-
-trans : ∀{a} {A : Set a} {x y z : A} →  x ≡ y → y ≡ z → x ≡ z
-trans refl p = p
-
 {-
 Associativity (cut-vass) and Commutativity (cut-hass) of Cut
 -}

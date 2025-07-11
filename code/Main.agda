@@ -4,7 +4,8 @@ module Main where
 
 open import Utilities
 
--- Formulae, trees and an alogorithm checking the relative positions of U₁ and U₂ in sub p₁ U₁ ≡ sub p₂ U₂
+-- Formulae, trees and an alogorithm checking the relative positions
+-- of U₁ and U₂ in sub p₁ U₁ ≡ sub p₂ U₂
 import Fma
 
 -- Equations of satisfied by the algorithm

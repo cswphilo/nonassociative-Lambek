@@ -10,12 +10,6 @@ open import Interpolation
 -- The variable condition of Maehara interpolation
 -- ===============================================
 
-infixr 1 _⊎_
-
-data _⊎_ {a} (A : Set a) (B : Set a) : Set a where
-  inj₁ : (x : A) → A ⊎ B
-  inj₂ : (y : B) → A ⊎ B
-
 open MIP
 
 _∈_ : (X : At) → Fma → Set
@@ -28,12 +22,6 @@ data _∈ᵀ_ (X : At) : Tree → Set where
   at : ∀ {A} → X ∈ A → X ∈ᵀ η A
   left : ∀ {T U} → X ∈ᵀ T → X ∈ᵀ T ⊛ U
   right : ∀ {T U} → X ∈ᵀ U → X ∈ᵀ T ⊛ U
-
-elim⊎ : ∀ {a} {A B : Set a} {C : A ⊎ B → Set a} →
-        ((x : A) → C (inj₁ x)) → ((x : B) → C (inj₂ x)) →
-        ((x : A ⊎ B) → C x)
-elim⊎ f g (inj₁ x) = f x
-elim⊎ f g (inj₂ y) = g y
 
 sub∈ : ∀ {A T U} (p : Path T) → A ∈ᵀ sub p U → A ∈ᵀ T ⊎ A ∈ᵀ U
 sub∈ ∙ (at m) = inj₂ (at m)
