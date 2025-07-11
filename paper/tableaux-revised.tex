@@ -43,7 +43,8 @@
 }
 
 \newcommand{\agdaurl}{https://github.com/cswphilo/nonassociative-Lambek}
-\newcommand{\agdahref}{a7dbb4bc7ca9251d8d08d24d5ab5922cdb6ce1c1}
+%\newcommand{\agdahref}{a7dbb4bc7ca9251d8d08d24d5ab5922cdb6ce1c1}
+\newcommand{\agdahref}{116dbb88fbe4bcaf942368a01e045a80c7b1951f}
 \newcommand{\agdaref}[1]{\href{\agdaurl/blob/\agdahref/code/#1}{\agdahen}}
 
 %% macros for typesetting
@@ -818,7 +819,7 @@ This case is similar to the previous one, all information is recorded in the typ
 %While our illustration shows $U_1$ positioned to the left of $U_2$, the dual case where $U_2$ appears to the left of $U_1$ is also possible and is covered by this type definition.
 
 One can check that the 7 previous cases are mutually disjoint and exhaustive, and that the type $\subcases ~p_1 ~p_2 ~U_1 ~U_2$ is indeed equivalent to $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$. The right-to-left direction of this equivalence corresponds to the construction of the function $\subeq$ in (\ref{eq:subeq}), which is defined by pattern-matching on the given paths $p_1$ and $p_2$.
-Conversely, the left-to-right direction of the equivalence is established by the function $\subeq^{-1}$ (\agdaref{subeq-1.agda\#L7}), which is defined by pattern-matching on the argument $s$ of type $\subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2$:
+Conversely, the left-to-right direction of the equivalence is established by the function $\subeq^{-1}$ (\agdaref{Fma.agda\#L171}), which is defined by pattern-matching on the argument $s$ of type $\subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2$:
 \[
 \begin{array}{l}
  \subeq^{-1} : \forall ~ \{T_1 ~ T_2 \} ~ U_1 ~ U_2 ~ (p_1 : \pathT{T_1}) ~ (p_2 : \pathT{T_2})
@@ -1073,7 +1074,7 @@ The functions  $\cut\Rl$ (\agdaref{Cut.agda\#L26}) and $\cut\Ll$ (\agdaref{Cut.a
   Alternatively, $\cut$ can be defined by pattern-matching on the first argument $f$ instead of $g$ and then distinguishing cases where $f$ ends with an application of a right-introduction rule. The latter approach results in an equivalent but longer definition of $\cut$, since it requires a larger number of applications of the function $\subeq$. This in turn has a negative impact on the type-checking time of the whole development, especially of proofs of properties of $\cut$.
 \end{remark}
 
-The admissible cut rule satisfies the set of equations in Figure \ref{fig:cut:properties}, which shows that $\cut$ is unital wrt.\ the rule $\ax$ (\agdaref{CutEqualities.agda\#L100}), sequential composition of $\cut$ is associative (\agdaref{CutAssociativities.agda\#L22}), and parallel composition of $\cut$ is commutative (\agdaref{CutAssociativities.agda\#L134}).
+The admissible cut rule satisfies the set of equations in Figure \ref{fig:cut:properties}, which shows that $\cut$ is unital wrt.\ the rule $\ax$ (\agdaref{CutEqualities.agda\#L100}), sequential composition of $\cut$ is associative (\agdaref{CutAssociativities.agda\#L15}), and parallel composition of $\cut$ is commutative (\agdaref{CutAssociativities.agda\#L127}).
 The proofs of these results are quite technical and we highly benefited from the employment of Agda for keeping track of all proof obligations. The technical lemma $\subeq$ was also indispensable for this task.
 
 \section{Equivalence of Derivations}\label{sec:equiv:der}
@@ -1334,7 +1335,7 @@ The construction of the $\mathsf{mip}$ function proceeds by pattern-matching on 
 Similar to our implementation of cut admissibility, there are cases when we need to determine whether the tree $U$ and the principal formula of the conclusion of an inference rule coincide. This analysis is again handled by the $\mathsf{subeq}$ function, which helps us systematically identifying and processing all possible cases that may arise during the construction.
 
 The variable condition of Maehara interpolation is implemented in Agda as follows.
-We first introduce a type $X \in A$ (\agdaref{VarCondition.agda\#L21}) whose terms correspond to occurrences of the atomic formula $X$ in the formula $A$. This can be lifted to a type $X \inT T$ (\agdaref{VarCondition.agda\#L27}), whose terms are occurrences of $X$ in any formula appearing as a leaf of $T$.
+We first introduce a type $X \in A$ (\agdaref{VarCondition.agda\#L15}) whose terms correspond to occurrences of the atomic formula $X$ in the formula $A$. This can be lifted to a type $X \inT T$ (\agdaref{VarCondition.agda\#L21}), whose terms are occurrences of $X$ in any formula appearing as a leaf of $T$.
 %\[
 %\begin{array}{lrl}
 %  \multicolumn{3}{l}{\data \:\: \_{\inT}\_ ~ (X : \At) : \Tree \to \Set \:\: \where} \\
@@ -1353,7 +1354,7 @@ We first introduce a type $X \in A$ (\agdaref{VarCondition.agda\#L21}) whose ter
 %\end{array}
 %\]
 %The function ${\in}\mf{sub}_1$ shows how variables from the original context $T$ propagate to the substituted tree, while ${\in}\mf{sub}_2$ shows how variables from the substituted tree $U$ appear in the substituted tree. Both functions are defined by pattern-matching on the path $p : \pathT{T}$, with ${\in}\mf{sub}_1$ additionally pattern-matching on the witness that $A$ appears in $T$.
-The variable condition can then be expressed as a record type $\mf{VarCond}$ (\agdaref{VarCondition.agda\#L58}):
+The variable condition can then be expressed as a record type $\mf{VarCond}$ (\agdaref{VarCondition.agda\#L46}):
 \[
 \begin{array}{rl}
   \multicolumn{2}{l}{\record \:\:  \mf{VarCond}~ (p : \pathT{T}) ~ (U : \Tree) ~ (C ~ D : \Fma) : \Set \:\: \where} \\
@@ -1364,7 +1365,7 @@ The variable condition can then be expressed as a record type $\mf{VarCond}$ (\a
 \]
 Here $\uplus$ is the disjoint union of types in Agda.
 Terms of the above type are pairs of functions: $\mf{varg}$ sends each occurrence of atomic formula $X$ in $D$ to an occurrence of $X$ in $T,C$, while $\mf{varh}$ sends occurrences of X in $D$ to occurrence of $X$ in $U$.
-In Agda we verify that the interpolant formula $D$ produced by the $\mf{mip}$ procedure satisfies this variable condition by constructing the function $\mf{varcond}$ (\agdaref{VarCondition.agda\#L64}):
+In Agda we verify that the interpolant formula $D$ produced by the $\mf{mip}$ procedure satisfies this variable condition by constructing the function $\mf{varcond}$ (\agdaref{VarCondition.agda\#L52}):
 \[
 \begin{array}{l}
 \mf{varcond} : (f : V \vd C) ~ (eq : V \equiv \sub{p}{U}) \\
