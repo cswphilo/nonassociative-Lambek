@@ -32,3 +32,14 @@ import IntrpWellDefined
 
 -- Cut being the left inverse of Maehara interpolation
 import CutInterpolation
+
+-- Hilbert-style (axiomatic) presentation of nonassociative Lambek calculus
+import FCat
+
+-- The Hilbert-style calculus is sound and complete wrt. the sequent calculus
+import Sound
+import Complt
+
+-- The sound and complt functions are each other's inverses.
+import SoundComplt
+import CompltSound

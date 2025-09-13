@@ -71,3 +71,11 @@ code/CutEqualitiesMatchOnLeft.agda
 code/CutMatchOnLeft.agda
 code/CutInterpolationMatchOnLeft.agda
 code/CutEquationsMatchOnLeft2.agda
+code/CompltOld.agda
+code/CompltEps.agda
+code/FCatEps.agda
+code/FCatEps.agdai
+code/FCatEta.agda
+code/FCatEta.agdai
+code/SoundNew.agda
+code/SoundNew.agdai
