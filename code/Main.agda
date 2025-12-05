@@ -35,6 +35,7 @@ import CutInterpolation
 
 -- Hilbert-style (axiomatic) presentation of nonassociative Lambek calculus
 import FCat
+import FCatUniversal
 
 -- The Hilbert-style calculus is sound and complete wrt. the sequent calculus
 import Sound
