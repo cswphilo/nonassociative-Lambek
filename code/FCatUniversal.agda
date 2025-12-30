@@ -68,14 +68,14 @@ record MBiCCat : Set₁ where
                           Eq (⇐₁ (Comp k g) (Comp h f)) (Comp (⇐₁ k f) (⇐₁ g h))
 
 -- -- adjunction
-    πRπR-1 : {A B C : Obj} {f : Hom (⊗₀ A B) C}
+    πR-1πR : {A B C : Obj} {f : Hom (⊗₀ A B) C}
       → Eq (πR-1 (πR f)) f
-    πR-1πR : {A B C : Obj} {f : Hom B (⇒₀ A C)}
+    πRπR-1 : {A B C : Obj} {f : Hom B (⇒₀ A C)}
       → Eq (πR (πR-1 f)) f
 
-    πLπL-1 : {A B C : Obj} {f : Hom (⊗₀ A B) C}
+    πL-1πL : {A B C : Obj} {f : Hom (⊗₀ A B) C}
       → Eq (πL-1 (πL f)) f
-    πL-1πL : {A B C : Obj} {f : Hom A (⇐₀ C B)}
+    πLπL-1 : {A B C : Obj} {f : Hom A (⇐₀ C B)}
       → Eq (πL (πL-1 f)) f
 -- -- naturalities
     πRA : {A B A' : Obj} {f : Hom A' A}
@@ -108,22 +108,22 @@ record MBiCCat : Set₁ where
   πLBNat = Trans πLC (Trans (CompEq Refl πLB) (Trans (Sym Ass) (Trans (CompEq Id⇐swap Refl) (Trans Ass (Trans (CompEq Refl (Sym πLC)) (CompEq Refl (πLEq (Sym Rid))))))))
   πR-1A : {A A' B C : Obj} {f : Hom B (⇒₀ A C)} {g : Hom A' A}
       → Eq (πR-1 (Comp (⇒₁ g Id) f)) (Comp (πR-1 f) (⊗₁ g Id))
-  πR-1A = Trans (πR-1Eq (Trans (CompEq Refl (Sym πR-1πR)) (Sym πRANat))) πRπR-1   
+  πR-1A = Trans (πR-1Eq (Trans (CompEq Refl (Sym πRπR-1)) (Sym πRANat))) πR-1πR   
   πR-1B : {A B B' C : Obj} {f : Hom B (⇒₀ A C)} {g : Hom B' B}
       → Eq (Comp (πR-1 f) (⊗₁ Id g)) (πR-1 (Comp f g))
-  πR-1B = Trans (Sym πRπR-1) (πR-1Eq (Trans (Sym πRB) (CompEq πR-1πR Refl)))
+  πR-1B = Trans (Sym πR-1πR) (πR-1Eq (Trans (Sym πRB) (CompEq πRπR-1 Refl)))
   πR-1C : {A B C C' : Obj} {f : Hom C C'} {g : Hom B (⇒₀ A C)}
       → Eq (Comp f (πR-1 g )) (πR-1 (Comp (⇒₁ Id f) g))
-  πR-1C = Trans (Sym πRπR-1) (πR-1Eq (Trans πRC (CompEq Refl πR-1πR)))
+  πR-1C = Trans (Sym πR-1πR) (πR-1Eq (Trans πRC (CompEq Refl πRπR-1)))
   πL-1A : {A A' B C : Obj} {f : Hom A (⇐₀ C B)} {g : Hom A' A}
       → Eq (Comp (πL-1 f) (⊗₁ g Id)) (πL-1 (Comp f g))
-  πL-1A = Trans (Sym πLπL-1) (πL-1Eq (Trans (Sym πLA) (CompEq πL-1πL Refl)))
+  πL-1A = Trans (Sym πL-1πL) (πL-1Eq (Trans (Sym πLA) (CompEq πLπL-1 Refl)))
   πL-1B : {A B B' C : Obj} {f : Hom A (⇐₀ C B)} {g : Hom B' B}
       → Eq (πL-1 (Comp (⇐₁ Id g) f)) (Comp (πL-1 f) (⊗₁ Id g))
-  πL-1B = Trans (πL-1Eq (Trans (CompEq Refl (Sym πL-1πL)) (Sym πLBNat))) πLπL-1
+  πL-1B = Trans (πL-1Eq (Trans (CompEq Refl (Sym πLπL-1)) (Sym πLBNat))) πL-1πL
   πL-1C : {A B C C' : Obj} {f : Hom C C'} {g : Hom A (⇐₀ C B)}
       → Eq (Comp f (πL-1 g )) (πL-1 (Comp (⇐₁ f Id) g))
-  πL-1C = Trans (Sym πLπL-1) (πL-1Eq (Trans πLC (CompEq Refl πL-1πL)))
+  πL-1C = Trans (Sym πL-1πL) (πL-1Eq (Trans πLC (CompEq Refl πLπL-1)))
 
 -- =======================================================================
 
@@ -283,10 +283,10 @@ FMBiCC = record
   ; f⇒₁Comp = f⇒∘
   ; f⇐₁Id = f⇐id
   ; f⇐₁Comp = f⇐∘
-  ; πRπR-1 = π⇒π⇒-1
-  ; πR-1πR = π⇒-1π⇒
-  ; πLπL-1 = π⇐π⇐-1
-  ; πL-1πL = π⇐-1π⇐
+  ; πR-1πR = π⇒π⇒-1
+  ; πRπR-1 = π⇒-1π⇒
+  ; πL-1πL = π⇐π⇐-1
+  ; πLπL-1 = π⇐-1π⇐
   ; πRA = π⇒A
   ; πRB = π⇒B
   ; πRC = π⇒C
@@ -353,13 +353,13 @@ module Exists (𝔻 : MBiCCat) (γ : At → MBiCCat.Obj 𝔻) where
   𝔽Eq π⇒A = πRA
   𝔽Eq π⇒B = πRB
   𝔽Eq π⇒C = πRC
-  𝔽Eq π⇒π⇒-1 = πRπR-1
-  𝔽Eq π⇒-1π⇒ = πR-1πR
+  𝔽Eq π⇒π⇒-1 = πR-1πR
+  𝔽Eq π⇒-1π⇒ = πRπR-1
   𝔽Eq π⇐A = πLA
   𝔽Eq π⇐B = πLB
   𝔽Eq π⇐C = πLC
-  𝔽Eq π⇐π⇐-1 = πLπL-1
-  𝔽Eq π⇐-1π⇐ = πL-1πL
+  𝔽Eq π⇐π⇐-1 = πL-1πL
+  𝔽Eq π⇐-1π⇐ = πLπL-1
 
   𝔽 : MBiCFun FMBiCC 𝔻
   𝔽 = record
