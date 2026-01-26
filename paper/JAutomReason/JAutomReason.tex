@@ -173,11 +173,11 @@
 \newcommand{\Obj}{\mf{Obj}}
 \newcommand{\Hom}{\mf{Hom}}
 \newcommand{\Homs}[2]{\mf{Hom} ~ #1 ~ #2}
-\newcommand{\HomC}[3]{\mf{Hom} ~ \mb{#1} ~ #2 ~ #3}
+\newcommand{\HomC}[3]{\mf{Hom}^\mb{#1} ~ #2 ~ #3}
 \newcommand{\Eq}[2]{\mf{Eq} ~ #1 ~ #2}
-\newcommand{\EqC}[3]{\mf{Eq} ~ \mb{#1} ~ #2 ~ #3}
-\newcommand{\CompC}[3]{\mf{Comp} ~ \mb{#1} ~ #2 ~ #3}
-\newcommand{\IdC}[1]{\mf{Id} ~ \mb{#1}}
+\newcommand{\EqC}[3]{\mf{Eq}^\mb{#1} ~ #2 ~ #3}
+\newcommand{\CompC}[3]{\mf{Comp}^\mb{#1} ~ #2 ~ #3}
+\newcommand{\IdC}[1]{\mf{Id}^\mb{#1}}
 \newcommand{\refl}{\mf{refl}}
 
 
@@ -1450,7 +1450,7 @@ There are analogous families of functions $\pi_{\mf{L}}$ and $\pi^{-1}_{\mf{L}}$
   \;\; \quad \Hom &: \Obj \to \Obj \to \Set \\[2pt]
   \;\; \quad \mf{Id} &: \{B : \Obj\} \to \Homs{B}{B} \\[2pt]
   \;\; \quad \mf{Comp} &: \{D ~ B ~ C : \Obj\} \to \Homs{B}{C} \to \Homs{D}{B} \to \Homs{D}{C} \\[2pt]
-  \;\; \quad \Rarro &: \{A ~ B ~ C ~ D : \Obj\} \to \Homs{B}{A} \to \Homs{C}{D} \\
+  \;\; \quad \_{\Rarro}\_ &: \{A ~ B ~ C ~ D : \Obj\} \to \Homs{B}{A} \to \Homs{C}{D} \\
   \;\; \quad &\hspace*{0.5cm} \to \Homs{(A \Rarrz C)}{(B \Rarrz D)} \\[2pt]
   \;\; \quad \pi_{\mf{R}} &: \{A ~ B ~ C : \Obj\} \to \Homs{(A \otz B)}{C} \to \Homs{B}{(A \Rarrz C)} \\[2pt]
   \;\; \quad \pi^{-1}_{\mf{R}} &: \{A ~ B ~ C : \Obj\} \to \Homs{B}{(A \Rarrz C)} \to \Homs{(A \otz B)}{C} 
@@ -1460,7 +1460,7 @@ There are analogous families of functions $\pi_{\mf{L}}$ and $\pi^{-1}_{\mf{L}}$
 
 The third group specifies the required equalities between morphisms.
 There is a type $\Eq{f}{g}$ for each terms $f,g : \Homs{A}{B}$.
-There are record fields (not shown below) stating that $\mf{Eq}$ is an equivalence relation and that is moreover a congruence relation wrt. operations $\mf{Comp}$, $\oto$, $\Rarro$, $\Larro$, $\pi_{\mf{R}}$, $\pi^{-1}_{\mf{R}}$, $\pi_{\mf{L}}$ and $\pi^{-1}_{\mf{L}}$.
+There are record fields (not shown below) stating that $\mf{Eq}$ is an equivalence relation that is moreover a congruence relation wrt. operations $\mf{Comp}$, $\oto$, $\Rarro$, $\Larro$, $\pi_{\mf{R}}$, $\pi^{-1}_{\mf{R}}$, $\pi_{\mf{L}}$ and $\pi^{-1}_{\mf{L}}$.
 There are record fields (not shown below) stating that $\mf{Comp}$ is associative and unital wrt. $\mf{Id}$.
 There are record fields (not shown below) expressing that $\oto$, $\Rarro$ and $\Larro$ preserve $\mf{Id}$ and $\mf{Comp}$.
 There are fields (shown below) stating that $\pi_{\mf{R}}$ and $\pi^{-1}_{\mf{R}}$ are eah other's inverses (\agdaref{FCatUniversal.agda\#L70}) and that the family of functions $\pi_{\mf{R}}$ is natural in each variable (\agdaref{FCatUniversal.agda\#L80}).
@@ -1468,14 +1468,14 @@ Analogous fields for $\pi_{\mf{L}}$ and $\pi^{-1}_{\mf{L}}$ are not shown.
 \[
 \begin{array}{ll}
   \;\; \quad \mf{Eq} &: \{A ~ B\} \to \Homs{A}{B} \to \Homs{A}{B} \to \Set \\[2pt]
-  \;\; \quad \piRm\piR &: \{A ~ B ~ C : \Obj\} ~ \{f : \Homs{(\otz ~ A ~ B)}{C}\} \to \Eq{(\piRm (\piR ~ f))}{f}\\[2pt]
-  \;\; \quad \piR\piRm &: \{A ~ B ~ C : \Obj \} ~ \{f : \Homs{B}{(\Rarrz A ~ B)}\} \to \Eq{(\piR (\piRm ~ f))}{f}\\[2pt]
-  \;\; \quad \piR A &: \{A ~ B ~ A' : \Obj\} ~ \{f : \Homs{A'}{A}\}  \\
-  \;\; \quad &\hspace*{0.5cm}\to \Eq{(\piR (\oto ~ f ~ \mf{Id}))}{(\mf{Comp} ~ (\Rarro f ~ \mf{Id}) ~ (\piR ~ \mf{Id}))}\\[2pt]
-  \;\; \quad \piR B &: \{A ~ B ~ C ~ B' : \Obj\} ~ \{f : \Homs{(\otz ~ A ~ B)}{C}\} ~ \{g : \Homs{B'}{B}\} \\
-  \;\; \quad &\hspace*{0.5cm}\to \Eq{(\mf{Comp} ~ (\piR ~ f) ~ g)}{\piR ~ (\mf{Comp} ~ f ~ (\oto ~ \mf{Id} ~ g))} \\[2pt]
-  \;\; \quad \piR C &: \{A ~ B ~ C ~ C' : \Obj\} ~ \{f : \Homs{C}{C'}\} ~ \{g : \Homs{(\otz ~ A ~ B)}{C}\} \\
-  \;\; \quad &\hspace*{0.5cm} \to \Eq{(\piR ~ (\mf{Comp} ~ f ~ g))}{(\mf{Comp} ~ (\Rarro \mf{Id} ~ f) (\piR ~ g))}
+  \;\; \quad \piR\mf{iso}_1 &: \{A ~ B ~ C : \Obj\} ~ \{f : \Homs{(A \otz B)}{C}\} \to \Eq{(\piRm (\piR ~ f))}{f}\\[2pt]
+  \;\; \quad \piR\mf{iso}_2 &: \{A ~ B ~ C : \Obj \} ~ \{f : \Homs{B}{(A \Rarrz C)}\} \to \Eq{(\piR (\piRm ~ f))}{f}\\[2pt]
+  \;\; \quad \piR\mf{nat}_1 &: \{A ~ B ~ A' : \Obj\} ~ \{f : \Homs{A'}{A}\}  \\
+  \;\; \quad &\hspace*{0.5cm}\to \Eq{(\piR (f \oto \mf{Id}))}{(\mf{Comp} ~ (f \Rarro \mf{Id}) ~ (\piR ~ \mf{Id}))}\\[2pt]
+  \;\; \quad \piR\mf{nat}_2 &: \{A ~ B ~ C ~ B' : \Obj\} ~ \{f : \Homs{(A \otz B)}{C}\} ~ \{g : \Homs{B'}{B}\} \\
+  \;\; \quad &\hspace*{0.5cm}\to \Eq{(\mf{Comp} ~ (\piR ~ f) ~ g)}{(\piR ~ (\mf{Comp} ~ f ~ (\mf{Id} \oto g)))} \\[2pt]
+  \;\; \quad \piR\mf{nat}_3 &: \{A ~ B ~ C ~ C' : \Obj\} ~ \{f : \Homs{C}{C'}\} ~ \{g : \Homs{(A \otz  B)}{C}\} \\
+  \;\; \quad &\hspace*{0.5cm} \to \Eq{(\piR ~ (\mf{Comp} ~ f ~ g))}{(\mf{Comp} ~ (\mf{Id} \Rarro f) (\piR ~ g))}
 \end{array}
 \]
 
@@ -1497,18 +1497,19 @@ Notice that each occurrence of a constructor has an additional argument specifyi
  \scalebox{.97}{$
 \begin{array}{ll}
   \multicolumn{2}{l}{\record \:\: \mf{MBiCFun} (\mb{C} ~ \mb{D} : \MBCC) : \Set_{\mf{1}} \:\: \where} \\
-  \multicolumn{2}{l}{\quad \mf{open} ~ \MBCC}\\
+%  \multicolumn{2}{l}{\quad \mf{open} ~ \MBCC}\\
   \multicolumn{2}{l}{\quad \field} \\
-  \;\; \quad F_0 &: \Obj ~ \mb{C} \to \Obj ~ \mb{D} \\[2pt]
-  \;\; \quad F_1 &: \forall \{B ~ C\} \to \HomC{C}{B}{C} \to \HomC{D}{F_0 B}{F_0 C}\\[2pt]
-  \;\; \quad m &: \forall\{B ~ C\} \to \EqC{D}{(\otz ~ \mb{D} ~ (F_0 B) ~ (F_0 C))}{(F_0 (\otz ~ \mb{C} ~ B ~ C))} \\[2pt]
-  \;\; \quad m^{-1} &: \forall\{B ~ C\} \to \EqC{D}{(F_0 (\otz ~ \mb{C} ~ B ~ C))}{(\otz ~ \mb{D} ~ (F_0 B) ~ (F_0 C))} \\[2pt]
-  \;\; \quad nm &: \forall \{B ~ C ~ D ~ E\} ~ \{f : \HomC{C}{B}{D}\} ~ \{\HomC{C}{C}{E}\} \\
-  \;\; \quad &\quad \to \EqC{D}{(\CompC{D}{m}{(\oto ~ \mb{D} ~ (F_1 f) ~ (F_1 g))})}{(\CompC{D}{(F_1 (\oto ~ \mb{C} ~ f ~ g))}{m})}\\[2pt]
-  \;\; \quad miso_{1} &: \forall \{B ~ C\} \to \EqC{D}{(\CompC{D}{m}{m^{-1}})}{(\IdC{D})} \\[2pt]
-  \;\; \quad miso_{1} &: \forall \{B ~ C\} \to \EqC{D}{(\CompC{D}{m^{-1}}{m})}{(\IdC{D})} \\[2pt]
-  \;\; \quad pR &: \forall \{A ~ B ~ C\} ~ \{f : \HomC{C}{(\otz ~ \mb{C} ~ A ~ B)}{C}\} \\
-  \;\; \quad &\quad \to \EqC{D}{(\CompC{D}{r}{(F_1 (\piR ~ \mb{C} ~ f))})}{(\piR ~ \mb{D} ~ (\CompC{D}{(F_1 f)}{m}))}
+  \;\; \quad \mf{F}_0 &: \Obj^\mb{C} \to \Obj^\mb{D} \\[2pt]
+  \;\; \quad \mf{F}_1 &: \{B ~ C : \Obj^\mb{C}\} \to \HomC{C}{B}{C} \to \HomC{D}{(\mf{F}_0 ~ B)}{(\mf{F}_0 ~ C)}\\[2pt]
+  \;\; \quad \mf{m} &: \{B ~ C : \Obj^\mb{C}\} \to \EqC{D}{(\mf{F}_0 ~ B \otz^\mb{D} \mf{F}_0 ~ C)}{(\mf{F}_0 ~ (B \otz^\mb{C} C))} \\[2pt]
+  \;\; \quad \mf{m}^{-1} &: \{B ~ C : \Obj^\mb{C}\} \to \EqC{D}{(\mf{F}_0 ~(B \otz^\mb{C} C))}{(\mf{F}_0 ~B \otz^\mb{D} \mf{F}_0 ~C)} \\[2pt]
+%  \;\; \quad \mf{r}_\mf{R} &: \{B ~ C : \Obj^\mb{C}\} \to \EqC{D}{(\mf{F}_0 ~ B \Rarrz^\mb{D} \mf{F}_0 ~ C)}{(\mf{F}_0 ~ (B \Rarrz^\mb{C} C))} \\[2pt]
+  \;\; \quad \mf{m}\mf{nat} &: \{B ~ C ~ D ~ E : \Obj^\mb{C}\} ~ \{f : \HomC{C}{B}{D}\} ~ \{\HomC{C}{C}{E}\} \\
+  \;\; \quad &\quad \to \EqC{D}{(\CompC{D}{\mf{m}}{(\mf{F}_1 ~f \oto^\mb{D} \mf{F}_1 ~g)})}{(\CompC{D}{(\mf{F}_1 ~(f \oto^\mb{C} g))}{\mf{m}})}\\[2pt]
+  \;\; \quad \mf{m}\mf{iso}_{1} &: \{B ~ C : \Obj^\mb{C}\} \to \EqC{D}{(\CompC{D}{\mf{m}}{\mf{m}^{-1}})}{(\IdC{D})} \\[2pt]
+  \;\; \quad \mf{m}\mf{iso}_{2} &: \{B ~ C : \Obj^\mb{C}\} \to \EqC{D}{(\CompC{D}{\mf{m}^{-1}}{\mf{m}})}{(\IdC{D})} \\[2pt]
+  \;\; \quad \mf{pres}\piR &: \{A ~ B ~ C : \Obj^\mb{C}\} ~ \{f : \HomC{C}{(A \otz^\mb{C} B)}{C}\} \\
+  \;\; \quad &\quad \to \EqC{D}{(\CompC{D}{\mf{r_\mf{R}}}{(\mf{F}_1 ~(\piR^\mb{C} ~ f))})}{(\piR^ \mb{D} ~ (\CompC{D}{(\mf{F}_1 ~f)}{\mf{m}}))}
 \end{array}
 $}
 \]
