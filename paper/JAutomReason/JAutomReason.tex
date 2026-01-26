@@ -1409,42 +1409,62 @@ In Agda, the proofs of the equivalences in Figure \ref{fig:cut:left:rules} also 
 We define $\cut{\circeq}_2$ by pattern-matching on $eq_2$, i.e. the proof of equivalence of derivations. 
 The main challenge is handling the thirty-six cases that arise from the pattern-match, with further numerous subcases arising from the applications of $\subeq$, which are necessary for the $\cut$ function to compute. The use of Agda was invaluable here, helping us examine all possible cases systematically and verifying the correctness of the completed proof.
 
-\section{Categorical Models}\label{sec:cat:sem}
-In this section we present the categorical models of \NL, magmatic biclosed categories and (strict) functors between them.
+\section{Categorical Semantics}\label{sec:cat:sem}
+In this section we present the categorical semantics of \NL, which is given in terms of magmatic biclosed categories and strict magmatic biclosed functors.
+%and (strict) functors between them.
 
-Magmatic biclosed category \cite{Wijnholds2017} $\mb{C}$ is a category equipped with three functors $\ot : \mb{C} \times \mb{C} \to \mb{C}$, $\Rarr: \mb{C}^{op} \times \mb{C} \to \mb{C}$ and $\Larr: \mb{C} \times \mb{C}^{op} \to \mb{C}$ form two adjunctions $B \ot {-} \dashv B \Rarr {-}$ and ${-} \ot B \dashv {-} \Larr B$ both natural in $B$.
+A \emph{magmatic biclosed category} \cite{Wijnholds2017} is a category $\mb{C}$ equipped with three functors
+$${-}{\ot}{-} : \mb{C} \times \mb{C} \to \mb{C},
+\qquad {-}{\Rarr}{-} : \mb{C}^{op} \times \mb{C} \to \mb{C},
+\qquad {-}{\Larr}{-} : \mb{C} \times \mb{C}^{op} \to \mb{C}$$
+forming two adjunctions
+\begin{equation}\label{eq:adj}
+  A \ot {-} \dashv A \Rarr {-}, \qquad {-} \ot A \dashv {-} \Larr A
+\end{equation}
+both natural in $A$.
 
-A magma is a monoid without unit and associativity properties, so a magmatic category can be thought of as a monoidal category without the unit and the coherence laws of unitality and associativity. The biclosed structure captures the two implications in \NL.
+As explained in \cite{Wijnholds2017}, the name ``magmatic'' comes from the algebraic structure known as magma, which is a monoid without unit element that is not required to satisfy unitality and associativity properties.
+So a magmatic category can be thought of as a monoidal category without unit object that is not required to have unitors and associators natural isomorphisms, as well as MacLane's triangle and pentagon coherence equations. The biclosed structure is added to capture the two implications of \NL.
 
-We implement magmatic biclosed category in Agda as a record type that contains three groups of data.
-The first group defines objects and actions on objects (\agdaref{FCatUniversal.agda\#L11}):
+We implement magmatic biclosed categories in Agda as a record type that contains three groups of data.
+The first group defines includes the type $\Obj$ of objects, as well as the action of ${\ot}$, $\Rarr$ and $\Larr$ on objects, called ${\otz}$, ${\Rarrz}$ and ${\Larrz}$ (\agdaref{FCatUniversal.agda\#L11}):
  \[
 \begin{array}{ll}
   \multicolumn{2}{l}{\record \:\: \MBCC : \Set_{\mf{1}} \:\: \where} \\
   \multicolumn{2}{l}{\quad \field} \\
   \;\; \quad \Obj &: \Set \\[2pt]
-  \;\; \quad \otz &: \Obj \to \Obj \to \Obj \\[2pt]
-  \;\; \quad \Rarrz &: \Obj \to \Obj \to \Obj \\[2pt]
-  \;\; \quad \Larrz &: \Obj \to \Obj \to \Obj
+  \;\; \quad \_{\otz}\_ &: \Obj \to \Obj \to \Obj \\[2pt]
+  \;\; \quad \_{\Rarrz}\_ &: \Obj \to \Obj \to \Obj \\[2pt]
+  \;\; \quad \_{\Larrz}\_ &: \Obj \to \Obj \to \Obj
 \end{array}
 \]
-The second group defines the morphisms and actions on morphism (\agdaref{FCatUniversal.agda\#L20}).
-Morphisms are defined as pairs over object. Here we additionally show five constructors which correspond to the ones in (\ref{eq:constructor:axiomatic:calc}):
+The second group specifies the required morphisms (\agdaref{FCatUniversal.agda\#L20}).
+There is a type $\Homs{A}{B}$ for each terms $A,B : \Obj$.
+There is an identity morpshism $\mf{Id}$ for each object, as well as a composition operation $\mf{Comp}$.
+The action of ${\ot}$, $\Rarr$ and $\Larr$ on morphisms are called ${\oto}$, ${\Rarro}$ and ${\Larro}$. Below we only show the type of ${\Rarro}$.
+Additionally, there is a family of functions $\pi_{\mf{R}}$, with inverses $\pi^{-1}_{\mf{R}}$, between $\Homs{B}{(A \Rarro C)}$ and $\Homs{(A \otz B)}{C}$, which underlie the natural isomorphism evidencing the adjunction $A \ot {-} \dashv A \Rarr {-}$.
+There are analogous families of functions $\pi_{\mf{L}}$ and $\pi^{-1}_{\mf{L}}$ for the second adjunction in (\ref{eq:adj}) which we do not display here.
+%Here we additionally show five record fields which correspond to the ones in (\ref{eq:constructor:axiomatic:calc}):
 \[
 \begin{array}{ll}
   \;\; \quad \Hom &: \Obj \to \Obj \to \Set \\[2pt]
   \;\; \quad \mf{Id} &: \{B : \Obj\} \to \Homs{B}{B} \\[2pt]
   \;\; \quad \mf{Comp} &: \{D ~ B ~ C : \Obj\} \to \Homs{B}{C} \to \Homs{D}{B} \to \Homs{D}{C} \\[2pt]
-  \;\; \quad \Rarro &: \{A ~ B ~ C ~ D : \Obj\} \to \Homs{B}{A} \\
-  \;\; \quad &\hspace*{0.5cm}\to \Homs{C}{D} \to \Homs{(\Rarrz A ~ C)}{(\Rarrz B ~ D)} \\[2pt]
-  \;\; \quad \pi_{\mf{R}} &: \{A ~ B ~ C : \Obj\} \to \Homs{(\otz ~ A ~ B)}{C} \to \Homs{B}{(\Rarrz A ~ C)} \\[2pt]
-  \;\; \quad \pi^{-1}_{\mf{R}} &: \{A ~ B ~ C : \Obj\} \to \Homs{B}{(\Rarrz A ~ C)} \to \Homs{(\otz ~ A ~ B)}{C} 
+  \;\; \quad \Rarro &: \{A ~ B ~ C ~ D : \Obj\} \to \Homs{B}{A} \to \Homs{C}{D} \\
+  \;\; \quad &\hspace*{0.5cm} \to \Homs{(A \Rarrz C)}{(B \Rarrz D)} \\[2pt]
+  \;\; \quad \pi_{\mf{R}} &: \{A ~ B ~ C : \Obj\} \to \Homs{(A \otz B)}{C} \to \Homs{B}{(A \Rarrz C)} \\[2pt]
+  \;\; \quad \pi^{-1}_{\mf{R}} &: \{A ~ B ~ C : \Obj\} \to \Homs{B}{(A \Rarrz C)} \to \Homs{(A \otz B)}{C} 
 \end{array}
 \]
-The parentheses are not part of the syntax. We include them here for better readability.
+%The parentheses are not part of the syntax. We include them here for better readability.
 
-The third group defines the equalities between morphisms, which first states that the equality on morphisms is an equivalence relation, the congruence laws for $\mf{Comp}$ and actions on morphisms, unitality and associativity of $\mf{Comp}$, functoriality of $\otz$, $\Rarrz$ and $\Larrz$, $\pi_i$ and $\pi^{-1}_i$ being each other's inverses, for $i \in \{\mf{R} , \mf{L} \}$ and naturality of adjunctions.
-Here we show the constructors of $\pi_{\mf{R}}$ and $\pi^{-1}_{\mf{R}}$ being each other's inverses (\agdaref{FCatUniversal.agda\#L70}) and naturalities of $\pi_{\mf{R}}$ (\agdaref{FCatUniversal.agda\#L80}).
+The third group specifies the required equalities between morphisms.
+There is a type $\Eq{f}{g}$ for each terms $f,g : \Homs{A}{B}$.
+There are record fields (not shown below) stating that $\mf{Eq}$ is an equivalence relation and that is moreover a congruence relation wrt. operations $\mf{Comp}$, $\oto$, $\Rarro$, $\Larro$, $\pi_{\mf{R}}$, $\pi^{-1}_{\mf{R}}$, $\pi_{\mf{L}}$ and $\pi^{-1}_{\mf{L}}$.
+There are record fields (not shown below) stating that $\mf{Comp}$ is associative and unital wrt. $\mf{Id}$.
+There are record fields (not shown below) expressing that $\oto$, $\Rarro$ and $\Larro$ preserve $\mf{Id}$ and $\mf{Comp}$.
+There are fields (shown below) stating that $\pi_{\mf{R}}$ and $\pi^{-1}_{\mf{R}}$ are eah other's inverses (\agdaref{FCatUniversal.agda\#L70}) and that the family of functions $\pi_{\mf{R}}$ is natural in each variable (\agdaref{FCatUniversal.agda\#L80}).
+Analogous fields for $\pi_{\mf{L}}$ and $\pi^{-1}_{\mf{L}}$ are not shown.
 \[
 \begin{array}{ll}
   \;\; \quad \mf{Eq} &: \{A ~ B\} \to \Homs{A}{B} \to \Homs{A}{B} \to \Set \\[2pt]
@@ -1459,7 +1479,10 @@ Here we show the constructors of $\pi_{\mf{R}}$ and $\pi^{-1}_{\mf{R}}$ being ea
 \end{array}
 \]
 
-Let $(\mb{C} , \ot , \Rarr , \Larr)$ and $(\mb{D} , \ot' , \Rarr' , \Larr')$ be magmatic biclosed categories. A strict magmatic biclosed functor $F : \mb{C} \to \mb{D}$ is a functor satisfying $F (A \ot B) = FA \ot' FB$, $F (A \Rarr B) = FA \Rarr' FB$ and $F(B \Larr A) = FB \Larr' FA$.
+Let $(\mb{C} , \ot , \Rarr , \Larr)$ and $(\mb{D} , \ot' , \Rarr' , \Larr')$ be magmatic biclosed categories. A \emph{strict magmatic biclosed functor} $F : \mb{C} \to \mb{D}$ is a functor satisfying the equations
+$$F (A \ot B) = FA \ot' FB,
+\quad F (A \Rarr B) = FA \Rarr' FB,
+\quad F(B \Larr A) = FB \Larr' FA.$$
 
 Strict magmatic biclosed functors are implemented in Agda in two steps.
 First, we define a record type of strong magmatic biclosed functor (\agdaref{FCatUniversal.agda\#L133}).
