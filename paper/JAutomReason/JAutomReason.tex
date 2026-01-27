@@ -1422,9 +1422,12 @@ forming two adjunctions
   A \ot {-} \dashv A \Rarr {-}, \qquad {-} \ot A \dashv {-} \Larr A
 \end{equation}
 both natural in $A$.
+This means that there is a family of bijective functions $(\piR)_{A,B,C}$ between the set of morphisms typed $A \ot B \to C$  and the set of morphisms typed $B \to A \Rarr C$, which is natural in each argument $A$, $B$ and $C$.
+There is also an analogous family of bijections $(\piL)_{A,B,C}$ sending morphisms typed in $B \ot A \to C$ to morphisms typed in $B \to C \Larr A$.
+We will often keep indexes implicit and simply write $\piR$ and $\piL$.
 
 As explained in \cite{Wijnholds2017}, the name ``magmatic'' comes from the algebraic structure known as magma, which is a monoid without unit element that is not required to satisfy unitality and associativity properties.
-So a magmatic category can be thought of as a monoidal category without unit object that is not required to have unitors and associators natural isomorphisms, as well as MacLane's triangle and pentagon coherence equations. The biclosed structure is added to capture the two implications of \NL.
+So a magmatic category can be thought of as a monoidal category without unit object $I$ that is not required to have natural isomorphisms for unitors $\lambda,\rho$ and associator $\alpha$, as well as MacLane's triangle and pentagon coherence equations. The biclosed structure is added to capture the two implications of \NL.
 
 We implement magmatic biclosed categories in Agda as a record type that contains three groups of data.
 The first group defines includes the type $\Obj$ of objects, as well as the action of ${\ot}$, $\Rarr$ and $\Larr$ on objects, called ${\otz}$, ${\Rarrz}$ and ${\Larrz}$ (\agdaref{FCatUniversal.agda\#L11}):
@@ -1442,8 +1445,8 @@ The second group specifies the required morphisms (\agdaref{FCatUniversal.agda\#
 There is a type $\Homs{A}{B}$ for each terms $A,B : \Obj$.
 There is an identity morpshism $\mf{Id}$ for each object, as well as a composition operation $\mf{Comp}$.
 The action of ${\ot}$, $\Rarr$ and $\Larr$ on morphisms are called ${\oto}$, ${\Rarro}$ and ${\Larro}$. Below we only show the type of ${\Rarro}$.
-Additionally, there is a family of functions $\pi_{\mf{R}}$, with inverses $\pi^{-1}_{\mf{R}}$, between $\Homs{B}{(A \Rarro C)}$ and $\Homs{(A \otz B)}{C}$, which underlie the natural isomorphism evidencing the adjunction $A \ot {-} \dashv A \Rarr {-}$.
-There are analogous families of functions $\pi_{\mf{L}}$ and $\pi^{-1}_{\mf{L}}$ for the second adjunction in (\ref{eq:adj}) which we do not display here.
+Additionally, there is a family of functions $\piR$, with inverses $\pi^{-1}_{\mf{R}}$, which underlie the natural isomorphism evidencing the first adjunction in (\ref{eq:adj}).
+There is also a family of functions $\piL$, with inverses $\pi^{-1}_{\mf{L}}$, for the second adjunction, which is omitted here.
 %Here we additionally show five record fields which correspond to the ones in (\ref{eq:constructor:axiomatic:calc}):
 \[
 \begin{array}{ll}
@@ -1478,50 +1481,41 @@ Analogous fields for $\pi_{\mf{L}}$ and $\pi^{-1}_{\mf{L}}$ are not shown.
   \;\; \quad &\hspace*{0.5cm} \to \Eq{(\piR ~ (\mf{Comp} ~ f ~ g))}{(\mf{Comp} ~ (\mf{Id} \Rarro f) (\piR ~ g))}
 \end{array}
 \]
+The implemenation of categories using \emph{setoids} for homsets, i.e. using types $\Homs{A}{B}$ each equipped with a congruence relation $\mf{Eq}$, is standard in type theory, see e.g. \cite{HuC21}.
 
-Let $(\mb{C} , \ot , \Rarr , \Larr)$ and $(\mb{D} , \ot' , \Rarr' , \Larr')$ be magmatic biclosed categories. A \emph{strong magmatic biclosed functor} $F : \mb{C} \to \mb{D}$ is a functor together with natural isomorphisms
+
+A \emph{strong magmatic biclosed functor} between magmatic biclosed categories $(\mb{C} , \ot , \Rarr , \Larr,\piR,\piL)$ and $(\mb{D} , \ot' , \Rarr' , \Larr',\piR',\piL')$ is a functor $F : \mb{C} \to \mb{D}$ equipped with three natural isomorphisms
 \[
 \begin{array}{c}
-  m : FA \ot' FB \cong F (A \ot B)\\
-  r : F (A \Rarr B) \cong FA \Rarr' FB
-  \quad
-  l : F(B \Larr A) \cong FB \Larr' FA
+  m_{A,B} : FA \ot' FB \stackrel{\cong}{\to} F (A \ot B)\\
+  r_{A,B} : F (A \Rarr B) \stackrel{\cong}{\to} FA \Rarr' FB \\
+  l_{A,B} : F(B \Larr A) \stackrel{\cong}{\to} FB \Larr' FA
 \end{array}
 \]
-preserving the families of functions $\piR$ and $\piL$, i.e.\ for any $f : A \ot B \to C$ in $\mb{C}$,
-\[
-r \circ F(\piR ~ f) = \piR (F f \circ m)
-\quad
-l \circ F(\piL ~ f) = \piL (F f \circ m).
-\]
+appropriately preserving the adjunction data, i.e.\ for any $f : A \ot B \to C$ in $\mb{C}$,
+\begin{equation}\label{eq:presadj}
+r'_{A,C} \circ F(\piR ~ f) = \piR' (F f \circ m_{A,B}),
+\qquad
+l'_{B,C} \circ F(\piL ~ f) = \piL' (F f \circ m_{A,B}).
+\end{equation}
 
-In the context of monoidal (closed) functors, the left to right direction of $m$ ($r$ or $l$) together with the commutative diagram of associativity constitutes the $\ot$ ($\Rarr$ or $\Larr$) part of a lax monoidal (clsoed) functor. The other direction is called a oplax monoidal (closed) functor.
-So a strong magmatic biclosed functor should be thought of as a strong monoidal biclosed functor without unit and properties of associativity. 
+Strong magmatic functors are like strong monoidal functors that are not required to interact with the unitors $\lambda,\rho$ and the associator $\alpha$, since this data is not present in a magmatic category. 
+Strong magmatic biclosed functors appropriately relax the notion of strong monoidal biclosed functor.
+%In the context of monoidal (closed) functors, the left to right direction of $m$ ($r$ or $l$) together with the commutative diagram of associativity constitutes the $\ot$ ($\Rarr$ or $\Larr$) part of a lax monoidal (clsoed) functor. The other direction is called a oplax monoidal (closed) functor.
+%So a strong magmatic biclosed functor should be thought of as a strong monoidal biclosed functor without unit and properties of associativity. 
 % A monoidal (closed) functor is strong if $m$ ($r$ or $l$) is a natural isomorphism.
 
 % Strict magmatic biclosed functors are implemented in Agda in two steps.
 Strong magmatic biclosed functors are implemented in Agda as a record type (\agdaref{FCatUniversal.agda\#L133}).
-This record type contains the data of a functor, natural isomorphisms $m : F A \ot' F B \cong F (A \ot B)$, $r : F (A \Rarr B) \cong F A \Rarr' F B$, $l : F (B \Larr A) \cong F B \Larr' F A$ and preservation of adjunctions.
-
-% %%previous version
-% Let $(\mb{C} , \ot , \Rarr , \Larr)$ and $(\mb{D} , \ot' , \Rarr' , \Larr')$ be magmatic biclosed categories. A \emph{strict magmatic biclosed functor} $F : \mb{C} \to \mb{D}$ is a functor satisfying the equations
-% $$F (A \ot B) = FA \ot' FB,
-% \quad F (A \Rarr B) = FA \Rarr' FB,
-% \quad F(B \Larr A) = FB \Larr' FA.$$
-
-% Strict magmatic biclosed functors are implemented in Agda in two steps.
-% First, we define a record type of strong magmatic biclosed functor (\agdaref{FCatUniversal.agda\#L133}).
-% This record type contains the data of a functor, natural isomorphisms $m : F A \ot' F B \cong F (A \ot B)$, $r : F (A \Rarr B) \cong F A \Rarr' F B$, $l : F (B \Larr A) \cong F B \Larr' F A$ and preservation of adjunctions.
-% In the context of monoidal (closed) functors, the left to right direction of $m$ ($r$ or $l$) together with the commutative diagram of associativity constitutes the $\ot$ ($\Rarr$ or $\Larr$) part of a lax monoidal (clsoed) functor. The other direction is called a oplax monoidal (closed) functor. A monoidal (closed) functor is strong if $m$ ($r$ or $l$) is a natural isomorphism.
-% So a strong magmatic biclosed functor should be thought of as a strong monoidal biclosed functor without unit and associativity.
-
-Below we show the constructors of actions on objects and morphisms, the natural isomorphism $m$ and preservation of $\piR$ and $\piRm$.
-Notice that each occurrence of a constructor has an additional argument specifying the category in which it lives.
+This record type includes fields for a functor with action on objects $\mf{F}_0$ and action on morphisms $\mf{F}_1$, natural isomorphisms $\mf{m}$, $\mf{r}$  and $\mf{l}$ and the preservation of adjunction data.
+Below we only show a selection of relevant fields, the last one evidencing the first equation in (\ref{eq:presadj}).
+We have decorated all projections $\Obj$, $\Hom$, $\otz$, etc. with either  $\mb{C}$ or $\mb{D}$, e.g. $\Obj^{\mb{C}}$ and $\Obj^{\mb{D}}$, in order to distinguish the data belonging to each category. In Agda, a similar result can be achieved by appropriately renaming all projections.
+%Notice that each occurrence of a constructor has an additional argument specifying the category in which it lives.
 \vspace*{-0.3cm}
  \[
  \scalebox{.97}{$
 \begin{array}{ll}
-  \multicolumn{2}{l}{\record \:\: \mf{MBiCFun} (\mb{C} ~ \mb{D} : \MBCC) : \Set_{\mf{1}} \:\: \where} \\
+  \multicolumn{2}{l}{\record \:\: \mf{MBiCFun} ~ (\mb{C} ~ \mb{D} : \MBCC) : \Set_{\mf{1}} \:\: \where} \\
 %  \multicolumn{2}{l}{\quad \mf{open} ~ \MBCC}\\
   \multicolumn{2}{l}{\quad \field} \\
   \;\; \quad \mf{F}_0 &: \Obj^\mb{C} \to \Obj^\mb{D} \\[2pt]
@@ -1538,7 +1532,31 @@ Notice that each occurrence of a constructor has an additional argument specifyi
 \end{array}
 $}
 \]
-A strong magmatic biclosed functors is \emph{strict} when $m$, $r$, and $l$ are actual identities (\agdaref{FCatUniversal.agda\#L206}).
+
+% %%previous version
+% Let $(\mb{C} , \ot , \Rarr , \Larr)$ and $(\mb{D} , \ot' , \Rarr' , \Larr')$ be magmatic biclosed categories. A \emph{strict magmatic biclosed functor} $F : \mb{C} \to \mb{D}$ is a functor satisfying the equations
+% $$F (A \ot B) = FA \ot' FB,
+% \quad F (A \Rarr B) = FA \Rarr' FB,
+% \quad F(B \Larr A) = FB \Larr' FA.$$
+
+% Strict magmatic biclosed functors are implemented in Agda in two steps.
+% First, we define a record type of strong magmatic biclosed functor (\agdaref{FCatUniversal.agda\#L133}).
+% This record type contains the data of a functor, natural isomorphisms $m : F A \ot' F B \cong F (A \ot B)$, $r : F (A \Rarr B) \cong F A \Rarr' F B$, $l : F (B \Larr A) \cong F B \Larr' F A$ and preservation of adjunctions.
+% In the context of monoidal (closed) functors, the left to right direction of $m$ ($r$ or $l$) together with the commutative diagram of associativity constitutes the $\ot$ ($\Rarr$ or $\Larr$) part of a lax monoidal (clsoed) functor. The other direction is called a oplax monoidal (closed) functor. A monoidal (closed) functor is strong if $m$ ($r$ or $l$) is a natural isomorphism.
+% So a strong magmatic biclosed functor should be thought of as a strong monoidal biclosed functor without unit and associativity.
+
+A strong magmatic biclosed functors is \emph{strict} when the three families of morphisms $m$, $r$, and $l$ are all identities.
+In Agda we introduce a record type $\mf{IsStrict}$ (\agdaref{FCatUniversal.agda\#L206}) taking parameter arguments $\mb{C},\mb{D} : \MBCC$ and $F : \mf{MBiCFun} ~ \mb{C} ~ \mb{D}$, so we think of it as a predicate on the strong magmatic functor $F$.
+Asking for $m$ to be equal to the identity morphism is achieved in Agda by requiring a field corresponding to a family of \emph{propositional} equalities of objects:
+\[
+\mf{mEq} : \{B,C : \Obj^{\mb{C}}\} \to \mf{F}_0 ~ B \otz^\mb{D} \mf{F}_0 ~ C \equiv \mf{F}_0 ~ (B \otz^\mb{C} C)
+\]
+and a field stating that $\mf{m}$ is equal (in the sense of $\mf{Eq}^{\mb{D}}$-related) to the identity morphism, where the codomain of the latter is appropriately corrected using the previous equality $\mf{mEq}$, in order to match the codomain of $\mf{m}$:
+\[
+\mf{mId} : \{B,C : \Obj^{\mb{C}}\} \to \EqC{\mb{D}}{\mf{m}}{(\subst ~(\lambda x \to \HomC{D}{\mf{F}_0 B \oto \mf{F}_0 C}{x})~ \mf{mEq} ~(\IdC{\mb{D}}))}
+\]
+
+
 % We then declare a record type of strict magmatic biclosed functors (\agdaref{FCatUniversal.agda\#L206}) which states that a strong magmatic biclosed functor is strict if $m$, $r$, and $l$ are actual identities rather than natural isomorphisms.
 
 \section{A Hilbert-Style Axiomatic Calculus for \NL}\label{sec:axiomatic}
@@ -2352,8 +2370,8 @@ In Agda, equivalences of interpolant triples are terms of the record type $\MIPe
 %  \multicolumn{2}{l}{\quad \mf{constructor} ~ \mf{intrp}{\circeq}} \\
   \multicolumn{2}{l}{\quad \field} \\
   \;\; \quad eqD &: D \equiv D' \\[2pt]
-  \;\; \quad eqg &: \subst ~(\lambda x.\ \sub{p}{(\eta ~ x)} \vd C)~eqD~g \circeq g' \\[2pt]
-  \;\; \quad eqh &: \subst ~(\lambda x.\ U \vd x) ~ eqD ~ h \circeq h'
+  \;\; \quad eqg &: \subst ~(\lambda x \to \sub{p}{(\eta ~ x)} \vd C)~eqD~g \circeq g' \\[2pt]
+  \;\; \quad eqh &: \subst ~(\lambda x \to U \vd x) ~ eqD ~ h \circeq h'
 \end{array}
 \]
 %Elements of type $\MIP ~ p ~ U ~C$ are triples consisting of a formula $D$ and two derivations $g$ and $h$.
@@ -2415,7 +2433,7 @@ In Agda, proving proof-relevant interpolation translates to the construction of 
 \\
 \quad \to \mathsf{cut} ~ (\mathsf{MIP}.h ~ (\mathsf{mip} ~ f ~ eq)) ~ (\mathsf{MIP}.g ~ (\mathsf{mip} ~ f ~ eq)) ~ \mf{refl} 
 \circeq 
-\subst~ (\lambda x.\ x \vdash C)~eq~f
+\subst~ (\lambda x \to x \vdash C)~eq~f
 \end{array}
 \]
 % cut-intrp : ∀ {T} (p : Path T) U {V C}
