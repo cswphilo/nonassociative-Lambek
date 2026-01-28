@@ -1607,10 +1607,13 @@ We write $A \lra B$ for sequents in the axiomatic calculus, whose derivations ar
 The double lines in rules $\pi_{\Rarr}$ and $\pi_{\Larr}$ means that the rules are invertible.
 The bottom-up inference rules are denoted $\pi^{-1}_{\Rarr}$ and $\pi^{-1}_{\Larr}$, respectively.
 
-There exist various equivalent presentations of the axiomatic calculus for \NL\ in the literature. 
+There exist various equivalent presentations of the axiomatic calculus for \NL\ in the literature, their relationship is thoroughly analized in \cite[Ch.~4]{moot:categorial:2012}. 
 The original proposal by Lambek \cite{lambek1988} includes an axiom of identity, a transitivity rule and four rules evidencing the adjunctions between tensor and the two implications.
 Do{\v s}en's version \cite{Dosen1988} replaces the four adjunction rules by four axioms, corresponding to units and counits of the adjunctions, plus three monotonicity rules, one for each logical connective.
-Our formulation in (\ref{eq:axiomatic:calculus}) is closer to the one proposed by Moortgat and Oehrle \cite{moot:categorial:2012}, which contains both the monotonicity and adjunction rules, but we add the transitivity rule (morphism composition) to make it a direct characterization of the categorical models.
+Our formulation in (\ref{eq:axiomatic:calculus}) is closer to the one proposed by Moortgat and Oehrle \cite{moot:categorial:2012}.
+Their version contains both the monotonicity and adjunction rules, but no transivity rule, which they show to be admissible.
+We include the transitivity rule $\comp$, a.k.a. morphism composition, as a primitive rule to make the calculus a direct instance of a magmatic biclosed category.
+The presence of $\comp$ is also needed for stating the coherence equations of magmatic biclosed categories.
 % By a direct characterization of the categorical models, we mean that the axiomatic calculus forms a category where we interpret objects as formulae, derivations as morphisms and composition as the rule $\comp$.
 
 We implement the entailment relation $\lra$ in our Agda formalization as an inductive type family over pairs of formulae (\agdaref{FCat.agda\#L10}), i.e.\ $A \lra B$ is a type for $A ~ B : \Fma$.
@@ -1620,22 +1623,21 @@ Here we show the constructors associated to $\id$, $\comp$, $\Rarr$, $\pi_{\Rarr
   \begin{array}{ll}
   \multicolumn{2}{l}{\data \:\:  \_{\lra}\_  : \Fma \to \Fma \to \Set \:\: \where} \\
   \;\; \quad \id &: \{A : \Fma \} \to A \lra A \\
-  \;\; \quad \circ &: \{A ~ B ~ C : \Fma \} \to (f : A \lra B) \to (g : B \lra C) \to A \lra C \\
-  \;\; \quad \Rarr &: \{A ~ B ~ C ~ D : \Fma \} \to (f : B \lra A) \to (g : C \lra D) \\
+  \;\; \quad \_{\circ}\_ &: \{A ~ B ~ C : \Fma \} ~(f : A \lra B) ~(g : B \lra C) \to A \lra C \\
+  \;\; \quad \_{\Rarr}\_ &: \{A ~ B ~ C ~ D : \Fma \} ~(f : B \lra A) ~(g : C \lra D) \\
   \;\; \quad &\hspace*{0.5cm}\to A \Rarr C \lra B \Rarr D \\
-  \;\; \quad \pi_{\Rarr} &: \{A ~ B ~ C : \Fma \} \to (f : A \ot B \lra C) \to B \lra A \Rarr C \\
-  \;\; \quad \pi^{-1}_{\Rarr} &: \{A ~ B ~ C : \Fma \} \to (f : B \lra A \Rarr C) \to A \ot B \lra C
+  \;\; \quad \pi_{\Rarr} &: \{A ~ B ~ C : \Fma \} ~(f : A \ot B \lra C) \to B \lra A \Rarr C \\
+  \;\; \quad \pi^{-1}_{\Rarr} &: \{A ~ B ~ C : \Fma \} ~(f : B \lra A \Rarr C) \to A \ot B \lra C
 \end{array}
 \end{equation}
 
-To interpret derivations as morphisms, we define an equivalence relation $\doteq$ on derivations (Figures \ref{fig:cat:eq},\ref{fig:eq:Rarr} and \ref{fig:eq:Larr}) that respects the definition of a category and moreover the magmatic biclosed structure.
-In Figure \ref{fig:cat:eq}, the first two lines of equations characterize the left and right unitality of identity morphisms and associativity of composition, respectively.
-The last two lines are the equations that characterize the functoriality of $\ot$.
+To interpret derivations as morphisms, we define a congruence relation $\doteq$ on derivations, whose generating pairs are given in Figures \ref{fig:cat:eq},\ref{fig:eq:Rarr} and \ref{fig:eq:Larr}, which formalizes the equational theory of magmatic biclosed categories.
+Figure \ref{fig:cat:eq} contains equations for left and right unitality of the identity morphism $\id$, associativity of composition $\comp$ and the the functoriality of $\ot$.
+Figure \ref{fig:eq:Rarr} contains equations for functoriality of $\Rarr$ and the fact that $\pi_{\Rarr}$ is a natural isomorphism, natural in all three arguments.
+Figure \ref{fig:eq:Larr} contains similar equations to those in Figure \ref{fig:eq:Rarr} but for $\Larr$ insetad of $\Rarr$.
 
-In Figure \ref{fig:eq:Rarr}, the first two equations are for the functoriality of $\Rarr$. The middle three equations correspond to naturality of the three arguments of the adjunction, respectively. The last two equations characterize that $\pi_{\Rarr}$ and $\pi^{-1}_{\Rarr}$ are each other's inverses.
-Figure \ref{fig:eq:Larr} contains the similar equations as those in Figure \ref{fig:eq:Rarr} for $\Larr$.
-
-The equivalence relation $\doteq$ is implemented as an inductive family indexed over pairs of derivations (\agdaref{FCat.agda\#L34}), which is similar to the formalization of $\circeq$ in Section \ref{sec:equiv:der}.
+In Agda. the equivalence relation $\doteq$ is implemented as an inductive family indexed over pairs of derivations (\agdaref{FCat.agda\#L34}), which is similar to the formalization of $\circeq$ in Section \ref{sec:equiv:der}.
+In particular, we need to remember to add rules for reflexivity, symmetry and transitivity of $\doteq$, as well as congurence rules for all constructors.
 \begin{figure}[t]
   % \vspace{0.5\textwidth}
 %\begin{landscape}
@@ -1884,7 +1886,7 @@ The equivalence relation $\doteq$ is implemented as an inductive family indexed 
       \end{array}
     \end{array}$}
   \end{displaymath}
-  \caption{Functoriality of \(\Rarr \) and naturality of the adjunction}
+  \caption{Functoriality of \(\Rarr \), naturality and invertibility of $\pi_{\Rarr}$}
   \label{fig:eq:Rarr}
 \end{figure}
 
@@ -2044,35 +2046,39 @@ The equivalence relation $\doteq$ is implemented as an inductive family indexed 
       \end{array}
     \end{array}$}
   \end{displaymath}
-  \caption{Functoriality of \(\Larr \) and naturality of the adjunction}
+  \caption{Functoriality of \(\Larr \), naturality and invertibility of $\pi_{\Larr}$}
   \label{fig:eq:Larr}
 \end{figure}
-\subsection{Free Magmatic Biclosed Category}
-Let $\FMBCC$ be the category generated by (\ref{eq:axiomatic:calculus}) with the equivalence relation $\doteq$ (\agdaref{FCatUniversal.agda\#L249}) over the set $\At$.
-It has formulae ($\Fma$) as objects; connectives $\ot$, $\Rarr$ and $\Larr$ as the functors. The set of maps between two objects $A$ and $B$ are given by the set of derivations of the sequent $A \lra B$ quotiented by $\doteq$. The identity maps on objects are the equivalence classes of $\id$ while composition is given by $\comp$.
+
+\subsection{The Free Magmatic Biclosed Category}
+Let $\FMBCC$ (\agdaref{FCatUniversal.agda\#L249}) be the magmatic biclosed category generated by (\ref{eq:axiomatic:calculus}) and the equivalence relation $\doteq$.
+Concretely, objects in this category are formulae ($\Fma$) and the set of morphisms between objects $A$ and $B$ is the set of derivations of the sequent $A \lra B$ quotiented by $\doteq$.
+The identity morphism is the equivalence class of $\id$, while composition is defined via $\comp$, noticing that this is a well-defined operation since $\doteq$ is a congruence and therefore $\comp$ respects it. The magmatic biclosed structure is straightforward to instantiate.
 
 % We then show that $\FMBCC$ is the free magmatic biclosed category.
-  Given a magmatic biclosed category $(\mb{D} , \ot' , \Rarr' , \Larr')$. For any function $F_{\mf{At}} : \mf{At} \to |\mb{D}|$, there exists a unique strict magmatic biclosed functor $F : \FMBCC \to \mb{D}$, i.e.\ $\FMBCC$ is the free magmatic biclosed category generated over the set $\At$.
-\\
-\udl{Existence (\agdaref{FCatUniversal.agda\#L310})}
-\\
+The syntactic category $\FMBCC$ is moreover the \emph{free} magmatic biclosed category generated by the set $\At$.  This means that, given another magmatic biclosed category $(\mb{D} , \ot' , \Rarr' , \Larr', \piR', \piL')$ and a valuation function $F_{\mf{At}} : \mf{At} \to |\mb{D}|$ assigning objects of $\mb{D}$ to atomic formulae, there exists a unique strict magmatic biclosed functor $F : \FMBCC \to \mb{D}$ such that $F \circ \mf{at} = F_{\mf{At}}$, where $\mf{at} : \mf{At} \to \Fma$ is the inclusion of atomic formulae into the set of formulae.
+Below we provide a sketch of the proof of freeness.
+
+\begin{description}
+\item[Existence] (\agdaref{FCatUniversal.agda\#L310})
   The action $F_0$ on objects is defined inductively on formulae:
   \[
   \arraycolsep=10pt
-  \begin{array}{rl}
+  \begin{array}{cc}
     F_0 X = F_{\mf{At}} X & F_0 (A \ot B) = F_0 A \ot' F_0 B
     \\[5pt]
-    F_0 (A \Rarr B) = F_0 A' \Rarr F_0 B' & F_0 (B \Larr A) = F_0 B \Larr' F_0 A
+    F_0 (A \Rarr B) = F_0 A \Rarr' F_0 B & F_0 (B \Larr A) = F_0 B \Larr' F_0 A
   \end{array}
   \]
-The action $F_1$ on morphisms is defined inductively on the height of derivations which maps each morphism $\FMBCC(A , B)$ to $\mb{D} (F_0 A , F_0 B)$ by replacing $\ot$ to $\ot'$, $\Rarr$ to $\Rarr'$ and $\Larr$ to $\Larr'$, respectively.
+The action $F_1$ on morphisms is defined by structural recursion on derivations in the homset $A \lra B$. Concretely, each derivation is sent to a morphism in $\mb{D} (F_0 A , F_0 B)$ obtained by replacing $\ot$ by $\ot'$, $\Rarr$ by $\Rarr'$, $\Larr$ by $\Larr'$, $\pi_{\Rarr}$ by $\piR'$ and $\pi_{\Larr}$ by $\piL'$.
 
-Given $F_0$ and $F_1$, we define a functor $F : \FMBCC \to \mb{D}$ that is strict and preserves the magmatic biclosed structure.
-\\
-\udl{Uniqueness (\agdaref{FCatUniversal.agda\#L411})}
-\\
-Consider another magmatic biclosed functor $G : \FMBCC \to \mb{D}$ that the action on objects agrees with the function $F_{\mf{At}}$. We construct a natural isomorphism $t : F \to G$ by induction on formulae and derivations. Therefore, if $G$ is strict, then $F$ and $G$ agree on all objects and morphisms in $\FMBCC$.
+Using $F_0$ and $F_1$, we define a functor $F : \FMBCC \to \mb{D}$ which preserves the magmatic biclosed structure strictly.
+
+\item[Uniqueness] (\agdaref{FCatUniversal.agda\#L411})
+  Consider another strict magmatic biclosed functor $G : \FMBCC \to \mb{D}$ such that $G \circ \mf{at} = F_{\mf{At}}$, i.e.  $G$ agrees with $F$ on atomic formulae. For each formula $A$, we construct an invertible function $t_A : F~ A\to G~A$ by recursion on $A$ and show that it is a natural transformation by structural recursion on derivations.
+  Since $G$ is strict, one can moreover show that $t$ is the identity natural transformation and therefore $F$ and $G$ agree on all objects and morphisms.
 % \cheng{maybe some text about why this shows $\FMBCC$ is the free category.}
+\end{description}
 
 \subsection{Proof-Relevant Soundness and Completeness}
 We have shown that the axiomatic calculus (\ref{eq:axiomatic:calculus}) with $\doteq$ generates the free magmatic biclosed category. 
