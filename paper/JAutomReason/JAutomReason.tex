@@ -2583,12 +2583,13 @@ The well-definedness of Maehara interpolation wrt.\ $\circeq$ in Agda correspond
 \]
 One example of the interesting cases is the parallel application of two instances of $\Rl$: 
 \[
+\scalebox{0.98}{$
 \proofbox{
-      \infer[\Rl]{\mc{C'}[\mc{C}_1[U , A \Rarr B] , \mc{C}_2[V , A' \Rarr B']] \vd C}{
-        \deduce{U \vd A}{f}
+      \infer[\Rl]{\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']] \vd C}{
+        \deduce{V \vd A}{f}
         & \!\!\!
-        \infer[\Rl]{\mc{C'}[\mc{C}_1[B] , \mc{C}_2[V , A' \Rarr B']] \vd C}{
-          \deduce{V \vd A'}{f'}
+        \infer[\Rl]{\mc{C'}[\mc{C}_1[B] , \mc{C}_2[W , A' \Rarr B']] \vd C}{
+          \deduce{W \vd A'}{f'}
           & \!\!
           \deduce{\mc{C'}[\mc{C}_1[B] , \mc{C}_2[B']] \vd C}{g}
         }
@@ -2596,20 +2597,21 @@ One example of the interesting cases is the parallel application of two instance
     } \!\!
     \circeq \!\!
     \proofbox{
-      \infer[\Rl]{\mc{C'}[\mc{C}_1[U , A \Rarr B] , \mc{C}_2[V , A' \Rarr B']] \vd C}{
-        \deduce{V \vd A'}{f'}
+      \infer[\Rl]{\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']] \vd C}{
+        \deduce{W \vd A'}{f'}
         & \!\!\!
-        \infer[\Rl]{\mc{C'}[\mc{C}_1[U , A \Rarr B] , \mc{C}_2[B']] \vd C}{
-          \deduce{U \vd A'}{f}
+        \infer[\Rl]{\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[B']] \vd C}{
+          \deduce{V \vd A}{f}
           & \!\!
           \deduce{\mc{C'}[\mc{C}_1[B] , \mc{C}_2[B']] \vd C}{g}
         }
       }
     }
+    $}
 \]
-which tells us an equation $\mc{C'}[\mc{C}_1[U , A \Rarr B] , \mc{C}_2[V , A' \Rarr B']] = \mc{C}[U]$ that turns out to be the type $\sub{p'}{(\mc{C}_1[U , A \Rarr B] , \mc{C}_2[V , A' \Rarr B'])} \equiv \sub{p}{U}$ in Agda.
+which tells us an equation $\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']] = \mc{C}[U]$ that turns out to be the type $\sub{p'}{(\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B'])} \equiv \sub{p}{U}$ in Agda.
 In this case, we apply the lemma $\subeq$ to the equality proof $eq$ to distinguish seven cases of the equation.
-However, in some cases, e.g. $\mc{C'}[\mc{C}_1[U , A \Rarr B] , \mc{C}_2[V , A' \Rarr B']]$ contains $U$ in its left or right subtree, we have to apply the lemma $\subeq$ the new equality proof $eq' : \sub{p_1}{\mc{C}_1[U , A \Rarr B]}$ (or $\sub{p_2}{\mc{C}_2[V , A' \Rarr B']}$) to further distinguish another seven cases.
+However, in some cases, e.g. $\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']]$ contains $U$ in its left or right subtree, we have to apply the lemma $\subeq$ to the new equality proof $eq' : \sub{p_1}{\mc{C}_1[V , A \Rarr B]}$ (or $\sub{p_2}{\mc{C}_2[W , A' \Rarr B']}$) to further distinguish another seven cases.
 
 %\subsection{Proof-Relevant Interpolation}
 We have established a procedure $\mathsf{mip}$ for effectively splitting a derivation $f : \mc{C}[U] \vdash C$ into two derivations $g : U \vdash D$ and $h : \mc{C}[D] \vdash C$, with $D$ being ``minimal'' in the sense of satisfying an appropriate variable condition. A natural question arises: what happens when we compose derivations $g$ and $h$ using the admissible cut rule? Intuition suggests that we should recover the original derivation $f$, at least modulo $\circeq$.
