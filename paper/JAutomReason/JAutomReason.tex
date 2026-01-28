@@ -63,6 +63,8 @@
 %
 \usepackage{amsmath,amssymb,amsfonts}%
 
+\usepackage{enumitem}
+
 \newlength{\alphabetheight}
 \settoheight{\alphabetheight}{Ap}
 
@@ -294,7 +296,9 @@ Next, we present a Hilbert-style axiomatic calculus for \NL.
 This is directly inspired by the categorical models of \NL, which are magmatic biclosed categories \cite{Wijnholds2017}.
 These are similar to monoidal biclosed categories, but are not required to include structural morphisms of associativity and unitality (usually called associators and unitors). Alternatively, magmatic biclosed categories can be seen as a categorical generalization of residuated groupoids.
 The first axiomatic calculus for \NL\ was proposed by Lambek \cite{lambek1988} for linguistic analysis.
-Do{\v s}en \cite{Dosen1988} and Moortgat and Oehrle \cite{moot:categorial:2012}\footnote{\cheng{The book by Moot and Retore mentioned this paper but I can't find it. I am not sure if we should cite the original paper or their book.}} also proposed different axiomatic formulations with applications in soundness and completeness wrt.\ ternary relational models and complexity of \NL, respectively.
+Do{\v s}en \cite{Dosen1988} and Moortgat and Oehrle \cite{moot:categorial:2012}
+%\footnote{\cheng{The book by Moot and Retore mentioned this paper but I can't find it. I am not sure if we should cite the original paper or their book.}}
+also proposed different axiomatic formulations with applications in soundness and completeness wrt.\ ternary relational models and complexity of \NL, respectively.
 We formalize the axiomatic calculus and the definition of magmatic biclosed categories, then show that the axiomatic calculus with its own equivalence relation on of derivations $\doteq$ generates the free magmatic biclosed category.
 Moreover, we show that the axiomatic and sequent calculi are equivalent wrt. proofs, i.e.\ there exists a bijection between the derivations of the two calculi that preserves the equivalences of derivations.
 
@@ -2081,31 +2085,35 @@ Using $F_0$ and $F_1$, we define a functor $F : \FMBCC \to \mb{D}$ which preserv
 \end{description}
 
 \subsection{Proof-Relevant Soundness and Completeness}
-We have shown that the axiomatic calculus (\ref{eq:axiomatic:calculus}) with $\doteq$ generates the free magmatic biclosed category. 
-In other words, we can think of it as a syntactic characterization of the categorical models. 
-In this section we show the equivalence between the sequent (\ref{eq:seqcalc}) and axiomatic (\ref{eq:axiomatic:calculus}) calculi for \NL\ wrt.\ proofs, which, in other words, can be understood as soundness and completeness wrt.\ categorical models.
+We have shown that the axiomatic calculus, together with the congruence relation $\doteq$, satisfies a universal property, namely that it underlies the free magmatic biclosed category on the set of atomic formulae $\mf{At}$. 
+In other words, the axiomatic calculus is the syntactic incarnation of the categorical semantics.
+In this section we show the equivalence between the sequent calculus and the axiomatic calculus for \NL.
+The equivalence at the level of \emph{provability}, i.e. that the sequent $A \vdash B$ is provable iff the sequent $A \lra B$ is provable, is well-known \cite{moot:categorial:2012}. Here we extend the equivalence at the level of \emph{proofs}, i.e. there is a bijetive correspondece between proofs of $A \vdash B$ modulo $\circeq$ and proofs of $A \lra B$ modulo $\doteq$.
+This equivalence can be understood as a proof-relevant soundness and completeness theorem for the sequent calculus wrt.\ the categorical models of Section \ref{sec:cat:sem}.
 
-
-The following rule (\agdaref{Sound.agda\#L21}) is admissible for any $\mc{C}[\bullet]$ and $f : A \lra B$  where ${-}^* : \Tree \to \Fma$ is a function that replaces all commas by $\ot$ in a tree:
-% (\agdaref{Sound.agda\#L13})
-  \begin{equation}\label{lem:f2Tf}
-    \infer[\mc{C}{[f]}]{(\mc{C}[A])^* \lra (\mc{C}[B])^*}{
-    \deduce{A \lra B}{f}
-  }
-  \end{equation}
-
-
-The sequent (\ref{eq:seqcalc}) and axiomatic (\ref{eq:axiomatic:calculus}) calculi are equivalent wrt.\ proofs, i.e.\ there exist two functions $\sound : T \vd C \to T^* \lra C$ (\agdaref{Sound.agda\#L63}) and $\complt : A \lra C \to A \vd C$ (\agdaref{Complt.agda\#L15}) such that 
-  \begin{enumerate}
-    \item for $f , g : T \vd C$, if $f \circeq g$, then $\sound ~ f \doteq \sound ~ g$ (\agdaref{Sound.agda\#L75}),
-    \item for $f , g : A \lra C$, if $f \doteq g$, then $\complt ~ f \circeq \complt ~ g$ (\agdaref{Complt.agda\#L43}),
-    \item for $f : T \vd C$, $\complt (\sound ~ f) \circeq \tl^* ~ f$ (\agdaref{CompltSound.agda\#L26}), and
-    \item for $f : A \lra C$, $\sound (\complt ~ f) \doteq f$ (\agdaref{SoundComplt.agda\#L228}).
+Explicitly, the equivalence between the sequent calculus and the axiomatic calculus is proved by constructing two functions $\sound$ (\agdaref{Sound.agda\#L63}) and $\complt$ (\agdaref{Complt.agda\#L15}) typed
+\[
+\sound : T \vd C \to T^* \lra C,
+\qquad
+\complt : A \lra C \to A \vd C
+\]
+where, given a tree $T$, the formula $T^*$ is obtained by replacing each comma in $T$ by a tensor $\ot$.
+These functions satisfy the following properties:
+  \begin{enumerate}[label=($\roman*$)]
+    \item for $f , g : T \vd C$, if $f \circeq g$, then $\sound ~ f \doteq \sound ~ g$ (\agdaref{Sound.agda\#L75});
+    \item for $f , g : A \lra C$, if $f \doteq g$, then $\complt ~ f \circeq \complt ~ g$ (\agdaref{Complt.agda\#L43});
+    \item for $f : T \vd C$, $\complt ~(\sound ~ f) \circeq \tl^* ~ f$ (\agdaref{CompltSound.agda\#L26});
+    \item for $f : A \lra C$, $\sound ~(\complt ~ f) \doteq f$ (\agdaref{SoundComplt.agda\#L228}).
   \end{enumerate}
-  $\tl^*$ is a derivable rule of multiple applications of $\tl$.
+  In property $(iii)$ above, $\tl^*$ is a derivable rule obtained by iterated applications of $\tl$:
+\[
+\infer[\tl^*]{T^* \vd C}{
+  T \vd C
+}
+\]
 
-  The functions $\sound$ and $\complt$ are both constructed by induction on height of derivations.
-  We show one interesting case of $\sound$ where the admissible rule (\ref{lem:f2Tf}) is essential.
+The functions $\sound$ and $\complt$ are both constructed by structural recursion on derivations.
+We show the definition of $\sound$ when the input derivation ends with an application of a $\Rl$-rule:
   \[
   \scalebox{0.95}{$
   \begin{array}{l}
@@ -2121,10 +2129,10 @@ The sequent (\ref{eq:seqcalc}) and axiomatic (\ref{eq:axiomatic:calculus}) calcu
     \mapsto
     \quad
     \proofbox{
-      \infer={(\mc{C}[U , A \Rarr B])^* \lra C}{
-      \infer[\comp]{(\mc{C}[U^* \ot A \Rarr B])^* \lra C}{
-        \infer[\text{(\ref{lem:f2Tf})}]{
-          (\mc{C}[U^* \ot A \Rarr B])^* \lra (\mc{C} [B])^*
+      \infer={\mc{C}[U , A \Rarr B]^* \lra C}{
+      \infer[\comp]{\mc{C}[U^* \ot (A \Rarr B)]^* \lra C}{
+        \infer[\mf{cxt}]{
+          \mc{C}[U^* \ot (A \Rarr B)]^* \lra \mc{C} [B]^*
         }{
           \infer[\comp]{U^* \ot (A \Rarr B) \lra B}{
             \infer[\ot]{U^* \ot (A \Rarr B) \lra A \ot (A \Rarr B)}{
@@ -2147,35 +2155,127 @@ The sequent (\ref{eq:seqcalc}) and axiomatic (\ref{eq:axiomatic:calculus}) calcu
   \end{array}
   $}
   \]
-  The first two properties are implemented as the following functions in Agda, respectively:\[
-    \begin{array}{ll}
-     \textit{1.} & \begin{array}{l}
-      {\circeq}\sound{\doteq} : \forall \{T ~ C\} \to \{f ~ g : T \vd C\}  \to (eq : f \circeq g) \to \sound ~ f \doteq \sound ~ g
-     \end{array}
-     \\[2pt]
-     \textit{2.} & \begin{array}{l}
-      {\doteq}\complt{\circeq} : \forall \{A ~ B\} \to \{f ~ g : A \lra B\}  \to (eq : f \doteq g) \to \complt ~ f \circeq \complt ~ g
-     \end{array}
-    \end{array}
-    \]
-  They are both constructed by patter-matching on $eq$, the proof of equivalence of derivations. 
-  The definition of ${\circeq}\sound{\doteq}$ relies on several properties of the admissible rule (\ref{lem:f2Tf}), including well-behaved wrt. $\comp$ (\agdaref{Sound.agda\#L29}), path concatenation (\agdaref{Sound.agda\#L37}), disjoint instantiation (\agdaref{Sound.agda\#L44}), and congruence wrt. $\doteq$ (\agdaref{Sound.agda\#L54}).
-  On the other hand, the definition of ${\doteq}\complt{\circeq}$ heavily relies on the rules $\cut{\circeq}_1$ and $\cut{\circeq}_2$, i.e.\ the admissible cut rule respects $\circeq$ in each of its arguments. 
+  %  We show one interesting case of $\sound$ where the admissible rule (\ref{lem:f2Tf}) is essential.
+  The derivation above uses the rule $\mf{cxt}$ (\agdaref{Sound.agda\#L13}), which is admissible in the axiomatic calculus and states the monotonicity of the operation $A \mapsto \mc{C}[A]^*$ for each context $\mc{C}$:
+  %It states that for any context $\mc{C}$ and derivation $f : A \lra B$  where ${-}^* : \Tree \to \Fma$ is a function that replaces all commas by $\ot$ in a tree:
+% (\agdaref{Sound.agda\#L13})
+  \begin{equation}\label{lem:f2Tf}
+    \infer[\mf{cxt}]{\mc{C}[A]^* \lra \mc{C}[B]^*}{
+      A \lra B
+      }
+  \end{equation}
+
+
   
-  The last two properties are implemented as the following, respectively:
+  In Agda, properties $(i)$ and $(ii)$ are implemented as the following functions:
   \[
-  \begin{array}{ll}
-    \textit{3.} & \begin{array}{l}
-      \mf{compltsound} : \forall \{T ~ C\} \to (f : T \vd C) \to \complt (\sound ~ f) \circeq \tl^* f
-      \end{array}
+    \begin{array}{l}
+      {\circeq}\sound{\doteq} : \{f ~ g : T \vd C\} ~ (eq : f \circeq g) \to \sound ~ f \doteq \sound ~ g
+     \\[2pt]
+      {\doteq}\complt{\circeq} : \{f ~ g : A \lra B\} ~ (eq : f \doteq g) \to \complt ~ f \circeq \complt ~ g
+     \end{array}
+    \]
+  They are both constructed by patter-matching on the argument $eq$, i.e. the proof of equivalence of derivations. 
+
+
+  The construction of the function ${\circeq}\sound{\doteq}$ relies on several properties of the admissible rule $\mf{cxt}$ in (\ref{lem:f2Tf}), which are collected in Figure \ref{fig:cxt}.
+  From top to bottom,  these properties state that:
+  \begin{itemize}
+    \item $\mf{cxt}$ preserves composition $\comp$ (\agdaref{Sound.agda\#L29});
+    \item  $\mf{cxt}$ applied to a composite context results in two applications of $\mf{cxt}$ (\agdaref{Sound.agda\#L37}) (in the first derivation, the context $\mc{C}[\mc{C'}]$ is obtained by plugging the context $\mc{C'}$ in a hole of $\mc{C}$);
+    \item two applications of $\mf{cxt}$ on disjiont parts of the context can be swapped (\agdaref{Sound.agda\#L44}).
+  \end{itemize}
+  Moreover, it is necessary to prove that $\mf{cxt}$ respects the congruence relation $\doteq$ (\agdaref{Sound.agda\#L54}).
+  The consruction of the function ${\doteq}\complt{\circeq}$ heavily relies on  $\cut{\circeq}_1$ and $\cut{\circeq}_2$, i.e.\ the fact that the admissible cut rule respects $\circeq$ in each of its arguments.
+
+\begin{figure}[t]
+  % \vspace{0.5\textwidth}
+%\begin{landscape}
+\[
+\begin{array}{c}
+\proofbox{
+  \infer[\mf{cxt}]{\mc{C}[A]^* \lra \mc{C}[C]^*}{
+    \infer[\comp]{A \lra C}{
+      \deduce{A \lra B}{f}
+      &
+      \deduce{B \lra C}{g}
+    }
+  }
+}
+\doteq
+\proofbox{
+  \infer[\comp]{\mc{C}[A]^* \lra \mc{C}[C]^*}{
+    \infer[\mf{cxt}]{\mc{C}[A]^* \lra \mc{C}[B]^*}{
+      \deduce{A \lra B}{f}
+    }
+    &
+    \infer[\mf{cxt}]{\mc{C}[B]^* \lra \mc{C}[C]^*}{
+      \deduce{B \lra C}{g}
+    }
+  }
+}
+\\
+\proofbox{
+  \infer={\mc{C}[\mc{C'}[A]]^* \lra \mc{C}[\mc{C'}[B]]^*}{
+    \infer[\mf{cxt}]{(\mc{C}[\mc{C'}])[A]^* \lra (\mc{C}[\mc{C'}])[B]^*}{
+      \deduce{A \lra B}{f}
+    }
+  }
+}
+\doteq
+\proofbox{
+  \infer[\mf{cxt}]{\mc{C}[\mc{C'}[A]]^* \lra \mc{C}[\mc{C'}[B]]^*}{
+    \infer[\mf{cxt}]{\mc{C'}[A]^* \lra \mc{C'}[B]^*}{
+      \deduce{A \lra B}{f}
+    }
+  }
+}
+\\
+\proofbox{
+  \infer={(\mc{C}[A])[A']^* \lra (\mc{C}[B])[B']^*}{
+    \infer[\mf{comp}]{(\mc{C}[A'])[A]^* \lra (\mc{C}[B'])[B]^*}{
+      \infer[\mf{cxt}]{(\mc{C}[A'])[A]^* \lra (\mc{C}[A'])[B]^*}{
+        \deduce{A \lra B}{f}
+      }
+      &
+      \infer[\mf{cxt}]{(\mc{C}[A'])[B]^* \lra (\mc{C}[A'])[B']^*}{
+        \deduce{A' \lra B'}{g}
+      }
+    }
+  }
+}
+\doteq
+\proofbox{
+  \infer[\mf{comp}]{(\mc{C}[A])[A']^* \lra (\mc{C}[B])[B']^*}{
+    \infer[\mf{cxt}]{(\mc{C}[A])[A']^* \lra (\mc{C}[A])[B']^*}{
+      \deduce{A' \lra B'}{g}
+    }
+    &
+    \infer={(\mc{C}[A])[B']^* \lra (\mc{C}[B])[B']^*}{
+      \infer[\mf{cxt}]{(\mc{C}[B'])[A]^* \lra (\mc{C}[B'])[B]^*}{
+        \deduce{A \lra B}{f}
+      }
+    }
+  }
+}
+\end{array}
+\]
+\caption{Properties of the admissible rule $\mf{cxt}$}
+\label{fig:cxt}
+%\end{landscape}
+\end{figure}
+  
+  
+  In Agda, properties $(iii)$ and $(iv)$ are implemented as the following functions:
+  \[
+  \begin{array}{l}
+      \mf{compltsound} : (f : T \vd C) \to \complt ~(\sound ~ f) \circeq \tl^* f
     \\[2pt]
-    \textit{4.} & \begin{array}{l}
-      \mf{soundcomplt} : \forall \{A ~ B\} \to (f : A \lra B) \to \sound(\complt ~ f) \doteq f
-    \end{array}
+      \mf{soundcomplt} : (f : A \lra B) \to \sound ~(\complt ~ f) \doteq f
   \end{array}
   \]
   These two properties are both defined by pattern-matching on $f$. 
-  In the definition of $\mf{soundcomplt}$, we define a lemma $\mf{soundcut}$ (\agdaref{SoundComplt.agda\#L44}) which explicitly says that the admissible $\cut$ (\ref{eq:cut}) corresponds to $\comp$ in the axiomatic calculus (\ref{eq:axiomatic:calculus}).
+  In the definition of $\mf{soundcomplt}$ we employ a lemma $\mf{soundcut}$ (\agdaref{SoundComplt.agda\#L44}), which states that the function $\sound$ sends composite (i.e. obtained via an application of the admissible $\cut$ rule) derivation in the sequent calculus to composite (i.e. obtained via an application of the primitive $\comp$ rule) derivation in the axiomatic calculus.
   % Notice that $\tl$ is an invertible rule, i.e.\ the following rule is derivable:
   % \[
   % \infer[\tl^{-1}]{\mc{C}[A , B] \vd C}{\mc{C}[A \ot B] \vd C}
