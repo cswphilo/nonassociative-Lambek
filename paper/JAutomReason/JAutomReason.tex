@@ -202,6 +202,12 @@
 \newtheorem{definition}{Definition}%
 \newtheorem{case}{Case}{\itshape}{\rmfamily}
 
+\let\oldcase\case
+\let\oldendcase\endcase
+\renewenvironment{case}
+{\oldcase\normalsize}
+{\oldendcase}
+
 \raggedbottom
 %%\unnumbered% uncomment this for unnumbered level heads
 
