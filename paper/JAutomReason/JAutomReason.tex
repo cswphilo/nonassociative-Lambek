@@ -161,6 +161,7 @@
 \newcommand{\Same}{\mathsf{Same}}
 \newcommand{\ContainsLeft}{{\in}\mathsf{Left}}
 \newcommand{\ContainsRight}{{\in}\mathsf{Right}}
+\newcommand{\containsright}{{\in}\mathsf{right}}
 \newcommand{\LeftRight}{\mathsf{Disj}}
 \newcommand{\subcases}{\mathsf{SubEq}}
 \newcommand{\oneeqtwo}{\mathsf{case}_1}%{\mathsf{1{\equiv}2}}
@@ -734,6 +735,7 @@ This information is collected in the record type $\ContainsRight~p_1 ~ p_2 ~ U_1
 \[
 \begin{array}{ll}
   \multicolumn{2}{l}{\record \:\:  \ContainsRight~(p_1 : \pathT{T_1})~ (p_2 : \pathT{T_2}) ~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\quad \mathsf{constructor} ~ \containsright} \\
   \multicolumn{2}{l}{\quad \field} \\
   \;\; \quad \{W_1 ~ W_2 \} &: \Tree \\
   \;\; \quad q   &: \pathT{W_2} \\
@@ -2402,7 +2404,7 @@ This property, not including the variable condition (discussed later), is implem
 \[
 \begin{array}{rl}
   \multicolumn{2}{l}{\record \:\:  \MIP ~ (p : \pathT{T}) ~ (U : \Tree) ~ (C : \Fma) : \Set \:\: \where} \\
-%  \multicolumn{2}{l}{\quad \mf{constructor} ~ \mf{intrp}} \\
+  \multicolumn{2}{l}{\quad \mf{constructor} ~ \mf{intrp}} \\
   \multicolumn{2}{l}{\quad \field} \\
   \;\; \quad D &: \Fma \\[2pt]
   \;\; \quad g &: \sub{p}{(\eta ~ D)} \vd C \\[2pt]
@@ -2420,53 +2422,62 @@ The construction of the $\mathsf{mip}$ function proceeds by pattern-matching on 
 %, which mirrors the pen-and-paper proofs in \cite{roorda1991,moot:categorial:2012} (for \Lam\ instead of \NL) that use induction on $f$.
 Similar to our implementation of cut admissibility, there are cases when we need to determine whether the tree $U$ and the principal formula of the conclusion of an inference rule coincide. This analysis is again handled by the $\mathsf{subeq}$ function, which helps us systematically identifying and processing all possible cases that may arise during the construction.
 
-Consider the case where $f = \Rl (f' , f'')$
+Consider the case where $f : \mc{C}[U]\vd C$ ends with an application of the rule $\Rl$, i.e.
 \[
-\infer[\Rl]{\mc{C'}[W , A \Rarr B] \vd C}{
-  \deduce{W \vd A}{f'}
-  &
-  \deduce{\mc{C'}[B] \vd C}{f''}
-} 
+f =
+\proofbox{
+  \infer[\Rl]{\mc{C'}[W , A \Rarr B] \vd C}{
+    \deduce{W \vd A}{f'}
+    &
+    \deduce{\mc{C'}[B] \vd C}{f''}
+  }
+}
 \] 
-which tells us an equation $\mc{C'}[W , A \Rarr B] = \mc{C}[U]$.
-
-In the Agda formalization, the equality appears as the type $\sub{p'}{W \cdast \eta (A \Rarr B)} \equiv \sub{p}{U}$ of the argument $eq$, where $p'$ is the path corresponds to the context $\mc{C'}$.
-We apply $\subeq$ to the equality proof $eq$ to distinguish seven cases of the equation (\agdaref{Interpolation.agda\#L29}):
+which forces an equality of trees $\mc{C'}[W , A \Rarr B] = \mc{C}[U]$.
+In the Agda formalization, this equality appears as the type $\sub{p'}{(W \cdast \eta ~(A \Rarr B))} \equiv \sub{p}{U}$ of the argument $eq$, for some paths $p$ and $p'$ specifying the hole in contexts $\mc{C}$ and $\mc{C'}$, respectively.
+We can apply our lemma $\subeq$ to the equality proof $eq$ to give rise to the following seven possible cases (\agdaref{Interpolation.agda\#L29}):
 \begin{itemize}
-  \item[--] $\oneeqtwo$, where $U$ is exactly equal to $W, A \Rarr B$;
-  \item[--] $\twogtLone$ ($\twogtRone$), where $U$ contains $W, A \Rarr B$ in its left (right) subtree;
-  \item[--] $\onegtLtwo$, where $W, A \Rarr B$ contains $U$ in its left subtree, i.e.\ $U$ is in $W$;
-  \item[--] $\onegtRtwo$, where $W, A \Rarr B$ contains $U$ in its right subtree, i.e.\ $U = A \Rarr B$;
-  \item[--] $\oneLtwoR$ and $\oneRtwoL$, where $U$ are $W, A \Rarr B$ are disjoint in two different ways.
+  \item[--] $\oneeqtwo$, where $U$ is syntactically equal to $(W, A \Rarr B)$;
+  \item[--] $\twogtLone$ ($\twogtRone$), where $U$ contains $(W, A \Rarr B)$ in its left (right) subtree;
+  \item[--] $\onegtLtwo$, where $(W, A \Rarr B)$ contains $U$ in its left subtree, i.e.\ $U$ is in $W$;
+  \item[--] $\onegtRtwo$, where $(W, A \Rarr B)$ contains $U$ in its right subtree, i.e.\ $U = A \Rarr B$;
+  \item[--] $\oneLtwoR$ and $\oneRtwoL$, where $U$ are $(W, A \Rarr B)$ are disjoint subtrees.
 \end{itemize}
 The interesting case is $\onegtRtwo$, where we apply inductive hypothesis on $f'$ and $f''$ with the interpolant tree $W$ and $B$, respectively.
 The resulting interpolant triples are $(D , g' : D \vd A , h' : W \vd D)$ and $(E , g'' : \mc{C'}[E] \vd C , h'' : B \vd E)$. The desired interpolant formula is $D \Rarr E$ and the desired derivations are constructed as follows:
 \[
 \begin{array}{c}
-  \infer[\Rl]{\mc{C'}[W , D \Rarr E] \vd C}{
-    \deduce{W \vd D}{h'}
-    &
-    \deduce{\mc{C'}[E] \vd C}{g''}
+  g =
+  \proofbox{
+    \infer[\Rl]{\mc{C'}[W , D \Rarr E] \vd C}{
+      \deduce{W \vd D}{h'}
+      &
+      \deduce{\mc{C'}[E] \vd C}{g''}
+    }
   }
   \qquad
-  \infer[\Rr]{A \Rarr B \vd D \Rarr E}{
-    \infer[\Rl]{D , A \Rarr B \vd E}{
-      \deduce{D \vd A}{g'}
-      &
-      \deduce{B \vd E}{h''}
+  h =
+  \proofbox{
+    \infer[\Rr]{A \Rarr B \vd D \Rarr E}{
+      \infer[\Rl]{D , A \Rarr B \vd E}{
+        \deduce{D \vd A}{g'}
+        &
+        \deduce{B \vd E}{h''}
+      }
     }
   }
 \end{array}
 \]
-The corresponding snippet in Agda is the following:
+The corresponding snippet in Agda is
 \[
 \begin{array}{rl}
-  \;\; \quad \dots &\vert ~ \onegtRtwo ~ (\bullet ~ \refl ~ \refl ~ \refl) = \\[2pt]
-  \;\; \quad &\mf{let} ~ D ~ g' ~ h' = \mf{mip} ~ \bullet ~ W ~ f' ~ \refl \\[2pt]
-  \;\; \quad & \quad \ E ~ g'' ~ h'' = \mf{mip} ~ p' ~ (\eta ~ B) ~ f' ~ \refl \\[2pt]
-  \;\; \quad & \mf{in} ~ (D \Rarr E) ~ (\Rl ~ p' ~ h' ~h'') ~ (\Rr (\Rl ~ \bullet ~ g' ~ h''))
+  \;\; \quad \dots &\vert ~ \onegtRtwo ~ (\containsright ~\bullet ~ \refl ~ \refl ~ \refl) = \\[2pt]
+  \;\; \quad &\mf{let} ~\mf{intrp} ~ D ~ g' ~ h' = \mf{mip} ~ \bullet ~ W ~ f' ~ \refl \\[2pt]
+  \;\; \quad & \quad \ \mf{intrp} ~ E ~ g'' ~ h'' = \mf{mip} ~ p' ~ (\eta ~ B) ~ f'' ~ \refl \\[2pt]
+  \;\; \quad & \mf{in} ~ \mf{intrp} ~(D \Rarr E) ~ (\Rl ~ p' ~ h' ~g'') ~ (\Rr ~(\Rl ~ \bullet ~ g' ~ h''))
 \end{array}
 \]
+where $\mf{intrp}$ is the constructor of the record type $\MIP$ and $\containsright$ is the constructor of the record type $\ContainsRight$.
 
 The variable condition of Maehara interpolation is implemented in Agda as follows.
 We first introduce a type $X \in A$ (\agdaref{VarCondition.agda\#L15}) whose terms correspond to occurrences of the atomic formula $X$ in the formula $A$. This can be lifted to a type $X \inT T$ (\agdaref{VarCondition.agda\#L21}), whose terms are occurrences of $X$ in any formula appearing as a leaf of $T$.
@@ -2581,7 +2592,7 @@ The well-definedness of Maehara interpolation wrt.\ $\circeq$ in Agda correspond
 \quad \to \MIPeq ~ (\mf{mip} ~ f ~ eq_1) ~ (\mf{mip} ~ f' ~ eq_1)
 \end{array}
 \]
-One example of the interesting cases is the parallel application of two instances of $\Rl$: 
+An interesting case in the proof arises when $eq_1$ is the permutative conversion of disjoint applications of $\Rl$:
 \[
 \scalebox{0.98}{$
 \proofbox{
@@ -2609,9 +2620,10 @@ One example of the interesting cases is the parallel application of two instance
     }
     $}
 \]
-which tells us an equation $\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']] = \mc{C}[U]$ that turns out to be the type $\sub{p'}{(\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B'])} \equiv \sub{p}{U}$ in Agda.
-In this case, we apply the lemma $\subeq$ to the equality proof $eq$ to distinguish seven cases of the equation.
-However, in some cases, e.g. $\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']]$ contains $U$ in its left or right subtree, we have to apply the lemma $\subeq$ to the new equality proof $eq' : \sub{p_1}{\mc{C}_1[V , A \Rarr B]}$ (or $\sub{p_2}{\mc{C}_2[W , A' \Rarr B']}$) to further distinguish another seven cases.
+This forces an equality of trees $\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']] = \mc{C}[U]$, that in Agda is an equality type of the form $\sub{p'}{(\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B'])} \equiv \sub{p}{U}$.
+In this case, we apply the lemma $\subeq$ to the equality proof $eq$ and we are given seven possible cases.
+However, in some cases, e.g. $\twogtLone$ where $\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']]$ contains $U$ in its left subtree, we have to apply the lemma $\subeq$ another time to the equality proof $eq' : \sub{p_1}{\mc{C}_1[V , A \Rarr B]}$ (which appears in scope as a projection of record type $\ContainsLeft$), which gives rise to seven more cases, and similarly for $\twogtRone$.
+This showcases yet again the value of proof assistants to keep track of all cases and proof obligations.
 
 %\subsection{Proof-Relevant Interpolation}
 We have established a procedure $\mathsf{mip}$ for effectively splitting a derivation $f : \mc{C}[U] \vdash C$ into two derivations $g : U \vdash D$ and $h : \mc{C}[D] \vdash C$, with $D$ being ``minimal'' in the sense of satisfying an appropriate variable condition. A natural question arises: what happens when we compose derivations $g$ and $h$ using the admissible cut rule? Intuition suggests that we should recover the original derivation $f$, at least modulo $\circeq$.
