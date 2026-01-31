@@ -2620,9 +2620,12 @@ An interesting case in the proof arises when $eq_1$ is the permutative conversio
     }
     $}
 \]
-This forces an equality of trees $\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']] = \mc{C}[U]$, that in Agda is an equality type of the form $\sub{p'}{(\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B'])} \equiv \sub{p}{U}$.
+This forces an equality of trees $\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']] = \mc{C}[U]$, that in Agda is an equality type of the form: 
+\[
+eq : \sub{p'}{(\sub{p_1}{(V \cdast A \Rarr B)} , \sub{p_2}{(W \cdast A' \Rarr B')})} \equiv \sub{p}{U}
+\]
 In this case, we apply the lemma $\subeq$ to the equality proof $eq$ and we are given seven possible cases.
-However, in some cases, e.g. $\twogtLone$ where $\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']]$ contains $U$ in its left subtree, we have to apply the lemma $\subeq$ another time to the equality proof $eq' : \sub{p_1}{\mc{C}_1[V , A \Rarr B]}$ (which appears in scope as a projection of record type $\ContainsLeft$), which gives rise to seven more cases, and similarly for $\twogtRone$.
+However, in some cases, e.g. $\twogtLone$ where $\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']]$ contains $U$ in its left subtree, we have to apply the lemma $\subeq$ another time to the equality proof $eq' : \sub{p_1}{(V \cdast A \Rarr B)} \equiv \sub{q}{U}$ (which appears in scope as a projection of record type $\ContainsLeft$), which gives rise to seven more cases, and similarly for $\twogtRone$.
 This showcases yet again the value of proof assistants to keep track of all cases and proof obligations.
 
 %\subsection{Proof-Relevant Interpolation}
