@@ -41,7 +41,7 @@
 \usepackage[T1]{fontenc}
 % T1 fonts will be used to generate the final print and online PDFs,
 % so please use T1 fonts in your manuscript whenever possible.
-% Other font encondings may result in incorrect characters.
+% Other font encodings may result in incorrect characters.
 %
 \usepackage{hyperref}
 \usepackage{graphicx}
@@ -239,9 +239,9 @@
 %%==================================%%
 
 \abstract{This paper presents a formalization of the nonassociative Lambek calculus in the Agda proof assistant. %, focusing on two major proof-theoretic properties: cut admissibility and Maehara interpolation. 
-  The sequent calculus for this logic has sequents with binary trees as antecedents, in which formulae are stored as leaves. The structure of the antecedents creates subtleties when proving logical properties since in many cases one needs to analyze equalities of different presentations of the same tree. 
+In the sequent calculus for this logic, antecedents are binary trees where formulae are stored as leaves. The structure of the antecedents creates subtleties when proving logical properties since in many cases one needs to analyze equalities of different presentations of the same tree. 
 We formally characterize all the cases of how two presentations of a tree can be equal in Agda.
-The resulting technical lemma helps us to exhaust all possible cases when proving several meta properties of the calculus, including cut admissibility and the Maehara interpolation property which implies Craig interpolation.
+The resulting technical lemma helps us to exhaust all possible cases when proving several metalogical properties of the calculus, including cut admissibility and the Maehara interpolation property which implies Craig interpolation.
 Moreover, both the cut rule and the interpolation procedure are well-defined wrt.\ an equivalence relation of derivations.
 We additionally prove the proof-relevant versions of ($i$) soundness and completeness with respect to a Hilbert-style axiomatic calculus and ($ii$) Maehara interpolation, i.e.\ the interpolation procedure as a right inverse of the admissible cut rule. }
 
@@ -279,9 +279,10 @@ From the perspective of sequent calculus, substructural logics are characterized
 The Lambek calculus (both its associative and nonassociative variants) has been extensively studied in the literature, especially for its linguistic applications \cite{moot:categorial:2012}.
 %While Lambek calculus has different presentations, including axiomatic (or syntactic), natural deduction, and sequent calculus, we focus primarily on the proof-theoretic aspect, specifically the sequent calculus formulation.
 
-In its sequent calculus presentation, sequents in the associative Lambek calculus (\Lam) are of the form $\GG \vd C$, where $\GG$ is a \emph{list} of formulae and $C$ is a single formula, while sequents in the nonassociative Lambek calculus (\NL) are of the form $T \vd C$ where $T$ is a \emph{binary tree} in which formulae are stored in the leaves.
-This structural difference makes the proofs of logical properties for \NL\ trickier than for the associative variant.
-For example, when proving cut admissibility, in certain cases, one must determine whether the cut formula coincides with the principal formula of the conclusion. For \Lam, the flat antecedents make the situation clear: there are three possibilities--either the cut formula is to the left of the principal formula, to the right, or it is the principal formula itself.
+% In its sequent calculus presentation, sequents in the associative Lambek calculus (\Lam) are of the form $\GG \vd C$, where $\GG$ is a \emph{list} of formulae and $C$ is a single formula, while sequents in the nonassociative Lambek calculus (\NL) are of the form $T \vd C$ where $T$ is a \emph{binary tree} in which formulae are stored in the leaves.
+In the sequent calculus of associative Lambek calculus (\Lam), sequents are of the form $\GG \vd C$, where $\GG$ is a \emph{list} of formulae and $C$ is a single formula. In contrast, sequents in the nonassociative Lambek calculus (\NL) are of the form $T \vd C$ where $T$ is a \emph{binary tree} in which formulae are stored in the leaves.
+This structural difference makes the proofs of logical properties for \NL\ trickier than \Lam.
+For example, when proving cut admissibility, in certain cases, one must determine whether the cut formula coincides with the principal formula of the conclusion. For \Lam, the flat antecedents make the situation clear: there are three possibilities, either ($i$) the cut formula is in the left context relative to the principal formula, ($ii$) in the right context, or ($iii$) it coincides with the principal formula.
 
 For \NL, the situation is more involved, as there are more cases to examine. %while the case distinction follows similar principles, the hierarchical tree structure obscures these relationships.
 For example, consider the proof of cut admissibility, in which we wish to compose the derivations of sequents $U \vdash D$ and $\mc{C}[D] \vd C$. Here $\mc{C}$ is a context, i.e. a tree with a hole, and $\mc{C}[D]$ is the tree resulting from plugging the formula $D$ in the hole. If the derivation of the second sequent ends with an application of the left $\Rl$-introduction rule,
@@ -289,7 +290,10 @@ then its antecedent is of the form $\mc{C}'[U' , A \Rarr B]$ for some context $\
 %$\ot$-introduction rule, then its antecedent is of the form $T'[A \ot B]$ for some context $T'$ and formulae $A,B$. This means that we are given an equality of trees $T[D]=T'[A \ot B]$ and we need to precisely characterize the structural relationship between the tensor formula $A \ot B$ and the cut formula $D$ within these trees.
 This relationship is not as simple as in the associative Lambek calculus, it involves a more complex splitting of the contexts from which more cases arise.
 
-We can intuitively understand what occurs in the proof of cut admissibility, since it is not too difficult to compute all possible cases. However, what about more complex properties?  For example, consider proving that the admissible cut rule is associative, i.e. the two ways of cutting three sequents of the form $U \vdash D$, $\mc{C}[D] \vdash E$ and $\mc{C}'[E] \vdash C$ produce equal derivations. Because of the large number of cases arising from the induction on the shape of derivations and, mostly, from the analysis of equalities of trees discussed in the previous paragraph, establishing the associativity of cut becomes very challenging to perform with pen and paper, as it is hard to keep track of all the possible cases to consider.
+We can intuitively understand what occurs in the proof of cut admissibility, since it is not too difficult to compute all possible cases. However, what about more complex properties?  For example, consider proving that the admissible cut rule is associative, i.e. the two ways of cutting three sequents of the form $U \vdash D$, $\mc{C}[D] \vdash E$ and $\mc{C}'[E] \vdash C$ produce equal derivations. 
+% Because of the large number of cases arising from the induction on the shape of derivations and, mostly, from the analysis of equalities of trees discussed in the previous paragraph, establishing the associativity of cut becomes very challenging to perform with pen and paper, as it is hard to keep track of all the possible cases to consider.
+The large number of cases arise from the induction on the shape of derivations and the analysis of equalities of trees discussed in the previous paragraph.
+These cases make the proof associativity of cut becomes very challenging to perform with pen and paper, as it is hard to keep track of all the possible cases to consider.
 On the other hand, interactive theorem provers are very good tools for dealing with large inductive proofs and keeping track of all existing proof obligations.
 
 %This need leads us to consider a formal verification of the \NL. Our approach involves paths in trees, allowing each subtree to be represented as a substitution along a path in the original tree. This transforms the problem of determining relative positions between different subtrees into a formalizable question about the relationship between two paths in a tree.
@@ -307,17 +311,17 @@ Do{\v s}en \cite{Dosen1988} and Moortgat and Oehrle \cite{moot:categorial:2012}
 %\footnote{\cheng{The book by Moot and Retore mentioned this paper but I can't find it. I am not sure if we should cite the original paper or their book.}}
 also proposed different axiomatic formulations with applications in soundness and completeness wrt.\ ternary relational models and complexity of \NL, respectively.
 We formalize the axiomatic calculus and the definition of magmatic biclosed categories, then show that the axiomatic calculus with its own equivalence relation on of derivations $\doteq$ generates the free magmatic biclosed category.
-Moreover, we show that the axiomatic and sequent calculi are equivalent wrt. proofs, i.e.\ there exists a bijection between the derivations of the two calculi that preserves the equivalences of derivations.
+Moreover, we show that the axiomatic and sequent calculi are equivalent wrt.\ proofs, i.e.\ there exists a bijection between the derivations of the two calculi that preserves the equivalences of derivations.
 
 %Within proof theory, interpolation properties serve as fundamental property of a logic and of interests by different logicians.
 We then present the formal proof of the Maehara interpolation property, originating from Maehara's proof of Craig interpolation \cite{craig:interpolation:1957} for classical logic \cite{maehara1961}.
-Maehara's method has been applied and adapted to several logics, especially to substructural logics that admit a cut-free sequent calculus \cite{ono:proof:nonclassical:1998}. The Maheara interpolation property states that, given a sequent $\mc{C}[U] \vdash C$, there exist a formula $D$ and derivations of sequents $U \vdash D$ and $\mc{C}[D] \vdash C$, such that all the atomic formulae appearing in $D$ appear also in $U$, as well as in $\mc{C},C$.
-More precisely, we formalize a proof-relevant (in the sense of \v{C}ubri{\'c} \cite{vcubric1993results,Cubric1994} and Saurin \cite{Saurin2024}) variant of Maehara interpolation: we aim to capture not only the existence of interpolants but also their relationship to the admissible cut rule. In order to achieve this, we first introduce an equivalence relation $\circeq$ on derivations, capturing all the possible permutative conversions. We then show that both the cut rule and the interpolation procedure are well-defined wrt.\ to the relation $\circeq$. %e.g. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
+Maehara's method has been applied and adapted to several logics, especially to substructural logics that admit a cut-free sequent calculus \cite{ono:proof:nonclassical:1998}. The Maehara interpolation property states that, given a sequent $\mc{C}[U] \vdash C$, there exist a formula $D$ and derivations of sequents $U \vdash D$ and $\mc{C}[D] \vdash C$, such that all the atomic formulae appearing in $D$ appear also in $U$, as well as in $\mc{C},C$.
+More precisely, we formalize a proof-relevant (in the sense of \v{C}ubri{\'c} \cite{vcubric1993results,Cubric1994} and Saurin \cite{Saurin2024}) variant of Maehara interpolation: we aim to capture not only the existence of interpolants but also their relationship to the admissible cut rule. In order to achieve this, we first introduce an equivalence relation $\circeq$ on derivations, capturing all the possible permutative conversions. We then show that both the cut rule and the interpolation procedure are well-defined wrt.\ to the relation $\circeq$. %e.g. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairwise equivalent.
  Then we show that the interpolation procedure is a right inverse of the admissible cut rule, in the sense that running the interpolation algorithm on a derivation $f$ of a sequent $\mc{C}[U] \vdash C$ and successively cutting the resulting two derivations along the interpolant formula results in a derivation that is $\circeq$-related to $f$.
-%i.e. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairly equivalent.
+%i.e. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairwise equivalent.
 
 %In this paper, we formalize \NL\ and prove properties in Agda: $(i)$ cut-elimination, $(ii)$ Maehara interpolation, $(iii)$ proof-relevant interpolation, and $(iv)$ \linebreak well-definedness of the Maehara interpolation procedure wrt.\ equivalence of derivations.
-This this work makes the following contributions: $(i)$ we formalize a technical lemma for dealing with equalities of the form $\mc{C}[U] = \mc{C}'[U']$; $(ii)$ we employ the lemma to formally define effective procedures for cut admissibility and Maehara (and consequently Craig) interpolation; $(iii)$ we prove proof-relevant versions of the latter, by introducing an equivalence of derivations $\circeq$ and formally establishing many properties of the defined procedures: cut is associative, commutative and unital; cut and interpolation are well-defined wrt.\ $\circeq$; interpolation is a right inverse of cut; ($iv$) we formally prove that the axiomatic calculus with the equivalence relation on of derivations $\doteq$ is equivalent to the sequent calculus wrt. proofs and also generates the free magmatic biclosed category. The contribution $(iii)$ is completely novel in the study of the metatheory of \NL, not only its mechanization in a proof assistant.
+This work makes the following contributions: $(i)$ we formalize a technical lemma for dealing with equalities of the form $\mc{C}[U] = \mc{C}'[U']$; $(ii)$ we employ the lemma to formally define effective procedures for cut admissibility and Maehara (and consequently Craig) interpolation; $(iii)$ we prove proof-relevant versions of the latter, by introducing an equivalence of derivations $\circeq$ and formally establishing many properties of the defined procedures: cut is associative, commutative and unital; cut and interpolation are well-defined wrt.\ $\circeq$; interpolation is a right inverse of cut; ($iv$) we formally prove that the axiomatic calculus with the equivalence relation on of derivations $\doteq$ is equivalent to the sequent calculus wrt.\ proofs and also generates the free magmatic biclosed category. The contribution $(iii)$ is completely novel in the study of the metatheory of \NL, not only its mechanization in a proof assistant.
 %The paper proceeds as follows. We begin with the foundations of our formalization, including definitions of trees, paths in trees, substitutions, and case distinctions for identifying relationships between paths. Next, we introduce the sequent calculus of \NL\ and formalize cut-elimination. The subsequent section addresses equivalence of derivations and properties of the $\cut$ rule.
 %In the final sections, we formally prove Maehara interpolation and proof-relevant interpolation to demonstrate that our formalization provides a correct and usable strategy. It is worth noting that the proof-relevant interpolation results presented here are novel contributions to the study of \NL.
 
@@ -339,7 +343,7 @@ The code is freely available online at \url{https://github.com/cswphilo/nonassoc
 Throughout the paper each result is accompanied by a clickable link, in the form of the Agda logo (\agdahen), directing to the corresponding line in the Agda code.
 
 \paragraph{Publication History}
-This paper is an extended version of \cite{VW2025Tableaux}. The whole Sections \ref{sec:cat:sem} and \ref{sec:axiomatic} on categorical semantics and a Hilbert-style axiomatic calculus for \NL are new.
+This paper is an extended version of \cite{VW2025Tableaux}. The whole Sections \ref{sec:cat:sem} and \ref{sec:axiomatic} on categorical semantics and a Hilbert-style axiomatic calculus for \NL\ are new.
 They include: $(i)$ a description of magmatic biclosed categories, which are the categorical models of \NL, $(ii)$ a proof that the sequent calculus and the axiomatic calculus are equivalent, which corresponds to a proof-relevant version of soundness and completeness theorems, as well as $(iii)$ a discussion on how these constructions have been formalized in Agda.
 We have also added an explanation for the interesting cases in the construction of the Maehara interpolation procedure $\mf{mip}$ and its well-definedness proof $\mf{mip}{\circeq}$ in Section \ref{sec:proof:rel:mip}.
 
@@ -1433,7 +1437,7 @@ $${-}{\ot}{-} : \mb{C} \times \mb{C} \to \mb{C},
 \qquad {-}{\Larr}{-} : \mb{C} \times \mb{C}^{op} \to \mb{C}$$
 forming two adjunctions
 \begin{equation}\label{eq:adj}
-  A \ot {-} \dashv A \Rarr {-}, \qquad {-} \ot A \dashv {-} \Larr A
+  A \ot {-} \dashv A \Rarr {-}\quad \text{and}\quad {-} \ot A \dashv {-} \Larr A
 \end{equation}
 both natural in $A$.
 This means that there is a family of bijective functions $(\piR)_{A,B,C}$ between the set of morphisms typed $A \ot B \to C$  and the set of morphisms typed $B \to A \Rarr C$, which is natural in each argument $A$, $B$ and $C$.
@@ -1457,7 +1461,7 @@ The first group defines includes the type $\Obj$ of objects, as well as the acti
 \]
 The second group specifies the required morphisms (\agdaref{FCatUniversal.agda\#L20}).
 There is a type $\Homs{A}{B}$ for each terms $A,B : \Obj$.
-There is an identity morpshism $\mf{Id}$ for each object, as well as a composition operation $\mf{Comp}$.
+There is an identity morphism $\mf{Id}$ for each object, as well as a composition operation $\mf{Comp}$.
 The action of ${\ot}$, $\Rarr$ and $\Larr$ on morphisms are called ${\oto}$, ${\Rarro}$ and ${\Larro}$. Below we only show the type of ${\Rarro}$.
 Additionally, there is a family of functions $\piR$, with inverses $\pi^{-1}_{\mf{R}}$, which underlie the natural isomorphism evidencing the first adjunction in (\ref{eq:adj}).
 There is also a family of functions $\piL$, with inverses $\pi^{-1}_{\mf{L}}$, for the second adjunction, which is omitted here.
@@ -1495,7 +1499,7 @@ Analogous fields for $\pi_{\mf{L}}$ and $\pi^{-1}_{\mf{L}}$ are not shown.
   \;\; \quad &\hspace*{0.5cm} \to \Eq{(\piR ~ (\mf{Comp} ~ f ~ g))}{(\mf{Comp} ~ (\mf{Id} \Rarro f) (\piR ~ g))}
 \end{array}
 \]
-The implemenation of categories using \emph{setoids} for homsets, i.e. using types $\Homs{A}{B}$ each equipped with a congruence relation $\mf{Eq}$, is standard in type theory, see e.g. \cite{HuC21}.
+The implementation of categories using \emph{setoids} for homsets, i.e. using types $\Homs{A}{B}$ each equipped with a congruence relation $\mf{Eq}$, is standard in type theory, see e.g. \cite{HuC21}.
 
 
 A \emph{strong magmatic biclosed functor} between magmatic biclosed categories $(\mb{C} , \ot , \Rarr , \Larr,\piR,\piL)$ and $(\mb{D} , \ot' , \Rarr' , \Larr',\piR',\piL')$ is a functor $F : \mb{C} \to \mb{D}$ equipped with three natural isomorphisms
@@ -1515,7 +1519,7 @@ l'_{B,C} \circ F(\piL ~ f) = \piL' (F f \circ m_{A,B}).
 
 Strong magmatic functors are like strong monoidal functors that are not required to interact with the unitors $\lambda,\rho$ and the associator $\alpha$, since this data is not present in a magmatic category. 
 Strong magmatic biclosed functors appropriately relax the notion of strong monoidal biclosed functor.
-%In the context of monoidal (closed) functors, the left to right direction of $m$ ($r$ or $l$) together with the commutative diagram of associativity constitutes the $\ot$ ($\Rarr$ or $\Larr$) part of a lax monoidal (clsoed) functor. The other direction is called a oplax monoidal (closed) functor.
+%In the context of monoidal (closed) functors, the left to right direction of $m$ ($r$ or $l$) together with the commutative diagram of associativity constitutes the $\ot$ ($\Rarr$ or $\Larr$) part of a lax monoidal (closed) functor. The other direction is called a oplax monoidal (closed) functor.
 %So a strong magmatic biclosed functor should be thought of as a strong monoidal biclosed functor without unit and properties of associativity. 
 % A monoidal (closed) functor is strong if $m$ ($r$ or $l$) is a natural isomorphism.
 
@@ -1556,7 +1560,7 @@ $}
 % Strict magmatic biclosed functors are implemented in Agda in two steps.
 % First, we define a record type of strong magmatic biclosed functor (\agdaref{FCatUniversal.agda\#L133}).
 % This record type contains the data of a functor, natural isomorphisms $m : F A \ot' F B \cong F (A \ot B)$, $r : F (A \Rarr B) \cong F A \Rarr' F B$, $l : F (B \Larr A) \cong F B \Larr' F A$ and preservation of adjunctions.
-% In the context of monoidal (closed) functors, the left to right direction of $m$ ($r$ or $l$) together with the commutative diagram of associativity constitutes the $\ot$ ($\Rarr$ or $\Larr$) part of a lax monoidal (clsoed) functor. The other direction is called a oplax monoidal (closed) functor. A monoidal (closed) functor is strong if $m$ ($r$ or $l$) is a natural isomorphism.
+% In the context of monoidal (closed) functors, the left to right direction of $m$ ($r$ or $l$) together with the commutative diagram of associativity constitutes the $\ot$ ($\Rarr$ or $\Larr$) part of a lax monoidal (closed) functor. The other direction is called a oplax monoidal (closed) functor. A monoidal (closed) functor is strong if $m$ ($r$ or $l$) is a natural isomorphism.
 % So a strong magmatic biclosed functor should be thought of as a strong monoidal biclosed functor without unit and associativity.
 
 A strong magmatic biclosed functors is \emph{strict} when the three families of morphisms $m$, $r$, and $l$ are all identities.
@@ -1621,11 +1625,11 @@ We write $A \lra B$ for sequents in the axiomatic calculus, whose derivations ar
 The double lines in rules $\pi_{\Rarr}$ and $\pi_{\Larr}$ means that the rules are invertible.
 The bottom-up inference rules are denoted $\pi^{-1}_{\Rarr}$ and $\pi^{-1}_{\Larr}$, respectively.
 
-There exist various equivalent presentations of the axiomatic calculus for \NL\ in the literature, their relationship is thoroughly analized in \cite[Ch.~4]{moot:categorial:2012}. 
+There exist various equivalent presentations of the axiomatic calculus for \NL\ in the literature, their relationship is thoroughly analyzed in \cite[Ch.~4]{moot:categorial:2012}. 
 The original proposal by Lambek \cite{lambek1988} includes an axiom of identity, a transitivity rule and four rules evidencing the adjunctions between tensor and the two implications.
 Do{\v s}en's version \cite{Dosen1988} replaces the four adjunction rules by four axioms, corresponding to units and counits of the adjunctions, plus three monotonicity rules, one for each logical connective.
 Our formulation in (\ref{eq:axiomatic:calculus}) is closer to the one proposed by Moortgat and Oehrle \cite{moot:categorial:2012}.
-Their version contains both the monotonicity and adjunction rules, but no transivity rule, which they show to be admissible.
+Their version contains both the monotonicity and adjunction rules, but no transitivity rule, which they show to be admissible.
 We include the transitivity rule $\comp$, a.k.a. morphism composition, as a primitive rule to make the calculus a direct instance of a magmatic biclosed category.
 The presence of $\comp$ is also needed for stating the coherence equations of magmatic biclosed categories.
 % By a direct characterization of the categorical models, we mean that the axiomatic calculus forms a category where we interpret objects as formulae, derivations as morphisms and composition as the rule $\comp$.
@@ -1648,10 +1652,10 @@ Here we show the constructors associated to $\id$, $\comp$, $\Rarr$, $\pi_{\Rarr
 To interpret derivations as morphisms, we define a congruence relation $\doteq$ on derivations, whose generating pairs are given in Figures \ref{fig:cat:eq},\ref{fig:eq:Rarr} and \ref{fig:eq:Larr}, which formalizes the equational theory of magmatic biclosed categories.
 Figure \ref{fig:cat:eq} contains equations for left and right unitality of the identity morphism $\id$, associativity of composition $\comp$ and the the functoriality of $\ot$.
 Figure \ref{fig:eq:Rarr} contains equations for functoriality of $\Rarr$ and the fact that $\pi_{\Rarr}$ is a natural isomorphism, natural in all three arguments.
-Figure \ref{fig:eq:Larr} contains similar equations to those in Figure \ref{fig:eq:Rarr} but for $\Larr$ insetad of $\Rarr$.
+Figure \ref{fig:eq:Larr} contains similar equations to those in Figure \ref{fig:eq:Rarr} but for $\Larr$ instead of $\Rarr$.
 
 In Agda. the equivalence relation $\doteq$ is implemented as an inductive family indexed over pairs of derivations (\agdaref{FCat.agda\#L34}), which is similar to the formalization of $\circeq$ in Section \ref{sec:equiv:der}.
-In particular, we need to remember to add rules for reflexivity, symmetry and transitivity of $\doteq$, as well as congurence rules for all constructors.
+In particular, we need to remember to add rules for reflexivity, symmetry and transitivity of $\doteq$, as well as congruence rules for all constructors.
 \begin{figure}[t]
   % \vspace{0.5\textwidth}
 %\begin{landscape}
@@ -1659,7 +1663,7 @@ In particular, we need to remember to add rules for reflexivity, symmetry and tr
 \begin{array}{c}
 \proofbox{
 \infer[\comp]{A \lra B}{
-  \deduce{A \lra B}{f} &
+  \deduce{A \lra B}{f} &\!\!\!\!
   \infer[\id]{B \lra B}{}
 }
 }
@@ -1674,14 +1678,14 @@ In particular, we need to remember to add rules for reflexivity, symmetry and tr
 \,\doteq\,
 \proofbox{
 \infer[\comp]{A \lra B}{
-  \infer[\id]{A \lra A}{} & 
+  \infer[\id]{A \lra A}{} &\!\!\!\! 
   \deduce{A \lra B}{f}
 }
 }
 \\[15pt]
 \proofbox{
 \infer[\comp]{A \lra D}{
-  \deduce{A \lra B}{f} &
+  \deduce{A \lra B}{f} &\!\!\!\!
   \infer[\comp]{B \lra D}{
     \deduce{B \lra C}{g} &
     \deduce{C \lra D}{h}
@@ -1694,7 +1698,7 @@ In particular, we need to remember to add rules for reflexivity, symmetry and tr
   \infer[\comp]{A \lra C}{
     \deduce{A \lra B}{f} &
     \deduce{B \lra C}{g}
-  } &   
+  } & \!\!\!\!  
   \deduce{C \lra D}{h}
 }
 }
@@ -1749,8 +1753,10 @@ In particular, we need to remember to add rules for reflexivity, symmetry and tr
 \begin{figure}
   \begin{displaymath}
     \arraycolsep=3pt
-    \scalebox{1}{$\begin{array}{c}
+    \scalebox{1}{$\begin{array}{l}
       \begin{array}{c}
+      \hspace*{1.3cm}
+        \begin{array}{c}
         \infer[\Rarr]{A \Rarr B \lra A \Rarr B}{
             \infer[\id]{A \lra A}{}
             &
@@ -1760,6 +1766,7 @@ In particular, we need to remember to add rules for reflexivity, symmetry and tr
       \quad \doteq \quad
       \begin{array}{c}
         \infer[\id]{A \Rarr B \lra A \Rarr B}{}
+      \end{array}
       \end{array}
       \\[0.4cm]
       \begin{array}{c}
@@ -1778,7 +1785,7 @@ In particular, we need to remember to add rules for reflexivity, symmetry and tr
         }
       \end{array}
       \\
-      \hspace*{4cm}\doteq
+      \hspace*{3cm}\doteq
       \begin{array}{c}
         \infer[\comp]{C \Rarr D \lra A \Rarr F}{
             \infer[\Rarr]{C \Rarr D \lra B \Rarr E}{
@@ -1796,96 +1803,97 @@ In particular, we need to remember to add rules for reflexivity, symmetry and tr
       \end{array}
       \\[0.4cm]
       \begin{array}{c}
-        \infer[\comp]{A \lra B  \Rarr C}{
-        \deduce{A \lra A'}{f}
-        &
-        \infer[\pi_{\Rarr}]{A' \lra B \Rarr C}{
-            \deduce{A' \ot B \Rarr C}{g}
+        \infer[\pi_{\Rarr}]{B \lra A  \Rarr (A' \ot B)}{
+        \infer[\ot]{A \ot B \lra A' \ot B}{
+          \deduce{A \lra A'}{f}
+          &
+          \infer[\id]{B \lra B}{}
         }
       }
       \end{array}
-      \hspace*{4cm}
+      % \hspace*{4cm}
       \\
-      \hspace*{4.5cm}\doteq
+      \hspace*{1cm}\doteq \ 
       \begin{array}{c}
-        \infer[\pi_{\Rarr}]{A \lra B  \Rarr C}{
-            \infer[\comp]{A \ot B \lra C}{
-                \infer[\ot]{A \ot B \lra A' \ot B}{
-                    \deduce{A \lra A'}{f}
-                    &
-                    \infer[\id]{B \lra B}{}
-                }
+        \infer[\comp]{B \lra A  \Rarr (A' \ot B)}{
+            \infer[\pi_{\Rarr}]{B \lra A'  \Rarr (A' \ot B)}{
+              \infer[\id]{A' \ot B \lra A' \ot B}{}
+            }
             &
-            \deduce{A' \ot B \lra C}{g}
+            \infer[\Rarr]{A'  \Rarr (A' \ot B) \lra A  \Rarr (A' \ot B)}{
+              \deduce{A \lra A'}{f}
+              &
+              \infer[\id]{A' \ot B \lra A' \ot B}{}
             }
         }
       \end{array}
       \\[0.4cm]
       \begin{array}{c}
-        \infer[\pi_{\Rarr}]{A \lra B \Rarr C'}{
-            \infer[\comp]{A \ot B \lra C'}{
-                \deduce{A \ot B \lra C}{f}
-                &
-                \deduce{C \lra C'}{g}
-            }
-        }
-      \end{array}
-      \hspace*{4cm}
-      \\
-      \hspace*{4cm}\doteq
-      \begin{array}{c}
-        \infer[\comp]{A \lra B \Rarr C'}{
-            \infer[\pi_{\Rarr}]{A \lra B \Rarr C}{
-                \deduce{A \ot B \lra C}{f}
-            }
+        \infer[\comp]{B' \lra A \Rarr C}{
+            \deduce{B' \lra B}{f}
             &
-            \infer[\Rarr]{B \Rarr C \lra B \Rarr C'}{
-                \infer[\id]{B \lra B}{}
-                &
-                \deduce{C \lra C'}{g}
+            \infer[\pi_{\Rarr}]{B \lra A \Rarr C}{
+              \deduce{A \ot B \lra C}{g}
             }
         }
       \end{array}
-      \\[0.4cm]
-        \begin{array}{c}
-        \infer[\pi_{\Rarr}]{A \lra B \Rarr (A \ot B')}{
-            \infer[\ot]{A \ot B \lra A \ot B'}{
+      % \hspace*{4cm}
+      \\
+      \hspace*{3cm}\doteq
+      \begin{array}{c}
+        \infer[\pi_{\Rarr}]{B' \lra A \Rarr C}{
+            \infer[\comp]{A \ot B' \lra C}{
+              \infer[\ot]{A \ot B' \lra A \ot B}{
                 \infer[\id]{A \lra A}{}
                 &
-                \deduce{B \lra B'}{f}
-            }
-        }
-      \end{array}
-      \hspace*{5cm}
-      \\
-      \qquad\qquad \doteq
-      \begin{array}{c}
-        \infer[\comp]{A \lra B \Rarr (A \ot B')}{
-            \infer[\pi_{\Rarr}]{A \lra B' \Rarr (A \ot B')}{
-                \infer[\id]{A \ot B' \lra A \ot B'}{}
-            }
-            &
-            \infer[\Rarr]{B' \Rarr (A \ot B') \lra B \Rarr (A \ot B')}{
-                \deduce{B \lra B'}{f}
-                &
-                \infer[\id]{A \ot B' \lra A \ot B'}{}
+                \deduce{B' \lra B}{f}
+              }
+              &
+              \deduce{A \ot B \lra C}{g}
             }
         }
       \end{array}
       \\[0.4cm]
-      \begin{array}{rcl}
         \begin{array}{c}
+        \infer[\pi_{\Rarr}]{B \lra A \Rarr C'}{
+            \infer[\comp]{A \ot B \lra C'}{
+              \deduce{A \ot B \lra C}{f}
+              &
+              \deduce{C \lra C'}{g}
+            }
+        }
+      \end{array}
+      % \hspace*{5cm}
+      \\
+      \hspace*{3cm} \doteq
+      \begin{array}{c}
+        \infer[\comp]{B \lra A \Rarr C'}{
+            \infer[\pi_{\Rarr}]{B \lra A \Rarr C}{
+              \deduce{A \ot B \lra C}{f}
+            }
+            &
+            \infer[\Rarr]{A \Rarr C \lra A \Rarr C'}{
+              \infer[\id]{A \lra A}{}
+              &
+              \deduce{C \lra C'}{g}
+            }
+        }
+      \end{array}
+      \\[0.4cm]
+      \begin{array}{c}
+        \hspace*{2.5cm}\begin{array}{c}
         \infer[\pi_{\Rarr}]{A \lra B \Rarr C}{
             \infer[\pi^{-1}_{\Rarr}]{A \ot B \lra C}{
                 \deduce{A \lra B \Rarr C}{f}
             }
         }
       \end{array}
-      & \doteq &
+      \quad \doteq \quad
       \begin{array}{c}
         \deduce{A \lra B \Rarr C}{f}
       \end{array}
       \\[0.4cm]
+      \hspace*{2.5cm}
       \begin{array}{c}
         \infer[\pi^{-1}_{\Rarr}]{A \ot B \lra C}{
             \infer[\pi_{\Rarr}]{A \lra B \Rarr C}{
@@ -1893,7 +1901,7 @@ In particular, we need to remember to add rules for reflexivity, symmetry and tr
             }
         }
       \end{array}
-      & \doteq &
+      \quad \doteq \quad
       \begin{array}{c}
         \deduce{A \ot B \lra C}{f}
       \end{array}
@@ -1909,8 +1917,8 @@ In particular, we need to remember to add rules for reflexivity, symmetry and tr
 \begin{figure}
   \begin{displaymath}
     \arraycolsep=3pt
-    \scalebox{1}{$\begin{array}{c}
-      \begin{array}{c}
+    \scalebox{1}{$\begin{array}{l}
+      \hspace*{1.3cm}\begin{array}{c}
         \infer[\Larr]{B \Larr A \lra B \Larr A}{
             \infer[\id]{A \lra A}{}
             &
@@ -1938,7 +1946,7 @@ In particular, we need to remember to add rules for reflexivity, symmetry and tr
         }
       \end{array}
       \\
-      \hspace*{4cm}\doteq
+      \hspace*{3cm}\doteq
       \begin{array}{c}
         \infer[\comp]{D \Larr C \lra F \Larr A}{
             \infer[\Larr]{D \Larr C \lra E \Larr B}{
@@ -1956,58 +1964,32 @@ In particular, we need to remember to add rules for reflexivity, symmetry and tr
       \end{array}
       \\[0.4cm]
       \begin{array}{c}
-        \infer[\comp]{A \lra B  \Larr C}{
-        \deduce{A \lra A'}{f}
+        \infer[\comp]{A' \lra C \Larr B}{
+        \deduce{A' \lra A}{f}
         &
-        \infer[\pi_{\Larr}]{A' \lra B \Larr C}{
-            \deduce{A' \ot C \Larr B}{g}
+        \infer[\pi_{\Larr}]{A \lra C \Larr B}{
+            \deduce{A \ot B \lra C}{g}
         }
       }
       \end{array}
-      \hspace*{4cm}
+      % \hspace*{4cm}
       \\
-      \hspace*{4.5cm}\doteq
+      \hspace*{3cm}\doteq
       \begin{array}{c}
-        \infer[\pi_{\Larr}]{A \lra C \Larr B}{
-            \infer[\comp]{A \ot B \lra C}{
-                \infer[\ot]{A \ot B \lra A' \ot B}{
-                    \deduce{A \lra A'}{f}
+        \infer[\pi_{\Larr}]{A' \lra C \Larr B}{
+            \infer[\comp]{A' \ot B \lra C}{
+                \infer[\ot]{A' \ot B \lra A \ot B}{
+                    \deduce{A' \lra A}{f}
                     &
                     \infer[\id]{B \lra B}{}
                 }
             &
-            \deduce{A' \ot B \lra C}{g}
+            \deduce{A \ot B \lra C}{g}
             }
         }
       \end{array}
       \\[0.4cm]
-      \begin{array}{c}
-        \infer[\pi_{\Larr}]{A \lra C' \Larr B}{
-            \infer[\comp]{A \ot B \lra C'}{
-                \deduce{A \ot B \lra C}{f}
-                &
-                \deduce{C \lra C'}{g}
-            }
-        }
-      \end{array}
-      \hspace*{4cm}
-      \\
-      \hspace*{4cm}\doteq
-      \begin{array}{c}
-        \infer[\comp]{A \lra C' \Larr B}{
-            \infer[\pi_{\Larr}]{A \lra C \Larr B}{
-                \deduce{A \ot B \lra C}{f}
-            }
-            &
-            \infer[\Larr]{C \Larr B \lra C' \Larr B}{
-                \infer[\id]{B \lra B}{}
-                &
-                \deduce{C \lra C'}{g}
-            }
-        }
-      \end{array}
-      \\[0.4cm]
-        \begin{array}{c}
+       \begin{array}{c}
         \infer[\pi_{\Larr}]{A \lra (A \ot B') \Larr B}{
             \infer[\ot]{A \ot B \lra A \ot B'}{
                 \infer[\id]{A \lra A}{}
@@ -2033,27 +2015,53 @@ In particular, we need to remember to add rules for reflexivity, symmetry and tr
         }
       \end{array}
       \\[0.4cm]
-      \begin{array}{rcl}
-        \begin{array}{c}
+       \begin{array}{c}
+        \infer[\pi_{\Larr}]{A \lra C' \Larr B}{
+            \infer[\comp]{A \ot B \lra C'}{
+                \deduce{A \ot B \lra C}{f}
+                &
+                \deduce{C \lra C'}{g}
+            }
+        }
+      \end{array}
+      \hspace*{4cm}
+      \\
+      \hspace*{3cm}\doteq
+      \begin{array}{c}
+        \infer[\comp]{A \lra C' \Larr B}{
+            \infer[\pi_{\Larr}]{A \lra C \Larr B}{
+                \deduce{A \ot B \lra C}{f}
+            }
+            &
+            \infer[\Larr]{C \Larr B \lra C' \Larr B}{
+                \infer[\id]{B \lra B}{}
+                &
+                \deduce{C \lra C'}{g}
+            }
+        }
+      \end{array}
+      \\[0.4cm]
+      \begin{array}{c}
+        \hspace*{2.5cm}\begin{array}{c}
         \infer[\pi_{\Larr}]{A \lra C \Larr B}{
             \infer[\pi^{-1}_{\Larr}]{A \ot B \lra C}{
                 \deduce{A \lra C \Larr B}{f}
             }
         }
       \end{array}
-      & \doteq &
+      \quad \doteq \quad
       \begin{array}{c}
         \deduce{A \lra C \Larr B}{f}
       \end{array}
       \\[0.4cm]
-      \begin{array}{c}
+      \hspace*{2.5cm} \begin{array}{c}
         \infer[\pi^{-1}_{\Larr}]{A \ot B \lra C}{
             \infer[\pi_{\Larr}]{A \lra C \Larr B}{
                 \deduce{A \ot B \lra C}{f}
             }
         }
       \end{array}
-      & \doteq &
+      \quad \doteq \quad
       \begin{array}{c}
         \deduce{A \ot B \lra C}{f}
       \end{array}
@@ -2098,7 +2106,7 @@ Using $F_0$ and $F_1$, we define a functor $F : \FMBCC \to \mb{D}$ which preserv
 We have shown that the axiomatic calculus, together with the congruence relation $\doteq$, satisfies a universal property, namely that it underlies the free magmatic biclosed category on the set of atomic formulae $\mf{At}$. 
 In other words, the axiomatic calculus is the syntactic incarnation of the categorical semantics.
 In this section we show the equivalence between the sequent calculus and the axiomatic calculus for \NL.
-The equivalence at the level of \emph{provability}, i.e. that the sequent $A \vdash B$ is provable iff the sequent $A \lra B$ is provable, is well-known \cite{moot:categorial:2012}. Here we extend the equivalence at the level of \emph{proofs}, i.e. there is a bijetive correspondece between proofs of $A \vdash B$ modulo $\circeq$ and proofs of $A \lra B$ modulo $\doteq$.
+The equivalence at the level of \emph{provability}, i.e. that the sequent $A \vdash B$ is provable iff the sequent $A \lra B$ is provable, is well-known \cite{moot:categorial:2012}. Here we extend the equivalence at the level of \emph{proofs}, i.e. there is a bijective correspondence between proofs of $A \vdash B$ modulo $\circeq$ and proofs of $A \lra B$ modulo $\doteq$.
 This equivalence can be understood as a proof-relevant soundness and completeness theorem for the sequent calculus wrt.\ the categorical models of Section \ref{sec:cat:sem}.
 
 Explicitly, the equivalence between the sequent calculus and the axiomatic calculus is proved by constructing two functions $\sound$ (\agdaref{Sound.agda\#L63}) and $\complt$ (\agdaref{Complt.agda\#L15}) typed
@@ -2654,13 +2662,14 @@ The definition of $\mathsf{cut\text{-}intrp}$ proceeds by pattern-matching on th
 
 \section{Conclusions}
 
-We have presented an Agda formalization of \NL, showcasing the proofs of the following properties: cut admissibility, proof-relevant Maehara interpolation and soundness and completeness wrt.\ magmatic biclosed categories. The key technical contribution is the formal characterization of equality of substituted trees, which serves as a fundamental lemma for the formalization of the aforementioned properties (and for proving other properties in the future, such as uniform interpolation \cite{alizadeh:2014} for an extension of \NL\ with additives).
+We have presented an Agda formalization of \NL, showcasing the proofs of the following properties: cut admissibility, proof-relevant Maehara interpolation and soundness and completeness wrt.\ magmatic biclosed categories. The key technical contribution is the formal characterization of equality of substituted trees, which serves as a fundamental lemma for the formalization of the aforementioned properties.
+For the future, we expect to proving other properties, such as uniform interpolation \cite{alizadeh:2014} for an extension of \NL\ with additives, with the fundamental lemma.
 While cut admissibility and the standard Maehara interpolation property for the sequent calculus of \NL\ have been established in previous research, our formalization also offers some new theoretical results: a proof-relevant version of Maehara interpolation and the well-definedness of $\cut$ and $\mf{mip}$ wrt.\ permutative conversions.
 %interpolation First, our Agda formalization of the case distinction type for trees provides a rigorous foundation that can be reused in further research such as uniform interpolation \cite{alizadeh:2014}. Second, our proof-relevant interpolation results, demonstrating that the Maehara interpolation procedure is well-defined wrt.\ equivalence of derivations, is new theoretical result of \NL.
 
-For many substructural logics, the variable condition in the Maehara interpolation property can be strengthened to include the multiplicity \cite{moot:categorial:2012} and the polarity \cite{roorda1991} of occurrences of atomic formulae. This is true for \NL\ and we plan to formalize these upgrades of the variable condition $\mf{VarCond}$ in future work.
+For many substructural logics, including \NL, the variable condition in the Maehara interpolation property can be strengthened to include the multiplicity \cite{moot:categorial:2012} and the polarity \cite{roorda1991} of occurrences of atomic formulae. We plan to formalize these upgrades of the variable condition $\mf{VarCond}$ in future work.
 
-The well-definedness of $\mf{mip}$ wrt.\ $\circeq$ is attainable in \NL, but it cannot be proved for more structured logics (such as the associative Lambek calculus, or even a semi-associative fragment \cite{VW2025}) without relaxing the equivalence of interpolation triples. In particular, one cannot expect the interpolant formulae to be syntactically equal, as in our type $\MIPeq ~ m_1 ~ m_2$.
+The well-definedness of $\mf{mip}$ wrt.\ $\circeq$ is attainable in \NL, but it cannot be proved for more structured logics, e.g.\ the associative Lambek calculus, or even a semi-associative fragment \cite{VW2025}, without relaxing the equivalence of interpolation triples. In particular, one cannot expect the interpolant formulae to be syntactically equal, as in our type $\MIPeq ~ m_1 ~ m_2$.
 We have found concrete examples in the associative Lambek calculus where the interpolant formulae are neither equal nor logically equivalent.
 These examples suggest that a plausible relaxation would be a ``zig-zag'' equivalence, which means that two interpolant triples are equivalent if there exists a zig-zag chain between them.
 %for nonassociative Lambek calculus because the logic does not contain complicated equivalences of formulae, making the interpolation triple straightforward to define. We anticipate that extending this approach to the associative or semi-associative Lambek calculus \cite{VW2025} would be more challenging, as those systems involve more complex equational theories on formulae.
@@ -2672,7 +2681,7 @@ takes ${\sim}$10 minutes to type-check, while the associativity of $\cut$ %(\hre
 and the well-definedness proofs $\cut{\circeq}_1$ and $\cut{\circeq}_2$
 %(\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/CutCongruence.agda}{$\mf{CutCongruence.agda}$})
 require >2 hours on a MacBook Pro 2020 with 2 GHz Intel Core i5.
-In future work, we plan to work on the code in order to reduce the compilation time.
+We plan to work on the code in order to reduce the compilation time in the future.
 
 
 
