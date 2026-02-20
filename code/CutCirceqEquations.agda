@@ -23,16 +23,16 @@ cut⇒L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) eq with subeq (U ⊛
 cut⇒L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) refl | 2>L1 (gt q₁ refl refl refl) 
   rewrite subeq-2>L1 p₁ (η (A ⇒ B)) (η D) q₁ = ⇒L (cut⇒L≗ q₁ q h g refl) refl ∘ (~ ⇒L⇒L)
 cut⇒L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) refl | 2>R1 (gt ∙ refl refl refl) 
-  rewrite subeq-2>R1 p₁ U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p₁ U (η (A ⇒ B)) ∙ = refl
+  rewrite subeq-2>R1 p₁ U (η (A ⇒ B)) ∙ = refl
+          -- subeq-2>R1 p₁ U (η (A ⇒ B)) ∙ = refl
 cut⇒L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) refl | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl)
   rewrite subeq-1/\2 q₁ (U ⊛ η (A ⇒ B)) (η D) q₂ q₃ = ⇒L refl (cut⇒L≗ (q₁ ++ (sub q₂ (η B) ▸ q₃)) q h g₁ refl) ∘ (⇒L⇒L₂ {p = q₁})
 cut⇒L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) refl | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl) 
   rewrite subeq-2/\1 q₁ (U ⊛ η (A ⇒ B)) (η D) q₂ q₃ = ⇒L refl (cut⇒L≗ (q₁ ++ (q₂ ◂ sub q₃ (η B))) q h g₁ refl) ∘ (~ ⇒L⇒L₂ {p = q₁})
 cut⇒L≗ {D = D} p q h (⇐L {U = U} {A} {B} p₁ g g₁) eq with subeq (η (B ⇐ A) ⊛ U) (η D) p₁ p eq
 cut⇒L≗ {D = D} p q h (⇐L {U = U} {A} {B} p₁ g g₁) refl | 2>L1 (gt ∙ refl refl refl)
-  rewrite subeq-2>L1 p₁ U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p₁ U (η (B ⇐ A)) ∙ = refl
+  rewrite subeq-2>L1 p₁ U (η (B ⇐ A)) ∙ = refl
+          -- subeq-2>L1 p₁ U (η (B ⇐ A)) ∙ = refl
 cut⇒L≗ {D = D} p q h (⇐L {U = U} {A} {B} p₁ g g₁) refl | 2>R1 (gt q₁ refl refl refl) 
   rewrite subeq-2>R1 p₁ (η (B ⇐ A)) (η D) q₁ = ⇐L (cut⇒L≗ q₁ q h g refl) refl ∘ (~ ⇒L⇐L)
 cut⇒L≗ {D = D} p q h (⇐L {U = U} {A} {B} p₁ g g₁) refl | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
@@ -43,8 +43,8 @@ cut⇒L≗ (p ◂ U) q h (⊗R g g₁) refl = ⊗R (cut⇒L≗ p q h g refl) ref
 cut⇒L≗ (T ▸ p) q h (⊗R g g₁) refl = ⊗R refl (cut⇒L≗ p q h g₁ refl) ∘ (~ ⇒L⊗R₂)
 cut⇒L≗ {D = D} p q h (⊗L {A = A} {B} p₁ g) eq with subeq (η (A ⊗ B)) (η D) p₁ p eq
 cut⇒L≗ {D = D} p q h (⊗L {A = A} {B} p₁ g) refl | 1≡2 (same refl refl refl) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = refl
+  rewrite subeq-1≡2 p (η (A ⊗ B)) = refl
+          -- subeq-1≡2 p (η (A ⊗ B)) = refl
 cut⇒L≗ {D = D} p q h (⊗L {A = A} {B} p₁ g) refl | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
   rewrite subeq-1/\2 q₁ (η (A ⊗ B)) (η D) q₂ q₃ = ⊗L (cut⇒L≗ (q₁ ++ (sub q₂ (η A ⊛ η B) ▸ q₃)) q h g refl) ∘ (⊗L⇒L₂1/\2 {p = q₁})
 cut⇒L≗ {D = D} p q h (⊗L {A = A} {B} p₁ g) refl | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl) 
@@ -63,16 +63,16 @@ cut⇐L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) eq with subeq (U ⊛
 cut⇐L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) refl | 2>L1 (gt q₁ refl refl refl) 
   rewrite subeq-2>L1 p₁ (η (A ⇒ B)) (η D) q₁ = ⇒L (cut⇐L≗ q₁ q h g refl) refl ∘ (~ ⇐L⇒L) 
 cut⇐L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) refl | 2>R1 (gt ∙ refl refl refl) 
-  rewrite subeq-2>R1 p₁ U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p₁ U (η (A ⇒ B)) ∙ = refl
+  rewrite subeq-2>R1 p₁ U (η (A ⇒ B)) ∙ = refl
+          -- subeq-2>R1 p₁ U (η (A ⇒ B)) ∙ = refl
 cut⇐L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) refl | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl)
   rewrite subeq-1/\2 q₁ (U ⊛ η (A ⇒ B)) (η D) q₂ q₃ = ⇒L refl (cut⇐L≗ (q₁ ++ (sub q₂ (η B) ▸ q₃)) q h g₁ refl) ∘ (⇒L⇐L₂ {p = q₁}) 
 cut⇐L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) refl | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl) 
   rewrite subeq-2/\1 q₁ (U ⊛ η (A ⇒ B)) (η D) q₂ q₃ = ⇒L refl (cut⇐L≗ (q₁ ++ (q₂ ◂ sub q₃ (η B))) q h g₁ refl) ∘ (~ ⇐L⇒L₂ {p = q₁})
 cut⇐L≗ {D = D} p q h (⇐L {U = U} {A} {B} p₁ g g₁) eq with subeq (η (B ⇐ A) ⊛ U) (η D) p₁ p eq
 cut⇐L≗ {D = D} p q h (⇐L {U = U} {A} {B} p₁ g g₁) refl | 2>L1 (gt ∙ refl refl refl)
-  rewrite subeq-2>L1 p₁ U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p₁ U (η (B ⇐ A)) ∙ = refl
+  rewrite subeq-2>L1 p₁ U (η (B ⇐ A)) ∙ = refl
+          -- subeq-2>L1 p₁ U (η (B ⇐ A)) ∙ = refl
 cut⇐L≗ {D = D} p q h (⇐L {U = U} {A} {B} p₁ g g₁) refl | 2>R1 (gt q₁ refl refl refl) 
   rewrite subeq-2>R1 p₁ (η (B ⇐ A)) (η D) q₁ = ⇐L (cut⇐L≗ q₁ q h g refl) refl ∘ (~ ⇐L⇐L) 
 cut⇐L≗ {D = D} p q h (⇐L {U = U} {A} {B} p₁ g g₁) refl | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
@@ -83,8 +83,8 @@ cut⇐L≗ (p ◂ U) q h (⊗R g g₁) refl = ⊗R (cut⇐L≗ p q h g refl) ref
 cut⇐L≗ (T ▸ p) q h (⊗R g g₁) refl = ⊗R refl (cut⇐L≗ p q h g₁ refl) ∘ (~ ⇐L⊗R₂)
 cut⇐L≗ {D = D} p q h (⊗L {A = A} {B} p₁ g) eq with subeq (η (A ⊗ B)) (η D) p₁ p eq
 cut⇐L≗ {D = D} p q h (⊗L {A = A} {B} p₁ g) refl | 1≡2 (same refl refl refl) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = refl
+  rewrite subeq-1≡2 p (η (A ⊗ B)) = refl
+          -- subeq-1≡2 p (η (A ⊗ B)) = refl
 cut⇐L≗ {D = D} p q h (⊗L {A = A} {B} p₁ g) refl | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
   rewrite subeq-1/\2 q₁ (η (A ⊗ B)) (η D) q₂ q₃ = ⊗L (cut⇐L≗ (q₁ ++ (sub q₂ (η A ⊛ η B) ▸ q₃)) q h g refl) ∘ (⊗L⇐L₂1/\2 {p = q₁}) 
 cut⇐L≗ {D = D} p q h (⊗L {A = A} {B} p₁ g) refl | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl) 
@@ -103,16 +103,16 @@ cut⊗L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) eq with subeq (U ⊛
 cut⊗L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) refl | 2>L1 (gt q₁ refl refl refl) 
   rewrite subeq-2>L1 p₁ (η (A ⇒ B)) (η D) q₁ = ⇒L (cut⊗L≗ q₁ q h g refl) refl ∘ (~ ⊗L⇒L₁)
 cut⊗L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) refl | 2>R1 (gt ∙ refl refl refl) 
-  rewrite subeq-2>R1 p₁ U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p₁ U (η (A ⇒ B)) ∙ = refl
+  rewrite subeq-2>R1 p₁ U (η (A ⇒ B)) ∙ = refl
+          -- subeq-2>R1 p₁ U (η (A ⇒ B)) ∙ = refl
 cut⊗L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) refl | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
   rewrite subeq-1/\2 q₁ (U ⊛ η (A ⇒ B)) (η D) q₂ q₃ = ⇒L refl (cut⊗L≗ (q₁ ++ (sub q₂ (η B) ▸ q₃)) q h g₁ refl) ∘ (~ ⊗L⇒L₂2/\1 {p = q₁})
 cut⊗L≗ {D = D} p q h (⇒L {U = U} {A} {B} p₁ g g₁) refl | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl) 
   rewrite subeq-2/\1 q₁ (U ⊛ η (A ⇒ B)) (η D) q₂ q₃ = ⇒L refl (cut⊗L≗ (q₁ ++ (q₂ ◂ sub q₃ (η B))) q h g₁ refl) ∘ (~ ⊗L⇒L₂1/\2 {p = q₁})
 cut⊗L≗ {D = D} p q h (⇐L {U = U} {A} {B} p₁ g g₁) eq with subeq (η (B ⇐ A) ⊛ U) (η D) p₁ p eq
 cut⊗L≗ {D = D} p q h (⇐L {U = U} {A} {B} p₁ g g₁) refl | 2>L1 (gt ∙ refl refl refl) 
-  rewrite subeq-2>L1 p₁ U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p₁ U (η (B ⇐ A)) ∙ = refl
+  rewrite subeq-2>L1 p₁ U (η (B ⇐ A)) ∙ = refl
+          -- subeq-2>L1 p₁ U (η (B ⇐ A)) ∙ = refl
 cut⊗L≗ {D = D} p q h (⇐L {U = U} {A} {B} p₁ g g₁) refl | 2>R1 (gt q₁ refl refl refl) 
   rewrite subeq-2>R1 p₁ (η (B ⇐ A)) (η D) q₁ = ⇐L (cut⊗L≗ q₁ q h g refl) refl ∘ (~ ⊗L⇐L₁)
 cut⊗L≗ {D = D} p q h (⇐L {U = U} {A} {B} p₁ g g₁) refl | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
@@ -123,8 +123,8 @@ cut⊗L≗ (p ◂ U) q h (⊗R g g₁) refl = ⊗R (cut⊗L≗ p q h g refl) ref
 cut⊗L≗ (T ▸ p) q h (⊗R g g₁) refl = ⊗R refl (cut⊗L≗ p q h g₁ refl) ∘ (~ ⊗L⊗R₂)
 cut⊗L≗ {D = D} p q h (⊗L {A = A} {B} p₁ g) eq with subeq (η (A ⊗ B)) (η D) p₁ p eq
 cut⊗L≗ {D = .(A ⊗ B)} p q h (⊗L {A = A} {B} .p g) refl | 1≡2 (same refl refl refl) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = refl
+  rewrite subeq-1≡2 p (η (A ⊗ B)) = refl
+          -- subeq-1≡2 p (η (A ⊗ B)) = refl
 cut⊗L≗ {D = D} ._ q h (⊗L {A = A} {B} ._ g) refl | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
   rewrite subeq-1/\2 q₁ (η (A ⊗ B)) (η D) q₂ q₃ = ⊗L (cut⊗L≗ (q₁ ++ (sub q₂ (η A ⊛ η B) ▸ q₃)) q h g refl) ∘ (~ ⊗L⊗L {p = q₁})
 cut⊗L≗ {D = D} ._ q h (⊗L {A = A} {B} ._ g) refl | 2/\1 (disj q₁ q₂ q₃ refl refl refl refl) 

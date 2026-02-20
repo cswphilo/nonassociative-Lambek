@@ -572,7 +572,7 @@ mip≗ ._ ._ refl (⊗L⇒L₂1/\2 {U = U₁} {A = A} {B} {A'} {B'} {p = p₁} {
 mip≗ ._ U refl (⊗L⇒L₂1/\2 {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>L2 (gt q₁ refl refl refl) 
   rewrite subeq-1>L2 (p₁ ++ (sub p₂ (η (A' ⊗ B')) ▸ p₃)) (η (A ⇒ B)) U q₁ |
           subeq-2/\1 p₁ U (η (A' ⊗ B')) p₂ (p₃ ++ (q₁ ◂ η (A ⇒ B))) |
-          subeq-2/\1 p₁ U (η A' ⊛ η B') p₂ (p₃ ++ (q₁ ◂ η (A ⇒ B))) |
+          -- subeq-2/\1 p₁ U (η A' ⊛ η B') p₂ (p₃ ++ (q₁ ◂ η (A ⇒ B))) |
           subeq-1>L2 (p₁ ++ (sub p₂ (η A' ⊛ η B') ▸ p₃)) (η (A ⇒ B)) U q₁ = intrp≗ refl (⊗L⇒L₂1/\2 {p = p₁} {p₂} {p₃}) refl
 
 mip≗ ._ ._ refl (⊗L⇒L₂1/\2 {U = U₁} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>R2 (gt ∙ refl refl refl) 
@@ -647,7 +647,7 @@ mip≗ ._ ._ refl (⊗L⇒L₂2/\1 {U = U₁} {A = A} {B} {A'} {B'} {p = p₁} {
 mip≗ ._ U refl (⊗L⇒L₂2/\1 {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>L2 (gt q₁ refl refl refl) 
   rewrite subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (η (A' ⊗ B')))) (η (A ⇒ B)) U q₁ |
           subeq-1/\2 p₁ U (η (A' ⊗ B')) (p₂ ++ (q₁ ◂ η (A ⇒ B))) p₃ |
-          subeq-1/\2 p₁ U (η A' ⊛ η B') (p₂ ++ (q₁ ◂ η (A ⇒ B))) p₃ |
+          -- subeq-1/\2 p₁ U (η A' ⊛ η B') (p₂ ++ (q₁ ◂ η (A ⇒ B))) p₃ |
           subeq-1>L2 (p₁ ++ (p₂ ◂ sub p₃ (η A' ⊛ η B'))) (η (A ⇒ B)) U q₁ = intrp≗ refl (⊗L⇒L₂2/\1 {p = p₁} {p₂} {p₃}) refl
 
 mip≗ ._ ._ refl (⊗L⇒L₂2/\1 {U = U₁} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>R2 (gt ∙ refl refl refl)
@@ -852,7 +852,7 @@ mip≗ ._ ._ refl (⊗L⇐L₂1/\2 {U = U₁} {A = A} {B} {A'} {B'} {p = p₁} {
 mip≗ ._ U refl (⊗L⇐L₂1/\2 {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>R2 (gt ._ refl refl refl) | 1>R2 (gt q₁ refl refl refl)
   rewrite subeq-1>R2 (p₁ ++ (sub p₂ (η (A' ⊗ B')) ▸ p₃)) (η (B ⇐ A)) U q₁ |
           subeq-2/\1 p₁ U (η (A' ⊗ B')) p₂ (p₃ ++ (η (B ⇐ A) ▸ q₁)) |
-          subeq-2/\1 p₁ U (η A' ⊛ η B') p₂ (p₃ ++ (η (B ⇐ A) ▸ q₁)) |
+          -- subeq-2/\1 p₁ U (η A' ⊛ η B') p₂ (p₃ ++ (η (B ⇐ A) ▸ q₁)) |
           subeq-1>R2 (p₁ ++ (sub p₂ (η A' ⊛ η B') ▸ p₃)) (η (B ⇐ A)) U q₁ =  intrp≗ refl (⊗L⇐L₂1/\2 {p = p₁} {p₂} {p₃}) refl
   
 mip≗ ._ U refl (⊗L⇐L₂1/\2 {U = U₁} {A = A} {B} {A'} {B'} {p = p₁} {p₂} {._}) | 1>R2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
@@ -926,7 +926,7 @@ mip≗ ._ ._ refl (⊗L⇐L₂2/\1 {U = U₁} {A = A} {B} {A'} {B'} {p = p₁} {
 mip≗ ._ U refl (⊗L⇐L₂2/\1 {A = A} {B} {A'} {B'} {p = p₁} {p₂} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1>R2 (gt q₁ refl refl refl) 
   rewrite subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (η (A' ⊗ B')))) (η (B ⇐ A)) U q₁ |
           subeq-1/\2 p₁ U (η (A' ⊗ B')) (p₂ ++ (η (B ⇐ A) ▸ q₁)) p₃ |
-          subeq-1/\2 p₁ U (η A' ⊛ η B') (p₂ ++ (η (B ⇐ A) ▸ q₁)) p₃ |
+          -- subeq-1/\2 p₁ U (η A' ⊛ η B') (p₂ ++ (η (B ⇐ A) ▸ q₁)) p₃ |
           subeq-1>R2 (p₁ ++ (p₂ ◂ sub p₃ (η A' ⊛ η B'))) (η (B ⇐ A)) U q₁ = intrp≗ refl (⊗L⇐L₂2/\1 {p = p₁} {p₂} {p₃}) refl
 
 mip≗ ._ U refl (⊗L⇐L₂2/\1 {U = U₁} {A = A} {B} {A'} {B'} {p = p₁} {._} {p₃}) | 1>L2 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 

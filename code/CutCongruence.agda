@@ -36,81 +36,81 @@ cut⇒L-cong1 : ∀ {T U V A B C} (p : Path T)
 cut⇒L-cong1 p g g₁ refl = refl
 cut⇒L-cong1 p g g₁ (~ eq') = ~ cut⇒L-cong1 p g g₁ eq'
 cut⇒L-cong1 p g g₁ (eq' ∘ eq'') = cut⇒L-cong1 p g g₁ eq' ∘ cut⇒L-cong1 p g g₁ eq''
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇒R eq') 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ = cut-cong2 (p ++ (∙ ◂ _)) g refl (cut-cong1 p g₁ refl eq')
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L eq' eq'') 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⇒L eq' (cut⇒L-cong1 p g g₁ eq'')
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L eq' eq'') 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⇐L eq' (cut⇒L-cong1 p g g₁ eq'')
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L eq')
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⊗L (cut⇒L-cong1 p g g₁ eq')
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L⇒R {p = p₂} {f} {h}) 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇒R eq') = cut-cong2 (p ++ (∙ ◂ _)) g refl (cut-cong1 p g₁ refl eq') 
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ = 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L eq' eq'') = ⇒L eq' (cut⇒L-cong1 p g g₁ eq'')
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ = 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L eq' eq'') = ⇐L eq' (cut⇒L-cong1 p g g₁ eq'')
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L eq') = ⊗L (cut⇒L-cong1 p g g₁ eq')
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L⇒R {p = p₂} {f} {h}) =
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ = 
             ≡to≗ (cut⇒L-vass-right p p₂ f g₁ g h) 
             ∘ (~ cut-cong2 (p ++ (∙ ◂ sub p₂ (_ ⊛ η (_ ⇒ _)))) g refl (cut⇒L≗ p (_ ▸ p₂) h g₁ refl))
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L⇒R {p = p₂} {f} {h}) 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L⇒R {p = p₂} {f} {h}) =
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ = 
             ≡to≗ (cut⇐L-vass-right p p₂ f g₁ g h) 
             ∘ (~ cut-cong2 (p ++ (∙ ◂ sub p₂ (η (_ ⇐ _) ⊛ _))) g refl (cut⇐L≗ p (_ ▸ p₂) h g₁ refl))
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇒R {p = p₂} {f}) 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ =
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇒R {p = p₂} {f}) =
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ =
             ≡to≗ (cut⊗L-vass-right p p₂ g g₁ f) 
             ∘ (~ cut-cong2 (p ++ (∙ ◂ sub p₂ (η (_ ⊗ _)))) g refl (cut⊗L≗ p (_ ▸ p₂) f g₁ refl))
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⊗L {p = p₂})
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⊗L⊗L {p = p ++ (_ ▸ p₂)}
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ ⊗L⇒L₁
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⊗L⇒L₁
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇒L₂1/\2 {p = p₂})
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⊗L⇒L₂1/\2 {p = p ++ (_ ▸ p₂)}
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇒L₂2/\1 {p = p₂}) 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⊗L⇒L₂2/\1 {p = p ++ (_ ▸ p₂)}
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ ⊗L⇐L₁
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⊗L⇐L₁
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇐L₂1/\2 {p = p₂}) 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⊗L⇐L₂1/\2 {p = p ++ (_ ▸ p₂)}
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇐L₂2/\1 {p = p₂})
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⊗L⇐L₂2/\1 {p = p ++ (_ ▸ p₂)}
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ ⇒L⇒L
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⇒L⇒L
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L⇒L₂ {p = p₂}) 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⇒L⇒L₂ {p = p ++ (_ ▸ p₂)}
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ ⇒L⇐L 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⇒L⇐L
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L⇐L₂ {p = p₂}) 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⇒L⇐L₂ {p = p ++ (_ ▸ p₂)}
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ ⇐L⇒L 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⇐L⇒L
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L⇒L₂ {p = p₂})
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⇐L⇒L₂ {p = p ++ (_ ▸ p₂)}
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ ⇐L⇐L 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⇐L⇐L
-cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L⇐L₂ {p = p₂}) 
-  rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
-          subeq-2>R1 p U (η (A ⇒ B)) ∙ = ⇐L⇐L₂ {p = p ++ (_ ▸ p₂)}
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⊗L {p = p₂}) = ⊗L⊗L {p = p ++ (_ ▸ p₂)}
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ = 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ ⊗L⇒L₁ = ⊗L⇒L₁
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇒L₂1/\2 {p = p₂}) = ⊗L⇒L₂1/\2 {p = p ++ (_ ▸ p₂)}
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇒L₂2/\1 {p = p₂}) = ⊗L⇒L₂2/\1 {p = p ++ (_ ▸ p₂)}
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ ⊗L⇐L₁ = ⊗L⇐L₁
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇐L₂1/\2 {p = p₂}) = ⊗L⇐L₂1/\2 {p = p ++ (_ ▸ p₂)}
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇐L₂2/\1 {p = p₂}) = ⊗L⇐L₂2/\1 {p = p ++ (_ ▸ p₂)}
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ ⇒L⇒L = ⇒L⇒L
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L⇒L₂ {p = p₂}) = ⇒L⇒L₂ {p = p ++ (_ ▸ p₂)}
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ ⇒L⇐L = ⇒L⇐L
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ = 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L⇐L₂ {p = p₂}) = ⇒L⇐L₂ {p = p ++ (_ ▸ p₂)}
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ = 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ ⇐L⇒L = ⇐L⇒L
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ = 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L⇒L₂ {p = p₂}) = ⇐L⇒L₂ {p = p ++ (_ ▸ p₂)}
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ = 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ ⇐L⇐L = ⇐L⇐L
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ 
+cut⇒L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L⇐L₂ {p = p₂}) = ⇐L⇐L₂ {p = p ++ (_ ▸ p₂)}
+  -- rewrite subeq-2>R1 p U (η (A ⇒ B)) ∙ |
+  --         subeq-2>R1 p U (η (A ⇒ B)) ∙ 
 
 cut⇒L-cong2 : ∀ {T U V A B C} (p : Path T)
   → (f : U ⊢ A ⇒ B)
@@ -133,81 +133,81 @@ cut⇐L-cong1 : ∀ {T U V A B C} (p : Path T)
 cut⇐L-cong1 p g g₁ refl = refl
 cut⇐L-cong1 p g g₁ (~ eq') = ~ cut⇐L-cong1 p g g₁ eq'
 cut⇐L-cong1 p g g₁ (eq' ∘ eq'') = cut⇐L-cong1 p g g₁ eq' ∘ cut⇐L-cong1 p g g₁ eq''
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇐R eq') 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ = cut-cong2 (p ++ (_ ▸ ∙)) g refl (cut-cong1 p g₁ refl eq')
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L eq' eq'') 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⇒L eq' (cut⇐L-cong1 p g g₁ eq'') 
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L eq' eq'') 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⇐L eq' (cut⇐L-cong1 p g g₁ eq'')
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L eq')
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⊗L (cut⇐L-cong1 p g g₁ eq')
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L⇐R {p = p₂} {f} {h}) 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇐R eq') = cut-cong2 (p ++ (_ ▸ ∙)) g refl (cut-cong1 p g₁ refl eq')
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L eq' eq'') = ⇒L eq' (cut⇐L-cong1 p g g₁ eq'') 
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L eq' eq'') = ⇐L eq' (cut⇐L-cong1 p g g₁ eq'')
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L eq') = ⊗L (cut⇐L-cong1 p g g₁ eq')
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L⇐R {p = p₂} {f} {h}) =
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ = 
             ≡to≗ (cut⇒L-vass-left p p₂ f g₁ g h) 
             ∘ (~ cut-cong2 (p ++ (sub p₂ (_ ⊛ η (_ ⇒ _)) ▸ ∙)) g refl (cut⇒L≗ p (p₂ ◂ _) h g₁ refl))
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L⇐R {p = p₂} {f} {h}) 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L⇐R {p = p₂} {f} {h}) =
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ = 
             ≡to≗ (cut⇐L-vass-left p p₂ f g₁ g h) 
             ∘ (~ cut-cong2 (p ++ (sub p₂ (η (_ ⇐ _) ⊛ _) ▸ ∙)) g refl (cut⇐L≗ p (p₂ ◂ _) h g₁ refl))
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇐R {p = p₂} {f}) 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇐R {p = p₂} {f}) =
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ = 
             ≡to≗ (cut⊗L-vass-left p p₂ g g₁ f) 
             ∘ (~ cut-cong2 (p ++ (sub p₂ (η (_ ⊗ _)) ▸ ∙)) g refl (cut⊗L≗ p (p₂ ◂ _) f g₁ refl))
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⊗L {p = p₂})
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⊗L⊗L {p = p ++ (p₂ ◂ _)}
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ ⊗L⇒L₁
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⊗L⇒L₁
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇒L₂1/\2 {p = p₂})
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⊗L⇒L₂1/\2 {p = p ++ (p₂ ◂ _)}
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇒L₂2/\1 {p = p₂}) 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⊗L⇒L₂2/\1 {p = p ++ (p₂ ◂ _)}
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ ⊗L⇐L₁
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⊗L⇐L₁
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇐L₂1/\2 {p = p₂}) 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⊗L⇐L₂1/\2 {p = p ++ (p₂ ◂ _)}
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇐L₂2/\1 {p = p₂})
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⊗L⇐L₂2/\1 {p = p ++ (p₂ ◂ _)}
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ ⇒L⇒L
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⇒L⇒L
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L⇒L₂ {p = p₂}) 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⇒L⇒L₂ {p = p ++ (p₂ ◂ _)}
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ ⇒L⇐L 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⇒L⇐L
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L⇐L₂ {p = p₂}) 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⇒L⇐L₂ {p = p ++ (p₂ ◂ _)}
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ ⇐L⇒L 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⇐L⇒L
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L⇒L₂ {p = p₂})
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⇐L⇒L₂ {p = p ++ (p₂ ◂ _)}
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ ⇐L⇐L 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⇐L⇐L
-cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L⇐L₂ {p = p₂}) 
-  rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
-          subeq-2>L1 p U (η (B ⇐ A)) ∙ = ⇐L⇐L₂ {p = p ++ (p₂ ◂ _)}
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⊗L {p = p₂}) = ⊗L⊗L {p = p ++ (p₂ ◂ _)}
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ ⊗L⇒L₁ = ⊗L⇒L₁
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ = 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇒L₂1/\2 {p = p₂}) = ⊗L⇒L₂1/\2 {p = p ++ (p₂ ◂ _)}
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇒L₂2/\1 {p = p₂}) = ⊗L⇒L₂2/\1 {p = p ++ (p₂ ◂ _)}
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ ⊗L⇐L₁ = ⊗L⇐L₁
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇐L₂1/\2 {p = p₂}) = ⊗L⇐L₂1/\2 {p = p ++ (p₂ ◂ _)}
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⊗L⇐L₂2/\1 {p = p₂}) = ⊗L⇐L₂2/\1 {p = p ++ (p₂ ◂ _)}
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ ⇒L⇒L = ⇒L⇒L
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L⇒L₂ {p = p₂}) = ⇒L⇒L₂ {p = p ++ (p₂ ◂ _)}
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ ⇒L⇐L = ⇒L⇐L
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇒L⇐L₂ {p = p₂}) = ⇒L⇐L₂ {p = p ++ (p₂ ◂ _)}
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ ⇐L⇒L = ⇐L⇒L
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L⇒L₂ {p = p₂}) = ⇐L⇒L₂ {p = p ++ (p₂ ◂ _)}
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ ⇐L⇐L = ⇐L⇐L
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
+cut⇐L-cong1 {U = U} {A = A} {B} p g g₁ (⇐L⇐L₂ {p = p₂}) = ⇐L⇐L₂ {p = p ++ (p₂ ◂ _)}
+  -- rewrite subeq-2>L1 p U (η (B ⇐ A)) ∙ |
+  --         subeq-2>L1 p U (η (B ⇐ A)) ∙ 
 
 cut⇐L-cong2 : ∀ {T U V A B C} (p : Path T)
   → (f : U ⊢ B ⇐ A)
@@ -230,99 +230,99 @@ cut⊗L-cong1 p g refl = refl
 cut⊗L-cong1 p g (~ eq') = ~ cut⊗L-cong1 p g eq'
 cut⊗L-cong1 p g (eq' ∘ eq'') = 
   cut⊗L-cong1 p g eq' ∘ cut⊗L-cong1 p g eq''
-cut⊗L-cong1 {A = A} {B} p g (⇒L eq' eq'') 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) = ⇒L eq' (cut⊗L-cong1 p g eq'')
-cut⊗L-cong1 {A = A} {B} p g (⇐L eq' eq'') 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) = ⇐L eq' (cut⊗L-cong1 p g eq'')
-cut⊗L-cong1 {A = A} {B} p g (⊗R {f' = f'} {g₁} eq' eq'')
-  rewrite subeq-1≡2 p (η (A ⊗ B)) = 
+cut⊗L-cong1 {A = A} {B} p g (⇒L eq' eq'') = ⇒L eq' (cut⊗L-cong1 p g eq'') 
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g (⇐L eq' eq'') = ⇐L eq' (cut⊗L-cong1 p g eq'')
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g (⊗R {f' = f'} {g₁} eq' eq'') =
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) = 
     cut-cong1 (p ++ (∙ ◂ _)) (cut (p ++ (η A ▸ ∙)) g₁ g refl) refl eq' 
     ∘ cut-cong2 (p ++ (∙ ◂ _)) f' refl (cut-cong1 (p ++ (η A ▸ ∙)) g refl eq'')
-cut⊗L-cong1 {A = A} {B} p g (⊗L eq') 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) = ⊗L (cut⊗L-cong1 p g eq')
-cut⊗L-cong1 {A = A} {B} p g (⇒L⊗R₁ {A = A'} {B'} {p = p₂} {f = f} {g₁} {h}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = 
+cut⊗L-cong1 {A = A} {B} p g (⊗L eq') = ⊗L (cut⊗L-cong1 p g eq')
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g (⇒L⊗R₁ {A = A'} {B'} {p = p₂} {f = f} {g₁} {h}) =
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) = 
             ~ cut⇒L≗ (p ++ (∙ ◂ _)) p₂ g₁ (cut (p ++ (η A ▸ ∙)) h g refl) refl
-cut⊗L-cong1 {A = A} {B} p g (⇒L⊗R₂ {U = U} {A = A'} {B'} {p = p₂} {f = f} {g₁} {h}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = 
+cut⊗L-cong1 {A = A} {B} p g (⇒L⊗R₂ {U = U} {A = A'} {B'} {p = p₂} {f = f} {g₁} {h}) =
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) = 
           ≡to≗ (cut⇒L-hass p p₂ f g g₁ h)
           ∘ (~ cut-cong2 (p ++ (∙ ◂ sub p₂ (U ⊛ η (A' ⇒ B')))) g₁ refl (cut⇒L≗ (p ++ (η A ▸ ∙)) p₂ h g refl))
-cut⊗L-cong1 {A = A} {B} p g (⇐L⊗R₁ {A = A'} {B'} {p = p₂} {f = f} {g₁} {h}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = 
+cut⊗L-cong1 {A = A} {B} p g (⇐L⊗R₁ {A = A'} {B'} {p = p₂} {f = f} {g₁} {h}) =
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) = 
             ~ cut⇐L≗ (p ++ (∙ ◂ _)) p₂ g₁ (cut (p ++ (η A ▸ ∙)) h g refl) refl
-cut⊗L-cong1 {A = A} {B} p g (⇐L⊗R₂ {U = U} {A = A'} {B'} {p = p₂} {f = f} {g₁} {h}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = 
+cut⊗L-cong1 {A = A} {B} p g (⇐L⊗R₂ {U = U} {A = A'} {B'} {p = p₂} {f = f} {g₁} {h}) =
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) = 
             ≡to≗ (cut⇐L-hass p p₂ f g g₁ h)
             ∘ (~ cut-cong2 (p ++ (∙ ◂ sub p₂ (η (B' ⇐ A') ⊛ U))) g₁ refl (cut⇐L≗ (p ++ (η A ▸ ∙)) p₂ h g refl))
-cut⊗L-cong1 {A = A} {B} p g (⊗L⊗R₁ {A = A'} {B'} {p = p₂} {f = f} {g₁}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = 
+cut⊗L-cong1 {A = A} {B} p g (⊗L⊗R₁ {A = A'} {B'} {p = p₂} {f = f} {g₁}) =
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) = 
             ~ cut⊗L≗ (p ++ (∙ ◂ _)) p₂ f (cut (p ++ (η A ▸ ∙)) g₁ g refl) refl
-cut⊗L-cong1 {A = A} {B} p g (⊗L⊗R₂ {A = A'} {B'} {p = p₂} {f = f} {g₁}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = 
+cut⊗L-cong1 {A = A} {B} p g (⊗L⊗R₂ {A = A'} {B'} {p = p₂} {f = f} {g₁}) =
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) = 
             ≡to≗ (cut⊗L-hass p p₂ f g g₁)
             ∘ cut-cong2 (p ++ (∙ ◂ sub p₂ (η (_ ⊗ _)))) f refl (~ cut⊗L≗ (p ++ (η A ▸ ∙)) p₂ g₁ g refl)
-cut⊗L-cong1 {A = A} {B} p g (⊗L⊗L {p = p₁}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = ⊗L⊗L {p = p ++ p₁}
-cut⊗L-cong1 {A = A} {B} p g ⊗L⇒L₁ 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = ⊗L⇒L₁
-cut⊗L-cong1 {A = A} {B} p g (⊗L⇒L₂1/\2 {p = p₁}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = ⊗L⇒L₂1/\2 {p = p ++ p₁}
-cut⊗L-cong1 {A = A} {B} p g (⊗L⇒L₂2/\1 {p = p₁}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = ⊗L⇒L₂2/\1 {p = p ++ p₁}
-cut⊗L-cong1 {A = A} {B} p g ⊗L⇐L₁ 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) | 
-          subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = ⊗L⇐L₁
-cut⊗L-cong1 {A = A} {B} p g (⊗L⇐L₂1/\2 {p = p₁}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = ⊗L⇐L₂1/\2 {p = p ++ p₁}
-cut⊗L-cong1 {A = A} {B} p g (⊗L⇐L₂2/\1 {p = p₁}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = ⊗L⇐L₂2/\1 {p = p ++ p₁}
-cut⊗L-cong1 {A = A} {B} p g ⇒L⇒L 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = ⇒L⇒L
-cut⊗L-cong1 {A = A} {B} p g (⇒L⇒L₂ {p = p₁}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B))= (⇒L⇒L₂ {p = p ++ p₁})
-cut⊗L-cong1 {A = A} {B} p g ⇒L⇐L 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = ⇒L⇐L
-cut⊗L-cong1 {A = A} {B} p g (⇒L⇐L₂ {p = p₁}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B))= (⇒L⇐L₂ {p = p ++ p₁})
-cut⊗L-cong1 {A = A} {B} p g ⇐L⇒L 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = ⇐L⇒L
-cut⊗L-cong1 {A = A} {B} p g (⇐L⇒L₂ {p = p₁}) 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = (⇐L⇒L₂ {p = p ++ p₁})
-cut⊗L-cong1 {A = A} {B} p g ⇐L⇐L 
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = ⇐L⇐L
-cut⊗L-cong1 {A = A} {B} p g (⇐L⇐L₂ {p = p₁})  
-  rewrite subeq-1≡2 p (η (A ⊗ B)) |
-          subeq-1≡2 p (η (A ⊗ B)) = ⇐L⇐L₂ {p = p ++ p₁}
+cut⊗L-cong1 {A = A} {B} p g (⊗L⊗L {p = p₁}) = ⊗L⊗L {p = p ++ p₁}
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g ⊗L⇒L₁ = ⊗L⇒L₁
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g (⊗L⇒L₂1/\2 {p = p₁}) = ⊗L⇒L₂1/\2 {p = p ++ p₁}
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B))
+cut⊗L-cong1 {A = A} {B} p g (⊗L⇒L₂2/\1 {p = p₁}) = ⊗L⇒L₂2/\1 {p = p ++ p₁}
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g ⊗L⇐L₁ = ⊗L⇐L₁
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) | 
+  --         subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g (⊗L⇐L₂1/\2 {p = p₁}) = ⊗L⇐L₂1/\2 {p = p ++ p₁}
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g (⊗L⇐L₂2/\1 {p = p₁}) = ⊗L⇐L₂2/\1 {p = p ++ p₁}
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g ⇒L⇒L = ⇒L⇒L
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g (⇒L⇒L₂ {p = p₁}) = ⇒L⇒L₂ {p = p ++ p₁}
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g ⇒L⇐L = ⇒L⇐L
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g (⇒L⇐L₂ {p = p₁}) = ⇒L⇐L₂ {p = p ++ p₁}
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g ⇐L⇒L = ⇐L⇒L
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g (⇐L⇒L₂ {p = p₁}) = ⇐L⇒L₂ {p = p ++ p₁}
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g ⇐L⇐L = ⇐L⇐L
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
+cut⊗L-cong1 {A = A} {B} p g (⇐L⇐L₂ {p = p₁})  = ⇐L⇐L₂ {p = p ++ p₁}
+  -- rewrite subeq-1≡2 p (η (A ⊗ B)) |
+  --         subeq-1≡2 p (η (A ⊗ B)) 
 
 
 cut⊗L-cong2 : ∀ {T U A B C} (p : Path T)
@@ -594,7 +594,7 @@ cut-cong2 {D = D} ._ f refl (⊗L⇒L₁ {A = A} {B} {A'} {B'} {p' = p'}) | 2>L1
 cut-cong2 p f refl (⊗L⇒L₁ {A = A} {B} {A'} {B'} {p = p₁} {p'}) | 2>R1 (gt ∙ refl refl refl) 
   rewrite subeq-2>R1 p' (sub p₁ (η (A' ⊗ B'))) (η (A ⇒ B)) ∙ |
           subeq-1/\2 p' (η (A' ⊗ B')) (η (A ⇒ B)) p₁ ∙ |
-          subeq-1/\2 p' (η A' ⊛ η B') (η (A ⇒ B)) p₁ ∙ |
+          -- subeq-1/\2 p' (η A' ⊛ η B') (η (A ⇒ B)) p₁ ∙ |
           subeq-2>R1 p' (sub p₁ (η A' ⊛ η B')) (η (A ⇒ B)) ∙ = ~ cut⊗L⇒L-vass₂ p' p₁ f
 cut-cong2 {D = D} p f refl (⊗L⇒L₁ {A = A} {B} {A'} {B'} {p = p₁}) | 1/\2 (disj q q₁ q₂ refl refl refl refl)
   rewrite subeq-1/\2 q (sub p₁ (η (A' ⊗ B')) ⊛ η (A ⇒ B)) (η D) q₁ q₂ |
@@ -701,7 +701,7 @@ cut-cong2 p f eq (⊗L⇐L₁ {p = p₁} {p'}) with subeq _ _ p' p eq
 cut-cong2 p f refl (⊗L⇐L₁ {A = A} {B} {A'} {B'} {p = p₁} {p'}) | 2>L1 (gt ∙ refl refl refl) 
   rewrite subeq-2>L1 p' (sub p₁ (η (A' ⊗ B'))) (η (B ⇐ A)) ∙ |
           subeq-2/\1 p' (η (A' ⊗ B')) (η (B ⇐ A)) ∙ p₁ |
-          subeq-2/\1 p' (η A' ⊛ η B') (η (B ⇐ A)) ∙ p₁ |
+          -- subeq-2/\1 p' (η A' ⊛ η B') (η (B ⇐ A)) ∙ p₁ |
           subeq-2>L1 p' (sub p₁ (η A' ⊛ η B')) (η (B ⇐ A)) ∙ = ~ cut⊗L⇐L-vass₂ p' p₁ f
 cut-cong2 p f eq (⊗L⇐L₁ {A = A} {B} {A'} {B'} {p = p₁} {p'}) | 2>R1 (gt q refl eqU refl) with subeq _ _ p₁ q (⊛eq eqU .proj₂)
 cut-cong2 ._ f refl (⊗L⇐L₁ {A = A} {B} {A'} {B'} {p' = p'}) | 2>R1 (gt q refl refl refl) | 1≡2 (same refl refl refl) 
@@ -827,8 +827,8 @@ cut-cong2 {D = D} ._ f refl (⇒L⇒L {A = A} {B} {A'} {B'} {q = q} {r}) | 2>L1 
           subeq-2>L1 q (η (A' ⇒ B')) (η D) q₁ |
           subeq-2>L1 (r ++ (q ◂ η (A ⇒ B))) (η (A' ⇒ B')) (η D) q₁ = ⇒L⇒L {r = r}
 cut-cong2 ._ f refl (⇒L⇒L {T} {A = A} {B} {A'} {B'} {q = q} {r}) | 2>L1 (gt q₁ refl refl refl) | 2>R1 (gt ∙ refl refl refl) 
-  rewrite subeq-2>L1 r (η (A ⇒ B)) (T ⊛ η (A' ⇒ B')) (q ++ (T ▸ ∙)) |
-          subeq-2>R1 (r ++ (q ◂ η (A ⇒ B))) T (η (A' ⇒ B')) ∙ |
+  -- rewrite subeq-2>L1 r (η (A ⇒ B)) (T ⊛ η (A' ⇒ B')) (q ++ (T ▸ ∙)) |
+  rewrite subeq-2>R1 (r ++ (q ◂ η (A ⇒ B))) T (η (A' ⇒ B')) ∙ |
           subeq-2>L1 r (η (A ⇒ B)) (η (A' ⇒ B')) (q ++ (T ▸ ∙)) |
           subeq-2>R1 q T (η (A' ⇒ B')) ∙ = cut⇒L⇒L-vass₁ q r f
 cut-cong2 {D = D} ._ f refl (⇒L⇒L {T} {A = A} {B} {A'} {B'} {r = r}) | 2>L1 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
@@ -915,8 +915,8 @@ cut-cong2 {D = D} ._ f refl (⇒L⇐L {A = A} {B} {A'} {B'} {q = q} {r}) | 2>R1 
           subeq-2>L1 q (η (A' ⇒ B')) (η D) q₁ |
           subeq-2>L1 (r ++ (η (B ⇐ A) ▸ q)) (η (A' ⇒ B')) (η D) q₁ = ⇒L⇐L {r = r}
 cut-cong2 ._ f refl (⇒L⇐L {T} {A = A} {B} {A'} {B'} {q = q} {r}) | 2>R1 (gt q₁ refl refl refl) | 2>R1 (gt ∙ refl refl refl) 
-  rewrite subeq-2>L1 r (η (B ⇐ A)) (T ⊛ η (A' ⇒ B')) (q ++ (T ▸ ∙)) |
-          subeq-2>R1 (r ++ (η (B ⇐ A) ▸ q)) T (η (A' ⇒ B')) ∙ |
+  -- rewrite subeq-2>L1 r (η (B ⇐ A)) (T ⊛ η (A' ⇒ B')) (q ++ (T ▸ ∙)) |
+  rewrite subeq-2>R1 (r ++ (η (B ⇐ A) ▸ q)) T (η (A' ⇒ B')) ∙ |
           subeq-2>R1 r (η (B ⇐ A)) (η (A' ⇒ B')) (q ++ (T ▸ ∙)) |
           subeq-2>R1 q T (η (A' ⇒ B')) ∙ = cut⇒L⇐L-vass₁ q r f 
 cut-cong2 {D = D} ._ f refl (⇒L⇐L {T} {A = A} {B} {A'} {B'} {r = r}) | 2>R1 (gt ._ refl refl refl) | 1/\2 (disj q₁ q₂ q₃ refl refl refl refl) 
@@ -991,8 +991,8 @@ cut-cong2 {D = D} p f refl (⇒L⇐L₂ {U = U} {V} {A = A} {B} {A'} {B'} {p = p
 cut-cong2 p f eq (⇐L⇒L {q = q} {r}) with subeq _ _ r p eq
 cut-cong2 p f eq (⇐L⇒L {q = q} {r}) | 2>L1 (gt q₁ refl eqU refl) with subeq _ _ q q₁ (⊛eq eqU .proj₁)
 cut-cong2 ._ f refl (⇐L⇒L {T} {A = A} {B} {A'} {B'} {q = q} {r}) | 2>L1 (gt q₁ refl refl refl) | 2>L1 (gt ∙ refl refl refl) 
-  rewrite subeq-2>L1 r (η (A ⇒ B)) (η (B' ⇐ A') ⊛ T) (q ++ (∙ ◂ T)) |
-          subeq-2>L1 (r ++ (q ◂ η (A ⇒ B))) T (η (B' ⇐ A')) ∙ |
+  -- rewrite subeq-2>L1 r (η (A ⇒ B)) (η (B' ⇐ A') ⊛ T) (q ++ (∙ ◂ T)) |
+  rewrite subeq-2>L1 (r ++ (q ◂ η (A ⇒ B))) T (η (B' ⇐ A')) ∙ |
           subeq-2>L1 r (η (A ⇒ B)) (η (B' ⇐ A')) (q ++ (∙ ◂ T)) |
           subeq-2>L1 q T (η (B' ⇐ A')) ∙ = cut⇐L⇒L-vass₁ q r f
 cut-cong2 {D = D} ._ f refl (⇐L⇒L {A = A} {B} {A'} {B'} {q = q} {r}) | 2>L1 (gt ._ refl refl refl) | 2>R1 (gt q₁ refl refl refl) 
@@ -1079,8 +1079,8 @@ cut-cong2 p f refl (⇐L⇐L {T} {A = A} {B} {A'} {B'} {q = q} {r}) | 2>L1 (gt �
           subeq-2>L1 r (sub q (η B')) (η (B ⇐ A)) ∙ = ~ cut⇐L⇐L-vass₂ q r f
 cut-cong2 p f eq (⇐L⇐L {q = q} {r}) | 2>R1 (gt q₁ refl eqU refl) with subeq _ _ q q₁ (⊛eq eqU .proj₂)
 cut-cong2 ._ f refl (⇐L⇐L {T} {A = A} {B} {A'} {B'} {q = q} {r}) | 2>R1 (gt q₁ refl refl refl) | 2>L1 (gt ∙ refl refl refl) 
-  rewrite subeq-2>R1 r (η (B ⇐ A)) (η (B' ⇐ A') ⊛ T) (q ++ (∙ ◂ T)) |
-          subeq-2>L1 (r ++ (η (B ⇐ A) ▸ q)) T (η (B' ⇐ A')) ∙ |
+  -- rewrite subeq-2>R1 r (η (B ⇐ A)) (η (B' ⇐ A') ⊛ T) (q ++ (∙ ◂ T)) |
+  rewrite subeq-2>L1 (r ++ (η (B ⇐ A) ▸ q)) T (η (B' ⇐ A')) ∙ |
           subeq-2>R1 r (η (B ⇐ A)) (η (B' ⇐ A')) (q ++ (∙ ◂ T)) |
           subeq-2>L1 q T (η (B' ⇐ A')) ∙ = cut⇐L⇐L-vass₁ q r f
 cut-cong2 {D = D} ._ f refl (⇐L⇐L {A = A} {B} {A'} {B'} {q = q} {r}) | 2>R1 (gt ._ refl refl refl) | 2>R1 (gt q₁ refl refl refl) 
