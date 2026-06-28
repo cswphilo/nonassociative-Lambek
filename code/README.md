@@ -4,14 +4,21 @@ The sequent calculus for the nonassociative Lambek calculus  has sequents with b
 
 The main file containing the whole development is [Main.agda](https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/Main.agda).
 
+The Agda code is organized by layer:
+
+- core syntax and sequents: `Fma.agda`, `Utilities.agda`, `SeqCalc.agda`, and `SubEqProperties.agda`;
+- cut admissibility and cut properties: `Cut/`;
+- Maehara interpolation and proof-relevant interpolation: `Interpolation/`;
+- categorical soundness and completeness: `Categorical/`.
+
 From a practical perspective, it is worth mentioning that this Agda formalization is computationally intensive. The type-checking time for some files is quite substantial:
 
-- the well-definedness proof $\mathsf{mip{\circeq}}$, [IntrpWellDefined.agda](https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/IntrpWellDefined.agda) takes ~10 minutes to type-check, while
-- the associativity and commutativity of $\mathsf{cut}$, [CutAssociativities.agda](https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/CutAssociativities.agda) and
-- the well-definedness proofs $\mathsf{cut{-}cong1}$ and $\mathsf{cut{-}cong2}$, [CutCongruence.agda](https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/CutCongruence.agda) require >2 hours
+- the well-definedness proof $\mathsf{mip{\circeq}}$, `Interpolation/WellDefined.agda`, takes ~10 minutes to type-check, while
+- the associativity and commutativity of $\mathsf{cut}$, `Cut/Associativity.agda`, and
+- the well-definedness proofs $\mathsf{cut{-}cong1}$ and $\mathsf{cut{-}cong2}$, `Cut/Congruence.agda`, require >2 hours
 
 on a MacBook Pro 2020 with 2 GHz Intel Core i5.
 
 In future work, we plan to work on the code in order to reduce the compilation time.
 
-The formalization uses Agda 2.7.0.1.
+The formalization uses Agda 2.8.0.

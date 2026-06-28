@@ -15,32 +15,32 @@ import SubEqProperties
 import SeqCalc
 
 -- Cut-elimination
-import Cut
+import Cut.Admissibility
 
 -- Equations satisfied by the admissible cut rule
-import CutCirceqEquations
-import CutEqualities
-import CutCongruence
-import CutAssociativities
+import Cut.CirceqEquations
+import Cut.Equalities
+import Cut.Congruence
+import Cut.Associativity
 
 -- Maehara interpolation 
-import Interpolation
-import VarCondition
+import Interpolation.Maehara
+import Interpolation.VarCondition
 
 -- Well-definedness of Maehara interpolation
-import IntrpWellDefined
+import Interpolation.WellDefined
 
 -- Cut being the left inverse of Maehara interpolation
-import CutInterpolation
+import Interpolation.ProofRelevant
 
 -- Hilbert-style (axiomatic) presentation of nonassociative Lambek calculus
-import FCat
-import FCatUniversal
+import Categorical.Free
+import Categorical.Universal
 
 -- The Hilbert-style calculus is sound and complete wrt. the sequent calculus
-import Sound
-import Complt
+import Categorical.Soundness
+import Categorical.Completeness
 
 -- The sound and complt functions are each other's inverses.
-import SoundComplt
-import CompltSound
+import Categorical.SoundnessCompleteness
+import Categorical.CompletenessSoundness

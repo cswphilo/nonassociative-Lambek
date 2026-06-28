@@ -1,0 +1,2766 @@
+%Version 3.1 December 2024
+% See section 11 of the User Manual for version history
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                 %%
+%% Please do not use \input{...} to include other tex files.       %%
+%% Submit your LaTeX manuscript as one .tex document.              %%
+%%                                                                 %%
+%% All additional figures and files should be attached             %%
+%% separately and not embedded in the \TeX\ document itself.       %%
+%%                                                                 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%\documentclass[referee,sn-basic]{sn-jnl}% referee option is meant for double line spacing
+
+%%=======================================================%%
+%% to print line numbers in the margin use lineno option %%
+%%=======================================================%%
+
+%%\documentclass[lineno,pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+%%=========================================================================================%%
+%% the documentclass is set to pdflatex as default. You can delete it if not appropriate.  %%
+%%=========================================================================================%%
+
+%%\documentclass[sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+%%Note: the following reference styles support Namedate and Numbered referencing. By default the style follows the most common style. To switch between the options you can add or remove �Numbered� in the optional parenthesis. 
+%%The option is available for: sn-basic.bst, sn-chicago.bst%  
+ 
+%%\documentclass[pdflatex,sn-nature]{sn-jnl}% Style for submissions to Nature Portfolio journals
+%%\documentclass[pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
+%%\documentclass[pdflatex,sn-mathphys-ay]{sn-jnl}% Math and Physical Sciences Author Year Reference Style
+%%\documentclass[pdflatex,sn-aps]{sn-jnl}% American Physical Society (APS) Reference Style
+%%\documentclass[pdflatex,sn-vancouver-num]{sn-jnl}% Vancouver Numbered Reference Style
+%%\documentclass[pdflatex,sn-vancouver-ay]{sn-jnl}% Vancouver Author Year Reference Style
+%%\documentclass[pdflatex,sn-apa]{sn-jnl}% APA Reference Style
+%%\documentclass[pdflatex,sn-chicago]{sn-jnl}% Chicago-based Humanities Reference Style
+
+\usepackage[T1]{fontenc}
+% T1 fonts will be used to generate the final print and online PDFs,
+% so please use T1 fonts in your manuscript whenever possible.
+% Other font encodings may result in incorrect characters.
+%
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{proof}
+\usepackage{tikz-cd}
+% \tikzcdset{scale cd/.style={every label/.append style={scale=#1},
+%     cells={nodes={scale=#1}}}}
+\tikzcdset{row sep/normal=0.22cm}
+\tikzcdset{column sep/normal=0.02cm}
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% If you use the hyperref package, please uncomment the following two lines
+% to display URLs in blue roman font according to Springer's eBook style:
+\usepackage{color}
+\renewcommand\UrlFont{\color{blue}\rmfamily}
+\urlstyle{rm}
+%
+\usepackage{amsmath,amssymb,amsfonts}%
+
+\usepackage{enumitem}
+
+\newlength{\alphabetheight}
+\settoheight{\alphabetheight}{Ap}
+
+\newlength{\alphabetdepth}
+\settodepth{\alphabetdepth}{Ap}
+
+\newcommand{\agdahen}{%
+  \begingroup
+  \raisebox{-\alphabetdepth}
+  {\includegraphics[height=1em]{agdahen.png}}%
+  \endgroup
+}
+
+\newcommand{\agdaurl}{https://github.com/cswphilo/nonassociative-Lambek}
+%\newcommand{\agdahref}{a7dbb4bc7ca9251d8d08d24d5ab5922cdb6ce1c1}
+\newcommand{\agdahref}{81c5ef38362e90ff940727c897acbe35f427bdad}
+\newcommand{\agdaref}[1]{\href{\agdaurl/blob/\agdahref/code/#1}{\agdahen}}
+
+%% macros for typesetting
+\newcommand{\udl}[1]{\underline{#1}}
+\newcommand{\proofbox}[1]{\begin{array}{c} #1 \end{array}}
+
+%% macros for math symbols
+\newcommand{\ot}{\otimes}
+\newcommand{\cdast}{\circledast}
+\newcommand{\Larr}{\Leftarrow}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\otz}{\ot_{\mathsf{0}}}
+\newcommand{\Rarrz}{\Rarr_{\mathsf{0}}}
+\newcommand{\Larrz}{\Larr_{\mathsf{0}}}
+\newcommand{\oto}{\ot_{\mathsf{1}}}
+\newcommand{\Rarro}{\Rarr_{\mathsf{1}}}
+\newcommand{\Larro}{\Larr_{\mathsf{1}}}
+\newcommand{\btleft}{\blacktriangleleft}
+\newcommand{\btright}{\blacktriangleright}
+\newcommand{\sls}{\slash}
+\newcommand{\bsls}{\backslash}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mf}[1]{\mathsf{#1}}
+\newcommand{\mb}[1]{\mathbb{#1}}
+\newcommand{\vars}[1]{\mf{var} (#1)}
+\newcommand{\gs}[1]{\sigma_{X} (#1)}
+\newcommand{\GG}{\Gamma}
+\newcommand{\Gg}{\gamma}
+\newcommand{\GD}{\Delta}
+\newcommand{\Gd}{\delta}
+\newcommand{\Gl}{\lambda}
+\newcommand{\sound}{\mf{sound}}
+\newcommand{\complt}{\mf{complt}}
+\newcommand{\piR}{\pi_{\mf{R}}}
+\newcommand{\piRm}{\pi^{-1}_{\mf{R}}}
+\newcommand{\piL}{\pi_{\mf{L}}}
+\newcommand{\piLm}{\pi^{-1}_{\mf{L}}}
+
+%% macros for acronyms 
+\newcommand{\MIP}{\textsf{MIP}}
+\newcommand{\MIPeq}{{\textsf{MIP}{\circeq}}}
+\newcommand{\FL}{$\mathtt{FL}$}
+\newcommand{\Lam}{$\mathtt{L}$}
+\newcommand{\NL}{$\mathtt{NL}$}
+\newcommand{\MBCC}{\mf{MBiCCat}}
+\newcommand{\FMBCC}{\mf{FMBiCC}(\mf{At})}
+
+%% macros for derivations
+\newcommand{\vd}{\vdash}
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ax}{\mathsf{ax}}
+\newcommand{\tl}{{\otimes}\mathsf{L}}
+\newcommand{\tr}{{\otimes}\mathsf{R}}
+\newcommand{\Ll}{{\Larr}\mathsf{L}}
+\newcommand{\Lr}{{\Larr}\mathsf{R}}
+\newcommand{\Rl}{{\Rarr}\mathsf{L}}
+\newcommand{\Rr}{{\Rarr}\mathsf{R}}
+\newcommand{\cut}{\mf{cut}}
+\newcommand{\comp}{\mf{comp}}
+\newcommand{\id}{\mf{id}}
+
+%% commands for Agda stuff
+\newcommand{\At}{\mathsf{At}}
+\newcommand{\at}{\mathsf{at}}
+\newcommand{\Fma}{\mathsf{Fma}}
+\newcommand{\data}{\mathsf{data}}
+\newcommand{\Tree}{\mathsf{Tree}}
+\newcommand{\Path}{\mathsf{Path}}
+\newcommand{\pathT}[1]{\mathsf{Path} ~ #1}
+\newcommand{\append}{+\!\!+}
+\newcommand{\Sub}{\mathsf{sub}}
+\newcommand{\sub}[2]{\mathsf{sub} ~ #1 ~ #2}
+\newcommand{\where}{\mathsf{where}}
+\newcommand{\Set}{\mathsf{Set}}
+\newcommand{\record}{\mathsf{record}}
+\newcommand{\field}{\mathsf{field}}
+\newcommand{\subst}{\mathsf{subst}}
+\newcommand{\Same}{\mathsf{Same}}
+\newcommand{\ContainsLeft}{{\in}\mathsf{Left}}
+\newcommand{\ContainsRight}{{\in}\mathsf{Right}}
+\newcommand{\containsright}{{\in}\mathsf{right}}
+\newcommand{\LeftRight}{\mathsf{Disj}}
+\newcommand{\subcases}{\mathsf{SubEq}}
+\newcommand{\oneeqtwo}{\mathsf{case}_1}%{\mathsf{1{\equiv}2}}
+\newcommand{\twogtLone}{\mathsf{case}_2}%{\mathsf{2{>}L1}}
+\newcommand{\twogtRone}{\mathsf{case}_3}%{\mathsf{2{>}R1}}
+\newcommand{\onegtLtwo}{\mathsf{case}_4}%{\mathsf{1{>}L2}}
+\newcommand{\onegtRtwo}{\mathsf{case}_5}%{\mathsf{1{>}R2}}
+\newcommand{\oneLtwoR}{\mathsf{case}_6}%{\mathsf{1\sls \bsls 2}}
+\newcommand{\oneRtwoL}{\mathsf{case}_7}%{\mathsf{2\sls \bsls 1}}
+\newcommand{\subeq}{\mathsf{subeq}}
+\newcommand{\inT}{\in^{\mf{T}}}
+\newcommand{\Obj}{\mf{Obj}}
+\newcommand{\Hom}{\mf{Hom}}
+\newcommand{\Homs}[2]{\mf{Hom} ~ #1 ~ #2}
+\newcommand{\HomC}[3]{\mf{Hom}^\mb{#1} ~ #2 ~ #3}
+\newcommand{\Eq}[2]{\mf{Eq} ~ #1 ~ #2}
+\newcommand{\EqC}[3]{\mf{Eq}^\mb{#1} ~ #2 ~ #3}
+\newcommand{\CompC}[3]{\mf{Comp}^\mb{#1} ~ #2 ~ #3}
+\newcommand{\IdC}[1]{\mf{Id}^\mb{#1}}
+\newcommand{\refl}{\mf{refl}}
+
+
+\newcommand{\niccolo}[1]{\textcolor{red}{NV: #1}}
+\newcommand{\cheng}[1]{\textcolor{blue}{CSW: #1}}
+
+%% as per the requirement new theorem styles can be included as shown below
+\theoremstyle{thmstyleone}%
+\newtheorem{theorem}{Theorem}%  meant for continuous numbers
+%%\newtheorem{theorem}{Theorem}[section]% meant for sectionwise numbers
+%% optional argument [theorem] produces theorem numbering sequence instead of independent numbers for Proposition
+\newtheorem{proposition}[theorem]{Proposition}
+%%\newtheorem{proposition}{Proposition}% to get separate numbers for theorem and proposition etc.
+
+\theoremstyle{thmstyletwo}%
+\newtheorem{example}{Example}%
+\newtheorem{remark}{Remark}%
+
+\theoremstyle{thmstylethree}%
+\newtheorem{definition}{Definition}%
+\newtheorem{case}{Case}{\itshape}{\rmfamily}
+
+\let\oldcase\case
+\let\oldendcase\endcase
+\renewenvironment{case}
+{\oldcase\normalsize}
+{\oldendcase}
+
+\raggedbottom
+%%\unnumbered% uncomment this for unnumbered level heads
+
+\begin{document}
+
+\title[Agda Formalization of Nonassociative Lambek Calculus]{An Agda Formalization of Nonassociative Lambek Calculus and Its Metatheory}
+
+%%=============================================================%%
+%% GivenName	-> \fnm{Joergen W.}
+%% Particle	-> \spfx{van der} -> surname prefix
+%% FamilyName	-> \sur{Ploeg}
+%% Suffix	-> \sfx{IV}
+%% \author*[1,2]{\fnm{Joergen W.} \spfx{van der} \sur{Ploeg} 
+%%  \sfx{IV}}\email{iauthor@gmail.com}
+%%=============================================================%%
+
+\author{\fnm{Niccol{\`o}} \sur{Veltri}}
+
+\author{\fnm{Cheng-Syuan} \sur{Wan}}
+\email{\{niccolo,cswan\}@cs.ioc.ee}
+% \equalcont{Both authors contributed equally to this work.}
+
+
+\affil{\orgdiv{Department of Software Science}, \orgname{Tallinn University of Technology}, \orgaddress{\street{Akadeemia tee 15a}, \city{Tallinn}, \postcode{12618}, \country{Estonia}}}
+
+%%==================================%%
+%% Sample for unstructured abstract %%
+%%==================================%%
+
+\abstract{This paper presents a formalization of the nonassociative Lambek calculus in the Agda proof assistant. %, focusing on two major proof-theoretic properties: cut admissibility and Maehara interpolation. 
+In the sequent calculus for this logic, antecedents are binary trees where formulae are stored as leaves. The structure of the antecedents creates subtleties when proving logical properties since in many cases one needs to analyze equalities of different presentations of the same tree. 
+We formally characterize all the cases of how two presentations of a tree can be equal in Agda.
+The resulting technical lemma helps us to exhaust all possible cases when proving several metalogical properties of the calculus, including cut admissibility and the Maehara interpolation property which implies Craig interpolation.
+Moreover, both the cut rule and the interpolation procedure are well-defined wrt.\ an equivalence relation of derivations.
+We additionally prove the proof-relevant versions of ($i$) soundness and completeness with respect to a Hilbert-style axiomatic calculus and ($ii$) Maehara interpolation, i.e.\ the interpolation procedure as a right inverse of the admissible cut rule. }
+
+%%================================%%
+%% Sample for structured abstract %%
+%%================================%%
+
+% \abstract{\textbf{Purpose:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
+% 
+% \textbf{Methods:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
+% 
+% \textbf{Results:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
+% 
+% \textbf{Conclusion:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.}
+
+\keywords{nonassociative Lambek calculus, Agda, cut admissibility, Maehara interpolation, proof-relevant interpolation, categorical semantics}
+
+%%\pacs[JEL Classification]{D8, H51}
+
+%%\pacs[MSC Classification]{35A01, 65L10, 65L12, 65L20, 65L70}
+
+\maketitle
+
+
+
+\bmhead{Acknowledgements}
+
+This work was supported by the Estonian Research Council grant PSG749. 
+
+
+%%========= Main text =========%%
+\section{Introduction}
+From the perspective of sequent calculus, substructural logics are characterized by the absence of at least one structural rule. A notable instance is Lambek's syntactic calculus \cite{lambek:mathematics:58}, which forbids the structural rules of weakening, contraction and exchange. Its non-associative variant, also introduced by Lambek \cite{Lambek1961}, further disallows associativity.
+% also introduced by Lambek \cite{Lambek1961}, disallows associativity as well.
+The Lambek calculus (both its associative and nonassociative variants) has been extensively studied in the literature, especially for its linguistic applications \cite{moot:categorial:2012}.
+%While Lambek calculus has different presentations, including axiomatic (or syntactic), natural deduction, and sequent calculus, we focus primarily on the proof-theoretic aspect, specifically the sequent calculus formulation.
+
+% In its sequent calculus presentation, sequents in the associative Lambek calculus (\Lam) are of the form $\GG \vd C$, where $\GG$ is a \emph{list} of formulae and $C$ is a single formula, while sequents in the nonassociative Lambek calculus (\NL) are of the form $T \vd C$ where $T$ is a \emph{binary tree} in which formulae are stored in the leaves.
+In the sequent calculus of associative Lambek calculus (\Lam), sequents are of the form $\GG \vd C$, where $\GG$ is a \emph{list} of formulae and $C$ is a single formula. In contrast, sequents in the nonassociative Lambek calculus (\NL) are of the form $T \vd C$ where $T$ is a \emph{binary tree} in which formulae are stored in the leaves.
+This structural difference makes the proofs of logical properties for \NL\ trickier than \Lam.
+For example, when proving cut admissibility, in certain cases, one must determine whether the cut formula coincides with the principal formula of the conclusion. For \Lam, the flat antecedents make the situation clear: there are three possibilities, either ($i$) the cut formula is in the left context relative to the principal formula, ($ii$) in the right context, or ($iii$) it coincides with the principal formula.
+
+For \NL, the situation is more involved, as there are more cases to examine. %while the case distinction follows similar principles, the hierarchical tree structure obscures these relationships.
+For example, consider the proof of cut admissibility, in which we wish to compose the derivations of sequents $U \vdash D$ and $\mc{C}[D] \vd C$. Here $\mc{C}$ is a context, i.e. a tree with a hole, and $\mc{C}[D]$ is the tree resulting from plugging the formula $D$ in the hole. If the derivation of the second sequent ends with an application of the left $\Rl$-introduction rule,
+then its antecedent is of the form $\mc{C}'[U' , A \Rarr B]$ for some context $\mc{C}'$, tree $U'$ and formulae $A,B$ (where $\mc{C}'[U',A\Rarr B]$ is the tree arising from substituting the tree $(U', A\Rarr B)$ in context $\mc{C}'$). This means that we are given an equality of trees $\mc{C}[D]=\mc{C}'[U',A \Rarr B]$ and we need to precisely characterize the structural relationship between the cut formula $D$ and the tree $(U,A \Rarr B)$ within the contexts $\mc{C}$ and $\mc{C}'$.
+%$\ot$-introduction rule, then its antecedent is of the form $T'[A \ot B]$ for some context $T'$ and formulae $A,B$. This means that we are given an equality of trees $T[D]=T'[A \ot B]$ and we need to precisely characterize the structural relationship between the tensor formula $A \ot B$ and the cut formula $D$ within these trees.
+This relationship is not as simple as in the associative Lambek calculus, it involves a more complex splitting of the contexts from which more cases arise.
+
+We can intuitively understand what occurs in the proof of cut admissibility, since it is not too difficult to compute all possible cases. However, what about more complex properties?  For example, consider proving that the admissible cut rule is associative, i.e. the two ways of cutting three sequents of the form $U \vdash D$, $\mc{C}[D] \vdash E$ and $\mc{C}'[E] \vdash C$ produce equal derivations. 
+% Because of the large number of cases arising from the induction on the shape of derivations and, mostly, from the analysis of equalities of trees discussed in the previous paragraph, establishing the associativity of cut becomes very challenging to perform with pen and paper, as it is hard to keep track of all the possible cases to consider.
+The large number of cases arise from the induction on the shape of derivations and the analysis of equalities of trees discussed in the previous paragraph.
+These cases make the proof associativity of cut becomes very challenging to perform with pen and paper, as it is hard to keep track of all the possible cases to consider.
+On the other hand, interactive theorem provers are very good tools for dealing with large inductive proofs and keeping track of all existing proof obligations.
+
+%This need leads us to consider a formal verification of the \NL. Our approach involves paths in trees, allowing each subtree to be represented as a substitution along a path in the original tree. This transforms the problem of determining relative positions between different subtrees into a formalizable question about the relationship between two paths in a tree.
+%For example, if two formulae $A$ and $B$ are in a tree with paths $p_1$ and $p_2$ respectively, and these paths are disjoint (diverging at some point), then there must exist some common path $q$ and two paths $q_1$ and $q_2$ after divergence such that $p_1$ equals the path concatenation of $q$ and $q_1$, while $p_2$ equals the concatenation of $q$ and $q_2$.
+
+In this work, we present the formalization of the sequent calculus for \NL\ and its metatheory in the Agda proof assistant. We start by formally describing all possible cases arising from equalities of sequentially-composed trees of the form $\mc{C}[U]=\mc{C}'[U']$, which is the main technical lemma that we employ in the proof of logical properties. In particular, cut admissibility and properties of the admissible cut rule: associativity, commutativity and unitality wrt.\ the axiom rule.
+%Formalization of mathematics and logics has become a trend in both theoretical computer science and mathematics. While there are many suitable proof assistants (e.g., Agda, Coq, HOL4, and Lean), we choose Agda because its code is more mathematical in style and the process of proving theorems resembles providing algorithms to compute desired terms in the target type.
+%\cheng{Maybe here can be some more explanation about why formalization is important}.
+
+Next, we present a Hilbert-style axiomatic calculus for \NL.
+This is directly inspired by the categorical models of \NL, which are magmatic biclosed categories \cite{Wijnholds2017}.
+These are similar to monoidal biclosed categories, but are not required to include structural morphisms of associativity and unitality (usually called associators and unitors). Alternatively, magmatic biclosed categories can be seen as a categorical generalization of residuated groupoids.
+The first axiomatic calculus for \NL\ was proposed by Lambek \cite{lambek1988} for linguistic analysis.
+Do{\v s}en \cite{Dosen1988} and Moortgat and Oehrle \cite{moot:categorial:2012}
+%\footnote{\cheng{The book by Moot and Retore mentioned this paper but I can't find it. I am not sure if we should cite the original paper or their book.}}
+also proposed different axiomatic formulations with applications in soundness and completeness wrt.\ ternary relational models and complexity of \NL, respectively.
+We formalize the axiomatic calculus and the definition of magmatic biclosed categories, then show that the axiomatic calculus with its own equivalence relation on of derivations $\doteq$ generates the free magmatic biclosed category.
+Moreover, we show that the axiomatic and sequent calculi are equivalent wrt.\ proofs, i.e.\ there exists a bijection between the derivations of the two calculi that preserves the equivalences of derivations.
+
+%Within proof theory, interpolation properties serve as fundamental property of a logic and of interests by different logicians.
+We then present the formal proof of the Maehara interpolation property, originating from Maehara's proof of Craig interpolation \cite{craig:interpolation:1957} for classical logic \cite{maehara1961}.
+Maehara's method has been applied and adapted to several logics, especially to substructural logics that admit a cut-free sequent calculus \cite{ono:proof:nonclassical:1998}. The Maehara interpolation property states that, given a sequent $\mc{C}[U] \vdash C$, there exist a formula $D$ and derivations of sequents $U \vdash D$ and $\mc{C}[D] \vdash C$, such that all the atomic formulae appearing in $D$ appear also in $U$, as well as in $\mc{C},C$.
+More precisely, we formalize a proof-relevant (in the sense of \v{C}ubri{\'c} \cite{vcubric1993results,Cubric1994} and Saurin \cite{Saurin2024}) variant of Maehara interpolation: we aim to capture not only the existence of interpolants but also their relationship to the admissible cut rule. In order to achieve this, we first introduce an equivalence relation $\circeq$ on derivations, capturing all the possible permutative conversions. We then show that both the cut rule and the interpolation procedure are well-defined wrt.\ to the relation $\circeq$. %e.g. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairwise equivalent.
+ Then we show that the interpolation procedure is a right inverse of the admissible cut rule, in the sense that running the interpolation algorithm on a derivation $f$ of a sequent $\mc{C}[U] \vdash C$ and successively cutting the resulting two derivations along the interpolant formula results in a derivation that is $\circeq$-related to $f$.
+%i.e. if we interpolate on two equivalent derivations, then their interpolants are identical and the corresponding derivations are pairwise equivalent.
+
+%In this paper, we formalize \NL\ and prove properties in Agda: $(i)$ cut-elimination, $(ii)$ Maehara interpolation, $(iii)$ proof-relevant interpolation, and $(iv)$ \linebreak well-definedness of the Maehara interpolation procedure wrt.\ equivalence of derivations.
+This work makes the following contributions: $(i)$ we formalize a technical lemma for dealing with equalities of the form $\mc{C}[U] = \mc{C}'[U']$; $(ii)$ we employ the lemma to formally define effective procedures for cut admissibility and Maehara (and consequently Craig) interpolation; $(iii)$ we prove proof-relevant versions of the latter, by introducing an equivalence of derivations $\circeq$ and formally establishing many properties of the defined procedures: cut is associative, commutative and unital; cut and interpolation are well-defined wrt.\ $\circeq$; interpolation is a right inverse of cut; ($iv$) we formally prove that the axiomatic calculus with the equivalence relation on of derivations $\doteq$ is equivalent to the sequent calculus wrt.\ proofs and also generates the free magmatic biclosed category. The contribution $(iii)$ is completely novel in the study of the metatheory of \NL, not only its mechanization in a proof assistant.
+%The paper proceeds as follows. We begin with the foundations of our formalization, including definitions of trees, paths in trees, substitutions, and case distinctions for identifying relationships between paths. Next, we introduce the sequent calculus of \NL\ and formalize cut-elimination. The subsequent section addresses equivalence of derivations and properties of the $\cut$ rule.
+%In the final sections, we formally prove Maehara interpolation and proof-relevant interpolation to demonstrate that our formalization provides a correct and usable strategy. It is worth noting that the proof-relevant interpolation results presented here are novel contributions to the study of \NL.
+
+\paragraph{Related work.}
+% \\
+% Several previous works have formalized aspects of nonassociative Lambek calculus:
+There is some previous work on the formalization of \NL\ in proof assistants. Chapter 4 of Anoun et al.'s tutorial \cite{anoun2004proof} presents a Coq formalization of the nonassociative Lambek calculus, covering axiomatic calculus, natural deduction and sequent calculus. Tian \cite{tian2017formalized} ported the above Coq formalization to HOL4. Kokke \cite{kokke2017formalising} formalized the nonassociative Lambek-Grishin calculus in Agda. %However, their work focused on axiomatic calculus, where both the antecedent and succedent are single formulae, in contrast to the sequent calculus with tree as antecedents that we formalize.
+These earlier formalizations primarily focus on implementing the calculi and proving cut admissibility with potential linguistic applications in mind.
+%Our project takes a more proof-theoretic perspective, formally verify  focusing on the equational theory of proofs. We formalize not only cut-elimination but also extend to Maehara interpolation, proof-relevant interpolation, and demonstrate that Maehara interpolation is well-defined wrt.\ equivalence of derivations.
+
+The Craig interpolation property for intuitionistic logic has been formalized in Isabelle/HOL by Ridge \cite{ridge:2006} and in Nominal Isabelle by Chapman et al. \cite{ChapmanMU08}. For  classical logic, there is a formalization in Isabelle/HOL by Michealis and Nipkow \cite{michealis:2017}. Recently,  F{\'{e}}r{\'{e}}e and van Gool \cite{feree:2023} have formalized uniform interpolation for intuitionistic logic in Coq, which was extended to a class of modal logics by F{\'{e}}r{\'{e}}e et al. \cite{feree:24}. As far as we know, there are no formalized proofs of Craig/Maehara interpolation for substructural logics in the literature.
+
+We would like to add that the (pen-and-paper, non-formalized) proof of Maehara interpolation for the sequent calculus of \NL\ is uncommon in the literature, as we were unable to find a reference for it. For \NL\ (and its extensions with modalities, additive connectives, etc.) researchers have traditionally been interested in other interpolation properties, involving a different condition on atomic formulae, which are useful for establishing the finite model property and the relationship between Lambek grammars and context-free grammars \cite{buszkowski1986generative,kandulski1988equivalence,jager:04,buszkowski:2009,buszkowski:2010,lin:14}.
+%Our method is more akin to traditional Maehara's method because our interest lies in a more refined analysis based on equivalence of derivations.
+
+\paragraph{Formalization}
+All our constructions have been formalized in Agda.
+The code is freely available online at \url{https://github.com/cswphilo/nonassociative-Lambek/tree/main/code}.
+Throughout the paper each result is accompanied by a clickable link, in the form of the Agda logo (\agdahen), directing to the corresponding line in the Agda code.
+
+\paragraph{Publication History}
+This paper is an extended version of \cite{VW2025Tableaux}. The whole Sections \ref{sec:cat:sem} and \ref{sec:axiomatic} on categorical semantics and a Hilbert-style axiomatic calculus for \NL\ are new.
+They include: $(i)$ a description of magmatic biclosed categories, which are the categorical models of \NL, $(ii)$ a proof that the sequent calculus and the axiomatic calculus are equivalent, which corresponds to a proof-relevant version of soundness and completeness theorems, as well as $(iii)$ a discussion on how these constructions have been formalized in Agda.
+We have also added an explanation for the interesting cases in the construction of the Maehara interpolation procedure $\mf{mip}$ and its well-definedness proof $\mf{mip}{\circeq}$ in Section \ref{sec:proof:rel:mip}.
+
+\section{Basics on Trees}\label{sec:agda:base}
+In this section, we introduce the core elements of our Agda formalization: trees, paths within trees and substitutions.
+We mainly aim at proving a technical lemma characterizing equalities of the form $\mc{C}[U] = \mc{C}'[U']$. Intuitively, this lemma states that either $(i)$ $U = U'$, $(ii)$ $U$ is a subtree of $U'$, $(iii)$ $U'$ is a subtree of $U$, or  $(iv)$ $U$ and $U'$ are disjoint subtrees. Formally, one needs also to characterize the shape of contexts $\mc{C}$ and $\mc{C}'$ in all these cases.
+%We focus particularly on the key formalization of determining the relative positions of subtrees of a tree.
+%It is designed to precisely characterize whether two subtrees with different representations are identical, one contains the other, or they diverge after some common path.
+The technical lemma is fundamental to our subsequent formalization of cut admissibility and Maehara interpolation, as well as for establishing properties of these procedures.
+
+\subsection{Formulae, Trees, Substitutions}\label{sec:fma:tree}
+Formulae of \NL\ are inductively generated by the grammar
+$$A, B ::= X \ | \ A \Larr B \ | \ B \Rarr A \ | \ A \ot B$$
+where $X$ is drawn from a set $\mathsf{At}$ of atomic formulae,
+$\ot$ is multiplicative conjunction and $\Larr$,$\Rarr$ are left and right implications (also called residuals).
+In our formalization, we postulate the existence of a type $\At$ of atomic formulae. We consistently use letters $X, Y, Z$ to denote atomic formulae.
+The type $\Fma$ (\agdaref{Fma.agda\#L17}) of formulae is defined as the following inductive type:
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\data \:\:  \Fma : \Set \:\: \where} \\
+  \;\; \at &: \At \to \Fma \\
+  \;\; \_{\Larr}\_ &: \Fma \to \Fma \to \Fma \\ 
+  \;\; \_{\Rarr}\_ &: \Fma \to \Fma \to \Fma \\ 
+  \;\; \_{\ot}\_ &: \Fma \to \Fma \to \Fma \\
+\end{array}
+\]
+Underscores indicate infix operators, e.g. $A \ot B$ is a formula for any $A,B : \Fma$.
+
+In the literature on \NL\ \cite{moot:categorial:2012}, trees (also called structures) are defined inductively by the grammar $T,U ::= A \mid (T, U)$ where $A$ is a single formula.
+Contexts are trees with a hole, inductively specified by the grammar   $\mathcal{C} ::= [\bullet] \mid (\mathcal{C}, T) \mid (T, \mathcal{C})$. 
+In our formalization, we conflate the two notions and define a type $\Tree$ (\agdaref{Fma.agda\#L25}) of trees possibly containing more than one hole. This representation becomes convenient in the specification of the technical lemma.
+We will see in Section \ref{sec:calculus} that allowing the presence of holes in trees is unproblematic, as antecedents of valid sequents are necessarily free of holes.
+%We formalize the type $\Tree$ of trees as the following inductive type:
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\data \:\:  \Tree : \Set \:\: \where} \\
+  \;\; \bullet &: \Tree \\
+  \;\; \eta &: \Fma \to \Tree \\
+  \;\; \_{\cdast}\_ &: \Tree \to \Tree \to \Tree \\
+\end{array}
+\]
+The base constructor $\bullet$ corresponds to a hole, the constructor $\eta$ corresponds to a leaf containing a formula, while $\cdast$ is the node constructor.
+%\niccolo{Maybe we can change $\eta$ to $\mathsf{fma}$ and $\cdast$ to a special comma/semicolon, to keep notation closer to the usual one.}
+
+%Our definition more closely resembles the definition of contexts in \cite{moot:categorial:2012}. This approach facilitates smoother proofs and allows us to define derivations using the same type. This definition does not introduce inconsistent derivations since the axiom sequents are defined with non-empty antecedents (see Section \ref{sec:calculus} for the formal sequent calculus).
+
+We introduce a type $\pathT{T}$ (\agdaref{Fma.agda\#L38}) whose terms are paths in the tree $T$. These are sequences of left ($\btleft$) or right ($\btright$) moves from the root node of $T$ to a hole $\bullet$.
+The type family $\Path$ is the following inductive type family:
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\data \:\:  \Path : \Tree \to \Set \:\: \where} \\
+  \;\; \bullet &: \pathT{\bullet} \\
+  \;\; \_{\btleft}\_ &: \forall ~ \{T\} ~ (p : \pathT{T}) ~ U \to \pathT{(T \cdast U)} \\
+  \;\; \_{\btright}\_ &: \forall ~ T ~ \{U\} ~ (p : \pathT{U}) \to \pathT{(T \cdast U)}
+\end{array}
+\]
+Curly brackets are used in Agda to denote implicit arguments.
+The constructor name $\bullet$ is overloaded: we have that $\bullet : \Tree$ is a tree consisting of a single hole and $\bullet : \pathT{\bullet}$ is the unique path to the hole in that tree.
+
+In the literature on \NL\ \cite{moot:categorial:2012}, the substitution $\mc{C}[U]$ of a tree $U$ into a hole of a context $\mc{C}$ is defined by structural recursion on $\mc{C}$:
+\begin{displaymath}
+  \begin{array}{rcl}
+  [\bullet][U] &=& U
+  \\
+  (\mc{C},V)[U] &=& (\mc{C}[U],V)
+  \\
+  (V,\mc{C})[U] &=& (V , \mc{C}[U])
+  \end{array}
+\end{displaymath}
+%We use $T[\bullet]$ to denote a context and $T[U]$ to abbreviate $subst(T[\bullet], U)$.
+In Agda, the substitution function replaces a hole in $T$, specified by a given path, by another tree $U$. This is defined by pattern-matching on the path (\agdaref{Fma.agda\#L45}).
+%If $T$ has $n+1$ holes, the resulting tree $\sub{p}{U}$ has $n$ holes.
+\[
+\begin{array}{ll}
+  \multicolumn{2}{l}{\Sub : \forall \{T\} \to \pathT{T} \to \Tree \to \Tree}
+  \\[2pt]
+  \sub{\bullet}{U} &= U
+  \\
+  \sub{(p \btleft V)}{U} &= \sub{p}{U} \cdast V
+  \\
+  \sub{(V \btright p)}{U} &= V \cdast \sub{p}{U} 
+\end{array}
+\]
+
+%For any tree $U$, the substitution operation that replaces $\bullet$ with $U$ follows the path specified above.
+Two paths $p : \pathT{T}$ and $q : \pathT{U}$ can be concatenated, resulting in a path $p \append ~ q : \pathT{(\sub{p}{U})}$ in the tree obtained by substituting $U$ in the hole specified by path $p$. Concatenation is defined by pattern-matching on $p$ (\agdaref{Fma.agda\#L52}).
+
+\begin{example}\label{example:tree:and:path}
+Consider the tree $T = (\eta X ~ \cdast ~ \bullet) \cdast ~ \eta Y$, which contains a single hole.
+The path to the hole is $p = (\eta X \btright \bullet) \btleft \eta Y$, which indicates that, starting from the root node, we take one step to the left followed by one step to the right, after which we reach the hole.
+%\[
+%  % https://q.uiver.app/#q=WzAsNSxbMCw0LCJcXGV0YSBYIl0sWzEsMiwiXFxjZGFzdCJdLFsyLDQsIlxcY2RvdCJdLFsyLDAsIlxcY2Rhc3QiXSxbMywyLCJcXGV0YSBZIl0sWzEsMCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+%\begin{tikzcd}
+%% [sep=tiny]
+%	&& \cdast \\
+%	\\
+%	& \cdast && {\eta Y} \\
+%	\\
+%	{\eta X} && \bullet
+%	\arrow[no head, from=1-3, to=3-2]
+%	\arrow[no head, from=1-3, to=3-4]
+%	\arrow[no head, from=3-2, to=5-1]
+%	\arrow[no head, from=3-2, to=5-3]
+%\end{tikzcd}
+%\]
+%  Recall the tree and path in Example \ref{example:tree:and:path}. We call them $T$ and $p$, respectively.
+  Given another tree $U = \eta Z \cdast \bullet$ and a path $q = \eta Z \btright \bullet$ in $U$, the concatenation of paths $p$ and $q$ is $p \append ~ q = (\eta X \btright (\eta Z \btright \bullet)) \btleft \eta Y$, which is a path in the tree $\sub{p}{U} = (\eta X ~ \cdast ~ (\eta Z \cdast \bullet)) \cdast ~ \eta Y$.
+\end{example}
+
+Given paths $p : \pathT{T}$ and $q : \pathT{U}$, substituting a tree $V$ in the concatenation $p \append~ q$ is the same as first substituting $V$ in $q$ and then substituting the result in $p$, i.e. $\sub{(p \append ~q)}{V} \equiv \sub{p}{(\sub{q}{V})}$ (\agdaref{Fma.agda\#L61}),
+where $\equiv$ is Agda's propositional equality type.
+Agda allows the extension of its evaluation relation with new computation rules using the flag \texttt{{-}{-}rewriting}.
+This enabled us to turn the latter propositional equality into a judgemental one.
+This is only used to \emph{simplify} the proofs of cut admissibility and Maehara interpolation (and their properties).
+All our formalized results remain valid when the equality is propositional instead of judgemental.
+
+Path concatenation is also associative, i.e. $(p \append~ q) \append~ r \equiv p \append~ (q \append~ r)$ for $p : \pathT{T}$, $q : \pathT{U}$ and $r : \pathT{V}$ (\agdaref{Fma.agda\#L69}). Notice that the latter is a well-formed equality type, since the term $(p \append~ q) \append~ r$ has type $\pathT{(\sub{(p \append ~q)}{V})}$ while $p \append~ (q \append~ r)$ has type $\pathT{(\sub{p}{(\sub{q}{V})})}$, but these types are judgementally equal (due to the discussion in the previous paragraph).
+
+\subsection{Equality of Substituted Trees}
+When proving cut admissibility and Maehara interpolation, a common step is determining all possible cases arising from equalities of the form $\mc{C}_1[U_1] = \mc{C}_2[U_2]$. In our Agda formalization, these will be propositional equalities of the form $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$, where $p_1$ and $p_2$ are paths in some trees $T_1$ and $T_2$ respectively.
+%different presentations of the same tree. For cut-elimination, this involves finding the relationship between the principal formula of the endsequent and the cut formula. For interpolation, it concerns the relationship with the interpolating tree. 
+%\begin{example}\label{example:same:tree:diff:sub}
+%  Consider the tree $T$ in Example \ref{example:tree:and:path}, we can represent it in at least two equivalent ways: $\sub{((\eta X \cdast \bullet) \btright \bullet)}{\eta Y}$ or $\sub{(\bullet \btleft \eta Y)}{(\eta X \cdast \bullet)}$.
+%\end{example}
+%We formalize this common process by constructing record types that encompass all possible scenarios where the same tree can be presented in two different ways.
+This subsection is dedicated to providing a concrete characterization of the equality type $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$, i.e. we are after a type $\subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2$ that is equivalent to $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$. We only need to employ one direction of this equivalence (\agdaref{Fma.agda\#L143}):
+\begin{equation}\label{eq:subeq}
+\begin{array}{l}
+ \subeq : \forall ~ \{T_1 ~ T_2 \} ~ U_1 ~ U_2 ~ (p_1 : \pathT{T_1}) ~ (p_2 : \pathT{T_2})
+  \\
+  \quad \to (eq : \sub{p_1}{U_1} \equiv \sub{p_2}{U_2}) \to \subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2
+\end{array}
+\end{equation}
+
+The type $\subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2$ (\agdaref{Fma.agda\#L133}) is the disjoint union of all the  cases that can occur, of which there are 7:
+\[
+\begin{array}{rll}
+  \multicolumn{3}{l}{\data \:\:  \mathsf{SubEq} \:\: (p_1 : \pathT{T_1})~ (p_2 : \pathT{T_2})~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
+  \;\; \oneeqtwo &: \Same ~ p_1 ~ p_2 ~ U_1 ~ U_2 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \twogtLone &: \ContainsLeft ~ p_1 ~ p_2 ~ U_1 ~ U_2 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \twogtRone &: \ContainsRight ~ p_1 ~ p_2 ~ U_1 ~ U_2 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \onegtLtwo &: \ContainsLeft ~ p_2 ~ p_1 ~ U_2 ~ U_1 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \onegtRtwo &: \ContainsRight ~ p_2 ~ p_1 ~ U_2 ~ U_1 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \oneLtwoR &: \LeftRight ~ p_1 ~ p_2 ~ U_1 ~ U_2 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2 \\
+  \;\; \oneRtwoL &: \LeftRight ~ p_2 ~ p_1 ~ U_2 ~ U_1 &\to \subcases ~ p_2 ~ p_1~ U_1 ~ U_2
+\end{array}
+\]
+Let us go through them one by one.
+%To this aim, we fix two paths $p_1 : \pathT{T_1}$ and $p_2 : \pathT{T_2}$ and two trees $U_1$ and $U_2$, such that $\sub{p_1}{U_1}$ is propositionally equal to $\sub{p_2}{T_2}$. There are four possibilities:
+%\\
+\begin{case}[$U_1$ is equal to $U_2$]
+In this case, $T_1$ must be equal to $T_2$ and $p_1$ equal to $p_2$.
+We collect this information in the record type $\Same ~ p_1 ~ p_2 ~ U_1 ~ U_2$ (\agdaref{Fma.agda\#L85}).
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\record \:\:  \Same ~(p_1 : \pathT{T_1})~ (p_2 : \pathT{T_2})~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
+%  \multicolumn{2}{l}{\quad \mathsf{constructor} ~ \mathsf{same}} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad eqT &: T_1 \equiv T_2 \\
+  \;\; \quad eqU &: U_1 \equiv U_2 \\
+  \;\; \quad eqp &: \subst ~ \Path ~ eqT ~ p_1 \equiv p_2
+\end{array}
+\]
+Terms of this type are triples consisting of three equalities about the outer trees, the inner trees used for substitution into holes, and paths, respectively.
+Notice that paths $p_1$ and $p_2$ have different types, so to be able to equate them one needs to first substitute $T_2$ for the equal tree $T_1$ in the type of $p_1$. This is what the application of $\subst$ in the type of $eqp$ is used for.
+\end{case}
+\begin{case}[$U_1$ contains $U_2$ in its left subtree]
+In this case, there exist trees $W_1$ and $W_2$ and a path $q$ in $W_1$ such that $U_1$ is equal to the tree $\sub{q}{U_2} \cdast W_2$.
+Moreover, $p_2$ is equal to the concatenation of $p_1$ with $q \btleft W_2$.
+Visually, an example of a tree $\sub{p_2}{U_2}$ (equal to $\sub{p_1}{U_1})$ for this case is
+\[
+\begin{tikzcd}[row sep=0.16cm]
+	&&& \cdast \\
+	\\
+	&& \cdast && {V_1} \\
+	\\
+	& \cdast && {W_2} \\
+	\\
+	{V_2} && {U_2}
+	\arrow[no head, from=1-4, to=3-3]
+%	\arrow["{p_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-4, to=3-3]
+	\arrow[no head, from=1-4, to=3-5]
+	\arrow[no head, from=3-3, to=5-2]
+%	\arrow[shift right, draw={rgb,255:red,214;green,92;blue,92}, no head, from=3-3, to=5-2]
+	\arrow[no head, from=3-3, to=5-4]
+	\arrow[no head, from=5-2, to=7-1]
+%	\arrow["q", shift left, color={rgb,255:red,214;green,92;blue,92}, no head, from=5-2, to=7-3]
+	\arrow[no head, from=5-2, to=7-3]
+\end{tikzcd}
+\]
+We can break apart this tree and identify all the relevant component trees and paths (the latter marked in red):
+\begin{equation*}\label{eq:containsleft}
+\begin{array}{c}
+  T_1 = 
+\begin{tikzcd}[row sep=0.16cm]
+	&&& \cdast \\
+	\\
+	&& \bullet && {V_1} \\
+	\arrow[no head, from=1-4, to=3-3]
+	\arrow["{p_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-4, to=3-3]
+	\arrow[no head, from=1-4, to=3-5]
+\end{tikzcd}
+\qquad
+T_2 =
+\begin{tikzcd}[row sep=0.16cm]
+	&&& \cdast \\
+	\\
+	&& \cdast && {V_1} \\
+	\\
+	& \cdast && {W_2} \\
+	\\
+	{V_2} && {\bullet}
+	\arrow[no head, from=1-4, to=3-3]
+	\arrow["{p_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-4, to=3-3]
+	\arrow[no head, from=1-4, to=3-5]
+	\arrow[no head, from=3-3, to=5-2]
+	\arrow[shift right, draw={rgb,255:red,214;green,92;blue,92}, no head, from=3-3, to=5-2]
+	\arrow[no head, from=3-3, to=5-4]
+	\arrow[no head, from=5-2, to=7-1]
+	\arrow["q", shift left, color={rgb,255:red,214;green,92;blue,92}, no head, from=5-2, to=7-3]
+	\arrow[no head, from=5-2, to=7-3]
+\end{tikzcd}
+\\
+W_1 = 
+\begin{tikzcd}[row sep=0.16cm]
+	&&& \cdast \\
+	\\
+	&& {V_2} && {\bullet} \\
+	\arrow[no head, from=1-4, to=3-3]
+	\arrow["{q}", shift left, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-4, to=3-5]
+	\arrow[no head, from=1-4, to=3-5]
+\end{tikzcd}
+\qquad
+U_1 =
+\begin{tikzcd}[row sep=0.16cm]
+	&& \cdast \\
+	\\
+	& \cdast && {W_2} \\
+	\\
+	{U_2} && {V_2}
+	\arrow[no head, from=1-3, to=3-2]
+%        \arrow[shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-3, to=3-2]
+	\arrow[no head, from=1-3, to=3-4]
+%	\arrow["{q}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=3-2, to=5-1]
+	\arrow[no head, from=3-2, to=5-1]
+	\arrow[no head, from=3-2, to=5-3]        
+\end{tikzcd}
+\end{array}
+\end{equation*}
+%in the left subtree of $U_1$ without $U_2$ (for brevity, when we say ``left subtree of $U_1$'', we mean the left subtree of $U_1$ minus $U_2$).
+%Let $W_1$ and $W_2$ be the left and right subtrees of $U_1$, respectively.
+%Let us visualize this situation on an example.
+%Consider the tree $T_1 = \bullet \cdast V_1$, for some tree $V_1$, with $p_1 = \bullet \btleft V_1$.
+%Consider trees $T_1$ and $\sub{p_1}{U_1}$ with the following structure (here $V_1$ is an arbitrary tree):
+%\[
+%\arraycolsep=1.5cm
+%\begin{array}{cc}
+%  % https://q.uiver.app/#q=WzAsMyxbMSwwLCJcXGNkYXN0Il0sWzAsMiwiXFxidWxsZXQiXSxbMiwyLCJWXzEiXSxbMCwxLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzAsMSwicF8xIiwyLHsib2Zmc2V0IjoxLCJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX0sWzAsNjAsNjAsMV1dLFswLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+%\begin{tikzcd}
+%	& \cdast \\
+%	\\
+%	\bullet && {V_1}
+%	\arrow[no head, from=1-2, to=3-1]
+%	\arrow["{p_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-2, to=3-1]
+%	\arrow[no head, from=1-2, to=3-3]
+%\end{tikzcd}
+%&
+%% https://q.uiver.app/#q=WzAsNSxbMiwwLCJcXGNkYXN0Il0sWzEsMiwiXFxjZGFzdCJdLFszLDIsIlZfMSJdLFswLDQsIldfMSJdLFsyLDQsIldfMiJdLFswLDEsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCwxLCJwXzEiLDIseyJvZmZzZXQiOjEsImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMCw2MCw2MCwxXV0sWzAsMiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDMsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSw0LCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+%\begin{tikzcd}
+%	&& \cdast \\
+%	\\
+%	& \cdast && {V_1} \\
+%	\\
+%	{W_1} && {W_2}
+%	\arrow[no head, from=1-3, to=3-2]
+%	\arrow["{p_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-3, to=3-2]
+%	\arrow[no head, from=1-3, to=3-4]
+%	\arrow[no head, from=3-2, to=5-1]
+%	\arrow[no head, from=3-2, to=5-3]
+%\end{tikzcd}
+%\\
+%(T_1)
+%&
+%(\sub{p_1}{U_1})
+%\end{array}
+%\]
+%Since $U_1$ contains $U_2$ as a subtree, we can diagram $\sub{p_2}{T_2}$ as shown in the left diagram below, where the blue path represents $p_2$. The right diagram illustrates how $p_2$ extends $p_1$. We denote the path in $W_1$ as $q$
+%\begin{equation}\label{eq:ContainsLeft:p1p2}
+%  \arraycolsep=1cm
+%\begin{array}{cc}
+%% https://q.uiver.app/#q=WzAsNyxbMCw2LCJVXzIiXSxbMSw0LCJcXGNkYXN0Il0sWzIsNiwiVl8yIl0sWzIsMiwiXFxjZGFzdCJdLFszLDQsIldfMiJdLFszLDAsIlxcY2Rhc3QiXSxbNCwyLCJWXzEiXSxbMSwwLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsMiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMyw0LCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsMywiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDYsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCIiLDAseyJvZmZzZXQiOjEsImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDAseyJvZmZzZXQiOjEsImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwwLCIiLDAseyJvZmZzZXQiOjEsImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+%\begin{tikzcd}[row sep=0.16cm]
+%	&&& \cdast \\
+%	\\
+%	&& \cdast && {V_1} \\
+%	\\
+%	& \cdast && {W_2} \\
+%	\\
+%	{U_2} && {V_2}
+%	\arrow[no head, from=1-4, to=3-3]
+%	\arrow[shift right, draw={rgb,255:red,92;green,92;blue,214}, no head, from=1-4, to=3-3]
+%	\arrow[no head, from=1-4, to=3-5]
+%	\arrow[no head, from=3-3, to=5-2]
+%	\arrow[shift right, draw={rgb,255:red,92;green,92;blue,214}, no head, from=3-3, to=5-2]
+%	\arrow[no head, from=3-3, to=5-4]
+%	\arrow[no head, from=5-2, to=7-1]
+%	\arrow[shift right, draw={rgb,255:red,92;green,92;blue,214}, no head, from=5-2, to=7-1]
+%	\arrow[no head, from=5-2, to=7-3]
+%\end{tikzcd}
+%&
+%% https://q.uiver.app/#q=WzAsNyxbMCw2LCJVXzIiXSxbMSw0LCJcXGNkYXN0Il0sWzIsNiwiVl8yIl0sWzIsMiwiXFxjZGFzdCJdLFszLDQsIldfMiJdLFszLDAsIlxcY2Rhc3QiXSxbNCwyLCJWXzEiXSxbMSwwLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsMiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDEsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMyw0LCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsMywiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs1LDYsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywxLCIiLDAseyJvZmZzZXQiOjEsImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCJwXzEiLDIseyJvZmZzZXQiOjEsImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMCw2MCw2MCwxXV0sWzEsMCwicSIsMix7Im9mZnNldCI6MSwiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19LFswLDYwLDYwLDFdXV0=
+%\begin{tikzcd}[row sep=0.16cm]
+%	&&& \cdast \\
+%	\\
+%	&& \cdast && {V_1} \\
+%	\\
+%	& \cdast && {W_2} \\
+%	\\
+%	{U_2} && {V_2}
+%	\arrow[no head, from=1-4, to=3-3]
+%	\arrow["{p_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-4, to=3-3]
+%	\arrow[no head, from=1-4, to=3-5]
+%	\arrow[no head, from=3-3, to=5-2]
+%	\arrow[shift right, draw={rgb,255:red,92;green,92;blue,214}, no head, from=3-3, to=5-2]
+%	\arrow[no head, from=3-3, to=5-4]
+%	\arrow[no head, from=5-2, to=7-1]
+%	\arrow["q"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=5-2, to=7-1]
+%	\arrow[no head, from=5-2, to=7-3]
+%\end{tikzcd}
+%\end{array}
+%\end{equation}
+%The trees $T_2$ and $U_1$ are the following:
+%\begin{equation}\label{eq:ContainsLeft:T2U1}
+%\arraycolsep=1cm
+%\begin{array}{cc}
+%% https://q.uiver.app/#q=WzAsNyxbMCw2LCJcXGJ1bGxldCJdLFsxLDQsIlxcY2Rhc3QiXSxbMiw2LCJWXzIiXSxbMiwyLCJcXGNkYXN0Il0sWzMsNCwiV18yIl0sWzMsMCwiXFxjZGFzdCJdLFs0LDIsIlZfMSJdLFsxLDAsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbNSwzLCIiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzUsNiwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dXQ==
+%\begin{tikzcd}[row sep=0.16cm]
+%	&&& \cdast \\
+%	\\
+%	&& \cdast && {V_1} \\
+%	\\
+%	& \cdast && {W_2} \\
+%	\\
+%	\bullet && {V_2}
+%	\arrow[no head, from=1-4, to=3-3]
+%	\arrow[no head, from=1-4, to=3-5]
+%	\arrow[no head, from=3-3, to=5-2]
+%	\arrow[no head, from=3-3, to=5-4]
+%	\arrow[no head, from=5-2, to=7-1]
+%	\arrow[no head, from=5-2, to=7-3]
+%\end{tikzcd}
+%&
+%% https://q.uiver.app/#q=WzAsNSxbMCw0LCJVXzIiXSxbMSwyLCJcXGNkYXN0Il0sWzIsNCwiVl8yIl0sWzIsMCwiXFxjZGFzdCJdLFszLDIsIldfMiJdLFsxLDAsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsMSwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+%\begin{tikzcd}[row sep=0.16cm]
+%	&& \cdast \\
+%	\\
+%	& \cdast && {W_2} \\
+%	\\
+%	{U_2} && {V_2}
+%	\arrow[no head, from=1-3, to=3-2]
+%	\arrow[no head, from=1-3, to=3-4]
+%	\arrow[no head, from=3-2, to=5-1]
+%	\arrow[no head, from=3-2, to=5-3]
+%\end{tikzcd}
+%\\
+%(T_2)
+%&
+%(U_1)
+%\end{array}  
+%\end{equation}
+This information is collected in the record type $\ContainsLeft~p_1 ~ p_2 ~ U_1 ~ U_2$ (\agdaref{Fma.agda\#L101}):
+\[
+\begin{array}{ll}
+  \multicolumn{2}{l}{\record \:\:  \ContainsLeft ~(p_1 : \pathT{T_1})~ (p_2 : \pathT{T_2})~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
+%  \multicolumn{2}{l}{\quad \mathsf{constructor} ~ \mathsf{gt}} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad \{W_1 ~ W_2 \} &: \Tree \\
+  \;\; \quad q   &: \pathT{W_1} \\
+  \;\; \quad eqT &: T_2 \equiv \sub{p_1}{(W_1 \cdast W_2)} \\
+  \;\; \quad eqU &: U_1 \equiv \sub{(q \btleft W_2)}{U_2} \\
+  \;\; \quad eqp &: \subst ~ \Path ~ eqT ~ p_2 \equiv p_1 \append ~ (q \btleft W_2)
+\end{array}
+\]
+Terms of this type are tuples consisting of trees $W_1$ and $W_2$ (which are implicit), as well as a path $q : \pathT{W_1}$, which indicates how to extend $p_1$.
+Additionally, there are three equalities characterizing $T_2$, $U_1$, and $p_2$.%, as depicted in (\ref{eq:containsleft}).
+%The first and second equalities correspond to our observations from the left and right diagrams in (\ref{eq:ContainsLeft:T2U1}), respectively.
+%The third equality reflects what we observed in the right diagram of (\ref{eq:ContainsLeft:p1p2}).
+\end{case}
+\begin{case}[$U_1$ contains $U_2$ in its right subtree]
+This case is similar to the previous one, with the difference that now $q$ is a path in $W_2$ and $U_1$ is equal to $W_1 \cdast \sub{q}{U_2}$.
+Moreover, $p_2$ is equal to the concatenation of $p_1$ with $W_1 \btright q$.
+This information is collected in the record type $\ContainsRight~p_1 ~ p_2 ~ U_1 ~ U_2$ (\agdaref{Fma.agda\#L110}):
+\[
+\begin{array}{ll}
+  \multicolumn{2}{l}{\record \:\:  \ContainsRight~(p_1 : \pathT{T_1})~ (p_2 : \pathT{T_2}) ~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\quad \mathsf{constructor} ~ \containsright} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad \{W_1 ~ W_2 \} &: \Tree \\
+  \;\; \quad q   &: \pathT{W_2} \\
+  \;\; \quad eqT &: T_2 \equiv \sub{p_1}{(W_1 \cdast W_2)} \\
+  \;\; \quad eqU &: U_1 \equiv \sub{(W_1 \btright q)}{U_2} \\
+  \;\; \quad eqp &: \subst ~ \Path ~ eqT ~ p_2 \equiv p_1 \append ~ (W_1 \btright q)
+\end{array}
+\]
+\end{case}
+\begin{case}[$U_2$ contains $U_1$ in its left subtree]
+This case corresponds to an element of type $\ContainsLeft~p_2 ~ p_1 ~ U_2 ~ U_1$.
+\end{case}
+\begin{case}[$U_2$ contains $U_1$ in its right subtree]
+This case corresponds to an element of type $\ContainsRight~p_2 ~ p_1 ~ U_2 ~ U_1$.
+\end{case}
+\begin{case}[$U_1$ and $U_2$ are disjoint and $U_1$ is on the left of $U_2$]
+In this case, $p_1$ and $p_2$ share a common initial path $q$, but then split at a node where they take different directions: $p_1$ continues on the left branch while $p_2$ continues on the right branch. This means that there exist two trees $W_1$ and $W_2$, as well as two paths $p_1 : \pathT{W_1}$ and $p_2 : \pathT{W_2}$, such that $p_1$ is equal to the concatenation of $q$ with $q_1 \btleft W_2$, while $p_2$ is equal to the concatenation of $q$ with $W_1 \btright q_2$.
+Visually, an example of a tree $\sub{p_2}{U_2}$ (equal to $\sub{p_1}{U_1})$ for this case is
+\[
+\begin{tikzcd}[row sep=0.16cm]
+	&&&&& \cdast \\
+	\\
+	&&& \cdast &&&& V \\
+	\\
+	& \cdast &&&& \cdast & \\
+        \\
+	{V_1} && {U_1} && {U_2} && {V_2} \\
+	\arrow[no head, from=1-6, to=3-4]
+	\arrow[no head, from=1-6, to=3-8]
+	\arrow[no head, from=3-4, to=5-2]
+	\arrow[no head, from=3-4, to=5-6]
+	\arrow[no head, from=5-2, to=7-1]
+	\arrow[no head, from=5-2, to=7-3]
+	\arrow[no head, from=5-6, to=7-5]
+	\arrow[no head, from=5-6, to=7-7]
+\end{tikzcd}
+\]
+We can break apart this tree and identify all the relevant component trees and paths (the latter marked in red):
+\begin{equation*}\label{eq:leftright}
+\begin{array}{c}
+T_1 = \!\!\!\!\!\!\!\!
+\begin{tikzcd}[row sep=0.16cm]
+	&&&&& \cdast \\
+	\\
+	&&& \cdast &&&& V \\
+	\\
+	& \cdast &&&& \cdast & \\
+        \\
+	{V_1} && {\bullet} && {U_2} && {V_2} \\
+	\arrow["q"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-6, to=3-4]
+	\arrow[no head, from=1-6, to=3-4]
+	\arrow[no head, from=1-6, to=3-8]
+	\arrow[no head, from=3-4, to=5-2]
+	\arrow[shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=3-4, to=5-2]
+	\arrow[no head, from=3-4, to=5-6]
+	\arrow[no head, from=5-2, to=7-1]
+	\arrow["q_1"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=5-2, to=7-3]
+	\arrow[no head, from=5-2, to=7-3]
+	\arrow[no head, from=5-6, to=7-5]
+	\arrow[no head, from=5-6, to=7-7]
+\end{tikzcd}
+\quad
+T_2 = \!\!\!\!\!\!\!\!
+\begin{tikzcd}[row sep=0.16cm]
+	&&&&& \cdast \\
+	\\
+	&&& \cdast &&&& V \\
+	\\
+	& \cdast &&&& \cdast & \\
+        \\
+	{V_1} && {U_1} && {\bullet} && {V_2} \\
+	\arrow["q"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-6, to=3-4]
+	\arrow[no head, from=1-6, to=3-4]
+	\arrow[no head, from=1-6, to=3-8]
+	\arrow[no head, from=3-4, to=5-2]
+	\arrow[shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=3-4, to=5-6]
+	\arrow[no head, from=3-4, to=5-6]
+	\arrow[no head, from=5-2, to=7-1]
+	\arrow[no head, from=5-2, to=7-3]
+	\arrow[no head, from=5-6, to=7-5]
+	\arrow["q_2"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=5-6, to=7-5]
+	\arrow[no head, from=5-6, to=7-7]
+\end{tikzcd}
+\\
+W =
+\begin{tikzcd}[row sep=0.16cm]
+	&&& \cdast \\
+	\\
+	&& \bullet && {V} \\
+	\arrow[no head, from=1-4, to=3-3]
+	\arrow["{q}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-4, to=3-3]
+	\arrow[no head, from=1-4, to=3-5]
+\end{tikzcd}
+\qquad
+W_1 =
+\begin{tikzcd}[row sep=0.16cm]
+	&&& \cdast \\
+	\\
+	&& V_1 && {\bullet} \\
+	\arrow[no head, from=1-4, to=3-3]
+	\arrow["{q_1}", shift left, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-4, to=3-5]
+	\arrow[no head, from=1-4, to=3-5]
+\end{tikzcd}
+\qquad
+W_2 =
+\begin{tikzcd}[row sep=0.16cm]
+	&&& \cdast \\
+	\\
+	&& {\bullet} && V_2 \\
+	\arrow[no head, from=1-4, to=3-3]
+	\arrow["{q_2}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-4, to=3-3]
+	\arrow[no head, from=1-4, to=3-5]
+\end{tikzcd}
+\end{array}
+\end{equation*}
+%\[
+%% https://q.uiver.app/#q=WzAsNSxbMiwwLCJcXGNkYXN0Il0sWzEsMiwiXFxjZGFzdCJdLFszLDIsIlYiXSxbMCw0LCJcXGJ1bGxldCJdLFsyLDQsIlxcYnVsbGV0Il0sWzAsMSwiIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFswLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMCwxLCIiLDIseyJvZmZzZXQiOjEsImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsMywiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDQsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSw0LCIiLDIseyJvZmZzZXQiOi0xLCJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsMywiIiwyLHsib2Zmc2V0IjoxLCJjb2xvdXIiOlswLDYwLDYwXSwic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFswLDEsIiIsMix7Im9mZnNldCI6LTEsImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XV0=
+%\begin{tikzcd}
+%	&& \cdast \\
+%	\\
+%	& \cdast && V \\
+%	\\
+%	\bullet && \bullet
+%	\arrow[no head, from=1-3, to=3-2]
+%	\arrow[shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=1-3, to=3-2]
+%	\arrow[shift left, color={rgb,255:red,92;green,92;blue,214}, no head, from=1-3, to=3-2]
+%	\arrow[no head, from=1-3, to=3-4]
+%	\arrow[no head, from=3-2, to=5-1]
+%	\arrow[shift right, draw={rgb,255:red,214;green,92;blue,92}, no head, from=3-2, to=5-1]
+%	\arrow[no head, from=3-2, to=5-3]
+%	\arrow[shift left, draw={rgb,255:red,92;green,92;blue,214}, no head, from=3-2, to=5-3]
+%\end{tikzcd}
+%\]
+%The red path represents $p_1$ while the blue path shows $p_2$ Notice how they share a common initial segment. Let us call this shared part $q$ with the remaining segments of $p_1$ and $p_2$ as $q_1$ and $q_2$ respectively. This gives us the following diagram:
+%\begin{equation}\label{eq:LeftRight:paths}
+%% https://q.uiver.app/#q=WzAsNSxbMiwwLCJcXGNkYXN0Il0sWzEsMiwiXFxjZGFzdCJdLFszLDIsIlYiXSxbMCw0LCJcXGJ1bGxldCJdLFsyLDQsIlxcYnVsbGV0Il0sWzAsMSwicSIsMix7ImNvbG91ciI6WzI3MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19LFsyNzAsNjAsNjAsMV1dLFswLDIsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSwzLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsNCwiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDQsInFfMiIsMCx7Im9mZnNldCI6LTEsImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19LFsyNDAsNjAsNjAsMV1dLFsxLDMsInFfMSIsMix7Im9mZnNldCI6MSwiY29sb3VyIjpbMCw2MCw2MF0sInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19LFswLDYwLDYwLDFdXV0=
+%\begin{tikzcd}
+%	&& \cdast \\
+%	\\
+%	& \cdast && V \\
+%	\\
+%	\bullet && \bullet
+%	\arrow["q"', color={rgb,255:red,153;green,92;blue,214}, no head, from=1-3, to=3-2]
+%	\arrow[no head, from=1-3, to=3-4]
+%	\arrow[no head, from=3-2, to=5-1]
+%	\arrow["{q_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=3-2, to=5-1]
+%	\arrow[no head, from=3-2, to=5-3]
+%	\arrow["{q_2}", shift left, color={rgb,255:red,92;green,92;blue,214}, no head, from=3-2, to=5-3]
+%\end{tikzcd}  
+%\end{equation}
+%We obtain $T_1$ by substituting $U_2$ at the hole along path $q \append ~ q_2$, while similarly, we get $T_2$ by substituting $U_1$ at the hole along path $q \append ~ q_1$.
+%\begin{equation}\label{eq:LeftRight:trees}
+%  \arraycolsep=1cm
+%\begin{array}{cc}
+%% https://q.uiver.app/#q=WzAsNSxbMiwwLCJcXGNkYXN0Il0sWzEsMiwiXFxjZGFzdCJdLFszLDIsIlYiXSxbMCw0LCJcXGJ1bGxldCJdLFsyLDQsIlVfMiJdLFswLDEsInEiLDIseyJjb2xvdXIiOlsyNzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMjcwLDYwLDYwLDFdXSxbMCwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsMywiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDQsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSw0LCJxXzIiLDAseyJvZmZzZXQiOi0xLCJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMjQwLDYwLDYwLDFdXSxbMSwzLCJxXzEiLDIseyJvZmZzZXQiOjEsImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMCw2MCw2MCwxXV1d
+%\begin{tikzcd}
+%	&& \cdast \\
+%	\\
+%	& \cdast && V \\
+%	\\
+%	\bullet && {U_2}
+%	\arrow["q"', color={rgb,255:red,153;green,92;blue,214}, no head, from=1-3, to=3-2]
+%	\arrow[no head, from=1-3, to=3-4]
+%	\arrow[no head, from=3-2, to=5-1]
+%	\arrow["{q_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=3-2, to=5-1]
+%	\arrow[no head, from=3-2, to=5-3]
+%	\arrow["{q_2}", shift left, color={rgb,255:red,92;green,92;blue,214}, no head, from=3-2, to=5-3]
+%\end{tikzcd}
+%&
+%% https://q.uiver.app/#q=WzAsNSxbMiwwLCJcXGNkYXN0Il0sWzEsMiwiXFxjZGFzdCJdLFszLDIsIlYiXSxbMCw0LCJVXzEiXSxbMiw0LCJcXGJ1bGxldCJdLFswLDEsInEiLDIseyJjb2xvdXIiOlsyNzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMjcwLDYwLDYwLDFdXSxbMCwyLCIiLDIseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzEsMywiIiwyLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDQsIiIsMix7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMSw0LCJxXzIiLDAseyJvZmZzZXQiOi0xLCJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMjQwLDYwLDYwLDFdXSxbMSwzLCJxXzEiLDIseyJvZmZzZXQiOjEsImNvbG91ciI6WzAsNjAsNjBdLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fSxbMCw2MCw2MCwxXV1d
+%\begin{tikzcd}
+%	&& \cdast \\
+%	\\
+%	& \cdast && V \\
+%	\\
+%	{U_1} && \bullet
+%	\arrow["q"', color={rgb,255:red,153;green,92;blue,214}, no head, from=1-3, to=3-2]
+%	\arrow[no head, from=1-3, to=3-4]
+%	\arrow[no head, from=3-2, to=5-1]
+%	\arrow["{q_1}"', shift right, color={rgb,255:red,214;green,92;blue,92}, no head, from=3-2, to=5-1]
+%	\arrow[no head, from=3-2, to=5-3]
+%	\arrow["{q_2}", shift left, color={rgb,255:red,92;green,92;blue,214}, no head, from=3-2, to=5-3]
+%\end{tikzcd}
+%\\
+%(T_1)
+%&
+%(T_2)
+%\end{array}
+%\end{equation}
+%We implement the observations in Agda as the following type:
+
+This information is collected in the record type $\LeftRight~p_1 ~ p_2 ~ U_1 ~ U_2$ (\agdaref{Fma.agda\#L119}):
+\[
+\begin{array}{ll}
+  \multicolumn{2}{l}{\record \:\:  \LeftRight ~(p_1 : \pathT{T_1})~ (p_2 : \pathT{T_2})~ (U_1 ~ U_2 : \Tree) : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad \{W ~ W_1 ~ W_2 \} &: \Tree \\
+  \;\; \quad q       &: \pathT{W} \\
+  \;\; \quad q_1     &: \pathT{W_1} \\
+  \;\; \quad q_2     &: \pathT{W_2} \\
+  \;\; \quad eqT_1   &: T_1 \equiv \sub{q}{(W_1 \cdast \sub{q_2}{U_2})} \\
+  \;\; \quad eqT_2   &: T_2 \equiv \sub{q}{(\sub{q_1}{U_1} \cdast W_2)} \\
+  \;\; \quad eqp_1   &: \subst ~ \Path ~ eqT_1 ~ p_1 \equiv q \append ~ (q_1 \btleft W_2) \\
+  \;\; \quad eqp_2   &: \subst ~ \Path ~ eqT_2 ~ p_2 \equiv q \append ~ (W_1 \btright q_2)
+\end{array}
+\]
+Terms of this type are tuples consisting of three (implicit) trees $W$, $W_1$, and $W_2$. The tree $W$ contains the common path $q$ and it is the largest common prefix tree of both $T_1$ and $T_2$. %such representing the largest subtree beginning at the divergence point of $p_1$ and $p_2$.
+The tree $W_1$ is the subtree where $U_1$ will be substituted, while $W_2$ the one where $U_2$ will be substituted.
+The remaining equalities characterize $T_1$, $T_2$, $p_1$ and $p_2$.
+%, as depicted in (\ref{eq:leftright}).
+\end{case}
+\begin{case}[$U_1$ and $U_2$ are disjoint and $U_2$ is on the left of $U_1$]
+This case is similar to the previous one, all information is recorded in the type $\LeftRight~p_2 ~ p_1 ~ U_2 ~ U_1$.
+\end{case}
+%While our illustration shows $U_1$ positioned to the left of $U_2$, the dual case where $U_2$ appears to the left of $U_1$ is also possible and is covered by this type definition.
+
+One can check that the 7 previous cases are mutually disjoint and exhaustive, and that the type $\subcases ~p_1 ~p_2 ~U_1 ~U_2$ is indeed equivalent to $\sub{p_1}{U_1} \equiv \sub{p_2}{U_2}$. The right-to-left direction of this equivalence corresponds to the construction of the function $\subeq$ in (\ref{eq:subeq}), which is defined by pattern-matching on the given paths $p_1$ and $p_2$.
+Conversely, the left-to-right direction of the equivalence is established by the function $\subeq^{-1}$ (\agdaref{Fma.agda\#L171}), which is defined by pattern-matching on the argument $s$ of type $\subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2$:
+\[
+\begin{array}{l}
+ \subeq^{-1} : \forall ~ \{T_1 ~ T_2 \} ~ U_1 ~ U_2 ~ (p_1 : \pathT{T_1}) ~ (p_2 : \pathT{T_2})
+  \\
+  \quad \to (s : \subcases ~ p_1 ~ p_2 ~ U_1 ~ U_2) \to \sub{p_1}{U_1} \equiv \sub{p_2}{U_2}
+\end{array}
+\]
+
+%After having distinguished the cases above, we define a datatype to collect all possible cases of the relative positions of $U_1$ and $U_2$.
+%In the types above, we do not care about the order of $U_1$ and $U_2$ and for a better proving experience (using the datatype in the subsequent proofs), we take the order of $U_1$ and $U_2$ into account and develop seven cases.
+%
+%\[
+%\begin{array}{rl}
+%  \multicolumn{2}{l}{\data \:\:  \mathsf{SubEq} \:\: (U_1 ~ U_2 : Tree) : \Set \:\: \where} \\
+%  \;\; \oneeqtwo &: \Same ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ U_1 ~ U_2 \\
+%  \;\; \twogtLone &: \ContainsLeft ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ U_1 ~ U_2 \\
+%  \;\; \twogtRone &: \ContainsRight ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ U_1 ~ U_2 \\
+%  \;\; \onegtLtwo &: \ContainsLeft ~ p_2 ~ p_1 ~ U_2 ~ U_1 \to \subcases ~ U_1 ~ U_2 \\
+%  \;\; \onegtRtwo &: \ContainsRight ~ p_2 ~ p_1 ~ U_2 ~ U_1 \to \subcases ~ U_1 ~ U_2 \\
+%  \;\; \oneLtwoR &: \LeftRight ~ p_1 ~ p_2 ~ U_1 ~ U_2 \to \subcases ~ U_1 ~ U_2 \\
+%  \;\; \oneRtwoL &: \LeftRight ~ p_2 ~ p_1 ~ U_2 ~ U_1 \to \subcases ~ U_1 ~ U_2
+%\end{array}
+%\]
+%The constructor $\onegtLtwo$ means $U_2$ is inside $U_1$ and the path $p_2$ is longer than $p_1$.
+%The other constructors are read in a similar manner, but one should be careful about the order of arguments. For example, in the constructor $\twogtLone$, the arguments are swapped.
+%
+%This function demonstrates that when two substitutions are equal, we can always identify a corresponding type from one of the cases defined above. The proof proceeds by pattern-matching on paths $p_1$ and $p_2$. For simple base cases, the proof directly constructs the appropriate case value. For recursive cases, we use Agda's $\mathsf{with}$ to perform intermediate computations and use the intermediate results to construct the desired term in the corresponding type.
+
+\section{A Sequent Calculus for \NL}\label{sec:calculus}
+We now present the sequent calculus for \NL\ and its cut admissibility property.
+A sequent in \NL\ takes the form $T \vd C$, where $T$ is a tree and $C$ is a single formula.
+The inference rules of the calculus are given below:
+\begin{equation}\label{eq:seqcalc}
+\begin{array}{c}
+  \infer[\ax]{X \vd X}{}
+  \quad
+  \infer[\Rr]{T \vd A \Rarr B}{A , T \vd B} 
+  \quad
+  \infer[\Lr]{T \vd B \Larr A}{T , A \vd B}
+  \quad
+  \infer[\tr]{T , U \vd A \ot B}{
+    T \vd A
+    &
+    U \vd B
+  }
+  \\[7pt]
+  \infer[\Rl]{\mc{C}[U , A \Rarr B] \vd C}{
+    U \vd A
+    &
+    \mc{C}[B] \vd C
+  }
+  \quad
+  \infer[\Ll]{\mc{C}[B \Larr A , U] \vd C}{
+    U \vd A
+    &
+    \mc{C}[B] \vd C
+  }
+  \quad
+  \infer[\tl]{\mc{C}[A \ot B] \vd C}{
+    \mc{C}[A , B] \vd C
+  }
+\end{array}
+\end{equation}
+Notice that the axiom rule $\ax$ operates only on atomic formulae $X$. A general axiom rule, with $X$ replaced by an arbitrary formula $A$, is admissible.
+
+In our Agda formalization, the entailment relation $\vdash$ (\agdaref{SeqCalc.agda\#L13}) is implemented as an inductive type family indexed over the types $\Tree$ and $\Fma$, i.e. $T \vdash C$ is a type for each $T : \Tree$ and $C : \Fma$. 
+There is one constructor for each rule in (\ref{eq:seqcalc}).
+The types of the constructors mimic closely the inference rules, but they use paths to describe the exact position of each hole and they employ the function $\Sub$ for the implementation of substitution in a hole.
+Here we only show the constructors associated to two rules $\ax$ and $\Rl$:
+\[
+\begin{array}{ll}
+  \multicolumn{2}{l}{\data \:\:  \_{\vdash}\_  : \Tree \to \Fma \to \Set \:\: \where} \\
+  \;\; \quad \ax &: \forall \{X\} \to \eta ~ (\at ~ X) \vd \at ~ X \\
+  \;\; \quad \Rl &: \forall \{T ~ U ~ A ~ B ~ C \} ~(p : \pathT{T}) ~(f : U \vd A) ~ (g : \sub{p}{(\eta ~ B)} \vd C) \\
+ \;\; \quad &\to \sub{p}{(U\cdast ~ \eta ~ (A \Rarr B))} \vd C
+\end{array}
+\]
+%This constructor specifies that for any atomic formula $X : \At$, there exists a term of type $\eta ~ (\at ~ X) \vd \at ~ X$, directly corresponding to the $\ax$ rule in (\ref{eq:seqcalc}). Since the antecedent is a tree without holes, this construction avoids introducing inconsistent derivations.
+%
+%The $\Rl$ rule is implemented as:
+%\[
+%\begin{array}{rcl}
+%\Rl & : & \forall ~ \{T ~ U ~ A ~ B ~ C \} \\
+%&\to& (p : \pathT{T}) \\
+%&\to&(f : U \vd A) ~ (g : \sub{p}{(\eta ~ B)} \vd C) \\
+%&\to& \sub{p}{(U\cdast ~ \eta ~ (A \Rarr B))} \vd C
+%\end{array}
+%\]
+%The type of the constructor $\Rl$ reads: given terms (derivations) $f : U \vd A$ and $g : \sub{p}{(\eta ~ B)} \vd C$, then $\Rl ~f ~g$ is a derivations of type $\sub{p}{(U\cdast ~ \eta ~ (A \Rarr B))} \vd C$.
+It is possible to show that, if the type $T \vdash C$ is inhabited, i.e. the sequent admits a derivation, then the tree $T$ does not contain any holes.
+
+\subsection{Cut Admissibility}
+The cut rule in \NL\ takes the form
+\begin{equation}\label{eq:cut}
+  \begin{array}{c}
+  \infer[\cut]{\mc{C}[U] \vd C}{
+    U \vd D
+    &
+    \mc{C}[D] \vd C
+  }
+\end{array}
+\end{equation}
+which in Agda becomes the function $\cut$ (\agdaref{Cut.agda\#L12}):
+\[
+\begin{array}{rl}
+  \cut &: \{ p : \pathT{T}\} ~(f : U \vd D) ~(g : W \vd C) 
+ ~(eq : W \equiv \sub{p}{(\eta ~ D)})
+ \\ &\to \sub{p}{U} \vd C
+\end{array}
+\]
+Notice that some implicit arguments ($T,U,W,D$ and $C$) have been omitted to shorten the specification of $\cut$ and improve readability. We will similarly omit implicit arguments later in the paper.
+The function $\cut$ takes an extra equality proof $eq$, which allows us to pattern-match on $g$. Without $eq$, i.e. if we assumed an argument $g : \sub{p}{(\eta ~ D)} \vdash C$ instead, Agda would not allow pattern-matching on $g$, as it is unable to unify the antecedent $\sub{p}{(\eta ~ D)}$ with the ones appearing in the conclusion of inference rules.
+
+Concretely, we are constructing a function $\cut$ that takes two derivations $f : U \vd D$ and $g : W \vd C$ (and an equality proof $eq : W \equiv \sub{p}{(\eta ~ D)}$) and produces a new derivation $\cut~f ~g ~eq :  \sub{p}{U} \vd C$.
+Since there is no primitive cut rule in our calculus (\ref{eq:seqcalc}), all derivations $f$, $g$ and $\cut~f ~g ~eq$ are cut-free.
+This construction should therefore be understood as a proof of \emph{cut admissibility}, not as a procedure for cut elimination.
+An alternative approach would have been introducing a second sequent calculus that includes a primitive cut rule and constructing a cut elimination procedure that translates derivations in the calculus with primitive cut rule in the calculus (\ref{eq:seqcalc}).
+%\footnote{In this alternative approach, one need to also introduce an equational theory on derivations extending the relation $\circeq$ introduced in Section \ref{sec:equiv:der} with appropriate extra equivalences involving the primitive $\cut$ rule, e.g. the ones in Figure \ref{fig:cut:properties}, then show that the cut elimination procedure preserves the equivalences.}
+
+
+The construction of the function $\cut$ proceeds by pattern-matching on $g$. Similarly to the pen-and-paper proof, when $g$ ends with an application of a left-introduction rule, we need to determine the relative positions of the cut formula and the principal formula. For instance, when $g = \tl ~ g'$, we have the following situation:
+\[
+\begin{array}{c}
+  \infer[\cut]{\mc{C}[U] \vd C}{
+    \deduce{U \vd D}{f}
+    &
+    \infer[\tl]{\mc{C}'[A \ot B] \vd C}{
+      \deduce{\mc{C}'[A , B] \vd C}{g'}
+    }
+  }
+\end{array}
+\] 
+with $\mc{C}'[A\ot B] = \mc{C}[D]$. 
+%must have another representation as $T''[D]$ for some tree $T''$. In pen-and-paper proofs, we need to determine whether $D$ exactly matches the principal formula $A \ot B$.
+
+In the Agda formalization, the latter (propositional) equality appears as the type $\sub{p'}{(\eta ~ (A \ot B))} \equiv \sub{p}{(\eta ~ D)}$ of the argument $eq$, where $p'$ is a path in another tree $T'$.
+At this point we apply the technical lemma $\subeq$ of (\ref{eq:subeq}) to the equality proof $eq$ in order to identify the different possible cases.
+There are only three non-vacuous cases: $\oneeqtwo$ (where $D$ is exactly the principal formula $A \ot B$), $\oneLtwoR$ (where $D$ and $A \ot B$ are in different subtrees with $A \ot B$ on the left and $D$ on the right), and $\oneRtwoL$ (the dual case).
+For the latter two cases, we permute the $\tl$ rule downward and continue recursively.
+For the first case, we introduce an auxiliary function $\cut\tl$ (\agdaref{Cut.agda\#L35}), defined by mutual recursion with $\cut$:
+\[
+\begin{array}{l}
+  \cut\tl : \{p : \pathT{T}\}~ (f : U \vd A \ot B) ~(g : \sub{p}{(\eta ~ A \cdast \eta ~ B)} \vd C) 
+  \\
+  \quad \to \sub{p}{U} \vd C
+\end{array}
+\]
+The construction of $\cut\tl$ proceeds by pattern-matching on $f$, mirroring the pen-and-paper proof where one further inducts on the derivation of the first premise when the cut formula coincides with the principal formula.
+%We employ this auxiliary function to avoid termination checking failures in subsequent proofs involving properties of $\cut$.
+In the definition of $\cut$, the cases when the derivation $g$ ends with an application of rules $\Rl$ and $\Ll$ also require special care, similar to the case of $\tl$ described above, i.e. an application of the technical lemma $\subeq$ and the definition of two auxiliary functions $\cut\Rl$ and $\cut\Ll$ for the cases when the cut formula $D$ coincides with the principal formula.
+The functions  $\cut\Rl$ (\agdaref{Cut.agda\#L26}) and $\cut\Ll$ (\agdaref{Cut.agda\#L17}) are defined by mutual recursion with $\cut$ and $\cut\tl$. 
+\[
+\begin{array}{l}
+  \cut\Rl : \{p : \pathT{T}\}~ (f : U \vd A \Rarr B) ~(g : V \vdash A) ~(g': \sub{p}{(\eta  ~ B)} \vd C) 
+  \\
+  \quad \to \sub{p}{(V \cdast U)} \vd C
+  \\[2pt]
+  \cut\Ll : \{p : \pathT{T}\}~ (f : U \vd B \Larr A) ~(g : V \vdash A) ~(g': \sub{p}{(\eta  ~ B)} \vd C) 
+  \\
+  \quad \to \sub{p}{(U \cdast V)} \vd C
+\end{array}
+\]
+
+
+
+  \begin{figure}[t]
+  \[
+  \arraycolsep=2pt
+%  \scalebox{0.88}{$
+  \begin{array}{rcl}
+  \proofbox{
+      \infer[\cut]{\mc{C}[X] \vd C}{
+        \infer[\ax]{X \vd X}{}
+        &
+        \deduce{\mc{C}[X] \vd C}{g}
+      }
+    }
+    &=&
+    \proofbox{
+      \deduce{\mc{C}[X] \vd C}{g}
+    }
+\\[0.5cm]
+    \proofbox{
+      \infer[\cut]{\mc{C}[\mc{C}'[V]] \vd C}{
+        \infer[\cut]{\mc{C}'[V] \vd E}{
+          \deduce{V \vd D}{f}
+          &
+          \deduce{\mc{C}'[D] \vd E}{g}
+        }
+        &
+        \deduce{\mc{C}[E] \vd C}{h}
+      }
+    }
+    &=&  
+    \proofbox{
+      \infer[\cut]{\mc{C}[\mc{C}'[V]] \vd C}{
+        \deduce{V \vd D}{f}
+        &
+        \infer[\cut]{\mc{C}[\mc{C}'[D]] \vd C}{
+          \deduce{\mc{C}'[D] \vd E}{g}
+          &
+          \deduce{\mc{C}[E] \vd C}{h}
+        }
+      }
+    }
+    \\[1cm]
+    \proofbox{
+      \infer[\cut]{\mc{C}[\mc{C}_1[T], \mc{C}_2[U]] \vd C}{
+        \deduce{T \vd D}{f}
+        & \!\!
+        \infer[\cut]{\mc{C}[\mc{C}_1[D], \mc{C}_2[U]] \vd C}{
+          \deduce{U \vd E}{g}
+          &
+          \deduce{\mc{C}[\mc{C}_1[D], \mc{C}_2[E]] \vd C}{h}
+        }
+      }
+    }
+    &=&
+    \proofbox{
+      \infer[\cut]{\mc{C}[\mc{C}_1[T], \mc{C}_2[U]] \vd C}{
+        \deduce{U \vd E}{g}
+        &
+        \infer[\cut]{\mc{C}[\mc{C}_1[T], \mc{C}_2[E]] \vd C}{
+          \deduce{T \vd D}{f}
+          & \!\!
+          \deduce{\mc{C}[\mc{C}_1[D], \mc{C}_2[E]] \vd C}{h}
+        }
+      }
+    }
+  \end{array}
+%  $}
+  \]
+  \caption{Unitality, associativity, and commutativity of $\cut$}
+  \label{fig:cut:properties}
+  \end{figure}
+% cut-unit : ∀ {T X W C} (p : Path T)
+%   → (g : W ⊢ C)
+%   → (eq : W ≡ sub p (η (at X))) 
+%   → cut p ax (subst-cxt eq g) refl ≡ (subst-cxt eq g)
+
+% cut-vass : ∀ {T U V W₁ W₂ C D E} (p : Path T) (q : Path U)
+%   → (f : V ⊢ D) (g : W₁ ⊢ E) (h : W₂ ⊢ C)
+%   → (eq₁ : W₁ ≡ sub p (η D)) (eq₂ : W₂ ≡ sub q (η E))
+%   → cut q (cut p f g eq₁) h eq₂ ≡ cut (q ++ p) f (cut q g h eq₂) (cong (λ x → sub q x) eq₁)
+
+% cut-hass : ∀ {T U V W₁ W₂ W₃ C D E} (p₁ : Path W₁) (p₂ : Path W₂) (p₃ : Path W₃)
+%   → (f : T ⊢ D) (g : U ⊢ E) (h : V ⊢ C)
+%   → (eq : V ≡ sub p₁ (sub p₂ (η D) ⊛ sub p₃ (η E)))
+%   → cut (p₁ ++ (p₂ ◂ _)) f (cut (p₁ ++ (_ ▸ p₃)) g h eq) refl ≡ cut (p₁ ++ (_ ▸ p₃)) g (cut (p₁ ++ (p₂ ◂ _)) f h eq) refl
+
+\begin{remark}\label{remark}
+  Alternatively, $\cut$ can be defined by pattern-matching on the first argument $f$ instead of $g$ and then distinguishing cases where $f$ ends with an application of a right-introduction rule. The latter approach results in an equivalent but longer definition of $\cut$, since it requires a larger number of applications of the function $\subeq$. This in turn has a negative impact on the type-checking time of the whole development, especially of proofs of properties of $\cut$.
+\end{remark}
+
+The admissible cut rule satisfies the set of equations in Figure \ref{fig:cut:properties}, which shows that $\cut$ is unital wrt.\ the rule $\ax$ (\agdaref{CutEqualities.agda\#L100}), sequential composition of $\cut$ is associative (\agdaref{CutAssociativities.agda\#L15}), and parallel composition of $\cut$ is commutative (\agdaref{CutAssociativities.agda\#L127}).
+The proofs of these results are quite technical and we highly benefited from the employment of Agda for keeping track of all proof obligations. The technical lemma $\subeq$ was also indispensable for this task.
+
+\section{Equivalence of Sequent Derivations}\label{sec:equiv:der}
+In logic, one often distinguishes between the proposition $T \vd C$ (``$T$ proves $C$'') and the collection of its proofs. In Agda, the two perspectives are unified: the sequent $T \vd C$ is a type and a term $f : T \vd C$ is a specific derivation of the sequent. Different terms $f, g : T \vd C$ correspond to different witnesses of the validity of the sequent.
+
+Nevertheless, some derivations are ``morally'' the same, they only differ by some ``inessential'' permutation of rules in their proof tree.
+In the literature on substructural logic, one would say that these derivations are different sequentialization of the same proof net.
+We introduce a congruence relation $\circeq$ (\agdaref{SeqCalc.agda\#L55}) relating precisely these derivations in \NL. 
+The congruence $\circeq$ is generated by twenty-seven permutative conversions, of which we present three in Figure \ref{fig:example:perm:conversion}.
+These are representative examples of three classes of permutative conversions:  $(i)$ left rules permute with right rules ($\tl$ permutes with $\Rr$ in the figure); $(ii)$ sequential application of left rules can be permuted ($\tl$ permutes with $\Rl$ in the figure); $(iii)$ parallel application of left rules can be permuted ($\Rl$ permutes with $\Rl$ in the figure).
+
+\begin{figure}[t]
+  \[
+%  \scalebox{0.91}{$
+  \begin{array}{rcl}
+    \proofbox{
+      \infer[\tl]{\mc{C}[A \ot B] \vd A' \Rarr B'}{
+        \infer[\Rr]{\mc{C}[A , B] \vd A' \Rarr B'}{
+          \deduce{A' , \mc{C}[A , B] \vd B'}{f}
+        }
+      }
+    }
+    &\circeq&
+    \proofbox{
+      \infer[\Rr]{\mc{C}[A \ot B] \vd A' \Rarr B'}{
+        \infer[\tl]{A' , \mc{C}[A \ot B] \vd B'}{
+          \deduce{A' , \mc{C}[A , B] \vd B'}{f}
+        }
+      }
+    }
+    \\[1cm]
+    \proofbox{
+      \infer[\tl]{\mc{C}'[\mc{C}[A' \ot B'], A \Rarr B] \vd C}{
+        \infer[\Rl]{\mc{C}'[\mc{C}[A' , B'], A \Rarr B] \vd C}{
+          \deduce{\mc{C}[A' , B'] \vd A}{f}
+          &
+          \deduce{\mc{C}'[B] \vd C}{g}
+        }
+      }
+    }
+    &\circeq&
+    \proofbox{
+      \infer[\Rl]{\mc{C}'[\mc{C}[A' \ot B'], A \Rarr B] \vd C}{
+        \infer[\tl]{\mc{C}[A' \ot B'] \vd A}{
+          \deduce{\mc{C}[A' , B'] \vd A}{f}
+        }
+        &
+        \deduce{\mc{C}'[B] \vd C}{g}
+      }
+    }
+    \\[1cm]
+    \proofbox{
+      \infer[\Rl]{\mc{C}[\mc{C}_1[U , A \Rarr B] , \mc{C}_2[V , A' \Rarr B']] \vd C}{
+        \deduce{U \vd A}{f}
+        & \!\!\!
+        \infer[\Rl]{\mc{C}[\mc{C}_1[B] , \mc{C}_2[V , A' \Rarr B']] \vd C}{
+          \deduce{V \vd A'}{f'}
+          & \!\!
+          \deduce{\mc{C}[\mc{C}_1[B] , \mc{C}_2[B']] \vd C}{g}
+        }
+      }
+    } \!
+    &\circeq& \!
+    \proofbox{
+      \infer[\Rl]{\mc{C}[\mc{C}_1[U , A \Rarr B] , \mc{C}_2[V , A' \Rarr B']] \vd C}{
+        \deduce{V \vd A'}{f'}
+        & \!\!\!
+        \infer[\Rl]{\mc{C}[\mc{C}_1[U , A \Rarr B] , \mc{C}_2[B']] \vd C}{
+          \deduce{U \vd A'}{f}
+          & \!\!
+          \deduce{\mc{C}[\mc{C}_1[B] , \mc{C}_2[B']] \vd C}{g}
+        }
+      }
+    }
+  \end{array}
+%  $}
+  \]
+  \caption{Examples of permutative conversions}
+  \label{fig:example:perm:conversion}
+\end{figure}
+
+In Agda, the relation $\circeq$ is implemented as an inductive type family indexed over pairs of derivations. This means that $f \circeq g$ is a type for each $f,g : T \vdash C$, whose terms are proofs of $f$ being $\circeq$-equivalent to $g$.
+The Agda definition of $\circeq$ includes: $(i)$ a constructor for each permutative conversion, $(ii)$ constructors for reflexivity, symmetry and transitivity of $\circeq$, and  $(iii)$ constructors evidencing the compatibility of $\circeq$ with the inference rules of the sequent calculus, i.e. that $\circeq$ is a congruence relation.
+Here we present three indicative examples, one for each class of equational generators: $(i$) the constructor $\tl\Rr$ associated to the first example of permutative conversion in Figure \ref{fig:example:perm:conversion}; $(ii)$ the constructor $\mathsf{sym}{\circeq}$ witnessing that $\circeq$ is a symmetric relation; $(iii)$ the constructor $\mathsf{cong}\Rl$ witnessing the compatibility of $\circeq$ wrt.\ $\Rl$.
+\[
+\begin{array}{rcl}
+\tl\Rr &:& (p : \pathT{T}) ~ (f : \eta A' \cdast \sub{p}{(\eta A \cdast \eta B)} \vd B') \\
+&\to& \tl ~ p ~ (\Rr ~ f) ~ \circeq \Rr ~ (\tl ~ (\bullet \btright p) ~ f)  \\[2pt]
+\mathsf{sym}{\circeq} &:& (f ~ g : T \vd C) ~ (eq : f \circeq g) \to g \circeq f \\[2pt]
+\mathsf{cong}\Rl &:& (p : \pathT{T}) ~ (f ~ f' : U \vd A) ~ (g ~ g' : \sub{p}{\eta B} \vd C) \\
+& \to & (eq : f \circeq f') ~ (eq' : g \circeq g') \to \, \Rl ~ p ~ f ~ g \circeq \Rl ~ p ~ f' ~ g'
+\end{array}
+\]
+
+The admissible cut rule satisfies the set of equivalences in Figure \ref{fig:cut:left:rules}, which shows that $\cut$ and left rules in the first premise are permutable up to $\circeq$ (\agdaref{CutCirceqEquations.agda\#L14}). These equations arise from our implementation of cut admissibility, which proceeds by structural recursion on the second premise. If $\cut$ were defined by pattern-matching on the first premise instead, as discussed in Remark \ref{remark}, then we would have  equivalences showing that $\cut$ and right rules in the second premise are permutable up to $\circeq$.
+In Agda, the proofs of the equivalences in Figure \ref{fig:cut:left:rules} also proceeds by induction on the second premise.
+  \begin{figure}[t]
+  \[
+%  \scalebox{0.9}{$
+  \begin{array}{rcl}
+    \proofbox{
+        \infer[\cut]{\mc{C}[\mc{C}'[V , A \Rarr B]] \vd C}{
+      \infer[\Rl]{\mc{C}'[V , A \Rarr B] \vd D}{
+        \deduce{V \vd A}{f}
+        &
+        \deduce{\mc{C}'[B] \vd D}{h}
+      }
+      &
+      \deduce{\mc{C}[D] \vd C}{g}
+    }
+    }
+    &\circeq&
+    \proofbox{
+      \infer[\Rl]{\mc{C}[\mc{C}'[V , A \Rarr B]] \vd C}{
+        \deduce{V \vd A}{f}
+        &
+        \infer[\cut]{\mc{C}[\mc{C}'[B]] \vd C}{
+          \deduce{\mc{C}'[B] \vd D}{h}
+          &
+          \deduce{\mc{C}[D] \vd C}{g}
+        }
+      }
+    }
+    \\[1cm]
+    \proofbox{
+        \infer[\cut]{\mc{C}[\mc{C}'[B \Larr A , V]] \vd C}{
+      \infer[\Ll]{\mc{C}'[B \Larr A , V] \vd D}{
+        \deduce{V \vd A}{f}
+        &
+        \deduce{\mc{C}'[B] \vd D}{h}
+      }
+      &
+      \deduce{\mc{C}[D] \vd C}{g}
+    }
+    }
+    &\circeq&
+    \proofbox{
+      \infer[\Ll]{\mc{C}[\mc{C}'[B \Larr A , V]] \vd C}{
+        \deduce{V \vd A}{f}
+        &
+        \infer[\cut]{\mc{C}[\mc{C}'[B]] \vd C}{
+          \deduce{\mc{C}'[B] \vd D}{h}
+          &
+          \deduce{\mc{C}[D] \vd C}{g}
+        }
+      }
+    }
+    \\[1cm]
+    \proofbox{
+      \infer[\cut]{\mc{C}[\mc{C}'[A \ot B]] \vd C}{
+        \infer[\tl]{\mc{C}'[A \ot B] \vd D}{
+          \deduce{\mc{C}'[A , B] \vd D}{h}
+        }
+        &
+        \deduce{\mc{C}[D] \vd C}{g}
+      }
+    }
+    &\circeq&
+    \proofbox{
+      \infer[\tl]{\mc{C}[\mc{C}'[A \ot B]] \vd C}{
+        \infer[\cut]{\mc{C}[\mc{C}'[A , B]] \vd D}{
+          \deduce{\mc{C}'[A , B] \vd D}{h}
+          &
+          \deduce{\mc{C}[D] \vd C}{g}
+        }
+      }
+    }
+  \end{array}
+%  $}
+  \]
+    \caption{Permutation of $\cut$ and left rules}
+    \label{fig:cut:left:rules}
+  \end{figure}
+% cut⇒L≗ : ∀ {T U V W A B C D} (p : Path T) (q : Path U)
+%   → {f : V ⊢ A}
+%   → (h : sub q (η B) ⊢ D)
+%   → (g : W ⊢ C)
+%   → (eq : W ≡ sub p (η D))
+%   → cut p (⇒L q f h) (subst-cxt eq g) refl ≗ ⇒L (p ++ q) f (cut p h (subst-cxt eq g) refl)
+
+% cut⇐L≗ : ∀ {T U V W A B C D} (p : Path T) (q : Path U)
+%   → {f : V ⊢ A}
+%   → (h : sub q (η B) ⊢ D)
+%   → (g : W ⊢ C)
+%   → (eq : W ≡ sub p (η D))
+%   → cut p (⇐L q f h) (subst-cxt eq g) refl ≗ ⇐L (p ++ q) f (cut p h (subst-cxt eq g) refl)
+
+% cut⊗L≗ : ∀ {T U W A B C D} (p : Path T) (q : Path U)
+%   → (h : sub q (η A ⊛ η B) ⊢ D)
+%   → (g : W ⊢ C)
+%   → (eq : W ≡ sub p (η D))
+%   → cut p (⊗L q h) (subst-cxt eq g) refl ≗ ⊗L (p ++ q) (cut p h (subst-cxt eq g) refl)
+
+  Since we consider $\circeq$-related derivations as being equal, all admissible rules (e.g. $\cut$) and constructions on derivations (e.g. Maehara interpolation in the next section) must be well-defined wrt.\ to $\circeq$. This means that the $\cut$ procedure must produce $\circeq$-related outputs when applied to $\circeq$-related inputs. In Agda, this statement can be split in the following two terms, which are defined by mutual induction, witnessing that $\cut$ respects $\circeq$ in each of its arguments (\agdaref{CutCongruence.agda\#L16}):
+\[
+\begin{array}{l}
+  \cut{\circeq}_1 : \{f~f' : U \vdash D\} ~\{g : W \vdash C\}
+  ~ (eq_1 : W \equiv \sub{p}{\eta~ D})
+  ~ (eq_2 : f \circeq f')
+  \\
+  \quad \to 
+  \cut ~f~g ~eq_1 \circeq \cut ~f'~g~eq_1
+  \\[2pt]
+  \cut{\circeq}_2 : \{f : U \vdash D\} \{g ~g': W \vdash C\}
+  ~ (eq_1 : W \equiv \sub{p}{\eta~ D})
+  ~ (eq_2 : g \circeq g')
+  \\
+  \quad \to 
+  \cut ~f~g ~eq_1 \circeq \cut ~f~g'~eq_1
+\end{array}
+\]
+We define $\cut{\circeq}_2$ by pattern-matching on $eq_2$, i.e. the proof of equivalence of derivations. 
+The main challenge is handling the thirty-six cases that arise from the pattern-match, with further numerous subcases arising from the applications of $\subeq$, which are necessary for the $\cut$ function to compute. The use of Agda was invaluable here, helping us examine all possible cases systematically and verifying the correctness of the completed proof.
+
+\section{Categorical Semantics}\label{sec:cat:sem}
+In this section we present the categorical semantics of \NL, which is given in terms of magmatic biclosed categories and strict magmatic biclosed functors.
+%and (strict) functors between them.
+
+A \emph{magmatic biclosed category} \cite{Wijnholds2017} is a category $\mb{C}$ equipped with three functors
+$${-}{\ot}{-} : \mb{C} \times \mb{C} \to \mb{C},
+\qquad {-}{\Rarr}{-} : \mb{C}^{op} \times \mb{C} \to \mb{C},
+\qquad {-}{\Larr}{-} : \mb{C} \times \mb{C}^{op} \to \mb{C}$$
+forming two adjunctions
+\begin{equation}\label{eq:adj}
+  A \ot {-} \dashv A \Rarr {-}\quad \text{and}\quad {-} \ot A \dashv {-} \Larr A
+\end{equation}
+both natural in $A$.
+This means that there is a family of bijective functions $(\piR)_{A,B,C}$ between the set of morphisms typed $A \ot B \to C$  and the set of morphisms typed $B \to A \Rarr C$, which is natural in each argument $A$, $B$ and $C$.
+There is also an analogous family of bijections $(\piL)_{A,B,C}$ sending morphisms typed in $B \ot A \to C$ to morphisms typed in $B \to C \Larr A$.
+We will often keep indexes implicit and simply write $\piR$ and $\piL$.
+
+As explained in \cite{Wijnholds2017}, the name ``magmatic'' comes from the algebraic structure known as magma, which is a monoid without unit element that is not required to satisfy unitality and associativity properties.
+So a magmatic category can be thought of as a monoidal category without unit object $I$ that is not required to have natural isomorphisms for unitors $\lambda,\rho$ and associator $\alpha$, as well as MacLane's triangle and pentagon coherence equations. The biclosed structure is added to capture the two implications of \NL.
+
+We implement magmatic biclosed categories in Agda as a record type that contains three groups of data.
+The first group defines includes the type $\Obj$ of objects, as well as the action of ${\ot}$, $\Rarr$ and $\Larr$ on objects, called ${\otz}$, ${\Rarrz}$ and ${\Larrz}$ (\agdaref{FCatUniversal.agda\#L11}):
+ \[
+\begin{array}{ll}
+  \multicolumn{2}{l}{\record \:\: \MBCC : \Set_{\mf{1}} \:\: \where} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad \Obj &: \Set \\[2pt]
+  \;\; \quad \_{\otz}\_ &: \Obj \to \Obj \to \Obj \\[2pt]
+  \;\; \quad \_{\Rarrz}\_ &: \Obj \to \Obj \to \Obj \\[2pt]
+  \;\; \quad \_{\Larrz}\_ &: \Obj \to \Obj \to \Obj
+\end{array}
+\]
+The second group specifies the required morphisms (\agdaref{FCatUniversal.agda\#L20}).
+There is a type $\Homs{A}{B}$ for each terms $A,B : \Obj$.
+There is an identity morphism $\mf{Id}$ for each object, as well as a composition operation $\mf{Comp}$.
+The action of ${\ot}$, $\Rarr$ and $\Larr$ on morphisms are called ${\oto}$, ${\Rarro}$ and ${\Larro}$. Below we only show the type of ${\Rarro}$.
+Additionally, there is a family of functions $\piR$, with inverses $\pi^{-1}_{\mf{R}}$, which underlie the natural isomorphism evidencing the first adjunction in (\ref{eq:adj}).
+There is also a family of functions $\piL$, with inverses $\pi^{-1}_{\mf{L}}$, for the second adjunction, which is omitted here.
+%Here we additionally show five record fields which correspond to the ones in (\ref{eq:constructor:axiomatic:calc}):
+\[
+\begin{array}{ll}
+  \;\; \quad \Hom &: \Obj \to \Obj \to \Set \\[2pt]
+  \;\; \quad \mf{Id} &: \{B : \Obj\} \to \Homs{B}{B} \\[2pt]
+  \;\; \quad \mf{Comp} &: \{D ~ B ~ C : \Obj\} \to \Homs{B}{C} \to \Homs{D}{B} \to \Homs{D}{C} \\[2pt]
+  \;\; \quad \_{\Rarro}\_ &: \{A ~ B ~ C ~ D : \Obj\} \to \Homs{B}{A} \to \Homs{C}{D} \\
+  \;\; \quad &\hspace*{0.5cm} \to \Homs{(A \Rarrz C)}{(B \Rarrz D)} \\[2pt]
+  \;\; \quad \pi_{\mf{R}} &: \{A ~ B ~ C : \Obj\} \to \Homs{(A \otz B)}{C} \to \Homs{B}{(A \Rarrz C)} \\[2pt]
+  \;\; \quad \pi^{-1}_{\mf{R}} &: \{A ~ B ~ C : \Obj\} \to \Homs{B}{(A \Rarrz C)} \to \Homs{(A \otz B)}{C} 
+\end{array}
+\]
+%The parentheses are not part of the syntax. We include them here for better readability.
+
+The third group specifies the required equalities between morphisms.
+There is a type $\Eq{f}{g}$ for each terms $f,g : \Homs{A}{B}$.
+There are record fields (not shown below) stating that $\mf{Eq}$ is an equivalence relation that is moreover a congruence relation wrt. operations $\mf{Comp}$, $\oto$, $\Rarro$, $\Larro$, $\pi_{\mf{R}}$, $\pi^{-1}_{\mf{R}}$, $\pi_{\mf{L}}$ and $\pi^{-1}_{\mf{L}}$.
+There are record fields (not shown below) stating that $\mf{Comp}$ is associative and unital wrt. $\mf{Id}$.
+There are record fields (not shown below) expressing that $\oto$, $\Rarro$ and $\Larro$ preserve $\mf{Id}$ and $\mf{Comp}$.
+There are fields (shown below) stating that $\pi_{\mf{R}}$ and $\pi^{-1}_{\mf{R}}$ are eah other's inverses (\agdaref{FCatUniversal.agda\#L70}) and that the family of functions $\pi_{\mf{R}}$ is natural in each variable (\agdaref{FCatUniversal.agda\#L80}).
+Analogous fields for $\pi_{\mf{L}}$ and $\pi^{-1}_{\mf{L}}$ are not shown.
+\[
+\begin{array}{ll}
+  \;\; \quad \mf{Eq} &: \{A ~ B\} \to \Homs{A}{B} \to \Homs{A}{B} \to \Set \\[2pt]
+  \;\; \quad \piR\mf{iso}_1 &: \{A ~ B ~ C : \Obj\} ~ \{f : \Homs{(A \otz B)}{C}\} \to \Eq{(\piRm (\piR ~ f))}{f}\\[2pt]
+  \;\; \quad \piR\mf{iso}_2 &: \{A ~ B ~ C : \Obj \} ~ \{f : \Homs{B}{(A \Rarrz C)}\} \to \Eq{(\piR (\piRm ~ f))}{f}\\[2pt]
+  \;\; \quad \piR\mf{nat}_1 &: \{A ~ B ~ A' : \Obj\} ~ \{f : \Homs{A'}{A}\}  \\
+  \;\; \quad &\hspace*{0.5cm}\to \Eq{(\piR (f \oto \mf{Id}))}{(\mf{Comp} ~ (f \Rarro \mf{Id}) ~ (\piR ~ \mf{Id}))}\\[2pt]
+  \;\; \quad \piR\mf{nat}_2 &: \{A ~ B ~ C ~ B' : \Obj\} ~ \{f : \Homs{(A \otz B)}{C}\} ~ \{g : \Homs{B'}{B}\} \\
+  \;\; \quad &\hspace*{0.5cm}\to \Eq{(\mf{Comp} ~ (\piR ~ f) ~ g)}{(\piR ~ (\mf{Comp} ~ f ~ (\mf{Id} \oto g)))} \\[2pt]
+  \;\; \quad \piR\mf{nat}_3 &: \{A ~ B ~ C ~ C' : \Obj\} ~ \{f : \Homs{C}{C'}\} ~ \{g : \Homs{(A \otz  B)}{C}\} \\
+  \;\; \quad &\hspace*{0.5cm} \to \Eq{(\piR ~ (\mf{Comp} ~ f ~ g))}{(\mf{Comp} ~ (\mf{Id} \Rarro f) (\piR ~ g))}
+\end{array}
+\]
+The implementation of categories using \emph{setoids} for homsets, i.e. using types $\Homs{A}{B}$ each equipped with a congruence relation $\mf{Eq}$, is standard in type theory, see e.g. \cite{HuC21}.
+
+
+A \emph{strong magmatic biclosed functor} between magmatic biclosed categories $(\mb{C} , \ot , \Rarr , \Larr,\piR,\piL)$ and $(\mb{D} , \ot' , \Rarr' , \Larr',\piR',\piL')$ is a functor $F : \mb{C} \to \mb{D}$ equipped with three natural isomorphisms
+\[
+\begin{array}{c}
+  m_{A,B} : FA \ot' FB \stackrel{\cong}{\to} F (A \ot B)\\
+  r_{A,B} : F (A \Rarr B) \stackrel{\cong}{\to} FA \Rarr' FB \\
+  l_{A,B} : F(B \Larr A) \stackrel{\cong}{\to} FB \Larr' FA
+\end{array}
+\]
+appropriately preserving the adjunction data, i.e.\ for any $f : A \ot B \to C$ in $\mb{C}$,
+\begin{equation}\label{eq:presadj}
+r'_{A,C} \circ F(\piR ~ f) = \piR' (F f \circ m_{A,B}),
+\qquad
+l'_{B,C} \circ F(\piL ~ f) = \piL' (F f \circ m_{A,B}).
+\end{equation}
+
+Strong magmatic functors are like strong monoidal functors that are not required to interact with the unitors $\lambda,\rho$ and the associator $\alpha$, since this data is not present in a magmatic category. 
+Strong magmatic biclosed functors appropriately relax the notion of strong monoidal biclosed functor.
+%In the context of monoidal (closed) functors, the left to right direction of $m$ ($r$ or $l$) together with the commutative diagram of associativity constitutes the $\ot$ ($\Rarr$ or $\Larr$) part of a lax monoidal (closed) functor. The other direction is called a oplax monoidal (closed) functor.
+%So a strong magmatic biclosed functor should be thought of as a strong monoidal biclosed functor without unit and properties of associativity. 
+% A monoidal (closed) functor is strong if $m$ ($r$ or $l$) is a natural isomorphism.
+
+% Strict magmatic biclosed functors are implemented in Agda in two steps.
+Strong magmatic biclosed functors are implemented in Agda as a record type (\agdaref{FCatUniversal.agda\#L133}).
+This record type includes fields for a functor with action on objects $\mf{F}_0$ and action on morphisms $\mf{F}_1$, natural isomorphisms $\mf{m}$, $\mf{r}$  and $\mf{l}$ and the preservation of adjunction data.
+Below we only show a selection of relevant fields, the last one evidencing the first equation in (\ref{eq:presadj}).
+We have decorated all projections $\Obj$, $\Hom$, $\otz$, etc. with either  $\mb{C}$ or $\mb{D}$, e.g. $\Obj^{\mb{C}}$ and $\Obj^{\mb{D}}$, in order to distinguish the data belonging to each category. In Agda, a similar result can be achieved by appropriately renaming all projections.
+%Notice that each occurrence of a constructor has an additional argument specifying the category in which it lives.
+\vspace*{-0.3cm}
+ \[
+ \scalebox{.97}{$
+\begin{array}{ll}
+  \multicolumn{2}{l}{\record \:\: \mf{MBiCFun} ~ (\mb{C} ~ \mb{D} : \MBCC) : \Set_{\mf{1}} \:\: \where} \\
+%  \multicolumn{2}{l}{\quad \mf{open} ~ \MBCC}\\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad \mf{F}_0 &: \Obj^\mb{C} \to \Obj^\mb{D} \\[2pt]
+  \;\; \quad \mf{F}_1 &: \{B ~ C : \Obj^\mb{C}\} \to \HomC{C}{B}{C} \to \HomC{D}{(\mf{F}_0 ~ B)}{(\mf{F}_0 ~ C)}\\[2pt]
+  \;\; \quad \mf{m} &: \{B ~ C : \Obj^\mb{C}\} \to \HomC{D}{(\mf{F}_0 ~ B \otz^\mb{D} \mf{F}_0 ~ C)}{(\mf{F}_0 ~ (B \otz^\mb{C} C))} \\[2pt]
+  \;\; \quad \mf{m}^{-1} &: \{B ~ C : \Obj^\mb{C}\} \to \HomC{D}{(\mf{F}_0 ~(B \otz^\mb{C} C))}{(\mf{F}_0 ~B \otz^\mb{D} \mf{F}_0 ~C)} \\[2pt]
+%  \;\; \quad \mf{r}_\mf{R} &: \{B ~ C : \Obj^\mb{C}\} \to \EqC{D}{(\mf{F}_0 ~ B \Rarrz^\mb{D} \mf{F}_0 ~ C)}{(\mf{F}_0 ~ (B \Rarrz^\mb{C} C))} \\[2pt]
+  \;\; \quad \mf{m}\mf{nat} &: \{B ~ C ~ D ~ E : \Obj^\mb{C}\} ~ \{f : \HomC{C}{B}{D}\} ~ \{\HomC{C}{C}{E}\} \\
+  \;\; \quad &\quad \to \EqC{D}{(\CompC{D}{\mf{m}}{(\mf{F}_1 ~f \oto^\mb{D} \mf{F}_1 ~g)})}{(\CompC{D}{(\mf{F}_1 ~(f \oto^\mb{C} g))}{\mf{m}})}\\[2pt]
+  \;\; \quad \mf{m}\mf{iso}_{1} &: \{B ~ C : \Obj^\mb{C}\} \to \EqC{D}{(\CompC{D}{\mf{m}}{\mf{m}^{-1}})}{(\IdC{D})} \\[2pt]
+  \;\; \quad \mf{m}\mf{iso}_{2} &: \{B ~ C : \Obj^\mb{C}\} \to \EqC{D}{(\CompC{D}{\mf{m}^{-1}}{\mf{m}})}{(\IdC{D})} \\[2pt]
+  \;\; \quad \mf{pres}\piR &: \{A ~ B ~ C : \Obj^\mb{C}\} ~ \{f : \HomC{C}{(A \otz^\mb{C} B)}{C}\} \\
+  \;\; \quad &\quad \to \EqC{D}{(\CompC{D}{\mf{r_\mf{R}}}{(\mf{F}_1 ~(\piR^\mb{C} ~ f))})}{(\piR^ \mb{D} ~ (\CompC{D}{(\mf{F}_1 ~f)}{\mf{m}}))}
+\end{array}
+$}
+\]
+
+% %%previous version
+% Let $(\mb{C} , \ot , \Rarr , \Larr)$ and $(\mb{D} , \ot' , \Rarr' , \Larr')$ be magmatic biclosed categories. A \emph{strict magmatic biclosed functor} $F : \mb{C} \to \mb{D}$ is a functor satisfying the equations
+% $$F (A \ot B) = FA \ot' FB,
+% \quad F (A \Rarr B) = FA \Rarr' FB,
+% \quad F(B \Larr A) = FB \Larr' FA.$$
+
+% Strict magmatic biclosed functors are implemented in Agda in two steps.
+% First, we define a record type of strong magmatic biclosed functor (\agdaref{FCatUniversal.agda\#L133}).
+% This record type contains the data of a functor, natural isomorphisms $m : F A \ot' F B \cong F (A \ot B)$, $r : F (A \Rarr B) \cong F A \Rarr' F B$, $l : F (B \Larr A) \cong F B \Larr' F A$ and preservation of adjunctions.
+% In the context of monoidal (closed) functors, the left to right direction of $m$ ($r$ or $l$) together with the commutative diagram of associativity constitutes the $\ot$ ($\Rarr$ or $\Larr$) part of a lax monoidal (closed) functor. The other direction is called a oplax monoidal (closed) functor. A monoidal (closed) functor is strong if $m$ ($r$ or $l$) is a natural isomorphism.
+% So a strong magmatic biclosed functor should be thought of as a strong monoidal biclosed functor without unit and associativity.
+
+A strong magmatic biclosed functors is \emph{strict} when the three families of morphisms $m$, $r$, and $l$ are all identities.
+In Agda we introduce a record type $\mf{IsStrict}$ (\agdaref{FCatUniversal.agda\#L206}) taking parameter arguments $\mb{C},\mb{D} : \MBCC$ and $F : \mf{MBiCFun} ~ \mb{C} ~ \mb{D}$, so we think of it as a predicate on the strong magmatic functor $F$.
+Asking for $m$ to be equal to the identity morphism is achieved in Agda by requiring a field corresponding to a family of \emph{propositional} equalities of objects:
+\[
+\mf{mEq} : \{B,C : \Obj^{\mb{C}}\} \to \mf{F}_0 ~ B \otz^\mb{D} \mf{F}_0 ~ C \equiv \mf{F}_0 ~ (B \otz^\mb{C} C)
+\]
+and a field stating that $\mf{m}$ is equal (in the sense of $\mf{Eq}^{\mb{D}}$-related) to the identity morphism, where the codomain of the latter is appropriately corrected using the previous equality $\mf{mEq}$, in order to match the codomain of $\mf{m}$:
+\[
+\mf{mId} : \{B,C : \Obj^{\mb{C}}\} \to \EqC{\mb{D}}{\mf{m}}{(\subst ~(\lambda x \to \HomC{D}{\mf{F}_0 B \oto \mf{F}_0 C}{x})~ \mf{mEq} ~(\IdC{\mb{D}}))}
+\]
+
+
+% We then declare a record type of strict magmatic biclosed functors (\agdaref{FCatUniversal.agda\#L206}) which states that a strong magmatic biclosed functor is strict if $m$, $r$, and $l$ are actual identities rather than natural isomorphisms.
+
+\section{A Hilbert-Style Axiomatic Calculus for \NL}\label{sec:axiomatic}
+
+The main difference between the sequent and (Hilbert-style) axiomatic calculi lies in the shape of sequents. In the sequent calculus antecedents are list of formulae, while in the axiomatic calculus they consist of a single formula.
+We write $A \lra B$ for sequents in the axiomatic calculus, whose derivations are inductively generated by the following rules:
+\begin{equation}\label{eq:axiomatic:calculus}
+  % \[
+\begin{array}{c}
+    \infer[\mf{id}]{A \lra A}{}
+    \quad
+    \infer[\mathsf{comp}]{A \lra C}{
+    A \lra B
+    &
+    B \lra C
+    }
+    \\[5pt]
+    \infer[\ot]{A \ot B \lra C \ot D}{
+    A \lra C
+    &
+    B \lra D
+    }
+    \quad
+    \infer[\Rarr]{A \Rarr B \lra C \Rarr D}{
+    C \lra A
+    &
+    B \lra D
+    }
+    \quad
+    % \infer[\otr]{A \otr B \lra C \otr D}{
+    %   A \lra C
+    %   &
+    %   B \lra D
+    % }
+    % \quad
+    \infer[\Larr]{B \Larr A \lra D \Larr C}{
+    C \lra A
+    &
+    B \lra D
+    }
+    \\[5pt]
+    \infer=[\pi_{\Rarr}]{A \lra B \Rarr C}{A \ot B \lra C}
+    \quad
+    \infer=[\pi_{\Larr}]{A \lra B \Larr C}{A \ot C \lra B}
+  \end{array}
+% \]
+\end{equation}
+The double lines in rules $\pi_{\Rarr}$ and $\pi_{\Larr}$ means that the rules are invertible.
+The bottom-up inference rules are denoted $\pi^{-1}_{\Rarr}$ and $\pi^{-1}_{\Larr}$, respectively.
+
+There exist various equivalent presentations of the axiomatic calculus for \NL\ in the literature, their relationship is thoroughly analyzed in \cite[Ch.~4]{moot:categorial:2012}. 
+The original proposal by Lambek \cite{lambek1988} includes an axiom of identity, a transitivity rule and four rules evidencing the adjunctions between tensor and the two implications.
+Do{\v s}en's version \cite{Dosen1988} replaces the four adjunction rules by four axioms, corresponding to units and counits of the adjunctions, plus three monotonicity rules, one for each logical connective.
+Our formulation in (\ref{eq:axiomatic:calculus}) is closer to the one proposed by Moortgat and Oehrle \cite{moot:categorial:2012}.
+Their version contains both the monotonicity and adjunction rules, but no transitivity rule, which they show to be admissible.
+We include the transitivity rule $\comp$, a.k.a. morphism composition, as a primitive rule to make the calculus a direct instance of a magmatic biclosed category.
+The presence of $\comp$ is also needed for stating the coherence equations of magmatic biclosed categories.
+% By a direct characterization of the categorical models, we mean that the axiomatic calculus forms a category where we interpret objects as formulae, derivations as morphisms and composition as the rule $\comp$.
+
+We implement the entailment relation $\lra$ in our Agda formalization as an inductive type family over pairs of formulae (\agdaref{FCat.agda\#L10}), i.e.\ $A \lra B$ is a type for $A ~ B : \Fma$.
+There is one constructor for each rule in (\ref{eq:axiomatic:calculus}), which is the direct characterization of the rule in our formalization.
+Here we show the constructors associated to $\id$, $\comp$, $\Rarr$, $\pi_{\Rarr}$ and $\pi^{-1}_{\Rarr}$:
+\begin{equation}\label{eq:constructor:axiomatic:calc}
+  \begin{array}{ll}
+  \multicolumn{2}{l}{\data \:\:  \_{\lra}\_  : \Fma \to \Fma \to \Set \:\: \where} \\
+  \;\; \quad \id &: \{A : \Fma \} \to A \lra A \\
+  \;\; \quad \_{\circ}\_ &: \{A ~ B ~ C : \Fma \} ~(f : A \lra B) ~(g : B \lra C) \to A \lra C \\
+  \;\; \quad \_{\Rarr}\_ &: \{A ~ B ~ C ~ D : \Fma \} ~(f : B \lra A) ~(g : C \lra D) \\
+  \;\; \quad &\hspace*{0.5cm}\to A \Rarr C \lra B \Rarr D \\
+  \;\; \quad \pi_{\Rarr} &: \{A ~ B ~ C : \Fma \} ~(f : A \ot B \lra C) \to B \lra A \Rarr C \\
+  \;\; \quad \pi^{-1}_{\Rarr} &: \{A ~ B ~ C : \Fma \} ~(f : B \lra A \Rarr C) \to A \ot B \lra C
+\end{array}
+\end{equation}
+
+To interpret derivations as morphisms, we define a congruence relation $\doteq$ on derivations, whose generating pairs are given in Figures \ref{fig:cat:eq},\ref{fig:eq:Rarr} and \ref{fig:eq:Larr}, which formalizes the equational theory of magmatic biclosed categories.
+Figure \ref{fig:cat:eq} contains equations for left and right unitality of the identity morphism $\id$, associativity of composition $\comp$ and the the functoriality of $\ot$.
+Figure \ref{fig:eq:Rarr} contains equations for functoriality of $\Rarr$ and the fact that $\pi_{\Rarr}$ is a natural isomorphism, natural in all three arguments.
+Figure \ref{fig:eq:Larr} contains similar equations to those in Figure \ref{fig:eq:Rarr} but for $\Larr$ instead of $\Rarr$.
+
+In Agda. the equivalence relation $\doteq$ is implemented as an inductive family indexed over pairs of derivations (\agdaref{FCat.agda\#L34}), which is similar to the formalization of $\circeq$ in Section \ref{sec:equiv:der}.
+In particular, we need to remember to add rules for reflexivity, symmetry and transitivity of $\doteq$, as well as congruence rules for all constructors.
+\begin{figure}[t]
+  % \vspace{0.5\textwidth}
+%\begin{landscape}
+\[
+\begin{array}{c}
+\proofbox{
+\infer[\comp]{A \lra B}{
+  \deduce{A \lra B}{f} &\!\!\!\!
+  \infer[\id]{B \lra B}{}
+}
+}
+\,\doteq\,
+%\proofbox{
+\deduce{A \lra B}{f}
+%}
+\hspace*{5mm}
+%\proofbox{
+\deduce{A \lra B}{f}
+%}
+\,\doteq\,
+\proofbox{
+\infer[\comp]{A \lra B}{
+  \infer[\id]{A \lra A}{} &\!\!\!\! 
+  \deduce{A \lra B}{f}
+}
+}
+\\[15pt]
+\proofbox{
+\infer[\comp]{A \lra D}{
+  \deduce{A \lra B}{f} &\!\!\!\!
+  \infer[\comp]{B \lra D}{
+    \deduce{B \lra C}{g} &
+    \deduce{C \lra D}{h}
+  }    
+}
+}
+\,\doteq\,
+\proofbox{
+\infer[\comp]{A \lra D}{
+  \infer[\comp]{A \lra C}{
+    \deduce{A \lra B}{f} &
+    \deduce{B \lra C}{g}
+  } & \!\!\!\!  
+  \deduce{C \lra D}{h}
+}
+}
+\\[15pt]
+\proofbox{
+\infer[\ot]{A \ot B \lra A \ot B}{
+  \infer[\id]{A \lra A}{} &
+  \infer[\id]{B \lra B}{}
+}
+}
+~ \doteq ~
+\proofbox{
+\infer[\id]{A \ot B \lra A \ot B}{
+}
+}
+\\[15pt]
+\begin{array}{l}
+  \proofbox{
+\infer[\ot]{A \ot B \lra E \ot F}{
+  \infer[\comp]{A \lra E}{
+    \deduce{A \lra C}{f} &
+    \deduce{C \lra E}{g}
+  } &
+  \infer[\comp]{B \lra F}{
+    \deduce{B \lra D}{g} &
+    \deduce{D \lra F}{k}
+  }
+}
+}
+\\
+\hspace*{4cm}\doteq ~
+\proofbox{
+\infer[\comp]{A \ot B \lra E \ot F}{
+  \infer[\ot]{A \ot B \lra C \ot D}{
+    \deduce{A \lra C}{f} &
+    \deduce{B \lra D}{g}
+  } &   
+  \infer[\ot]{C \ot D \lra E \ot F}{
+    \deduce{C \lra E}{g} &
+    \deduce{D \lra F}{k}
+  } 
+}
+}
+\end{array}
+\end{array}
+\]
+\caption{Unitality and composition laws of categories and functoriality of $\ot$}
+\label{fig:cat:eq}
+%\end{landscape}
+\end{figure}
+
+\begin{figure}
+  \begin{displaymath}
+    \arraycolsep=3pt
+    \scalebox{1}{$\begin{array}{l}
+      \begin{array}{c}
+      \hspace*{1.3cm}
+        \begin{array}{c}
+        \infer[\Rarr]{A \Rarr B \lra A \Rarr B}{
+            \infer[\id]{A \lra A}{}
+            &
+            \infer[\id]{B \lra B}{}
+        }
+      \end{array}
+      \quad \doteq \quad
+      \begin{array}{c}
+        \infer[\id]{A \Rarr B \lra A \Rarr B}{}
+      \end{array}
+      \end{array}
+      \\[0.4cm]
+      \begin{array}{c}
+        \infer[\Rarr]{C \Rarr D \lra A \Rarr F}{
+            \infer[\comp]{A \lra C}{
+                \deduce{A \lra B}{f}
+                &
+                \deduce{B \lra C}{g}
+            }
+            &
+            \infer[\comp]{D \lra F}{
+                \deduce{D \lra E}{h}
+                &
+                \deduce{E \lra F}{k}
+            }
+        }
+      \end{array}
+      \\
+      \hspace*{3cm}\doteq
+      \begin{array}{c}
+        \infer[\comp]{C \Rarr D \lra A \Rarr F}{
+            \infer[\Rarr]{C \Rarr D \lra B \Rarr E}{
+                \deduce{B \lra C}{g}
+                &
+                \deduce{D \lra E}{h}
+            }
+            &
+            \infer[\Rarr]{B \Rarr E \lra A \Rarr F}{
+                \deduce{A \lra B}{f}
+                &
+                \deduce{E \lra F}{k}
+            }
+        }
+      \end{array}
+      \\[0.4cm]
+      \begin{array}{c}
+        \infer[\pi_{\Rarr}]{B \lra A  \Rarr (A' \ot B)}{
+        \infer[\ot]{A \ot B \lra A' \ot B}{
+          \deduce{A \lra A'}{f}
+          &
+          \infer[\id]{B \lra B}{}
+        }
+      }
+      \end{array}
+      % \hspace*{4cm}
+      \\
+      \hspace*{1cm}\doteq \ 
+      \begin{array}{c}
+        \infer[\comp]{B \lra A  \Rarr (A' \ot B)}{
+            \infer[\pi_{\Rarr}]{B \lra A'  \Rarr (A' \ot B)}{
+              \infer[\id]{A' \ot B \lra A' \ot B}{}
+            }
+            &
+            \infer[\Rarr]{A'  \Rarr (A' \ot B) \lra A  \Rarr (A' \ot B)}{
+              \deduce{A \lra A'}{f}
+              &
+              \infer[\id]{A' \ot B \lra A' \ot B}{}
+            }
+        }
+      \end{array}
+      \\[0.4cm]
+      \begin{array}{c}
+        \infer[\comp]{B' \lra A \Rarr C}{
+            \deduce{B' \lra B}{f}
+            &
+            \infer[\pi_{\Rarr}]{B \lra A \Rarr C}{
+              \deduce{A \ot B \lra C}{g}
+            }
+        }
+      \end{array}
+      % \hspace*{4cm}
+      \\
+      \hspace*{3cm}\doteq
+      \begin{array}{c}
+        \infer[\pi_{\Rarr}]{B' \lra A \Rarr C}{
+            \infer[\comp]{A \ot B' \lra C}{
+              \infer[\ot]{A \ot B' \lra A \ot B}{
+                \infer[\id]{A \lra A}{}
+                &
+                \deduce{B' \lra B}{f}
+              }
+              &
+              \deduce{A \ot B \lra C}{g}
+            }
+        }
+      \end{array}
+      \\[0.4cm]
+        \begin{array}{c}
+        \infer[\pi_{\Rarr}]{B \lra A \Rarr C'}{
+            \infer[\comp]{A \ot B \lra C'}{
+              \deduce{A \ot B \lra C}{f}
+              &
+              \deduce{C \lra C'}{g}
+            }
+        }
+      \end{array}
+      % \hspace*{5cm}
+      \\
+      \hspace*{3cm} \doteq
+      \begin{array}{c}
+        \infer[\comp]{B \lra A \Rarr C'}{
+            \infer[\pi_{\Rarr}]{B \lra A \Rarr C}{
+              \deduce{A \ot B \lra C}{f}
+            }
+            &
+            \infer[\Rarr]{A \Rarr C \lra A \Rarr C'}{
+              \infer[\id]{A \lra A}{}
+              &
+              \deduce{C \lra C'}{g}
+            }
+        }
+      \end{array}
+      \\[0.4cm]
+      \begin{array}{c}
+        \hspace*{2.5cm}\begin{array}{c}
+        \infer[\pi_{\Rarr}]{A \lra B \Rarr C}{
+            \infer[\pi^{-1}_{\Rarr}]{A \ot B \lra C}{
+                \deduce{A \lra B \Rarr C}{f}
+            }
+        }
+      \end{array}
+      \quad \doteq \quad
+      \begin{array}{c}
+        \deduce{A \lra B \Rarr C}{f}
+      \end{array}
+      \\[0.4cm]
+      \hspace*{2.5cm}
+      \begin{array}{c}
+        \infer[\pi^{-1}_{\Rarr}]{A \ot B \lra C}{
+            \infer[\pi_{\Rarr}]{A \lra B \Rarr C}{
+                \deduce{A \ot B \lra C}{f}
+            }
+        }
+      \end{array}
+      \quad \doteq \quad
+      \begin{array}{c}
+        \deduce{A \ot B \lra C}{f}
+      \end{array}
+      \end{array}
+    \end{array}$}
+  \end{displaymath}
+  \caption{Functoriality of \(\Rarr \), naturality and invertibility of $\pi_{\Rarr}$}
+  \label{fig:eq:Rarr}
+\end{figure}
+
+
+
+\begin{figure}
+  \begin{displaymath}
+    \arraycolsep=3pt
+    \scalebox{1}{$\begin{array}{l}
+      \hspace*{1.3cm}\begin{array}{c}
+        \infer[\Larr]{B \Larr A \lra B \Larr A}{
+            \infer[\id]{A \lra A}{}
+            &
+            \infer[\id]{B \lra B}{}
+        }
+      \end{array}
+      \quad \doteq \quad
+      \begin{array}{c}
+        \infer[\id]{B \Larr A \lra B \Larr A}{}
+      \end{array}
+      \\[0.4cm]
+      \begin{array}{c}
+        \infer[\Larr]{D \Larr C \lra F \Larr A}{
+            \infer[\comp]{A \lra C}{
+                \deduce{A \lra B}{f}
+                &
+                \deduce{B \lra C}{g}
+            }
+            &
+            \infer[\comp]{D \lra F}{
+                \deduce{D \lra E}{h}
+                &
+                \deduce{E \lra F}{k}
+            }
+        }
+      \end{array}
+      \\
+      \hspace*{3cm}\doteq
+      \begin{array}{c}
+        \infer[\comp]{D \Larr C \lra F \Larr A}{
+            \infer[\Larr]{D \Larr C \lra E \Larr B}{
+                \deduce{B \lra C}{g}
+                &
+                \deduce{D \lra E}{h}
+            }
+            &
+            \infer[\Larr]{E \Larr B \lra F \Larr A}{
+                \deduce{A \lra B}{f}
+                &
+                \deduce{E \lra F}{k}
+            }
+        }
+      \end{array}
+      \\[0.4cm]
+      \begin{array}{c}
+        \infer[\comp]{A' \lra C \Larr B}{
+        \deduce{A' \lra A}{f}
+        &
+        \infer[\pi_{\Larr}]{A \lra C \Larr B}{
+            \deduce{A \ot B \lra C}{g}
+        }
+      }
+      \end{array}
+      % \hspace*{4cm}
+      \\
+      \hspace*{3cm}\doteq
+      \begin{array}{c}
+        \infer[\pi_{\Larr}]{A' \lra C \Larr B}{
+            \infer[\comp]{A' \ot B \lra C}{
+                \infer[\ot]{A' \ot B \lra A \ot B}{
+                    \deduce{A' \lra A}{f}
+                    &
+                    \infer[\id]{B \lra B}{}
+                }
+            &
+            \deduce{A \ot B \lra C}{g}
+            }
+        }
+      \end{array}
+      \\[0.4cm]
+       \begin{array}{c}
+        \infer[\pi_{\Larr}]{A \lra (A \ot B') \Larr B}{
+            \infer[\ot]{A \ot B \lra A \ot B'}{
+                \infer[\id]{A \lra A}{}
+                &
+                \deduce{B \lra B'}{f}
+            }
+        }
+      \end{array}
+      \hspace*{5cm}
+      \\
+      \qquad\qquad \doteq
+      \begin{array}{c}
+        \infer[\comp]{A \lra (A \ot B') \Larr B}{
+            \infer[\pi_{\Larr}]{A \lra (A \ot B') \Larr B'}{
+                \infer[\id]{A \ot B' \lra A \ot B'}{}
+            }
+            &
+            \infer[\Larr]{(A \ot B') \Larr B' \lra (A \ot B') \Larr B}{
+                \deduce{B \lra B'}{f}
+                &
+                \infer[\id]{A \ot B' \lra A \ot B'}{}
+            }
+        }
+      \end{array}
+      \\[0.4cm]
+       \begin{array}{c}
+        \infer[\pi_{\Larr}]{A \lra C' \Larr B}{
+            \infer[\comp]{A \ot B \lra C'}{
+                \deduce{A \ot B \lra C}{f}
+                &
+                \deduce{C \lra C'}{g}
+            }
+        }
+      \end{array}
+      \hspace*{4cm}
+      \\
+      \hspace*{3cm}\doteq
+      \begin{array}{c}
+        \infer[\comp]{A \lra C' \Larr B}{
+            \infer[\pi_{\Larr}]{A \lra C \Larr B}{
+                \deduce{A \ot B \lra C}{f}
+            }
+            &
+            \infer[\Larr]{C \Larr B \lra C' \Larr B}{
+                \infer[\id]{B \lra B}{}
+                &
+                \deduce{C \lra C'}{g}
+            }
+        }
+      \end{array}
+      \\[0.4cm]
+      \begin{array}{c}
+        \hspace*{2.5cm}\begin{array}{c}
+        \infer[\pi_{\Larr}]{A \lra C \Larr B}{
+            \infer[\pi^{-1}_{\Larr}]{A \ot B \lra C}{
+                \deduce{A \lra C \Larr B}{f}
+            }
+        }
+      \end{array}
+      \quad \doteq \quad
+      \begin{array}{c}
+        \deduce{A \lra C \Larr B}{f}
+      \end{array}
+      \\[0.4cm]
+      \hspace*{2.5cm} \begin{array}{c}
+        \infer[\pi^{-1}_{\Larr}]{A \ot B \lra C}{
+            \infer[\pi_{\Larr}]{A \lra C \Larr B}{
+                \deduce{A \ot B \lra C}{f}
+            }
+        }
+      \end{array}
+      \quad \doteq \quad
+      \begin{array}{c}
+        \deduce{A \ot B \lra C}{f}
+      \end{array}
+      \end{array}
+    \end{array}$}
+  \end{displaymath}
+  \caption{Functoriality of \(\Larr \), naturality and invertibility of $\pi_{\Larr}$}
+  \label{fig:eq:Larr}
+\end{figure}
+
+\subsection{The Free Magmatic Biclosed Category}
+Let $\FMBCC$ (\agdaref{FCatUniversal.agda\#L249}) be the magmatic biclosed category generated by (\ref{eq:axiomatic:calculus}) and the equivalence relation $\doteq$.
+Concretely, objects in this category are formulae ($\Fma$) and the set of morphisms between objects $A$ and $B$ is the set of derivations of the sequent $A \lra B$ quotiented by $\doteq$.
+The identity morphism is the equivalence class of $\id$, while composition is defined via $\comp$, noticing that this is a well-defined operation since $\doteq$ is a congruence and therefore $\comp$ respects it. The magmatic biclosed structure is straightforward to instantiate.
+
+% We then show that $\FMBCC$ is the free magmatic biclosed category.
+The syntactic category $\FMBCC$ is moreover the \emph{free} magmatic biclosed category generated by the set $\At$.  This means that, given another magmatic biclosed category $(\mb{D} , \ot' , \Rarr' , \Larr', \piR', \piL')$ and a valuation function $F_{\mf{At}} : \mf{At} \to |\mb{D}|$ assigning objects of $\mb{D}$ to atomic formulae, there exists a unique strict magmatic biclosed functor $F : \FMBCC \to \mb{D}$ such that $F \circ \mf{at} = F_{\mf{At}}$ (remember that $\mf{at} : \mf{At} \to \Fma$ is the inclusion of atomic formulae into the set of formulae).
+Below we provide a sketch of the proof of freeness.
+
+\begin{description}
+\item[Existence] (\agdaref{FCatUniversal.agda\#L310})
+  The action $F_0$ on objects is defined inductively on formulae:
+  \[
+  \arraycolsep=10pt
+  \begin{array}{cc}
+    F_0 X = F_{\mf{At}} X & F_0 (A \ot B) = F_0 A \ot' F_0 B
+    \\[5pt]
+    F_0 (A \Rarr B) = F_0 A \Rarr' F_0 B & F_0 (B \Larr A) = F_0 B \Larr' F_0 A
+  \end{array}
+  \]
+The action $F_1$ on morphisms is defined by structural recursion on derivations in the homset $A \lra B$. Concretely, each derivation is sent to a morphism in $\mb{D} (F_0 A , F_0 B)$ obtained by replacing $\ot$ by $\ot'$, $\Rarr$ by $\Rarr'$, $\Larr$ by $\Larr'$, $\pi_{\Rarr}$ by $\piR'$ and $\pi_{\Larr}$ by $\piL'$.
+
+Using $F_0$ and $F_1$, we define a functor $F : \FMBCC \to \mb{D}$ which preserves the magmatic biclosed structure strictly.
+
+\item[Uniqueness] (\agdaref{FCatUniversal.agda\#L411})
+  Consider another strict magmatic biclosed functor $G : \FMBCC \to \mb{D}$ such that $G \circ \mf{at} = F_{\mf{At}}$, i.e.  $G$ agrees with $F$ on atomic formulae. For each formula $A$, we construct an invertible function $t_A : F~ A\to G~A$ by recursion on $A$ and show that it is a natural transformation by structural recursion on derivations.
+  Since $G$ is strict, one can moreover show that $t$ is the identity natural transformation and therefore $F$ and $G$ agree on all objects and morphisms.
+% \cheng{maybe some text about why this shows $\FMBCC$ is the free category.}
+\end{description}
+
+\subsection{Proof-Relevant Soundness and Completeness}
+We have shown that the axiomatic calculus, together with the congruence relation $\doteq$, satisfies a universal property, namely that it underlies the free magmatic biclosed category on the set of atomic formulae $\mf{At}$. 
+In other words, the axiomatic calculus is the syntactic incarnation of the categorical semantics.
+In this section we show the equivalence between the sequent calculus and the axiomatic calculus for \NL.
+The equivalence at the level of \emph{provability}, i.e. that the sequent $A \vdash B$ is provable iff the sequent $A \lra B$ is provable, is well-known \cite{moot:categorial:2012}. Here we extend the equivalence at the level of \emph{proofs}, i.e. there is a bijective correspondence between proofs of $A \vdash B$ modulo $\circeq$ and proofs of $A \lra B$ modulo $\doteq$.
+This equivalence can be understood as a proof-relevant soundness and completeness theorem for the sequent calculus wrt.\ the categorical models of Section \ref{sec:cat:sem}.
+
+Explicitly, the equivalence between the sequent calculus and the axiomatic calculus is proved by constructing two functions $\sound$ (\agdaref{Sound.agda\#L63}) and $\complt$ (\agdaref{Complt.agda\#L15}) typed
+\[
+\sound : T \vd C \to T^* \lra C,
+\qquad
+\complt : A \lra C \to A \vd C
+\]
+where, given a tree $T$, the formula $T^*$ is obtained by replacing each comma in $T$ by a tensor $\ot$.
+These functions satisfy the following properties:
+  \begin{enumerate}[label=($\roman*$)]
+    \item for $f , g : T \vd C$, if $f \circeq g$, then $\sound ~ f \doteq \sound ~ g$ (\agdaref{Sound.agda\#L75});
+    \item for $f , g : A \lra C$, if $f \doteq g$, then $\complt ~ f \circeq \complt ~ g$ (\agdaref{Complt.agda\#L43});
+    \item for $f : T \vd C$, $\complt ~(\sound ~ f) \circeq \tl^* ~ f$ (\agdaref{CompltSound.agda\#L26});
+    \item for $f : A \lra C$, $\sound ~(\complt ~ f) \doteq f$ (\agdaref{SoundComplt.agda\#L228}).
+  \end{enumerate}
+  In property $(iii)$ above, $\tl^*$ is a derivable rule obtained by iterated applications of $\tl$:
+\[
+\infer[\tl^*]{T^* \vd C}{
+  T \vd C
+}
+\]
+
+The functions $\sound$ and $\complt$ are both constructed by structural recursion on derivations.
+We show the definition of $\sound$ when the input derivation ends with an application of a $\Rl$-rule:
+  \[
+  \scalebox{0.95}{$
+  \begin{array}{l}
+    \sound ~\left(
+    \proofbox{
+      \infer[\Rl]{\mc{C}[U , A \Rarr B] \vd C}{
+        \deduce{U \vd A}{f}
+        &
+        \deduce{\mc{C}[B] \vd C}{g}
+      }
+    }
+    \right)
+    =
+    \\[0.7cm]
+    \quad
+    \proofbox{
+      \infer={\mc{C}[U , A \Rarr B]^* \lra C}{
+      \infer[\comp]{\mc{C}[U^* \ot (A \Rarr B)]^* \lra C}{
+        \infer[\mf{cxt}]{
+          \mc{C}[U^* \ot (A \Rarr B)]^* \lra \mc{C} [B]^*
+        }{
+          \infer[\comp]{U^* \ot (A \Rarr B) \lra B}{
+            \infer[\ot]{U^* \ot (A \Rarr B) \lra A \ot (A \Rarr B)}{
+              \deduce{U^* \lra A}{\sound ~ f}
+              &
+              \infer[\id]{A \Rarr B \lra A \Rarr B}{}
+            }
+            &
+            \infer[\piRm]{A \ot (A \Rarr B) \lra B}{
+              \infer[\id]{A \Rarr B \lra A \Rarr B}{}
+            }
+          }
+        }
+        &
+        \hspace*{-1cm}
+        \deduce{\mc{C} [B]^* \lra C}{\sound ~ g}
+      }
+    }
+    }
+  \end{array}
+  $}
+  \]
+  %  We show one interesting case of $\sound$ where the admissible rule (\ref{lem:f2Tf}) is essential.
+  The derivation above uses the rule $\mf{cxt}$ (\agdaref{Sound.agda\#L13}), which is admissible in the axiomatic calculus and states the monotonicity of the operation $A \mapsto \mc{C}[A]^*$ for each context $\mc{C}$:
+  %It states that for any context $\mc{C}$ and derivation $f : A \lra B$  where ${-}^* : \Tree \to \Fma$ is a function that replaces all commas by $\ot$ in a tree:
+% (\agdaref{Sound.agda\#L13})
+  \begin{equation}\label{lem:f2Tf}
+    \infer[\mf{cxt}]{\mc{C}[A]^* \lra \mc{C}[B]^*}{
+      A \lra B
+      }
+  \end{equation}
+
+
+  
+  Properties $(i)$ and $(ii)$ are formalized in Agda as the following functions:
+  \[
+    \begin{array}{l}
+      {\circeq}\sound{\doteq} : \{f ~ g : T \vd C\} ~ (eq : f \circeq g) \to \sound ~ f \doteq \sound ~ g
+     \\[2pt]
+      {\doteq}\complt{\circeq} : \{f ~ g : A \lra B\} ~ (eq : f \doteq g) \to \complt ~ f \circeq \complt ~ g
+     \end{array}
+    \]
+  They are both constructed by patter-matching on the argument $eq$, i.e. the proof of equivalence of derivations. 
+
+
+  The construction of the function ${\circeq}\sound{\doteq}$ relies on several properties of the admissible rule $\mf{cxt}$ in (\ref{lem:f2Tf}):
+  %, which are collected in Figure \ref{fig:cxt}.
+  %From top to bottom,  these properties state that:
+  \begin{itemize}
+  \item $\mf{cxt}$ preserves composition $\comp$ (\agdaref{Sound.agda\#L29}):
+\[
+\proofbox{
+  \infer[\mf{cxt}]{\mc{C}[A]^* \lra \mc{C}[C]^*}{
+    \infer[\comp]{A \lra C}{
+      \deduce{A \lra B}{f}
+      &
+      \deduce{B \lra C}{g}
+    }
+  }
+}
+\doteq
+\proofbox{
+  \infer[\comp]{\mc{C}[A]^* \lra \mc{C}[C]^*}{
+    \infer[\mf{cxt}]{\mc{C}[A]^* \lra \mc{C}[B]^*}{
+      \deduce{A \lra B}{f}
+    }
+    &
+    \infer[\mf{cxt}]{\mc{C}[B]^* \lra \mc{C}[C]^*}{
+      \deduce{B \lra C}{g}
+    }
+  }
+}
+\]    
+\item  $\mf{cxt}$ applied to a composite context results in two applications of $\mf{cxt}$ (\agdaref{Sound.agda\#L37}):
+  \[
+  \proofbox{
+  \infer={\mc{C}[\mc{C'}[A]]^* \lra \mc{C}[\mc{C'}[B]]^*}{
+    \infer[\mf{cxt}]{(\mc{C}[\mc{C'}])[A]^* \lra (\mc{C}[\mc{C'}])[B]^*}{
+      \deduce{A \lra B}{f}
+    }
+  }
+}
+\doteq
+\proofbox{
+  \infer[\mf{cxt}]{\mc{C}[\mc{C'}[A]]^* \lra \mc{C}[\mc{C'}[B]]^*}{
+    \infer[\mf{cxt}]{\mc{C'}[A]^* \lra \mc{C'}[B]^*}{
+      \deduce{A \lra B}{f}
+    }
+  }
+}
+\]
+In the first derivation, the context $\mc{C}[\mc{C'}]$ is obtained by plugging the context $\mc{C'}$ in a hole of $\mc{C}$.
+\item Two applications of $\mf{cxt}$ on disjoint parts of the context can be swapped (\agdaref{Sound.agda\#L44}):
+  \[
+  \begin{array}{c}
+\proofbox{
+  \infer={(\mc{C}[A])[A']^* \lra (\mc{C}[B])[B']^*}{
+    \infer[\mf{comp}]{(\mc{C}[A'])[A]^* \lra (\mc{C}[B'])[B]^*}{
+      \infer[\mf{cxt}]{(\mc{C}[A'])[A]^* \lra (\mc{C}[A'])[B]^*}{
+        \deduce{A \lra B}{f}
+      }
+      &
+      \infer[\mf{cxt}]{(\mc{C}[A'])[B]^* \lra (\mc{C}[A'])[B']^*}{
+        \deduce{A' \lra B'}{g}
+      }
+    }
+  }
+}
+\hspace*{3cm}
+\\
+\doteq
+\proofbox{
+  \infer[\mf{comp}]{(\mc{C}[A])[A']^* \lra (\mc{C}[B])[B']^*}{
+    \infer[\mf{cxt}]{(\mc{C}[A])[A']^* \lra (\mc{C}[A])[B']^*}{
+      \deduce{A' \lra B'}{g}
+    }
+    &
+    \infer={(\mc{C}[A])[B']^* \lra (\mc{C}[B])[B']^*}{
+      \infer[\mf{cxt}]{(\mc{C}[B'])[A]^* \lra (\mc{C}[B'])[B]^*}{
+        \deduce{A \lra B}{f}
+      }
+    }
+  }
+}
+\end{array}
+\]    
+\item $\mf{cxt}$ respects the congruence relation $\doteq$ (\agdaref{Sound.agda\#L54}).
+  \end{itemize}
+  The construction of the function ${\doteq}\complt{\circeq}$ heavily relies on  $\cut{\circeq}_1$ and $\cut{\circeq}_2$, i.e.\ the fact that the admissible cut rule respects $\circeq$ in each of its arguments.
+
+%\begin{figure}[t]
+%  % \vspace{0.5\textwidth}
+%%\begin{landscape}
+%\[
+%\begin{array}{c}
+%\proofbox{
+%  \infer[\mf{cxt}]{\mc{C}[A]^* \lra \mc{C}[C]^*}{
+%    \infer[\comp]{A \lra C}{
+%      \deduce{A \lra B}{f}
+%      &
+%      \deduce{B \lra C}{g}
+%    }
+%  }
+%}
+%\doteq
+%\proofbox{
+%  \infer[\comp]{\mc{C}[A]^* \lra \mc{C}[C]^*}{
+%    \infer[\mf{cxt}]{\mc{C}[A]^* \lra \mc{C}[B]^*}{
+%      \deduce{A \lra B}{f}
+%    }
+%    &
+%    \infer[\mf{cxt}]{\mc{C}[B]^* \lra \mc{C}[C]^*}{
+%      \deduce{B \lra C}{g}
+%    }
+%  }
+%}
+%\\[2cm]
+%\proofbox{
+%  \infer={\mc{C}[\mc{C'}[A]]^* \lra \mc{C}[\mc{C'}[B]]^*}{
+%    \infer[\mf{cxt}]{(\mc{C}[\mc{C'}])[A]^* \lra (\mc{C}[\mc{C'}])[B]^*}{
+%      \deduce{A \lra B}{f}
+%    }
+%  }
+%}
+%\doteq
+%\proofbox{
+%  \infer[\mf{cxt}]{\mc{C}[\mc{C'}[A]]^* \lra \mc{C}[\mc{C'}[B]]^*}{
+%    \infer[\mf{cxt}]{\mc{C'}[A]^* \lra \mc{C'}[B]^*}{
+%      \deduce{A \lra B}{f}
+%    }
+%  }
+%}
+%\\[2cm]
+%\proofbox{
+%  \infer={(\mc{C}[A])[A']^* \lra (\mc{C}[B])[B']^*}{
+%    \infer[\mf{comp}]{(\mc{C}[A'])[A]^* \lra (\mc{C}[B'])[B]^*}{
+%      \infer[\mf{cxt}]{(\mc{C}[A'])[A]^* \lra (\mc{C}[A'])[B]^*}{
+%        \deduce{A \lra B}{f}
+%      }
+%      &
+%      \infer[\mf{cxt}]{(\mc{C}[A'])[B]^* \lra (\mc{C}[A'])[B']^*}{
+%        \deduce{A' \lra B'}{g}
+%      }
+%    }
+%  }
+%}
+%\hspace*{5cm}
+%\\
+%\qquad\qquad \doteq
+%\proofbox{
+%  \infer[\mf{comp}]{(\mc{C}[A])[A']^* \lra (\mc{C}[B])[B']^*}{
+%    \infer[\mf{cxt}]{(\mc{C}[A])[A']^* \lra (\mc{C}[A])[B']^*}{
+%      \deduce{A' \lra B'}{g}
+%    }
+%    &
+%    \infer={(\mc{C}[A])[B']^* \lra (\mc{C}[B])[B']^*}{
+%      \infer[\mf{cxt}]{(\mc{C}[B'])[A]^* \lra (\mc{C}[B'])[B]^*}{
+%        \deduce{A \lra B}{f}
+%      }
+%    }
+%  }
+%}
+%\end{array}
+%\]
+%\caption{Properties of the admissible rule $\mf{cxt}$}
+%\label{fig:cxt}
+%%\end{landscape}
+%\end{figure}
+  
+  
+  Properties $(iii)$ and $(iv)$ are formalized in Agda as the following functions:
+  \[
+  \begin{array}{l}
+      \mf{compltsound} : (f : T \vd C) \to \complt ~(\sound ~ f) \circeq \tl^* f
+    \\[2pt]
+      \mf{soundcomplt} : (f : A \lra B) \to \sound ~(\complt ~ f) \doteq f
+  \end{array}
+  \]
+  These two properties are both defined by pattern-matching on $f$. 
+  In the definition of $\mf{soundcomplt}$ we employ a lemma $\mf{soundcut}$ (\agdaref{SoundComplt.agda\#L44}), which states that the function $\sound$ preserves morphism composition: it sends a composite (i.e. obtained via an application of the admissible $\cut$ rule) derivation in the sequent calculus to a composite (i.e. obtained via an application of the primitive $\comp$ rule) derivation in the axiomatic calculus.
+  % Notice that $\tl$ is an invertible rule, i.e.\ the following rule is derivable:
+  % \[
+  % \infer[\tl^{-1}]{\mc{C}[A , B] \vd C}{\mc{C}[A \ot B] \vd C}
+  % \]
+  % Moreover, $\tl$ and $\tl^{-1}$ are each other's inverses wrt. $\doteq$.
+  % Therefore, it is provable that 
+  % This is essential for soundcomplt
+  % soundcut : ∀ {T U W C D} (p : Path T)
+  % → (f : U ⊢ D) (g : W ⊢ C)
+  % → (eq : W ≡ sub p (η D))
+  % → sound (cut p f g eq) ≐ (sound g ∘ (subst-ant (cong [_] eq) id ∘ f2T[f] {U = U} {η D} p (sound f)))
+
+\section{Proof-Relevant Maehara Interpolation}\label{sec:proof:rel:mip}
+%In this section, we introduce three aspects of interpolation for nonassociative Lambek calculus: Maehara interpolation, proof-relevant interpolation, and showing that Maehara interpolation is well-defined wrt.\ equivalence of derivations.
+
+The Maehara interpolation property is a property of a cut-free sequent calculus. 
+It originates from Maehara's proof of Craig interpolation for the sequent calculus for classical logic $\mathtt{LK}$ \cite{maehara1961}.
+The method has been subsequently used to prove Craig interpolation for various logics.
+For the associative Lambek calculus, the Maehara interpolation property is formulated as follows \cite{ono:proof:nonclassical:1998}: given a derivation $f : \GG_0, \GG_1, \GG_2 \vdash C$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that $\vars{D} \subseteq \vars{\GG_1} \cap \vars{\GG_0, \GG_2, C}$.
+Here  $\vars{A}$ denotes the set of atomic formulae appearing in $A$, which can be extended naturally to lists of formulae.
+
+% \FL\ without additive connectives enjoys an stronger form of Maehara interpolation that replaces variable condition with a more refined variable \emph{multiplicity} condition \cite{moot:categorial:2012}.
+% This refinement tracks the precise number of occurrences of each atomic formula. Let us denote by $\gs{A}$ the count of occurrences of atomic formula $X$ within formula $A$, and extend this notation to $\gs{\GG}$ representing the occurrence count of $X$ across a sequence of formulae $\GG$.
+% Under this perspective, the strengthened version of Maehara interpolation is formulated as follows:
+% \begin{description}
+%   \item[(\MIP~for \FL~with variable multiplicity condition)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that $\gs{D} \leq \gs{\GG_1}$ and $\gs{D} \leq \gs{\GG_0, \GG_2 , C}$ for all atomic $X$.
+% \end{description}
+% In his PhD thesis \cite{roorda1991}, Roorda considered a even more stronger variable multiplicity condition, not merely the number of occurrences of atomic formulae but also characterizing the \emph{positive and negative} occurrences of atomic formulae in interpolants. Let $\mathsf{At}^{+}_{X}(A)$ be the multiset of positive occurrences of the atomic formula $X$ in $A$, and let $\mathsf{At}^{-}_{X}(A)$ be the multiset of negative occurrences of the atomic formula $X$ in $A$.
+% Roorda's version of Maehara interpolation can be formulated as follows:
+% \begin{description}
+%   \item[(\MIP~for \FL~with variable polarity condition)] Given $f : \GG \vdash C$ and a partition $\langle \GG_0, \GG_1, \GG_2 \rangle$ of $\GG$, there exist a formula $D$ and two derivations $g : \GG_1 \vdash D$ and $h : \GG_0, D, \GG_2 \vdash C$ such that given $p \in \{ +,-\}$ and any atomic formula $X$, there is an injective function from $\mathsf{At}^{p}_{X}(D)$ to $\mathsf{At}^{p}_{X}(\GG_1)$, and an injective function from $\mathsf{At}^{p}_{X}(D)$ to the multiset union of $\mathsf{At}^{\neg p}_{X}(\GG_0, \GG_2)$ and $\mathsf{At}^{p}_{X}(C)$. Here $\neg p$ denotes the opposite polarity of $p$, i.e. $\neg + = -$ and $\neg - = +$.
+% \end{description}
+
+%Interpolation proofs for various extensions of nonassociative Lambek calculus often depart from the Maehara approach. These alternative methods typically rely on identifying a closed set of formulae that can appear in derivations and proving that interpolant formulae always belong to this set \cite{buszkowski:2009,buszkowski:2010}. Such interpolation theorems primarily serve to establish further properties of the target logic, such as the finite model property, rather than directly addressing our current focus.
+
+Maehara interpolation for the sequent calculus of \NL\ has the following form: given a derivation $f : \mc{C}[U]\vd C$, there exist a formula $D$ and two derivations $g : \mc{C}[D] \vd C$ and $h : U \vd D$ such that $\vars{D} \subseteq \vars{U} \cap \vars{\mc{C}, C}$.
+This property, not including the variable condition (discussed later), is implemented in Agda as the record type $\MIP$ (\agdaref{Interpolation.agda\#L12}):
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\record \:\:  \MIP ~ (p : \pathT{T}) ~ (U : \Tree) ~ (C : \Fma) : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\quad \mf{constructor} ~ \mf{intrp}} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad D &: \Fma \\[2pt]
+  \;\; \quad g &: \sub{p}{(\eta ~ D)} \vd C \\[2pt]
+  \;\; \quad h &: U \vd D 
+\end{array}
+\]
+Elements of type $\MIP ~ p ~ U ~C$ are triples consisting of a formula $D$ and two derivations $g$ and $h$.
+Proving the Maehara interpolation property translates to constructing the function $\mathsf{mip}$ (\agdaref{Interpolation.agda\#L20}):
+\[
+\begin{array}{l}
+\mathsf{mip} : (f : V \vd C) ~ (eq : V \equiv \sub{p}{U}) \to \MIP ~ p ~ U ~C
+\end{array}
+\]
+The construction of the $\mathsf{mip}$ function proceeds by pattern-matching on the derivation $f$.
+%, which mirrors the pen-and-paper proofs in \cite{roorda1991,moot:categorial:2012} (for \Lam\ instead of \NL) that use induction on $f$.
+Similar to our implementation of cut admissibility, there are cases when we need to determine whether the tree $U$ and the principal formula of the conclusion of an inference rule coincide. This analysis is again handled by the $\mathsf{subeq}$ function, which helps us systematically identifying and processing all possible cases that may arise during the construction.
+
+Consider the case where $f : \mc{C}[U]\vd C$ ends with an application of the rule $\Rl$, i.e.
+\[
+f =
+\proofbox{
+  \infer[\Rl]{\mc{C'}[W , A \Rarr B] \vd C}{
+    \deduce{W \vd A}{f'}
+    &
+    \deduce{\mc{C'}[B] \vd C}{f''}
+  }
+}
+\] 
+which forces an equality of trees $\mc{C'}[W , A \Rarr B] = \mc{C}[U]$.
+In the Agda formalization, this equality appears as the type $\sub{p'}{(W \cdast \eta ~(A \Rarr B))} \equiv \sub{p}{U}$ of the argument $eq$, for some paths $p$ and $p'$ specifying the hole in contexts $\mc{C}$ and $\mc{C'}$, respectively.
+We can apply our lemma $\subeq$ to the equality proof $eq$ to give rise to the following seven possible cases (\agdaref{Interpolation.agda\#L29}):
+\begin{itemize}
+  \item[--] $\oneeqtwo$, where $U$ is syntactically equal to $(W, A \Rarr B)$;
+  \item[--] $\twogtLone$ ($\twogtRone$), where $U$ contains $(W, A \Rarr B)$ in its left (right) subtree;
+  \item[--] $\onegtLtwo$, where $(W, A \Rarr B)$ contains $U$ in its left subtree, i.e.\ $U$ is in $W$;
+  \item[--] $\onegtRtwo$, where $(W, A \Rarr B)$ contains $U$ in its right subtree, i.e.\ $U = A \Rarr B$;
+  \item[--] $\oneLtwoR$ and $\oneRtwoL$, where $U$ are $(W, A \Rarr B)$ are disjoint subtrees.
+\end{itemize}
+The interesting case is $\onegtRtwo$, where we apply inductive hypothesis on $f'$ and $f''$ with the interpolant tree $W$ and $B$, respectively.
+The resulting interpolant triples are $(D , g' : D \vd A , h' : W \vd D)$ and $(E , g'' : \mc{C'}[E] \vd C , h'' : B \vd E)$. The desired interpolant formula is $D \Rarr E$ and the desired derivations are constructed as follows:
+\[
+\begin{array}{c}
+  g =
+  \proofbox{
+    \infer[\Rl]{\mc{C'}[W , D \Rarr E] \vd C}{
+      \deduce{W \vd D}{h'}
+      &
+      \deduce{\mc{C'}[E] \vd C}{g''}
+    }
+  }
+  \qquad
+  h =
+  \proofbox{
+    \infer[\Rr]{A \Rarr B \vd D \Rarr E}{
+      \infer[\Rl]{D , A \Rarr B \vd E}{
+        \deduce{D \vd A}{g'}
+        &
+        \deduce{B \vd E}{h''}
+      }
+    }
+  }
+\end{array}
+\]
+The corresponding snippet in Agda is
+\[
+\begin{array}{rl}
+  \;\; \quad \dots &\vert ~ \onegtRtwo ~ (\containsright ~\bullet ~ \refl ~ \refl ~ \refl) = \\[2pt]
+  \;\; \quad &\mf{let} ~\mf{intrp} ~ D ~ g' ~ h' = \mf{mip} ~ \bullet ~ W ~ f' ~ \refl \\[2pt]
+  \;\; \quad & \quad \ \mf{intrp} ~ E ~ g'' ~ h'' = \mf{mip} ~ p' ~ (\eta ~ B) ~ f'' ~ \refl \\[2pt]
+  \;\; \quad & \mf{in} ~ \mf{intrp} ~(D \Rarr E) ~ (\Rl ~ p' ~ h' ~g'') ~ (\Rr ~(\Rl ~ \bullet ~ g' ~ h''))
+\end{array}
+\]
+where $\mf{intrp}$ is the constructor of the record type $\MIP$ and $\containsright$ is the constructor of the record type $\ContainsRight$.
+
+The variable condition of Maehara interpolation is implemented in Agda as follows.
+We first introduce a type $X \in A$ (\agdaref{VarCondition.agda\#L15}) whose terms correspond to occurrences of the atomic formula $X$ in the formula $A$. This can be lifted to a type $X \inT T$ (\agdaref{VarCondition.agda\#L21}), whose terms are occurrences of $X$ in any formula appearing as a leaf of $T$.
+%\[
+%\begin{array}{lrl}
+%  \multicolumn{3}{l}{\data \:\: \_{\inT}\_ ~ (X : \At) : \Tree \to \Set \:\: \where} \\
+%  \;\; \quad \at& &: \forall ~ \{A\} \to X \in A \to X \inT \eta A \\
+%  \;\; \quad \mf{left}& &: \forall \{T ~ U\} \to X \inT T \to X \inT T \cdast U \\
+%  \;\; \quad \mf{right}& &: \forall \{T ~ U\} \to X \inT U \to X \inT T \cdast U
+%\end{array}
+%\]
+%Each constructor represents a way an atomic formula can appear in a tree: $\at$ indicates that if $X \in \vars{A}$, then $X$ also appears in the set of atomic formulae of the \emph{tree} $A$; $\mf{left}$ means that if $X \in \vars{T}$, then it also appears in the set of atomic formulae of the tree $T \cdast U$ for any $U$; and $\mf{right}$ is the dual case.
+%When a tree $U$ is substituted into a context $T[\bullet]$ (resulting in $T[U]$), variables can come from either the context or the substituted tree. We capture this relationship with two functions:
+%\[
+%\begin{array}{l}
+%{\in}\mf{sub}_1 : \forall ~ \{A ~ T ~ U \} ~ (p : \pathT{T}) \to A \inT T \to A \inT \sub{p}{U}
+%\\
+%{\in}\mf{sub}_2 : \forall ~ \{A ~ T ~ U \} ~ (p : \pathT{T}) \to A \inT U \to A \inT \sub{p}{U}
+%\end{array}
+%\]
+%The function ${\in}\mf{sub}_1$ shows how variables from the original context $T$ propagate to the substituted tree, while ${\in}\mf{sub}_2$ shows how variables from the substituted tree $U$ appear in the substituted tree. Both functions are defined by pattern-matching on the path $p : \pathT{T}$, with ${\in}\mf{sub}_1$ additionally pattern-matching on the witness that $A$ appears in $T$.
+The variable condition can then be expressed as a record type $\mf{VarCond}$ (\agdaref{VarCondition.agda\#L46}):
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\record \:\:  \mf{VarCond}~ (p : \pathT{T}) ~ (U : \Tree) ~ (C ~ D : \Fma) : \Set \:\: \where} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad varg &: \forall \{X\} \to X \in D \to X \inT T \uplus X \in C \\[2pt]
+  \;\; \quad varh &: \forall \{X\} \to X \in D \to X \inT U
+\end{array}
+\]
+Here $\uplus$ is the disjoint union of types in Agda.
+Terms of the above type are pairs of functions: $\mf{varg}$ sends each occurrence of atomic formula $X$ in $D$ to an occurrence of $X$ in $T,C$, while $\mf{varh}$ sends occurrences of X in $D$ to occurrence of $X$ in $U$.
+In Agda we verify that the interpolant formula $D$ produced by the $\mf{mip}$ procedure satisfies this variable condition by constructing the function $\mf{varcond}$ (\agdaref{VarCondition.agda\#L52}):
+\[
+\begin{array}{l}
+\mf{varcond} : (f : V \vd C) ~ (eq : V \equiv \sub{p}{U}) \\
+\quad \to \mf{VarCond} ~ p ~ U ~ C ~ (\MIP.D ~ (\mf{mip} ~ f ~ eq))
+\end{array}
+\]
+The definition of $\mf{varcond}$ follows the structure of $\mf{mip}$, ensuring that the variable condition is preserved through all cases of the interpolation algorithm. In the type above, $\MIP.D ~ (\mf{mip} ~ f ~ eq)$ is the interpolant formula $D$ produced by $\mf{mip} ~ f ~ eq$.
+
+% _∈_ : (X : At) → Fma → Set
+% X ∈ at Y = X ≡ Y
+% X ∈ (A ⇒ B) = X ∈ A ⊎ X ∈ B
+% X ∈ (B ⇐ A) = X ∈ A ⊎ X ∈ B
+% X ∈ (A ⊗ B) = X ∈ A ⊎ X ∈ B
+  
+% data _∈ᵀ_ (X : At) : Tree → Set where
+%   at : ∀ {A} → X ∈ A → X ∈ᵀ η A
+%   left : ∀ {T U} → X ∈ᵀ T → X ∈ᵀ T ⊛ U
+%   right : ∀ {T U} → X ∈ᵀ U → X ∈ᵀ T ⊛ U
+
+% -- _∈ᵀ_ : At → Tree → Set
+% -- X ∈ᵀ T = Σ Fma λ A → (X ∈ A) × (A ∈ᵀ T)
+
+% sub∈ : ∀ {A T U} (p : Path T) → A ∈ᵀ sub p U → A ∈ᵀ T ⊎ A ∈ᵀ U
+% sub∈ ∙ (at m) = inj₂ (at m)
+% sub∈ ∙ (left m) = inj₂ (left m)
+% sub∈ ∙ (right m) = inj₂ (right m)
+% sub∈ (p ◂ _) (left m) = elim⊎ (λ n → inj₁ (left n)) inj₂ (sub∈ p m)
+% sub∈ (p ◂ _) (right m) = inj₁ (right m)
+% sub∈ (T ▸ p) (left m) = inj₁ (left m)
+% sub∈ (T ▸ p) (right m) = elim⊎ (λ x → inj₁ (right x)) inj₂ (sub∈ p m)
+
+% ∈sub₁ : ∀ {A T U} (p : Path T) → A ∈ᵀ T → A ∈ᵀ sub p U
+% ∈sub₁ (p ◂ _) (left m) = left (∈sub₁ p m)
+% ∈sub₁ (p ◂ _) (right m) = right m
+% ∈sub₁ (_ ▸ p) (left m) = left m
+% ∈sub₁ (_ ▸ p) (right m) = right (∈sub₁ p m)
+
+% ∈sub₂ : ∀ {A T U} (p : Path T) → A ∈ᵀ U → A ∈ᵀ sub p U
+% ∈sub₂ ∙ m = m
+% ∈sub₂ (p ◂ _) m = left (∈sub₂ p m)
+% ∈sub₂ (_ ▸ p) m = right (∈sub₂ p m)
+
+% record VarCond (T : Tree) (p : Path T) (U : Tree) (C D : Fma) : Set where
+%   constructor var
+%   field
+%     varg : ∀ {X} → X ∈ D → X ∈ᵀ T ⊎ X ∈ C
+%     varh : ∀ {X} → X ∈ D → X ∈ᵀ U
+
+% varcond : ∀ {T} (p : Path T) U {V C}
+%   → (f : V ⊢ C) (eq : V ≡ sub p U) 
+%   → VarCond T p U C (D (mip' p U f eq))
+
+Similarly to the cut rule, the procedure $\mf{mip}$ must also be well-defined wrt.\ the relation $\circeq$.
+To this end, we need to pick an appropriate notion of equivalence of terms of type $\MIP~p~U~C$.
+For \NL, we say that two interpolant triples $(D, g, h)$ and $(D', g', h')$ of type $\MIP~p~U~C$ are equivalent when $D \equiv D'$, $g$ is  $\circeq$-related to $g'$ and $h$ is $\circeq$-related to  $h'$. This is a quite strong notion of equivalence, as interpolant formulae $D$ and $D'$ are required to be syntactically equal.
+In Agda, equivalences of interpolant triples are terms of the record type $\MIPeq$ (\agdaref{IntrpWellDefined.agda\#L18}):
+\[
+\begin{array}{rl}
+  \multicolumn{2}{l}{\record \:\:  \MIPeq ~ (m_1 ~ m_2 : \MIP ~ p ~ U ~C) : \Set \:\: \where} \\
+%  \multicolumn{2}{l}{\quad \mf{constructor} ~ \mf{intrp}{\circeq}} \\
+  \multicolumn{2}{l}{\quad \field} \\
+  \;\; \quad eqD &: D \equiv D' \\[2pt]
+  \;\; \quad eqg &: \subst ~(\lambda x \to \sub{p}{(\eta ~ x)} \vd C)~eqD~g \circeq g' \\[2pt]
+  \;\; \quad eqh &: \subst ~(\lambda x \to U \vd x) ~ eqD ~ h \circeq h'
+\end{array}
+\]
+%Elements of type $\MIP ~ p ~ U ~C$ are triples consisting of a formula $D$ and two derivations $g$ and $h$.
+The well-definedness of Maehara interpolation wrt.\ $\circeq$ in Agda corresponds to the construction of the function $\mathsf{mip{\circeq}}$ (\agdaref{IntrpWellDefined.agda\#L25}), which proceeds by pattern-matching on $eq_2$:
+%This equivalence relation between interpolant triples leads to a theorem connecting interpolation and equivalence of derivations: when two derivations $f, f': T[U] \vdash C$ are equivalent (i.e. $f \circeq f'$), their corresponding interpolant triples must also be equivalent. Formally:
+%\begin{theorem}
+%  Given two derivations $f, f' : T[U] \vdash C$, if $f \circeq f'$, then the interpolant triples of $f$ and $f'$ are equivalent.
+%\end{theorem}
+%The proof of \MIP\ for \NL\ becomes the construction of the following function:
+\[
+\begin{array}{l}
+\mathsf{mip{\circeq}} : \{f ~ f' : V \vd C\}~ (eq_1 : V \equiv \sub{p}{U})
+~(eq_2 : f \circeq f')
+\\[0.8pt]
+\quad \to \MIPeq ~ (\mf{mip} ~ f ~ eq_1) ~ (\mf{mip} ~ f' ~ eq_1)
+\end{array}
+\]
+An interesting case in the proof arises when $eq_1$ is the permutative conversion of disjoint applications of $\Rl$:
+\[
+\scalebox{0.98}{$
+\proofbox{
+      \infer[\Rl]{\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']] \vd C}{
+        \deduce{V \vd A}{f}
+        & \!\!\!
+        \infer[\Rl]{\mc{C'}[\mc{C}_1[B] , \mc{C}_2[W , A' \Rarr B']] \vd C}{
+          \deduce{W \vd A'}{f'}
+          & \!\!
+          \deduce{\mc{C'}[\mc{C}_1[B] , \mc{C}_2[B']] \vd C}{g}
+        }
+      }
+    } \!\!
+    \circeq \!\!
+    \proofbox{
+      \infer[\Rl]{\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']] \vd C}{
+        \deduce{W \vd A'}{f'}
+        & \!\!\!
+        \infer[\Rl]{\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[B']] \vd C}{
+          \deduce{V \vd A}{f}
+          & \!\!
+          \deduce{\mc{C'}[\mc{C}_1[B] , \mc{C}_2[B']] \vd C}{g}
+        }
+      }
+    }
+    $}
+\]
+This forces an equality of trees $\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']] = \mc{C}[U]$, that in Agda is an equality type of the form: 
+\[
+eq : \sub{p'}{(\sub{p_1}{(V \cdast A \Rarr B)} , \sub{p_2}{(W \cdast A' \Rarr B')})} \equiv \sub{p}{U}
+\]
+In this case, we apply the lemma $\subeq$ to the equality proof $eq$ and we are given seven possible cases.
+However, in some cases, e.g. $\twogtLone$ where $\mc{C'}[\mc{C}_1[V , A \Rarr B] , \mc{C}_2[W , A' \Rarr B']]$ contains $U$ in its left subtree, we have to apply the lemma $\subeq$ another time to the equality proof $eq' : \sub{p_1}{(V \cdast A \Rarr B)} \equiv \sub{q}{U}$ (which appears in scope as a projection of record type $\ContainsLeft$), which gives rise to seven more cases, and similarly for $\twogtRone$.
+This showcases yet again the value of proof assistants to keep track of all cases and proof obligations.
+
+%\subsection{Proof-Relevant Interpolation}
+We have established a procedure $\mathsf{mip}$ for effectively splitting a derivation $f : \mc{C}[U] \vdash C$ into two derivations $g : U \vdash D$ and $h : \mc{C}[D] \vdash C$, with $D$ being ``minimal'' in the sense of satisfying an appropriate variable condition. A natural question arises: what happens when we compose derivations $g$ and $h$ using the admissible cut rule? Intuition suggests that we should recover the original derivation $f$, at least modulo $\circeq$.
+Similar questions have been considered by {\v{C}}ubri{\'c} \cite{vcubric1993results,Cubric1994} for intuitionistic propositional logic and by Saurin \cite{Saurin2024} for (extensions) of classical linear logic. They call \emph{proof-relevant interpolation} the study of interpolation procedures in relationship to the cut rule and equivalence of proofs, like our $\circeq$. In particular, {\v{C}}ubri{\'c} and Saurin show that interpolation procedures are in a way ``right inverses'' of the cut rule. Here we show the same for the sequent calculus of \NL: 
+if $g : \mc{C}[D] \vd C$ and $h : U \vd D$ are derivations obtained by applying the $\mf{mip}$ procedure on a derivation $f: \mc{C}[U] \vd C$, then $\mf{cut}(h, g)$ is $\circeq$-related to $f$.
+
+%Given a derivation $f : V \vdash C$ and an equality proof $eq : V \equiv \text{sub} \ p \ U$, we first apply the Maehara interpolation procedure $\mathsf{mip}$ on them, obtaining an interpolant formula $D$ and two derivations $\mathsf{MIP}.g \ (\mathsf{mip} \ f \ eq)$ and $\mathsf{MIP}.h \ (\mathsf{mip} \ f \ eq)$ (the $g$ and $h$ in the statement of $\mathsf{MIP}$ in Theorem 1). Then we apply the $\mathsf{cut}$ rule on these, resulting in a derivation which is $\circeq$-related to the original $f$.
+
+In Agda, proving proof-relevant interpolation translates to the construction of the function $\mathsf{cut\text{-}intrp}$ (\agdaref{CutInterpolation.agda\#L34}) :
+\[
+\begin{array}{l}
+\mathsf{cut\text{-}intrp} : (f : V \vdash C) ~ (eq : V \equiv \sub{p}{U}) 
+\\
+\quad \to \mathsf{cut} ~ (\mathsf{MIP}.h ~ (\mathsf{mip} ~ f ~ eq)) ~ (\mathsf{MIP}.g ~ (\mathsf{mip} ~ f ~ eq)) ~ \mf{refl} 
+\circeq 
+\subst~ (\lambda x \to x \vdash C)~eq~f
+\end{array}
+\]
+% cut-intrp : ∀ {T} (p : Path T) U {V C}
+%   → (f : V ⊢ C) (eq : V ≡ sub p U) 
+%   →  cut p (MIP.h (mip p U f eq)) (MIP.g (mip p U f eq)) refl ≗ subst-cxt eq f
+The term $f$ has type $V \vdash C$, while the derivation on the left-hand-side of $\circeq$ has type $\sub{p}{U} \vdash C$, so we fix this mismatch with an application of $\subst$. %In order to state that the two derivations are $\circeq$-related we need to substitute the context in the type of $f$ using the equality proof $eq : V \equiv \text{sub} \ p \ U$.
+The definition of $\mathsf{cut\text{-}intrp}$ proceeds by pattern-matching on the argument $f$, again crucially employing the technical lemma $\subeq$.
+
+
+\section{Conclusions}
+
+We have presented an Agda formalization of \NL, showcasing the proofs of the following properties: cut admissibility, proof-relevant Maehara interpolation and soundness and completeness wrt.\ magmatic biclosed categories. The key technical contribution is the formal characterization of equality of substituted trees, which serves as a fundamental lemma for the formalization of the aforementioned properties.
+For the future, we expect to proving other properties, such as uniform interpolation \cite{alizadeh:2014} for an extension of \NL\ with additives, with the fundamental lemma.
+While cut admissibility and the standard Maehara interpolation property for the sequent calculus of \NL\ have been established in previous research, our formalization also offers some new theoretical results: a proof-relevant version of Maehara interpolation and the well-definedness of $\cut$ and $\mf{mip}$ wrt.\ permutative conversions.
+%interpolation First, our Agda formalization of the case distinction type for trees provides a rigorous foundation that can be reused in further research such as uniform interpolation \cite{alizadeh:2014}. Second, our proof-relevant interpolation results, demonstrating that the Maehara interpolation procedure is well-defined wrt.\ equivalence of derivations, is new theoretical result of \NL.
+
+For many substructural logics, including \NL, the variable condition in the Maehara interpolation property can be strengthened to include the multiplicity \cite{moot:categorial:2012} and the polarity \cite{roorda1991} of occurrences of atomic formulae. We plan to formalize these upgrades of the variable condition $\mf{VarCond}$ in future work.
+
+The well-definedness of $\mf{mip}$ wrt.\ $\circeq$ is attainable in \NL, but it cannot be proved for more structured logics, e.g.\ the associative Lambek calculus, or even a semi-associative fragment \cite{VW2025}, without relaxing the equivalence of interpolation triples. In particular, one cannot expect the interpolant formulae to be syntactically equal, as in our type $\MIPeq ~ m_1 ~ m_2$.
+We have found concrete examples in the associative Lambek calculus where the interpolant formulae are neither equal nor logically equivalent.
+These examples suggest that a plausible relaxation would be a ``zig-zag'' equivalence, which means that two interpolant triples are equivalent if there exists a zig-zag chain between them.
+%for nonassociative Lambek calculus because the logic does not contain complicated equivalences of formulae, making the interpolation triple straightforward to define. We anticipate that extending this approach to the associative or semi-associative Lambek calculus \cite{VW2025} would be more challenging, as those systems involve more complex equational theories on formulae.
+
+We would also like to employ our Agda formalization, especially the formalized interpolation procedure and its properties, as a stepping stone towards the formalization of the relationship between context-free languages and nonassociative Lambek calculus \cite{buszkowski1986generative,kandulski1988equivalence}.
+
+From a practical perspective, it is worth mentioning that this Agda formalization is computationally intensive. The type-checking time for some files is quite substantial: the well-definedness proof $\mathsf{mip{\circeq}}$ %(\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/IntrpWellDefined.agda}{$\mf{IntrpWellDefined.agda}$})
+takes ${\sim}$10 minutes to type-check, while the associativity of $\cut$ %(\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/CutAssociativities.agda}{$\mf{CutAssociativities.agda}$})
+and the well-definedness proofs $\cut{\circeq}_1$ and $\cut{\circeq}_2$
+%(\href{https://github.com/cswphilo/nonassociative-Lambek/blob/main/code/CutCongruence.agda}{$\mf{CutCongruence.agda}$})
+require >2 hours on a MacBook Pro 2020 with 2 GHz Intel Core i5.
+We plan to work on the code in order to reduce the compilation time in the future.
+
+
+
+
+
+
+%%========= Main text =========%%
+
+
+% \section*{Declarations}
+
+% Some journals require declarations to be submitted in a standardised format. Please check the Instructions for Authors of the journal to which you are submitting to see if you need to complete this section. If yes, your manuscript must contain the following sections under the heading `Declarations':
+
+% \begin{itemize}
+% \item Funding
+% \item Conflict of interest/Competing interests (check journal-specific guidelines for which heading to use)
+% \item Ethics approval and consent to participate
+% \item Consent for publication
+% \item Data availability 
+% \item Materials availability
+% \item Code availability 
+% \item Author contribution
+% \end{itemize}
+
+% \noindent
+% If any of the sections are not relevant to your manuscript, please include the heading and write `Not applicable' for that section. 
+
+%%===================================================%%
+%% For presentation purpose, we have included        %%
+%% \bigskip command. Please ignore this.             %%
+%%===================================================%%
+% \bigskip
+% \begin{flushleft}%
+% Editorial Policies for:
+
+% \bigskip\noindent
+% Springer journals and proceedings: \url{https://www.springer.com/gp/editorial-policies}
+
+% \bigskip\noindent
+% Nature Portfolio journals: \url{https://www.nature.com/nature-research/editorial-policies}
+
+% \bigskip\noindent
+% \textit{Scientific Reports}: \url{https://www.nature.com/srep/journal-policies/editorial-policies}
+
+% \bigskip\noindent
+% BMC journals: \url{https://www.biomedcentral.com/getpublished/editorial-policies}
+% \end{flushleft}
+
+% \begin{appendices}
+
+% \section{Section title of first appendix}\label{secA1}
+
+% An appendix contains supplementary information that is not an essential part of the text itself but which may be helpful in providing a more comprehensive understanding of the research problem or it is information that is too cumbersome to be included in the body of the paper.
+
+%%=============================================%%
+%% For submissions to Nature Portfolio Journals %%
+%% please use the heading ``Extended Data''.   %%
+%%=============================================%%
+
+%%=============================================================%%
+%% Sample for another appendix section			       %%
+%%=============================================================%%
+
+%% \section{Example of another appendix section}\label{secA2}%
+%% Appendices may be used for helpful, supporting or essential material that would otherwise 
+%% clutter, break up or be distracting to the text. Appendices can consist of sections, figures, 
+%% tables and equations etc.
+
+% \end{appendices}
+
+%%===========================================================================================%%
+%% If you are submitting to one of the Nature Portfolio journals, using the eJP submission   %%
+%% system, please include the references within the manuscript file itself. You may do this  %%
+%% by copying the reference list from your .bbl file, paste it into the main manuscript .tex %%
+%% file, and delete the associated \verb+\bibliography+ commands.                            %%
+%%===========================================================================================%%
+
+\bibliography{JAutomReason}% common bib file
+%% if required, the content of .bbl file can be included here once bbl is generated
+%%\input sn-article.bbl
+
+\end{document}
